@@ -49,6 +49,7 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
+            'Symfony\\Component\\ClassLoader\\' => 30,
             'SuperClosure\\' => 13,
         ),
         'P' => 
@@ -81,6 +82,10 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         array (
             'ClassPreloader\\' => 15,
             'Carbon\\' => 7,
+        ),
+        'B' => 
+        array (
+            'Barryvdh\\LaravelIdeHelper\\' => 26,
         ),
         'A' => 
         array (
@@ -167,6 +172,10 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
+        'Symfony\\Component\\ClassLoader\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/class-loader',
+        ),
         'SuperClosure\\' => 
         array (
             0 => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src',
@@ -210,6 +219,10 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'Barryvdh\\LaravelIdeHelper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/barryvdh/laravel-ide-helper/src',
         ),
         'App\\' => 
         array (
@@ -261,11 +274,40 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
                 0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src',
             ),
         ),
+        'B' => 
+        array (
+            'Barryvdh' => 
+            array (
+                0 => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src',
+            ),
+        ),
     );
 
     public static $classMap = array (
-        'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
-        'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
+        'CreateBitacoraUsuariosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233421_create_bitacora_usuarios_table.php',
+        'CreateCedevalsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_232941_create_cedevals_table.php',
+        'CreateClienteOrganizacionsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233226_create_cliente_organizacions_table.php',
+        'CreateClientesTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_232302_create_clientes_table.php',
+        'CreateDepartamentosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231940_create_departamentos_table.php',
+        'CreateDireccionsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233251_create_direccions_table.php',
+        'CreateEstadoOrdensTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_232901_create_estado_ordens_table.php',
+        'CreateEstadoSolicitudsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_232914_create_estado_solicituds_table.php',
+        'CreateMensajesTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233357_create_mensajes_table.php',
+        'CreateMunicipiosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_232246_create_municipios_table.php',
+        'CreateOperacionBolsasTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233348_create_operacion_bolsas_table.php',
+        'CreateOrdensTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233328_create_ordens_table.php',
+        'CreateOrganizacionsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_232818_create_organizacions_table.php',
+        'CreateRolUsuariosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233607_create_rol_usuarios_table.php',
+        'CreateRolsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231854_create_rols_table.php',
+        'CreateSolicitudRegistrosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233002_create_solicitud_registros_table.php',
+        'CreateTelefonosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233152_create_telefonos_table.php',
+        'CreateTipoEjecucionsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231355_create_tipo_ejecucions_table.php',
+        'CreateTipoMensajesTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231336_create_tipo_mensajes_table.php',
+        'CreateTipoMercadosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231313_create_tipo_mercados_table.php',
+        'CreateTipoOrdensTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233742_create_tipo_ordens_table.php',
+        'CreateTipoOrganizacionsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231117_create_tipo_organizacions_table.php',
+        'CreateTipoTelefonosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_230909_create_tipo_telefonos_table.php',
+        'CreateUsuariosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233114_create_usuarios_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
