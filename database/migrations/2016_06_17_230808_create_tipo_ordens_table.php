@@ -12,8 +12,9 @@ class CreateTipoOrdensTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_ordens', function (Blueprint $table) {
+        Schema::create('tipo_orden', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('nombre',20);
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ class CreateTipoOrdensTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tipo_ordens');
+        Schema::drop('tipo_orden');
     }
 }

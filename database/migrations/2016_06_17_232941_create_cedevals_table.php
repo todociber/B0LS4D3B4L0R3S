@@ -14,7 +14,12 @@ class CreateCedevalsTable extends Migration
     {
         Schema::create('cedevals', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('cuenta',50);
+            $table->integer('idCliente')->unsigned();
+            $table->foreign('idCliente')
+                ->references('id')->on('clientes');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

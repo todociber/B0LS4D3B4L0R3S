@@ -14,7 +14,12 @@ class CreateMensajesTable extends Migration
     {
         Schema::create('mensajes', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('contenido',500);
+            $table->integer('idTipoMensaje')->unsigned();
+            $table->integer('idOrden')->unsigned();
+            $table->integer('emisor');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

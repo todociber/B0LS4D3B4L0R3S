@@ -12,8 +12,9 @@ class CreateEstadoOrdensTable extends Migration
      */
     public function up()
     {
-        Schema::create('estado_ordens', function (Blueprint $table) {
+        Schema::create('estado_orden', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('estado',15);
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ class CreateEstadoOrdensTable extends Migration
      */
     public function down()
     {
-        Schema::drop('estado_ordens');
+        Schema::drop('estado_orden');
     }
 }

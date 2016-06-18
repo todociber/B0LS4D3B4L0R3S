@@ -12,8 +12,9 @@ class CreateTipoEjecucionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_ejecucions', function (Blueprint $table) {
+        Schema::create('tipo_ejecucion', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('forma',15);
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ class CreateTipoEjecucionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tipo_ejecucions');
+        Schema::drop('tipo_ejecucion');
     }
 }

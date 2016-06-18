@@ -14,7 +14,11 @@ class CreateClientesTable extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('dui',10)->unique();
+            $table->string('nit',17)->unique();
+            $table->date('fecha de nacimiento');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

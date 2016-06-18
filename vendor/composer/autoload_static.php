@@ -304,7 +304,7 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         'CreateTipoEjecucionsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231355_create_tipo_ejecucions_table.php',
         'CreateTipoMensajesTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231336_create_tipo_mensajes_table.php',
         'CreateTipoMercadosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231313_create_tipo_mercados_table.php',
-        'CreateTipoOrdensTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233742_create_tipo_ordens_table.php',
+        'CreateTipoOrdensTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_230808_create_tipo_ordens_table.php',
         'CreateTipoOrganizacionsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231117_create_tipo_organizacions_table.php',
         'CreateTipoTelefonosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_230909_create_tipo_telefonos_table.php',
         'CreateUsuariosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233114_create_usuarios_table.php',
@@ -814,6 +814,7 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
         'TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
+        'departamentos' => __DIR__ . '/../..' . '/database/seeds/departamentos.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

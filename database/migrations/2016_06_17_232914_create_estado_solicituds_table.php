@@ -12,8 +12,9 @@ class CreateEstadoSolicitudsTable extends Migration
      */
     public function up()
     {
-        Schema::create('estado_solicituds', function (Blueprint $table) {
+        Schema::create('estado_solicitud', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('nombre',15);
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ class CreateEstadoSolicitudsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('estado_solicituds');
+        Schema::drop('estado_solicitud');
     }
 }

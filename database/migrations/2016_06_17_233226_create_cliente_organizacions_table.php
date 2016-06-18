@@ -14,7 +14,14 @@ class CreateClienteOrganizacionsTable extends Migration
     {
         Schema::create('cliente_organizacions', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('idCliente')->unsigned();
+            $table->integer('idOrganizacion')->unsigned();
+            $table->foreign('idCliente')
+                ->references('id')->on('clientes');
+            $table->foreign('idOrganizacion')
+                ->references('id')->on('organizacion');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

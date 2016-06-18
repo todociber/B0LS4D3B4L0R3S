@@ -14,6 +14,15 @@ class CreateBitacoraUsuariosTable extends Migration
     {
         Schema::create('bitacora_usuarios', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('descripcion',100);
+            $table->string('tipo Cambio');
+            $table->integer('idOrganizacion')->unsigned();
+            $table->integer('idUsuario')->unsigned();
+            $table->foreign('idOrganizacion')
+                ->references('id')->on('organizacion');
+            $table->foreign('idUsuario')
+                ->references('id')->on('usuarios');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

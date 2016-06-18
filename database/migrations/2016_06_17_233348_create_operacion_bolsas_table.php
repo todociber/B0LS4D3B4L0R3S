@@ -14,7 +14,12 @@ class CreateOperacionBolsasTable extends Migration
     {
         Schema::create('operacion_bolsas', function (Blueprint $table) {
             $table->increments('id');
+            $table->decimal('monto');
+            $table->integer('idOden')->unsigned();
+            $table->foreign('idOden')
+                ->references('id')->on('ordenes');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

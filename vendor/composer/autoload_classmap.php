@@ -26,7 +26,7 @@ return array(
     'CreateTipoEjecucionsTable' => $baseDir . '/database/migrations/2016_06_17_231355_create_tipo_ejecucions_table.php',
     'CreateTipoMensajesTable' => $baseDir . '/database/migrations/2016_06_17_231336_create_tipo_mensajes_table.php',
     'CreateTipoMercadosTable' => $baseDir . '/database/migrations/2016_06_17_231313_create_tipo_mercados_table.php',
-    'CreateTipoOrdensTable' => $baseDir . '/database/migrations/2016_06_17_233742_create_tipo_ordens_table.php',
+    'CreateTipoOrdensTable' => $baseDir . '/database/migrations/2016_06_17_230808_create_tipo_ordens_table.php',
     'CreateTipoOrganizacionsTable' => $baseDir . '/database/migrations/2016_06_17_231117_create_tipo_organizacions_table.php',
     'CreateTipoTelefonosTable' => $baseDir . '/database/migrations/2016_06_17_230909_create_tipo_telefonos_table.php',
     'CreateUsuariosTable' => $baseDir . '/database/migrations/2016_06_17_233114_create_usuarios_table.php',
@@ -536,4 +536,5 @@ return array(
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
     'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
+    'departamentos' => $baseDir . '/database/seeds/departamentos.php',
 );

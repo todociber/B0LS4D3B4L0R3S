@@ -12,8 +12,9 @@ class CreateTipoOrganizacionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_organizacions', function (Blueprint $table) {
+        Schema::create('tipo_organizacion', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('nombre',15);
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ class CreateTipoOrganizacionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tipo_organizacions');
+        Schema::drop('tipo_organizacion');
     }
 }
