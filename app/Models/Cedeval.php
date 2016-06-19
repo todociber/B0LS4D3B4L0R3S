@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Cedeval
@@ -20,5 +21,7 @@ class Cedeval extends Model
 
     protected $guarded = [];
 
-        
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
+
 }
