@@ -68,6 +68,7 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         'I' => 
         array (
             'Illuminate\\' => 11,
+            'Iber\\Generator\\' => 15,
         ),
         'F' => 
         array (
@@ -199,6 +200,10 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
+        ),
+        'Iber\\Generator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ignasbernotas/laravel-model-generator/src',
         ),
         'Faker\\' => 
         array (
