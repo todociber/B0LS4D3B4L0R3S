@@ -29,4 +29,9 @@ class Organizacion extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
+
+
+    public function idTipoOrganizacion() {
+        return $this->belongsTo('App\Models\TipoOrganizacion', 'idTipoOrganizacion');
+    }
 }

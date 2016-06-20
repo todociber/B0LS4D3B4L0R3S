@@ -25,4 +25,12 @@ class Telefono extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
+
+    public function idCliente() {
+        return $this->belongsTo('App\Models\Cliente', 'idCliente');
+    }
+
+    public function idTipoTelefono() {
+        return $this->belongsTo('App\Models\TipoTelefono', 'idTipoTelefono');
+    }
 }

@@ -20,5 +20,7 @@ class Municipio extends Model
 
     protected $guarded = [];
 
-        
+    public function idDepartamento() {
+        return $this->belongsTo('App\Models\Departamento', 'id_departamento');
+    }
 }

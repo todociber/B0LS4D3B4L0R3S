@@ -25,4 +25,11 @@ class RolUsuario extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
+
+    public function idRol() {
+        return $this->belongsTo('App\Models\Role', 'idRol');
+    }
+    public function idCliente() {
+        return $this->belongsTo('App\Models\Cliente', 'idCliente');
+    }
 }

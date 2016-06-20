@@ -26,4 +26,13 @@ class Mensaje extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
+
+    public function idTipoMensaje() {
+        return $this->belongsTo('App\Models\TipoMensaje', 'idTipoMensaje');
+    }
+
+    public function idOrden() {
+        return $this->belongsTo('App\Models\Ordene', 'idOrden');
+    }
+
 }

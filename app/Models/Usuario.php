@@ -27,5 +27,9 @@ class Usuario extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
+
+    public function idOrganizacion() {
+        return $this->belongsTo('App\Models\Organizacion', 'idOrganizacion');
+    }
         
 }

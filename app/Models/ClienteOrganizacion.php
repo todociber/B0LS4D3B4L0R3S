@@ -23,5 +23,13 @@ class ClienteOrganizacion extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
+
+    public function idCliente() {
+        return $this->belongsTo('App\Models\Cliente', 'idCliente');
+    }
+
+    public function idOrganizacion() {
+        return $this->belongsTo('App\Models\Organizacion', 'idOrganizacion');
+    }
         
 }
