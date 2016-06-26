@@ -50,6 +50,7 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
+            'Symfony\\Component\\ClassLoader\\' => 30,
             'SuperClosure\\' => 13,
         ),
         'P' => 
@@ -68,6 +69,7 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         'I' => 
         array (
             'Illuminate\\' => 11,
+            'Iber\\Generator\\' => 15,
         ),
         'F' => 
         array (
@@ -83,6 +85,10 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
             'Collective\\Html\\' => 16,
             'ClassPreloader\\' => 15,
             'Carbon\\' => 7,
+        ),
+        'B' => 
+        array (
+            'Barryvdh\\LaravelIdeHelper\\' => 26,
         ),
         'A' => 
         array (
@@ -169,6 +175,10 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
+        'Symfony\\Component\\ClassLoader\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/class-loader',
+        ),
         'SuperClosure\\' => 
         array (
             0 => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src',
@@ -193,6 +203,10 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
         ),
+        'Iber\\Generator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ignasbernotas/laravel-model-generator/src',
+        ),
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
@@ -216,6 +230,10 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'Barryvdh\\LaravelIdeHelper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/barryvdh/laravel-ide-helper/src',
         ),
         'App\\' => 
         array (
@@ -267,6 +285,13 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
                 0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src',
             ),
         ),
+        'B' => 
+        array (
+            'Barryvdh' => 
+            array (
+                0 => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src',
+            ),
+        ),
     );
 
     public static $classMap = array (
@@ -277,6 +302,7 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         'App\\Http\\Controllers\\Auth\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/AuthController.php',
         'App\\Http\\Controllers\\Auth\\PasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/PasswordController.php',
         'App\\Http\\Controllers\\BolsaController' => __DIR__ . '/../..' . '/app/Http/Controllers/BolsaController.php',
+        'App\\Http\\Controllers\\ClientesController' => __DIR__ . '/../..' . '/app/Http/Controllers/ClientesController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/LoginController.php',
         'App\\Http\\Controllers\\OrdenesController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrdenesController.php',
@@ -287,12 +313,67 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Requests\\Request' => __DIR__ . '/../..' . '/app/Http/Requests/Request.php',
         'App\\Jobs\\Job' => __DIR__ . '/../..' . '/app/Jobs/Job.php',
+        'App\\Models\\BitacoraUsuario' => __DIR__ . '/../..' . '/app/Models/BitacoraUsuario.php',
+        'App\\Models\\Cedeval' => __DIR__ . '/../..' . '/app/Models/Cedeval.php',
+        'App\\Models\\Cliente' => __DIR__ . '/../..' . '/app/Models/Cliente.php',
+        'App\\Models\\ClienteOrganizacion' => __DIR__ . '/../..' . '/app/Models/ClienteOrganizacion.php',
+        'App\\Models\\Departamento' => __DIR__ . '/../..' . '/app/Models/Departamento.php',
+        'App\\Models\\Direccione' => __DIR__ . '/../..' . '/app/Models/Direccione.php',
+        'App\\Models\\EstadoOrden' => __DIR__ . '/../..' . '/app/Models/EstadoOrden.php',
+        'App\\Models\\EstadoSolicitud' => __DIR__ . '/../..' . '/app/Models/EstadoSolicitud.php',
+        'App\\Models\\Mensaje' => __DIR__ . '/../..' . '/app/Models/Mensaje.php',
+        'App\\Models\\Municipio' => __DIR__ . '/../..' . '/app/Models/Municipio.php',
+        'App\\Models\\OperacionBolsa' => __DIR__ . '/../..' . '/app/Models/OperacionBolsa.php',
+        'App\\Models\\Ordene' => __DIR__ . '/../..' . '/app/Models/Ordene.php',
+        'App\\Models\\Organizacion' => __DIR__ . '/../..' . '/app/Models/Organizacion.php',
+        'App\\Models\\RolUsuario' => __DIR__ . '/../..' . '/app/Models/RolUsuario.php',
+        'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Models/Role.php',
+        'App\\Models\\SolicitudRegistro' => __DIR__ . '/../..' . '/app/Models/SolicitudRegistro.php',
+        'App\\Models\\Telefono' => __DIR__ . '/../..' . '/app/Models/Telefono.php',
+        'App\\Models\\TipoEjecucion' => __DIR__ . '/../..' . '/app/Models/TipoEjecucion.php',
+        'App\\Models\\TipoMensaje' => __DIR__ . '/../..' . '/app/Models/TipoMensaje.php',
+        'App\\Models\\TipoMercado' => __DIR__ . '/../..' . '/app/Models/TipoMercado.php',
+        'App\\Models\\TipoOrden' => __DIR__ . '/../..' . '/app/Models/TipoOrden.php',
+        'App\\Models\\TipoOrganizacion' => __DIR__ . '/../..' . '/app/Models/TipoOrganizacion.php',
+        'App\\Models\\TipoTelefono' => __DIR__ . '/../..' . '/app/Models/TipoTelefono.php',
+        'App\\Models\\Usuario' => __DIR__ . '/../..' . '/app/Models/Usuario.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
-        'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\usuario' => __DIR__ . '/../..' . '/app/usuario.php',
+        'Barryvdh\\LaravelIdeHelper\\Alias' => __DIR__ . '/..' . '/barryvdh/laravel-ide-helper/src/Alias.php',
+        'Barryvdh\\LaravelIdeHelper\\Console\\GeneratorCommand' => __DIR__ . '/..' . '/barryvdh/laravel-ide-helper/src/Console/GeneratorCommand.php',
+        'Barryvdh\\LaravelIdeHelper\\Console\\MetaCommand' => __DIR__ . '/..' . '/barryvdh/laravel-ide-helper/src/Console/MetaCommand.php',
+        'Barryvdh\\LaravelIdeHelper\\Console\\ModelsCommand' => __DIR__ . '/..' . '/barryvdh/laravel-ide-helper/src/Console/ModelsCommand.php',
+        'Barryvdh\\LaravelIdeHelper\\Generator' => __DIR__ . '/..' . '/barryvdh/laravel-ide-helper/src/Generator.php',
+        'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-ide-helper/src/IdeHelperServiceProvider.php',
+        'Barryvdh\\LaravelIdeHelper\\Method' => __DIR__ . '/..' . '/barryvdh/laravel-ide-helper/src/Method.php',
+        'Barryvdh\\Reflection\\DocBlock' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock.php',
+        'Barryvdh\\Reflection\\DocBlock\\Context' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Context.php',
+        'Barryvdh\\Reflection\\DocBlock\\Description' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Description.php',
+        'Barryvdh\\Reflection\\DocBlock\\Location' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Location.php',
+        'Barryvdh\\Reflection\\DocBlock\\Serializer' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Serializer.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\AuthorTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/AuthorTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\CoversTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/CoversTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\DeprecatedTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/DeprecatedTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\ExampleTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/ExampleTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\LinkTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/LinkTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\MethodTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/MethodTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\ParamTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/ParamTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\PropertyReadTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/PropertyReadTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\PropertyTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/PropertyTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\PropertyWriteTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/PropertyWriteTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\ReturnTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/ReturnTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\SeeTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/SeeTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\SinceTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/SinceTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\SourceTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/SourceTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\ThrowsTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/ThrowsTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\UsesTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/UsesTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\VarTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/VarTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Tag\\VersionTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/VersionTag.php',
+        'Barryvdh\\Reflection\\DocBlock\\Type\\Collection' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Type/Collection.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
         'ClassPreloader\\ClassList' => __DIR__ . '/..' . '/classpreloader/classpreloader/src/ClassList.php',
@@ -317,8 +398,30 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         'Collective\\Html\\HtmlBuilder' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlBuilder.php',
         'Collective\\Html\\HtmlFacade' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlFacade.php',
         'Collective\\Html\\HtmlServiceProvider' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlServiceProvider.php',
-        'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
-        'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
+        'CreateBitacoraUsuariosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233421_create_bitacora_usuarios_table.php',
+        'CreateCedevalsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_232941_create_cedevals_table.php',
+        'CreateClienteOrganizacionsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233226_create_cliente_organizacions_table.php',
+        'CreateClientesTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_232302_create_clientes_table.php',
+        'CreateDepartamentosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231940_create_departamentos_table.php',
+        'CreateDireccionsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233251_create_direccions_table.php',
+        'CreateEstadoOrdensTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_232901_create_estado_ordens_table.php',
+        'CreateEstadoSolicitudsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_232914_create_estado_solicituds_table.php',
+        'CreateMensajesTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233357_create_mensajes_table.php',
+        'CreateMunicipiosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_232246_create_municipios_table.php',
+        'CreateOperacionBolsasTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233348_create_operacion_bolsas_table.php',
+        'CreateOrdensTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233328_create_ordens_table.php',
+        'CreateOrganizacionsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_232818_create_organizacions_table.php',
+        'CreateRolUsuariosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233607_create_rol_usuarios_table.php',
+        'CreateRolsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231854_create_rols_table.php',
+        'CreateSolicitudRegistrosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233002_create_solicitud_registros_table.php',
+        'CreateTelefonosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233152_create_telefonos_table.php',
+        'CreateTipoEjecucionsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231355_create_tipo_ejecucions_table.php',
+        'CreateTipoMensajesTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231336_create_tipo_mensajes_table.php',
+        'CreateTipoMercadosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231313_create_tipo_mercados_table.php',
+        'CreateTipoOrdensTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_230808_create_tipo_ordens_table.php',
+        'CreateTipoOrganizacionsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_231117_create_tipo_organizacions_table.php',
+        'CreateTipoTelefonosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_230909_create_tipo_telefonos_table.php',
+        'CreateUsuariosTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_17_233114_create_usuarios_table.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
         'Cron\\DayOfMonthField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/DayOfMonthField.php',
@@ -807,6 +910,12 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         'Hamcrest\\Type\\IsString' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Type/IsString.php',
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
+        'Iber\\Generator\\Commands\\MakeModelsCommand' => __DIR__ . '/..' . '/ignasbernotas/laravel-model-generator/src/Commands/MakeModelsCommand.php',
+        'Iber\\Generator\\Exceptions\\InvalidRuleException' => __DIR__ . '/..' . '/ignasbernotas/laravel-model-generator/src/Exceptions/InvalidRuleException.php',
+        'Iber\\Generator\\ModelGeneratorProvider' => __DIR__ . '/..' . '/ignasbernotas/laravel-model-generator/src/ModelGeneratorProvider.php',
+        'Iber\\Generator\\Utilities\\RuleProcessor' => __DIR__ . '/..' . '/ignasbernotas/laravel-model-generator/src/Utilities/RuleProcessor.php',
+        'Iber\\Generator\\Utilities\\SetGetGenerator' => __DIR__ . '/..' . '/ignasbernotas/laravel-model-generator/src/Utilities/SetGetGenerator.php',
+        'Iber\\Generator\\Utilities\\VariableConversion' => __DIR__ . '/..' . '/ignasbernotas/laravel-model-generator/src/Utilities/VariableConversion.php',
         'IlluminateQueueClosure' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
         'Illuminate\\Auth\\Access\\AuthorizationException' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/AuthorizationException.php',
         'Illuminate\\Auth\\Access\\Gate' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/Gate.php',
@@ -2409,6 +2518,14 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         'SuperClosure\\SerializableClosure' => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src/SerializableClosure.php',
         'SuperClosure\\Serializer' => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src/Serializer.php',
         'SuperClosure\\SerializerInterface' => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src/SerializerInterface.php',
+        'Symfony\\Component\\ClassLoader\\ApcClassLoader' => __DIR__ . '/..' . '/symfony/class-loader/ApcClassLoader.php',
+        'Symfony\\Component\\ClassLoader\\ClassCollectionLoader' => __DIR__ . '/..' . '/symfony/class-loader/ClassCollectionLoader.php',
+        'Symfony\\Component\\ClassLoader\\ClassLoader' => __DIR__ . '/..' . '/symfony/class-loader/ClassLoader.php',
+        'Symfony\\Component\\ClassLoader\\ClassMapGenerator' => __DIR__ . '/..' . '/symfony/class-loader/ClassMapGenerator.php',
+        'Symfony\\Component\\ClassLoader\\MapClassLoader' => __DIR__ . '/..' . '/symfony/class-loader/MapClassLoader.php',
+        'Symfony\\Component\\ClassLoader\\Psr4ClassLoader' => __DIR__ . '/..' . '/symfony/class-loader/Psr4ClassLoader.php',
+        'Symfony\\Component\\ClassLoader\\WinCacheClassLoader' => __DIR__ . '/..' . '/symfony/class-loader/WinCacheClassLoader.php',
+        'Symfony\\Component\\ClassLoader\\XcacheClassLoader' => __DIR__ . '/..' . '/symfony/class-loader/XcacheClassLoader.php',
         'Symfony\\Component\\Console\\Application' => __DIR__ . '/..' . '/symfony/console/Application.php',
         'Symfony\\Component\\Console\\Command\\Command' => __DIR__ . '/..' . '/symfony/console/Command/Command.php',
         'Symfony\\Component\\Console\\Command\\HelpCommand' => __DIR__ . '/..' . '/symfony/console/Command/HelpCommand.php',
@@ -2912,6 +3029,7 @@ class ComposerStaticInitf57b1bfc3418a79d8733ff31cc522e9c
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
         'Webmozart\\Assert\\Assert' => __DIR__ . '/..' . '/webmozart/assert/src/Assert.php',
         'XdgBaseDir\\Xdg' => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
+        'departamentos' => __DIR__ . '/../..' . '/database/seeds/departamentos.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
         'phpDocumentor\\Reflection\\DocBlockFactory' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
         'phpDocumentor\\Reflection\\DocBlockFactoryInterface' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactoryInterface.php',

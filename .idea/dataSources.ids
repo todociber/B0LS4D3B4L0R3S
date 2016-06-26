@@ -1,0 +1,1809 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - jdbc:mysql://69.87.218.215:3306/bolsa de valores" uuid="ce9f1026-6507-45e1-9cc9-d8c869d9ed4c">
+    <database-info product="MySQL" version="5.5.5-10.1.13-MariaDB" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.2">
+      <schema id="1" name="bolsa de valores"/>
+      <table id="2" parent="1" name="organizacion"/>
+      <table id="3" parent="1" name="bitacora_usuarios"/>
+      <table id="4" parent="1" name="cedevals"/>
+      <table id="5" parent="1" name="cliente_organizacions"/>
+      <table id="6" parent="1" name="clientes"/>
+      <table id="7" parent="1" name="departamentos"/>
+      <table id="8" parent="1" name="direcciones"/>
+      <table id="9" parent="1" name="estado_orden"/>
+      <table id="10" parent="1" name="estado_solicitud"/>
+      <table id="11" parent="1" name="mensajes"/>
+      <table id="12" parent="1" name="migrations"/>
+      <table id="13" parent="1" name="municipios"/>
+      <table id="14" parent="1" name="operacion_bolsas"/>
+      <table id="15" parent="1" name="ordenes"/>
+      <table id="16" parent="1" name="rol_usuarios"/>
+      <table id="17" parent="1" name="roles"/>
+      <table id="18" parent="1" name="solicitud_registros"/>
+      <table id="19" parent="1" name="telefonos"/>
+      <table id="20" parent="1" name="tipo_ejecucion"/>
+      <table id="21" parent="1" name="tipo_mensajes"/>
+      <table id="22" parent="1" name="tipo_mercados"/>
+      <table id="23" parent="1" name="tipo_orden"/>
+      <table id="24" parent="1" name="tipo_organizacion"/>
+      <table id="25" parent="1" name="tipo_telefonos"/>
+      <table id="26" parent="1" name="usuarios"/>
+      <column id="27" parent="2" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="28" parent="2" name="codigo">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="29" parent="2" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(50)</data-type>
+      </column>
+      <column id="30" parent="2" name="logo">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="31" parent="2" name="correo">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="32" parent="2" name="direccion">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="33" parent="2" name="telefono">
+        <mandatory>1</mandatory>
+        <data-type>varchar(9)</data-type>
+      </column>
+      <column id="34" parent="2" name="idTipoOrganizacion">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="35" parent="2" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="36" parent="2" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="37" parent="2" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <index id="38" parent="2" name="organizacion_codigo_unique">
+        <columns>codigo</columns>
+        <unique>1</unique>
+      </index>
+      <key id="39" parent="2" name="organizacion_codigo_unique">
+        <columns>codigo</columns>
+        <underlying-index>organizacion_codigo_unique</underlying-index>
+      </key>
+      <key id="40" parent="2" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="41" parent="2" name="organizacion_idtipoorganizacion_foreign">
+        <columns>idTipoOrganizacion</columns>
+        <ref-key>tipo_organizacion.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="42" parent="3" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="43" parent="3" name="descripcion">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="44" parent="3" name="tipo Cambio">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="45" parent="3" name="idOrganizacion">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="46" parent="3" name="idUsuario">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="47" parent="3" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="48" parent="3" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="49" parent="3" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="50" parent="3" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="51" parent="3" name="bitacora_usuarios_idorganizacion_foreign">
+        <columns>idOrganizacion</columns>
+        <ref-key>organizacion.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="52" parent="3" name="bitacora_usuarios_idusuario_foreign">
+        <columns>idUsuario</columns>
+        <ref-key>usuarios.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="53" parent="4" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="54" parent="4" name="cuenta">
+        <mandatory>1</mandatory>
+        <data-type>varchar(50)</data-type>
+      </column>
+      <column id="55" parent="4" name="idCliente">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="56" parent="4" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="57" parent="4" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="58" parent="4" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="59" parent="4" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="60" parent="4" name="cedevals_idcliente_foreign">
+        <columns>idCliente</columns>
+        <ref-key>clientes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="61" parent="5" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="62" parent="5" name="idCliente">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="63" parent="5" name="idOrganizacion">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="64" parent="5" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="65" parent="5" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="66" parent="5" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="67" parent="5" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="68" parent="5" name="cliente_organizacions_idcliente_foreign">
+        <columns>idCliente</columns>
+        <ref-key>clientes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="69" parent="5" name="cliente_organizacions_idorganizacion_foreign">
+        <columns>idOrganizacion</columns>
+        <ref-key>organizacion.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="70" parent="6" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="71" parent="6" name="dui">
+        <mandatory>1</mandatory>
+        <data-type>varchar(10)</data-type>
+      </column>
+      <column id="72" parent="6" name="nit">
+        <mandatory>1</mandatory>
+        <data-type>varchar(17)</data-type>
+      </column>
+      <column id="73" parent="6" name="fecha de nacimiento">
+        <mandatory>1</mandatory>
+        <data-type>date</data-type>
+      </column>
+      <column id="74" parent="6" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="75" parent="6" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="76" parent="6" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <index id="77" parent="6" name="clientes_dui_unique">
+        <columns>dui</columns>
+        <unique>1</unique>
+      </index>
+      <index id="78" parent="6" name="clientes_nit_unique">
+        <columns>nit</columns>
+        <unique>1</unique>
+      </index>
+      <key id="79" parent="6" name="clientes_dui_unique">
+        <columns>dui</columns>
+        <underlying-index>clientes_dui_unique</underlying-index>
+      </key>
+      <key id="80" parent="6" name="clientes_nit_unique">
+        <columns>nit</columns>
+        <underlying-index>clientes_nit_unique</underlying-index>
+      </key>
+      <key id="81" parent="6" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="82" parent="7" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="83" parent="7" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="84" parent="7" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="85" parent="7" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="86" parent="7" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="87" parent="8" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="88" parent="8" name="detalle">
+        <mandatory>1</mandatory>
+        <data-type>varchar(150)</data-type>
+      </column>
+      <column id="89" parent="8" name="idMunicipio">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="90" parent="8" name="idCliente">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="91" parent="8" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="92" parent="8" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="93" parent="8" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="94" parent="8" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="95" parent="8" name="direcciones_idcliente_foreign">
+        <columns>idCliente</columns>
+        <ref-key>clientes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="96" parent="8" name="direcciones_idmunicipio_foreign">
+        <columns>idMunicipio</columns>
+        <ref-key>municipios.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="97" parent="9" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="98" parent="9" name="estado">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="99" parent="9" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="100" parent="9" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="101" parent="9" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="102" parent="10" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="103" parent="10" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="104" parent="10" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="105" parent="10" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="106" parent="10" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="107" parent="11" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="108" parent="11" name="contenido">
+        <mandatory>1</mandatory>
+        <data-type>varchar(500)</data-type>
+      </column>
+      <column id="109" parent="11" name="idTipoMensaje">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="110" parent="11" name="idOrden">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="111" parent="11" name="emisor">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="112" parent="11" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="113" parent="11" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="114" parent="11" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="115" parent="11" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="116" parent="12" name="migration">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="117" parent="12" name="batch">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="118" parent="13" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="119" parent="13" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="120" parent="13" name="id_departamento">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="121" parent="13" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="122" parent="13" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="123" parent="13" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="124" parent="13" name="municipios_id_departamento_foreign">
+        <columns>id_departamento</columns>
+        <ref-key>departamentos.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="125" parent="14" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="126" parent="14" name="monto">
+        <mandatory>1</mandatory>
+        <data-type>decimal(8,2)</data-type>
+      </column>
+      <column id="127" parent="14" name="idOden">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="128" parent="14" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="129" parent="14" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="130" parent="14" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="131" parent="14" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="132" parent="14" name="operacion_bolsas_idoden_foreign">
+        <columns>idOden</columns>
+        <ref-key>ordenes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="133" parent="15" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="134" parent="15" name="correlativo">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="135" parent="15" name="Fecha de vigencia">
+        <mandatory>1</mandatory>
+        <data-type>date</data-type>
+      </column>
+      <column id="136" parent="15" name="titulo">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="137" parent="15" name="cantidad de valores">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="138" parent="15" name="valor minimo">
+        <mandatory>1</mandatory>
+        <data-type>decimal(8,2)</data-type>
+      </column>
+      <column id="139" parent="15" name="valor maximo">
+        <mandatory>1</mandatory>
+        <data-type>decimal(8,2)</data-type>
+      </column>
+      <column id="140" parent="15" name="monto">
+        <mandatory>1</mandatory>
+        <data-type>decimal(8,2)</data-type>
+      </column>
+      <column id="141" parent="15" name="tasa de interes">
+        <mandatory>1</mandatory>
+        <data-type>decimal(8,2)</data-type>
+      </column>
+      <column id="142" parent="15" name="emisor">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="143" parent="15" name="idTipoMercado">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="144" parent="15" name="idCliente">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="145" parent="15" name="idCorredor">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="146" parent="15" name="idTipoOrden">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="147" parent="15" name="idTipoEjecucion">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="148" parent="15" name="idEstadoOrden">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="149" parent="15" name="idOrganizacion">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="150" parent="15" name="idOrden">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="151" parent="15" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="152" parent="15" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="153" parent="15" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <index id="154" parent="15" name="ordenes_correlativo_unique">
+        <columns>correlativo</columns>
+        <unique>1</unique>
+      </index>
+      <key id="155" parent="15" name="ordenes_correlativo_unique">
+        <columns>correlativo</columns>
+        <underlying-index>ordenes_correlativo_unique</underlying-index>
+      </key>
+      <key id="156" parent="15" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="157" parent="15" name="ordenes_idcliente_foreign">
+        <columns>idCliente</columns>
+        <ref-key>clientes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="158" parent="15" name="ordenes_idcorredor_foreign">
+        <columns>idCorredor</columns>
+        <ref-key>usuarios.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="159" parent="15" name="ordenes_idestadoorden_foreign">
+        <columns>idEstadoOrden</columns>
+        <ref-key>estado_orden.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="160" parent="15" name="ordenes_idorden_foreign">
+        <columns>idOrden</columns>
+        <ref-key>PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="161" parent="15" name="ordenes_idorganizacion_foreign">
+        <columns>idOrganizacion</columns>
+        <ref-key>organizacion.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="162" parent="15" name="ordenes_idtipoejecucion_foreign">
+        <columns>idTipoEjecucion</columns>
+        <ref-key>tipo_ejecucion.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="163" parent="15" name="ordenes_idtipomercado_foreign">
+        <columns>idTipoMercado</columns>
+        <ref-key>tipo_mercados.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="164" parent="15" name="ordenes_idtipoorden_foreign">
+        <columns>idTipoOrden</columns>
+        <ref-key>tipo_orden.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="165" parent="16" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="166" parent="16" name="idUsuario">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="167" parent="16" name="idRol">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="168" parent="16" name="idCliente">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="169" parent="16" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="170" parent="16" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="171" parent="16" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="172" parent="16" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="173" parent="16" name="rol_usuarios_idcliente_foreign">
+        <columns>idCliente</columns>
+        <ref-key>clientes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="174" parent="16" name="rol_usuarios_idrol_foreign">
+        <columns>idRol</columns>
+        <ref-key>roles.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="175" parent="16" name="rol_usuarios_idusuario_foreign">
+        <columns>idUsuario</columns>
+        <ref-key>usuarios.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="176" parent="17" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="177" parent="17" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="178" parent="17" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="179" parent="17" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="180" parent="17" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="181" parent="18" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="182" parent="18" name="idCliente">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="183" parent="18" name="idOrganizacion">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="184" parent="18" name="idEstadoSolicitud">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="185" parent="18" name="numero de afiliado">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="186" parent="18" name="comentario de rechazo">
+        <mandatory>1</mandatory>
+        <data-type>varchar(500)</data-type>
+      </column>
+      <column id="187" parent="18" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="188" parent="18" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="189" parent="18" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="190" parent="18" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="191" parent="18" name="solicitud_registros_idcliente_foreign">
+        <columns>idCliente</columns>
+        <ref-key>clientes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="192" parent="18" name="solicitud_registros_idestadosolicitud_foreign">
+        <columns>idEstadoSolicitud</columns>
+        <ref-key>estado_solicitud.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="193" parent="18" name="solicitud_registros_idorganizacion_foreign">
+        <columns>idOrganizacion</columns>
+        <ref-key>organizacion.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="194" parent="19" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="195" parent="19" name="numero">
+        <mandatory>1</mandatory>
+        <data-type>varchar(9)</data-type>
+      </column>
+      <column id="196" parent="19" name="idTipoTelefono">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="197" parent="19" name="idCliente">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="198" parent="19" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="199" parent="19" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="200" parent="19" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="201" parent="19" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="202" parent="19" name="telefonos_idcliente_foreign">
+        <columns>idCliente</columns>
+        <ref-key>clientes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="203" parent="19" name="telefonos_idtipotelefono_foreign">
+        <columns>idTipoTelefono</columns>
+        <ref-key>tipo_telefonos.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="204" parent="20" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="205" parent="20" name="forma">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="206" parent="20" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="207" parent="20" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="208" parent="20" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="209" parent="21" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="210" parent="21" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="211" parent="21" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="212" parent="21" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="213" parent="21" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="214" parent="22" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="215" parent="22" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="216" parent="22" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="217" parent="22" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="218" parent="22" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="219" parent="23" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="220" parent="23" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(20)</data-type>
+      </column>
+      <column id="221" parent="23" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="222" parent="23" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="223" parent="23" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="224" parent="24" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="225" parent="24" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="226" parent="24" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="227" parent="24" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="228" parent="24" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="229" parent="25" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="230" parent="25" name="tipo">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="231" parent="25" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="232" parent="25" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="233" parent="25" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="234" parent="26" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="235" parent="26" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="236" parent="26" name="apellido">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="237" parent="26" name="correo">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="238" parent="26" name="password">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="239" parent="26" name="idOrganizacion">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="240" parent="26" name="remember_token">
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="241" parent="26" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="242" parent="26" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="243" parent="26" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="244" parent="26" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="245" parent="26" name="usuarios_idorganizacion_foreign">
+        <columns>idOrganizacion</columns>
+        <ref-key>organizacion.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+    </database-model>
+  </data-source>
+  <data-source name="MySQL - jdbc:mysql://127.0.0.1:3306/bolsa de valores" uuid="a55304a5-e00f-4ab8-91f6-9a52ff062e72">
+    <database-info product="MySQL" version="5.6.24" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.2">
+      <schema id="1" name="bolsa de valores"/>
+      <table id="2" parent="1" name="bitacora_usuarios"/>
+      <table id="3" parent="1" name="cedevals"/>
+      <table id="4" parent="1" name="cliente_organizacions"/>
+      <table id="5" parent="1" name="clientes"/>
+      <table id="6" parent="1" name="departamentos"/>
+      <table id="7" parent="1" name="mensajes"/>
+      <table id="8" parent="1" name="migrations"/>
+      <table id="9" parent="1" name="municipios"/>
+      <table id="10" parent="1" name="operacion_bolsas"/>
+      <table id="11" parent="1" name="rol_usuarios"/>
+      <table id="12" parent="1" name="roles"/>
+      <table id="13" parent="1" name="solicitud_registros"/>
+      <table id="14" parent="1" name="telefonos"/>
+      <table id="15" parent="1" name="tipo_mensajes"/>
+      <table id="16" parent="1" name="tipo_mercados"/>
+      <table id="17" parent="1" name="tipo_telefonos"/>
+      <table id="18" parent="1" name="usuarios"/>
+      <table id="19" parent="1" name="direcciones"/>
+      <table id="20" parent="1" name="estado_orden"/>
+      <table id="21" parent="1" name="estado_solicitud"/>
+      <table id="22" parent="1" name="ordenes"/>
+      <table id="23" parent="1" name="organizacion"/>
+      <table id="24" parent="1" name="tipo_ejecucion"/>
+      <table id="25" parent="1" name="tipo_orden"/>
+      <table id="26" parent="1" name="tipo_organizacion"/>
+      <column id="27" parent="2" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="28" parent="2" name="descripcion">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="29" parent="2" name="tipo Cambio">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="30" parent="2" name="idOrganizacion">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="31" parent="2" name="idUsuario">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="32" parent="2" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="33" parent="2" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="34" parent="2" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="35" parent="2" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="36" parent="2" name="bitacora_usuarios_idorganizacion_foreign">
+        <columns>idOrganizacion</columns>
+        <ref-key>organizacion.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="37" parent="2" name="bitacora_usuarios_idusuario_foreign">
+        <columns>idUsuario</columns>
+        <ref-key>usuarios.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="38" parent="3" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="39" parent="3" name="cuenta">
+        <mandatory>1</mandatory>
+        <data-type>varchar(50)</data-type>
+      </column>
+      <column id="40" parent="3" name="idCliente">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="41" parent="3" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="42" parent="3" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="43" parent="3" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="44" parent="3" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="45" parent="3" name="cedevals_idcliente_foreign">
+        <columns>idCliente</columns>
+        <ref-key>clientes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="46" parent="4" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="47" parent="4" name="idCliente">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="48" parent="4" name="idOrganizacion">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="49" parent="4" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="50" parent="4" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="51" parent="4" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="52" parent="4" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="53" parent="4" name="cliente_organizacions_idcliente_foreign">
+        <columns>idCliente</columns>
+        <ref-key>clientes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="54" parent="4" name="cliente_organizacions_idorganizacion_foreign">
+        <columns>idOrganizacion</columns>
+        <ref-key>organizacion.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="55" parent="5" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="56" parent="5" name="dui">
+        <mandatory>1</mandatory>
+        <data-type>varchar(10)</data-type>
+      </column>
+      <column id="57" parent="5" name="nit">
+        <mandatory>1</mandatory>
+        <data-type>varchar(17)</data-type>
+      </column>
+      <column id="58" parent="5" name="fecha de nacimiento">
+        <mandatory>1</mandatory>
+        <data-type>date</data-type>
+      </column>
+      <column id="59" parent="5" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="60" parent="5" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="61" parent="5" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <index id="62" parent="5" name="clientes_dui_unique">
+        <columns>dui</columns>
+        <unique>1</unique>
+      </index>
+      <index id="63" parent="5" name="clientes_nit_unique">
+        <columns>nit</columns>
+        <unique>1</unique>
+      </index>
+      <key id="64" parent="5" name="clientes_dui_unique">
+        <columns>dui</columns>
+        <underlying-index>clientes_dui_unique</underlying-index>
+      </key>
+      <key id="65" parent="5" name="clientes_nit_unique">
+        <columns>nit</columns>
+        <underlying-index>clientes_nit_unique</underlying-index>
+      </key>
+      <key id="66" parent="5" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="67" parent="6" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="68" parent="6" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="69" parent="6" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="70" parent="6" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="71" parent="6" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="72" parent="7" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="73" parent="7" name="contenido">
+        <mandatory>1</mandatory>
+        <data-type>varchar(500)</data-type>
+      </column>
+      <column id="74" parent="7" name="idTipoMensaje">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="75" parent="7" name="idOrden">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="76" parent="7" name="emisor">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="77" parent="7" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="78" parent="7" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="79" parent="7" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="80" parent="7" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="81" parent="8" name="migration">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="82" parent="8" name="batch">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="83" parent="9" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="84" parent="9" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="85" parent="9" name="id_departamento">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="86" parent="9" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="87" parent="9" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="88" parent="9" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="89" parent="9" name="municipios_id_departamento_foreign">
+        <columns>id_departamento</columns>
+        <ref-key>departamentos.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="90" parent="10" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="91" parent="10" name="monto">
+        <mandatory>1</mandatory>
+        <data-type>decimal(8,2)</data-type>
+      </column>
+      <column id="92" parent="10" name="idOden">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="93" parent="10" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="94" parent="10" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="95" parent="10" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="96" parent="10" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="97" parent="10" name="operacion_bolsas_idoden_foreign">
+        <columns>idOden</columns>
+        <ref-key>ordenes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="98" parent="11" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="99" parent="11" name="idUsuario">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="100" parent="11" name="idRol">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="101" parent="11" name="idCliente">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="102" parent="11" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="103" parent="11" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="104" parent="11" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="105" parent="11" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="106" parent="11" name="rol_usuarios_idcliente_foreign">
+        <columns>idCliente</columns>
+        <ref-key>clientes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="107" parent="11" name="rol_usuarios_idrol_foreign">
+        <columns>idRol</columns>
+        <ref-key>roles.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="108" parent="11" name="rol_usuarios_idusuario_foreign">
+        <columns>idUsuario</columns>
+        <ref-key>usuarios.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="109" parent="12" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="110" parent="12" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="111" parent="12" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="112" parent="12" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="113" parent="12" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="114" parent="13" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="115" parent="13" name="idCliente">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="116" parent="13" name="idOrganizacion">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="117" parent="13" name="idEstadoSolicitud">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="118" parent="13" name="numero de afiliado">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="119" parent="13" name="comentario de rechazo">
+        <mandatory>1</mandatory>
+        <data-type>varchar(500)</data-type>
+      </column>
+      <column id="120" parent="13" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="121" parent="13" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="122" parent="13" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="123" parent="13" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="124" parent="13" name="solicitud_registros_idcliente_foreign">
+        <columns>idCliente</columns>
+        <ref-key>clientes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="125" parent="13" name="solicitud_registros_idestadosolicitud_foreign">
+        <columns>idEstadoSolicitud</columns>
+        <ref-key>estado_solicitud.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="126" parent="13" name="solicitud_registros_idorganizacion_foreign">
+        <columns>idOrganizacion</columns>
+        <ref-key>organizacion.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="127" parent="14" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="128" parent="14" name="numero">
+        <mandatory>1</mandatory>
+        <data-type>varchar(9)</data-type>
+      </column>
+      <column id="129" parent="14" name="idTipoTelefono">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="130" parent="14" name="idCliente">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="131" parent="14" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="132" parent="14" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="133" parent="14" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="134" parent="14" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="135" parent="14" name="telefonos_idcliente_foreign">
+        <columns>idCliente</columns>
+        <ref-key>clientes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="136" parent="14" name="telefonos_idtipotelefono_foreign">
+        <columns>idTipoTelefono</columns>
+        <ref-key>tipo_telefonos.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="137" parent="15" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="138" parent="15" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="139" parent="15" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="140" parent="15" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="141" parent="15" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="142" parent="16" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="143" parent="16" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="144" parent="16" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="145" parent="16" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="146" parent="16" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="147" parent="17" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="148" parent="17" name="tipo">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="149" parent="17" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="150" parent="17" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="151" parent="17" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="152" parent="18" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="153" parent="18" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="154" parent="18" name="apellido">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="155" parent="18" name="correo">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="156" parent="18" name="password">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="157" parent="18" name="idOrganizacion">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="158" parent="18" name="remember_token">
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="159" parent="18" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="160" parent="18" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="161" parent="18" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="162" parent="18" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="163" parent="18" name="usuarios_idorganizacion_foreign">
+        <columns>idOrganizacion</columns>
+        <ref-key>organizacion.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="164" parent="19" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="165" parent="19" name="detalle">
+        <mandatory>1</mandatory>
+        <data-type>varchar(150)</data-type>
+      </column>
+      <column id="166" parent="19" name="idMunicipio">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="167" parent="19" name="idCliente">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="168" parent="19" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="169" parent="19" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="170" parent="19" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="171" parent="19" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="172" parent="19" name="direcciones_idcliente_foreign">
+        <columns>idCliente</columns>
+        <ref-key>clientes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="173" parent="19" name="direcciones_idmunicipio_foreign">
+        <columns>idMunicipio</columns>
+        <ref-key>municipios.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="174" parent="20" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="175" parent="20" name="estado">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="176" parent="20" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="177" parent="20" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="178" parent="20" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="179" parent="21" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="180" parent="21" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="181" parent="21" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="182" parent="21" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="183" parent="21" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="184" parent="22" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="185" parent="22" name="correlativo">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="186" parent="22" name="Fecha de vigencia">
+        <mandatory>1</mandatory>
+        <data-type>date</data-type>
+      </column>
+      <column id="187" parent="22" name="titulo">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="188" parent="22" name="cantidad de valores">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="189" parent="22" name="valor minimo">
+        <mandatory>1</mandatory>
+        <data-type>decimal(8,2)</data-type>
+      </column>
+      <column id="190" parent="22" name="valor maximo">
+        <mandatory>1</mandatory>
+        <data-type>decimal(8,2)</data-type>
+      </column>
+      <column id="191" parent="22" name="monto">
+        <mandatory>1</mandatory>
+        <data-type>decimal(8,2)</data-type>
+      </column>
+      <column id="192" parent="22" name="tasa de interes">
+        <mandatory>1</mandatory>
+        <data-type>decimal(8,2)</data-type>
+      </column>
+      <column id="193" parent="22" name="emisor">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="194" parent="22" name="idTipoMercado">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="195" parent="22" name="idCliente">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="196" parent="22" name="idCorredor">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="197" parent="22" name="idTipoOrden">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="198" parent="22" name="idTipoEjecucion">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="199" parent="22" name="idEstadoOrden">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="200" parent="22" name="idOrganizacion">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="201" parent="22" name="idOrden">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="202" parent="22" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="203" parent="22" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="204" parent="22" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <index id="205" parent="22" name="ordenes_correlativo_unique">
+        <columns>correlativo</columns>
+        <unique>1</unique>
+      </index>
+      <key id="206" parent="22" name="ordenes_correlativo_unique">
+        <columns>correlativo</columns>
+        <underlying-index>ordenes_correlativo_unique</underlying-index>
+      </key>
+      <key id="207" parent="22" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="208" parent="22" name="ordenes_idcliente_foreign">
+        <columns>idCliente</columns>
+        <ref-key>clientes.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="209" parent="22" name="ordenes_idcorredor_foreign">
+        <columns>idCorredor</columns>
+        <ref-key>usuarios.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="210" parent="22" name="ordenes_idestadoorden_foreign">
+        <columns>idEstadoOrden</columns>
+        <ref-key>estado_orden.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="211" parent="22" name="ordenes_idorden_foreign">
+        <columns>idOrden</columns>
+        <ref-key>PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="212" parent="22" name="ordenes_idorganizacion_foreign">
+        <columns>idOrganizacion</columns>
+        <ref-key>organizacion.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="213" parent="22" name="ordenes_idtipoejecucion_foreign">
+        <columns>idTipoEjecucion</columns>
+        <ref-key>tipo_ejecucion.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="214" parent="22" name="ordenes_idtipomercado_foreign">
+        <columns>idTipoMercado</columns>
+        <ref-key>tipo_mercados.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="215" parent="22" name="ordenes_idtipoorden_foreign">
+        <columns>idTipoOrden</columns>
+        <ref-key>tipo_orden.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="216" parent="23" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="217" parent="23" name="codigo">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="218" parent="23" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(50)</data-type>
+      </column>
+      <column id="219" parent="23" name="logo">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="220" parent="23" name="correo">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="221" parent="23" name="direccion">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="222" parent="23" name="telefono">
+        <mandatory>1</mandatory>
+        <data-type>varchar(9)</data-type>
+      </column>
+      <column id="223" parent="23" name="idTipoOrganizacion">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="224" parent="23" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="225" parent="23" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="226" parent="23" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <index id="227" parent="23" name="organizacion_codigo_unique">
+        <columns>codigo</columns>
+        <unique>1</unique>
+      </index>
+      <key id="228" parent="23" name="organizacion_codigo_unique">
+        <columns>codigo</columns>
+        <underlying-index>organizacion_codigo_unique</underlying-index>
+      </key>
+      <key id="229" parent="23" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="230" parent="23" name="organizacion_idtipoorganizacion_foreign">
+        <columns>idTipoOrganizacion</columns>
+        <ref-key>tipo_organizacion.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="231" parent="24" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="232" parent="24" name="forma">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="233" parent="24" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="234" parent="24" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="235" parent="24" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="236" parent="25" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="237" parent="25" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(20)</data-type>
+      </column>
+      <column id="238" parent="25" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="239" parent="25" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="240" parent="25" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="241" parent="26" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="242" parent="26" name="nombre">
+        <mandatory>1</mandatory>
+        <data-type>varchar(15)</data-type>
+      </column>
+      <column id="243" parent="26" name="created_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="244" parent="26" name="updated_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="245" parent="26" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+    </database-model>
+  </data-source>
+</component>
