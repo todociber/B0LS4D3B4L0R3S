@@ -2,19 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Organizacion;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\View\View;
 
 class BolsaController extends Controller
 {
     
     
     //-------CONTROL DE CASAS CORREDORAS-----//
+
+
     public function NuevaCasa()
     {
-        return View('bves.Casas.RegistroCasas');
+        $organizacion = new Organizacion();
+
+        return View('bves.Casas.RegistroCasas')->with('casa',$organizacion);
     }
+
+
+    //REGISTRAR NUEVA CASA
+
+    public function RegistrarNuevaCasa(Request $request)
+    {
+
+        $organizacion = new Organizacion();
+
+
+        return View('');
+    }
+
 
     public function ListadoCasas()
     {

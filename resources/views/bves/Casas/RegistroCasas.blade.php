@@ -26,10 +26,10 @@
                         <div class="content">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <form role="form">
+                                   {{Form::model($casa,array('route'=>'nvoCasa'))  }}
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Nombre</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Ingresar Nombre">
+                                            {{ Form::label('nombre','Nombre') }}
+                                            {{ Form::text('nombre','Nombre',array('class'=>'form-control')) }}
                                         </div>
 
                                         <div class="form-group">
@@ -52,7 +52,7 @@
                                                 <option>Inactivo</option>
                                             </select>
                                         </div>
-                                    </form>
+                                    {{ Form::close() }}
                                 </div>
 
                             </div>

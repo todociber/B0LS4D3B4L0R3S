@@ -16,7 +16,9 @@ class ClientesController extends Controller
      */
     public function AfiliacionCasa()
     {
-        
+
+
+
     }
 
     /**

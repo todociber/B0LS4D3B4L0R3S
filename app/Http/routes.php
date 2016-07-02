@@ -23,6 +23,8 @@ Route::get('bolsa/ListadoCasas','BolsaController@ListadoCasas')->name('listadoCa
 Route::get('bolsa/CatalogoUsuarios','BolsaController@ListadoUsuario')->name('catalogoUsuarios');
 Route::get('bolsa/NuevoUsuario','BolsaController@NuevoUsuario')->name('nuevoUsuario');
 Route::get('bolsa/MiPerfil','BolsaController@MiPerfil')->name('miPerfil');
+Route::post('bolsa/RegistrarNuevaCasa','BolsaController@RegistrarNuevaCasa')->name('nvoCasa');
+//RegistrarNuevaCasa
 //------BOLSA DE VALORES ROUTES--//
 
 
