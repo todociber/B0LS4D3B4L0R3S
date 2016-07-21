@@ -2,55 +2,15 @@
 
 namespace Illuminate\Foundation\Auth;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 trait ResetsPasswords
 {
     use RedirectsUsers;
-
-    /**
-     * Get the name of the guest middleware.
-     *
-     * @return string
-     */
-    protected function guestMiddleware()
-    {
-        $guard = $this->getGuard();
-
-        return $guard ? 'guest:'.$guard : 'guest';
-    }
-
-    /**
-     * Display the form to request a password reset link.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getEmail()
-    {
-        return $this->showLinkRequestForm();
-    }
-
-    /**
-     * Display the form to request a password reset link.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function showLinkRequestForm()
-    {
-        if (property_exists($this, 'linkRequestView')) {
-            return view($this->linkRequestView);
-        }
-
-        if (view()->exists('auth.passwords.email')) {
-            return view('auth.passwords.email');
-        }
-
-        return view('auth.password');
-    }
 
     /**
      * Send a reset link to the given user.
@@ -98,6 +58,16 @@ trait ResetsPasswords
     protected function validateSendResetLinkEmail(Request $request)
     {
         $this->validate($request, ['email' => 'required|email']);
+    }
+
+    /**
+     * Get the broker to be used during password reset.
+     *
+     * @return string|null
+     */
+    public function getBroker()
+    {
+        return property_exists($this, 'broker') ? $this->broker : null;
     }
 
     /**
@@ -195,6 +165,34 @@ trait ResetsPasswords
         }
 
         return view('auth.reset')->with(compact('token', 'email'));
+    }
+
+    /**
+     * Display the form to request a password reset link.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getEmail()
+    {
+        return $this->showLinkRequestForm();
+    }
+
+    /**
+     * Display the form to request a password reset link.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLinkRequestForm()
+    {
+        if (property_exists($this, 'linkRequestView')) {
+            return view($this->linkRequestView);
+        }
+
+        if (view()->exists('auth.passwords.email')) {
+            return view('auth.passwords.email');
+        }
+
+        return view('auth.password');
     }
 
     /**
@@ -329,13 +327,15 @@ trait ResetsPasswords
     }
 
     /**
-     * Get the broker to be used during password reset.
+     * Get the name of the guest middleware.
      *
-     * @return string|null
+     * @return string
      */
-    public function getBroker()
+    protected function guestMiddleware()
     {
-        return property_exists($this, 'broker') ? $this->broker : null;
+        $guard = $this->getGuard();
+
+        return $guard ? 'guest:' . $guard : 'guest';
     }
 
     /**

@@ -13,8 +13,8 @@ namespace Symfony\Component\HttpFoundation\File;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
-use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesser;
+use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
 /**
  * A file in the file system.
@@ -68,7 +68,7 @@ class File extends \SplFileInfo
      * mime_content_type() and the system binary "file" (in this order), depending on
      * which of those are available.
      *
-     * @return string|null The guessed mime type (i.e. "application/pdf")
+     * @return string|null The guessed mime type (e.g. "application/pdf")
      *
      * @see MimeTypeGuesser
      */

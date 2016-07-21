@@ -70,13 +70,13 @@ class RequestMatcher implements RequestMatcherInterface
     }
 
     /**
-     * Adds a check for the HTTP scheme.
+     * Adds a check for the URL path info.
      *
-     * @param string|string[]|null $scheme An HTTP scheme or an array of HTTP schemes
+     * @param string $regexp A Regexp
      */
-    public function matchScheme($scheme)
+    public function matchPath($regexp)
     {
-        $this->schemes = array_map('strtolower', (array) $scheme);
+        $this->path = $regexp;
     }
 
     /**
@@ -90,23 +90,13 @@ class RequestMatcher implements RequestMatcherInterface
     }
 
     /**
-     * Adds a check for the URL path info.
+     * Adds a check for the HTTP method.
      *
-     * @param string $regexp A Regexp
+     * @param string|string[] $method An HTTP method or an array of HTTP methods
      */
-    public function matchPath($regexp)
+    public function matchMethod($method)
     {
-        $this->path = $regexp;
-    }
-
-    /**
-     * Adds a check for the client IP.
-     *
-     * @param string $ip A specific IP address or a range specified using IP/netmask like 192.168.1.0/24
-     */
-    public function matchIp($ip)
-    {
-        $this->matchIps($ip);
+        $this->methods = array_map('strtoupper', (array)$method);
     }
 
     /**
@@ -120,13 +110,13 @@ class RequestMatcher implements RequestMatcherInterface
     }
 
     /**
-     * Adds a check for the HTTP method.
+     * Adds a check for the HTTP scheme.
      *
-     * @param string|string[] $method An HTTP method or an array of HTTP methods
+     * @param string|string[]|null $scheme An HTTP scheme or an array of HTTP schemes
      */
-    public function matchMethod($method)
+    public function matchScheme($scheme)
     {
-        $this->methods = array_map('strtoupper', (array) $method);
+        $this->schemes = array_map('strtolower', (array)$scheme);
     }
 
     /**
@@ -138,6 +128,16 @@ class RequestMatcher implements RequestMatcherInterface
     public function matchAttribute($key, $regexp)
     {
         $this->attributes[$key] = $regexp;
+    }
+
+    /**
+     * Adds a check for the client IP.
+     *
+     * @param string $ip A specific IP address or a range specified using IP/netmask like 192.168.1.0/24
+     */
+    public function matchIp($ip)
+    {
+        $this->matchIps($ip);
     }
 
     /**

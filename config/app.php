@@ -149,6 +149,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Chumper\Datatable\DatatableServiceProvider::class,
 
 
         /*
@@ -206,6 +207,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => 'Collective\Html\FormFacade',
         'Html' => 'Collective\Html\HtmlFacade',
+        'Datatable' => 'Chumper\Datatable\Facades\DatatableFacade',
+
+
     ],
 
 ];

@@ -9,15 +9,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class TipoOrden extends Model
 {
-    protected $table = 'tipo_orden';
-
     public $timestamps = true;
-
+    protected $table = 'tipo_orden';
     protected $fillable = [
         'nombre'
     ];
 
     protected $guarded = [];
 
-        
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
+    }
 }

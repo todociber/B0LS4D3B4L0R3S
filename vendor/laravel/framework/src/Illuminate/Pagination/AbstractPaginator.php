@@ -2,56 +2,68 @@
 
 namespace Illuminate\Pagination;
 
-use Closure;
 use ArrayIterator;
-use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
+use Closure;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 abstract class AbstractPaginator implements Htmlable
 {
+    /**
+     * The current page resolver callback.
+     *
+     * @var \Closure
+     */
+    protected static $currentPathResolver;
+    /**
+     * The current page resolver callback.
+     *
+     * @var \Closure
+     */
+    protected static $currentPageResolver;
+    /**
+     * The default presenter resolver.
+     *
+     * @var \Closure
+     */
+    protected static $presenterResolver;
     /**
      * All of the items being paginated.
      *
      * @var \Illuminate\Support\Collection
      */
     protected $items;
-
     /**
      * The number of items to be shown per page.
      *
      * @var int
      */
     protected $perPage;
-
     /**
      * The current page being "viewed".
      *
      * @var int
      */
     protected $currentPage;
-
     /**
      * The base path to assign to all URLs.
      *
      * @var string
      */
     protected $path = '/';
-
     /**
      * The query parameters to add to all URLs.
      *
      * @var array
      */
     protected $query = [];
-
     /**
      * The URL fragment to add to all URLs.
      *
      * @var string|null
      */
     protected $fragment = null;
-
     /**
      * The query string variable used to store the page.
      *
@@ -60,35 +72,67 @@ abstract class AbstractPaginator implements Htmlable
     protected $pageName = 'page';
 
     /**
-     * The current page resolver callback.
+     * Resolve the current request path or return the default value.
      *
-     * @var \Closure
+     * @param  string $default
+     * @return string
      */
-    protected static $currentPathResolver;
-
-    /**
-     * The current page resolver callback.
-     *
-     * @var \Closure
-     */
-    protected static $currentPageResolver;
-
-    /**
-     * The default presenter resolver.
-     *
-     * @var \Closure
-     */
-    protected static $presenterResolver;
-
-    /**
-     * Determine if the given value is a valid page number.
-     *
-     * @param  int  $page
-     * @return bool
-     */
-    protected function isValidPageNumber($page)
+    public static function resolveCurrentPath($default = '/')
     {
-        return $page >= 1 && filter_var($page, FILTER_VALIDATE_INT) !== false;
+        if (isset(static::$currentPathResolver)) {
+            return call_user_func(static::$currentPathResolver);
+        }
+
+        return $default;
+    }
+
+    /**
+     * Set the current request path resolver callback.
+     *
+     * @param  \Closure $resolver
+     * @return void
+     */
+    public static function currentPathResolver(Closure $resolver)
+    {
+        static::$currentPathResolver = $resolver;
+    }
+
+    /**
+     * Resolve the current page or return the default value.
+     *
+     * @param  string $pageName
+     * @param  int $default
+     * @return int
+     */
+    public static function resolveCurrentPage($pageName = 'page', $default = 1)
+    {
+        if (isset(static::$currentPageResolver)) {
+            return call_user_func(static::$currentPageResolver, $pageName);
+        }
+
+        return $default;
+    }
+
+    /**
+     * Set the current page resolver callback.
+     *
+     * @param  \Closure $resolver
+     * @return void
+     */
+    public static function currentPageResolver(Closure $resolver)
+    {
+        static::$currentPageResolver = $resolver;
+    }
+
+    /**
+     * Set the default Presenter resolver.
+     *
+     * @param  \Closure $resolver
+     * @return void
+     */
+    public static function presenter(Closure $resolver)
+    {
+        static::$presenterResolver = $resolver;
     }
 
     /**
@@ -137,6 +181,16 @@ abstract class AbstractPaginator implements Htmlable
     }
 
     /**
+     * Build the full fragment portion of a URL.
+     *
+     * @return string
+     */
+    protected function buildFragment()
+    {
+        return $this->fragment ? '#' . $this->fragment : '';
+    }
+
+    /**
      * Get the URL for the previous page.
      *
      * @return string|null
@@ -146,6 +200,16 @@ abstract class AbstractPaginator implements Htmlable
         if ($this->currentPage() > 1) {
             return $this->url($this->currentPage() - 1);
         }
+    }
+
+    /**
+     * Get the current page.
+     *
+     * @return int
+     */
+    public function currentPage()
+    {
+        return $this->currentPage;
     }
 
     /**
@@ -213,16 +277,6 @@ abstract class AbstractPaginator implements Htmlable
     }
 
     /**
-     * Build the full fragment portion of a URL.
-     *
-     * @return string
-     */
-    protected function buildFragment()
-    {
-        return $this->fragment ? '#'.$this->fragment : '';
-    }
-
-    /**
      * Get the slice of items being paginated.
      *
      * @return array
@@ -230,20 +284,6 @@ abstract class AbstractPaginator implements Htmlable
     public function items()
     {
         return $this->items->all();
-    }
-
-    /**
-     * Get the number of the first item in the slice.
-     *
-     * @return int
-     */
-    public function firstItem()
-    {
-        if (count($this->items) === 0) {
-            return;
-        }
-
-        return ($this->currentPage - 1) * $this->perPage + 1;
     }
 
     /**
@@ -261,6 +301,30 @@ abstract class AbstractPaginator implements Htmlable
     }
 
     /**
+     * Get the number of the first item in the slice.
+     *
+     * @return int
+     */
+    public function firstItem()
+    {
+        if (count($this->items) === 0) {
+            return;
+        }
+
+        return ($this->currentPage - 1) * $this->perPage + 1;
+    }
+
+    /**
+     * Get the number of items for the current page.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return $this->items->count();
+    }
+
+    /**
      * Get the number of items shown per page.
      *
      * @return int
@@ -271,16 +335,6 @@ abstract class AbstractPaginator implements Htmlable
     }
 
     /**
-     * Get the current page.
-     *
-     * @return int
-     */
-    public function currentPage()
-    {
-        return $this->currentPage;
-    }
-
-    /**
      * Determine if there are enough items to split into multiple pages.
      *
      * @return bool
@@ -288,70 +342,6 @@ abstract class AbstractPaginator implements Htmlable
     public function hasPages()
     {
         return ! ($this->currentPage() == 1 && ! $this->hasMorePages());
-    }
-
-    /**
-     * Resolve the current request path or return the default value.
-     *
-     * @param  string  $default
-     * @return string
-     */
-    public static function resolveCurrentPath($default = '/')
-    {
-        if (isset(static::$currentPathResolver)) {
-            return call_user_func(static::$currentPathResolver);
-        }
-
-        return $default;
-    }
-
-    /**
-     * Set the current request path resolver callback.
-     *
-     * @param  \Closure  $resolver
-     * @return void
-     */
-    public static function currentPathResolver(Closure $resolver)
-    {
-        static::$currentPathResolver = $resolver;
-    }
-
-    /**
-     * Resolve the current page or return the default value.
-     *
-     * @param  string  $pageName
-     * @param  int  $default
-     * @return int
-     */
-    public static function resolveCurrentPage($pageName = 'page', $default = 1)
-    {
-        if (isset(static::$currentPageResolver)) {
-            return call_user_func(static::$currentPageResolver, $pageName);
-        }
-
-        return $default;
-    }
-
-    /**
-     * Set the current page resolver callback.
-     *
-     * @param  \Closure  $resolver
-     * @return void
-     */
-    public static function currentPageResolver(Closure $resolver)
-    {
-        static::$currentPageResolver = $resolver;
-    }
-
-    /**
-     * Set the default Presenter resolver.
-     *
-     * @param  \Closure  $resolver
-     * @return void
-     */
-    public static function presenter(Closure $resolver)
-    {
-        static::$presenterResolver = $resolver;
     }
 
     /**
@@ -408,26 +398,6 @@ abstract class AbstractPaginator implements Htmlable
     public function isEmpty()
     {
         return $this->items->isEmpty();
-    }
-
-    /**
-     * Get the number of items for the current page.
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return $this->items->count();
-    }
-
-    /**
-     * Get the paginator's underlying collection.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getCollection()
-    {
-        return $this->items;
     }
 
     /**
@@ -511,6 +481,16 @@ abstract class AbstractPaginator implements Htmlable
     }
 
     /**
+     * Get the paginator's underlying collection.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getCollection()
+    {
+        return $this->items;
+    }
+
+    /**
      * Render the contents of the paginator when casting to string.
      *
      * @return string
@@ -518,5 +498,16 @@ abstract class AbstractPaginator implements Htmlable
     public function __toString()
     {
         return (string) $this->render();
+    }
+
+    /**
+     * Determine if the given value is a valid page number.
+     *
+     * @param  int $page
+     * @return bool
+     */
+    protected function isValidPageNumber($page)
+    {
+        return $page >= 1 && filter_var($page, FILTER_VALIDATE_INT) !== false;
     }
 }

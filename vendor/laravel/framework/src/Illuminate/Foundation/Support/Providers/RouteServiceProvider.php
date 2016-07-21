@@ -2,9 +2,9 @@
 
 namespace Illuminate\Foundation\Support\Providers;
 
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Routing\UrlGenerator;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -73,25 +73,6 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load the standard routes file for the application.
-     *
-     * @param  string  $path
-     * @return mixed
-     */
-    protected function loadRoutesFrom($path)
-    {
-        $router = $this->app->make(Router::class);
-
-        if (is_null($this->namespace)) {
-            return require $path;
-        }
-
-        $router->group(['namespace' => $this->namespace], function (Router $router) use ($path) {
-            require $path;
-        });
-    }
-
-    /**
      * Register the service provider.
      *
      * @return void
@@ -111,5 +92,24 @@ class RouteServiceProvider extends ServiceProvider
     public function __call($method, $parameters)
     {
         return call_user_func_array([$this->app->make(Router::class), $method], $parameters);
+    }
+
+    /**
+     * Load the standard routes file for the application.
+     *
+     * @param  string $path
+     * @return mixed
+     */
+    protected function loadRoutesFrom($path)
+    {
+        $router = $this->app->make(Router::class);
+
+        if (is_null($this->namespace)) {
+            return require $path;
+        }
+
+        $router->group(['namespace' => $this->namespace], function (Router $router) use ($path) {
+            require $path;
+        });
     }
 }

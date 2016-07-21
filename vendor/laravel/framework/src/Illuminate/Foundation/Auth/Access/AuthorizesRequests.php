@@ -23,23 +23,6 @@ trait AuthorizesRequests
     }
 
     /**
-     * Authorize a given action for a user.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|mixed  $user
-     * @param  mixed  $ability
-     * @param  mixed|array  $arguments
-     * @return \Illuminate\Auth\Access\Response
-     *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function authorizeForUser($user, $ability, $arguments = [])
-    {
-        list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
-
-        return app(Gate::class)->forUser($user)->authorize($ability, $arguments);
-    }
-
-    /**
      * Guesses the ability's name if it wasn't provided.
      *
      * @param  mixed  $ability
@@ -53,5 +36,22 @@ trait AuthorizesRequests
         }
 
         return [debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)[2]['function'], $ability];
+    }
+
+    /**
+     * Authorize a given action for a user.
+     *
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|mixed $user
+     * @param  mixed  $ability
+     * @param  mixed|array  $arguments
+     * @return \Illuminate\Auth\Access\Response
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function authorizeForUser($user, $ability, $arguments = [])
+    {
+        list($ability, $arguments) = $this->parseAbilityAndArguments($ability, $arguments);
+
+        return app(Gate::class)->forUser($user)->authorize($ability, $arguments);
     }
 }

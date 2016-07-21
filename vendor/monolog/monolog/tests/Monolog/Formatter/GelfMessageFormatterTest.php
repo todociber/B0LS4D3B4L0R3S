@@ -57,6 +57,11 @@ class GelfMessageFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('mysystem', $message->getHost());
     }
 
+    private function isLegacy()
+    {
+        return interface_exists('\Gelf\IMessagePublisher');
+    }
+
     /**
      * @covers Monolog\Formatter\GelfMessageFormatter::format
      */
@@ -225,10 +230,5 @@ class GelfMessageFormatterTest extends \PHPUnit_Framework_TestCase
         // though it should be sufficient to ensure that the entire message length does not exceed the maximum
         // length being allowed
         $this->assertLessThanOrEqual(32766, $length, 'The message length is no longer than the maximum allowed length');
-    }
-
-    private function isLegacy()
-    {
-        return interface_exists('\Gelf\IMessagePublisher');
     }
 }

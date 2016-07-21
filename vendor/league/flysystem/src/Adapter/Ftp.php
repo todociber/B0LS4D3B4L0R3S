@@ -7,6 +7,7 @@ use League\Flysystem\Adapter\Polyfill\StreamedCopyTrait;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
 use League\Flysystem\Util;
+use League\Flysystem\Util\MimeType;
 use RuntimeException;
 
 class Ftp extends AbstractFtpAdapter
@@ -123,6 +124,62 @@ class Ftp extends AbstractFtpAdapter
     }
 
     /**
+     * Login.
+     *
+     * @throws RuntimeException
+     */
+    protected function login()
+    {
+        set_error_handler(
+            function () {
+            }
+        );
+        $isLoggedIn = ftp_login($this->connection, $this->getUsername(), $this->getPassword());
+        restore_error_handler();
+
+        if (!$isLoggedIn) {
+            $this->disconnect();
+            throw new RuntimeException(
+                'Could not login with connection: ' . $this->getHost() . '::' . $this->getPort() . ', username: ' . $this->getUsername()
+            );
+        }
+    }
+
+    /**
+     * Disconnect from the FTP server.
+     */
+    public function disconnect()
+    {
+        if ($this->isConnected()) {
+            ftp_close($this->connection);
+        }
+
+        $this->connection = null;
+    }
+
+    /**
+     * Check if the connection is open.
+     *
+     * @return bool
+     * @throws ErrorException
+     */
+    public function isConnected()
+    {
+        try {
+            return is_resource($this->connection) && ftp_rawlist($this->connection, '/') !== false;
+        } catch (ErrorException $e) {
+            fclose($this->connection);
+            $this->connection = null;
+
+            if (strpos($e->getMessage(), 'ftp_rawlist') === false) {
+                throw $e;
+            }
+
+            return false;
+        }
+    }
+
+    /**
      * Set the connections to passive mode.
      *
      * @throws RuntimeException
@@ -160,38 +217,11 @@ class Ftp extends AbstractFtpAdapter
     }
 
     /**
-     * Login.
-     *
-     * @throws RuntimeException
+     * @inheritdoc
      */
-    protected function login()
+    public function update($path, $contents, Config $config)
     {
-        set_error_handler(
-            function () {
-            }
-        );
-        $isLoggedIn = ftp_login($this->connection, $this->getUsername(), $this->getPassword());
-        restore_error_handler();
-
-        if ( ! $isLoggedIn) {
-            $this->disconnect();
-            throw new RuntimeException(
-                'Could not login with connection: ' . $this->getHost() . '::' . $this->getPort(
-                ) . ', username: ' . $this->getUsername()
-            );
-        }
-    }
-
-    /**
-     * Disconnect from the FTP server.
-     */
-    public function disconnect()
-    {
-        if ($this->isConnected()) {
-            ftp_close($this->connection);
-        }
-
-        $this->connection = null;
+        return $this->write($path, $contents, $config);
     }
 
     /**
@@ -236,9 +266,15 @@ class Ftp extends AbstractFtpAdapter
     /**
      * @inheritdoc
      */
-    public function update($path, $contents, Config $config)
+    public function setVisibility($path, $visibility)
     {
-        return $this->write($path, $contents, $config);
+        $mode = $visibility === AdapterInterface::VISIBILITY_PUBLIC ? $this->getPermPublic() : $this->getPermPrivate();
+
+        if (!ftp_chmod($this->getConnection(), $mode, $path)) {
+            return false;
+        }
+
+        return compact('visibility');
     }
 
     /**
@@ -284,6 +320,45 @@ class Ftp extends AbstractFtpAdapter
         }
 
         return ftp_rmdir($connection, $dirname);
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @param string $directory
+     */
+    protected function listDirectoryContents($directory, $recursive = true)
+    {
+        $directory = str_replace('*', '\\*', $directory);
+
+        if ($recursive && $this->recurseManually) {
+            return $this->listDirectoryContentsRecursive($directory);
+        }
+
+        $options = $recursive ? '-alnR' : '-aln';
+        $listing = ftp_rawlist($this->getConnection(), $options . ' ' . $directory);
+
+        return $listing ? $this->normalizeListing($listing, $directory) : [];
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @param string $directory
+     */
+    protected function listDirectoryContentsRecursive($directory)
+    {
+        $listing = $this->normalizeListing(ftp_rawlist($this->getConnection(), '-aln' . ' ' . $directory) ?: []);
+        $output = [];
+
+        foreach ($listing as $directory) {
+            $output[] = $directory;
+            if ($directory['type'] !== 'dir') continue;
+
+            $output = array_merge($output, $this->listDirectoryContentsRecursive($directory['path']));
+        }
+
+        return $output;
     }
 
     /**
@@ -338,6 +413,20 @@ class Ftp extends AbstractFtpAdapter
     /**
      * @inheritdoc
      */
+    public function getMimetype($path)
+    {
+        if (!$metadata = $this->getMetadata($path)) {
+            return false;
+        }
+
+        $metadata['mimetype'] = MimeType::detectByFilename($path);
+
+        return $metadata;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getMetadata($path)
     {
         $connection = $this->getConnection();
@@ -372,20 +461,6 @@ class Ftp extends AbstractFtpAdapter
     /**
      * @inheritdoc
      */
-    public function getMimetype($path)
-    {
-        if ( ! $metadata = $this->read($path)) {
-            return false;
-        }
-
-        $metadata['mimetype'] = Util::guessMimeType($path, $metadata['contents']);
-
-        return $metadata;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getTimestamp($path)
     {
         $timestamp = ftp_mdtm($this->getConnection(), $path);
@@ -414,7 +489,7 @@ class Ftp extends AbstractFtpAdapter
      */
     public function readStream($path)
     {
-        $stream = fopen('php://temp', 'w+');
+        $stream = fopen('php://temp', 'w+b');
         $result = ftp_fget($this->getConnection(), $stream, $path, $this->transferMode);
         rewind($stream);
 
@@ -425,80 +500,5 @@ class Ftp extends AbstractFtpAdapter
         }
 
         return compact('stream');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setVisibility($path, $visibility)
-    {
-        $mode = $visibility === AdapterInterface::VISIBILITY_PUBLIC ? $this->getPermPublic() : $this->getPermPrivate();
-
-        if ( ! ftp_chmod($this->getConnection(), $mode, $path)) {
-            return false;
-        }
-
-        return compact('visibility');
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param string $directory
-     */
-    protected function listDirectoryContents($directory, $recursive = true)
-    {
-        $directory = str_replace('*', '\\*', $directory);
-
-        if ($recursive && $this->recurseManually) {
-            return $this->listDirectoryContentsRecursive($directory);
-        }
-
-        $options = $recursive ? '-alnR' : '-aln';
-        $listing = ftp_rawlist($this->getConnection(), $options . ' ' . $directory);
-
-        return $listing ? $this->normalizeListing($listing, $directory) : [];
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param string $directory
-     */
-    protected function listDirectoryContentsRecursive($directory)
-    {
-        $listing = $this->normalizeListing(ftp_rawlist($this->getConnection(), '-aln' . ' ' . $directory) ?: []);
-        $output = [];
-
-        foreach ($listing as $directory) {
-            $output[] = $directory;
-            if ($directory['type'] !== 'dir') continue;
-
-            $output = array_merge($output, $this->listDirectoryContentsRecursive($directory['path']));
-        }
-
-        return $output;
-    }
-
-    /**
-     * Check if the connection is open.
-     *
-     * @return bool
-     * @throws ErrorException
-     */
-    public function isConnected()
-    {
-        try {
-            return is_resource($this->connection) && ftp_rawlist($this->connection, '/') !== false;
-        } catch (ErrorException $e) {
-            fclose($this->connection);
-            $this->connection = null;
-
-            if (strpos($e->getMessage(), 'ftp_rawlist') === false) {
-                throw $e;
-            }
-
-            return false;
-        }
     }
 }

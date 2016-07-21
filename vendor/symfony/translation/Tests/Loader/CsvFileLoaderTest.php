@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Translation\Tests\Loader;
 
-use Symfony\Component\Translation\Loader\CsvFileLoader;
 use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\Translation\Loader\CsvFileLoader;
 
 class CsvFileLoaderTest extends \PHPUnit_Framework_TestCase
 {

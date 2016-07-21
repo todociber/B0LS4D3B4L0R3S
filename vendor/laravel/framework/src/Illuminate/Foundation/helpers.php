@@ -1,17 +1,17 @@
 <?php
 
-use Illuminate\Support\Str;
-use Illuminate\Support\HtmlString;
 use Illuminate\Container\Container;
-use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Auth\Access\Gate;
-use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
-use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Cookie\Factory as CookieFactory;
-use Illuminate\Database\Eloquent\Factory as EloquentFactory;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Database\Eloquent\Factory as EloquentFactory;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 
 if (! function_exists('abort')) {
     /**
@@ -138,7 +138,7 @@ if (! function_exists('auth')) {
      * Get the available auth instance.
      *
      * @param  string|null  $guard
-     * @return \Illuminate\Contracts\Auth\Factory
+     * @return \Illuminate\Contracts\Auth\Factory|\Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
      */
     function auth($guard = null)
     {

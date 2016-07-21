@@ -2,9 +2,9 @@
 
 namespace Illuminate\Queue\Jobs;
 
-use Illuminate\Queue\DatabaseQueue;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Queue\Job as JobContract;
+use Illuminate\Queue\DatabaseQueue;
 
 class DatabaseJob extends Job implements JobContract
 {
@@ -37,7 +37,6 @@ class DatabaseJob extends Job implements JobContract
         $this->queue = $queue;
         $this->database = $database;
         $this->container = $container;
-        $this->job->attempts = $this->job->attempts + 1;
     }
 
     /**
@@ -51,21 +50,9 @@ class DatabaseJob extends Job implements JobContract
     }
 
     /**
-     * Delete the job from the queue.
-     *
-     * @return void
-     */
-    public function delete()
-    {
-        parent::delete();
-
-        $this->database->deleteReserved($this->queue, $this->job->id);
-    }
-
-    /**
      * Release the job back into the queue.
      *
-     * @param  int  $delay
+     * @param  int $delay
      * @return void
      */
     public function release($delay = 0)
@@ -75,6 +62,18 @@ class DatabaseJob extends Job implements JobContract
         $this->delete();
 
         $this->database->release($this->queue, $this->job, $delay);
+    }
+
+    /**
+     * Delete the job from the queue.
+     *
+     * @return void
+     */
+    public function delete()
+    {
+        parent::delete();
+
+        $this->database->deleteReserved($this->queue, $this->job->id);
     }
 
     /**

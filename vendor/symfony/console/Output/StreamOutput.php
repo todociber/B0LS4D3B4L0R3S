@@ -58,29 +58,6 @@ class StreamOutput extends Output
     }
 
     /**
-     * Gets the stream attached to this StreamOutput instance.
-     *
-     * @return resource A stream resource
-     */
-    public function getStream()
-    {
-        return $this->stream;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function doWrite($message, $newline)
-    {
-        if (false === @fwrite($this->stream, $message) || ($newline && (false === @fwrite($this->stream, PHP_EOL)))) {
-            // should never happen
-            throw new RuntimeException('Unable to write output.');
-        }
-
-        fflush($this->stream);
-    }
-
-    /**
      * Returns true if the stream supports colorization.
      *
      * Colorization is disabled if not supported by the stream:
@@ -101,5 +78,28 @@ class StreamOutput extends Output
         }
 
         return function_exists('posix_isatty') && @posix_isatty($this->stream);
+    }
+
+    /**
+     * Gets the stream attached to this StreamOutput instance.
+     *
+     * @return resource A stream resource
+     */
+    public function getStream()
+    {
+        return $this->stream;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function doWrite($message, $newline)
+    {
+        if (false === @fwrite($this->stream, $message) || ($newline && (false === @fwrite($this->stream, PHP_EOL)))) {
+            // should never happen
+            throw new RuntimeException('Unable to write output.');
+        }
+
+        fflush($this->stream);
     }
 }

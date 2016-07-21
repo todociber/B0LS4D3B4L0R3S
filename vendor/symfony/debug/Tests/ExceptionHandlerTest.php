@@ -11,25 +11,15 @@
 
 namespace Symfony\Component\Debug\Tests;
 
-use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\Debug\Exception\OutOfMemoryException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 require_once __DIR__.'/HeaderMock.php';
 
 class ExceptionHandlerTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-        testHeader();
-    }
-
-    protected function tearDown()
-    {
-        testHeader();
-    }
-
     public function testDebug()
     {
         $handler = new ExceptionHandler(false);
@@ -128,5 +118,15 @@ class ExceptionHandlerTest extends \PHPUnit_Framework_TestCase
         });
 
         $handler->handle($exception);
+    }
+
+    protected function setUp()
+    {
+        testHeader();
+    }
+
+    protected function tearDown()
+    {
+        testHeader();
     }
 }

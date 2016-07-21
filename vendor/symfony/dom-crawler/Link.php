@@ -64,6 +64,22 @@ class Link
     }
 
     /**
+     * Sets current \DOMElement instance.
+     *
+     * @param \DOMElement $node A \DOMElement instance
+     *
+     * @throws \LogicException If given node is not an anchor
+     */
+    protected function setNode(\DOMElement $node)
+    {
+        if ('a' !== $node->nodeName && 'area' !== $node->nodeName && 'link' !== $node->nodeName) {
+            throw new \LogicException(sprintf('Unable to navigate from a "%s" tag.', $node->nodeName));
+        }
+
+        $this->node = $node;
+    }
+
+    /**
      * Gets the method associated with this link.
      *
      * @return string The method
@@ -133,49 +149,19 @@ class Link
     }
 
     /**
-     * Returns the canonicalized URI path (see RFC 3986, section 5.2.4).
+     * Remove the anchor from the uri.
      *
-     * @param string $path URI path
+     * @param string $uri
      *
      * @return string
      */
-    protected function canonicalizePath($path)
+    private function cleanupAnchor($uri)
     {
-        if ('' === $path || '/' === $path) {
-            return $path;
+        if (false !== $pos = strpos($uri, '#')) {
+            return substr($uri, 0, $pos);
         }
 
-        if ('.' === substr($path, -1)) {
-            $path .= '/';
-        }
-
-        $output = array();
-
-        foreach (explode('/', $path) as $segment) {
-            if ('..' === $segment) {
-                array_pop($output);
-            } elseif ('.' !== $segment) {
-                $output[] = $segment;
-            }
-        }
-
-        return implode('/', $output);
-    }
-
-    /**
-     * Sets current \DOMElement instance.
-     *
-     * @param \DOMElement $node A \DOMElement instance
-     *
-     * @throws \LogicException If given node is not an anchor
-     */
-    protected function setNode(\DOMElement $node)
-    {
-        if ('a' !== $node->nodeName && 'area' !== $node->nodeName && 'link' !== $node->nodeName) {
-            throw new \LogicException(sprintf('Unable to navigate from a "%s" tag.', $node->nodeName));
-        }
-
-        $this->node = $node;
+        return $uri;
     }
 
     /**
@@ -207,18 +193,32 @@ class Link
     }
 
     /**
-     * Remove the anchor from the uri.
+     * Returns the canonicalized URI path (see RFC 3986, section 5.2.4).
      *
-     * @param string $uri
+     * @param string $path URI path
      *
      * @return string
      */
-    private function cleanupAnchor($uri)
+    protected function canonicalizePath($path)
     {
-        if (false !== $pos = strpos($uri, '#')) {
-            return substr($uri, 0, $pos);
+        if ('' === $path || '/' === $path) {
+            return $path;
         }
 
-        return $uri;
+        if ('.' === substr($path, -1)) {
+            $path .= '/';
+        }
+
+        $output = array();
+
+        foreach (explode('/', $path) as $segment) {
+            if ('..' === $segment) {
+                array_pop($output);
+            } elseif ('.' !== $segment) {
+                $output[] = $segment;
+            }
+        }
+
+        return implode('/', $output);
     }
 }

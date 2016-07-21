@@ -49,7 +49,7 @@ class RouteCollection implements \IteratorAggregate, \Countable
      *
      * @see all()
      *
-     * @return \ArrayIterator An \ArrayIterator object for iterating over routes
+     * @return \ArrayIterator|Route[] An \ArrayIterator object for iterating over routes
      */
     public function getIterator()
     {
@@ -77,16 +77,6 @@ class RouteCollection implements \IteratorAggregate, \Countable
         unset($this->routes[$name]);
 
         $this->routes[$name] = $route;
-    }
-
-    /**
-     * Returns all routes in this collection.
-     *
-     * @return Route[] An array of routes
-     */
-    public function all()
-    {
-        return $this->routes;
     }
 
     /**
@@ -129,6 +119,26 @@ class RouteCollection implements \IteratorAggregate, \Countable
         }
 
         $this->resources = array_merge($this->resources, $collection->getResources());
+    }
+
+    /**
+     * Returns all routes in this collection.
+     *
+     * @return Route[] An array of routes
+     */
+    public function all()
+    {
+        return $this->routes;
+    }
+
+    /**
+     * Returns an array of resources loaded to build this collection.
+     *
+     * @return ResourceInterface[] An array of resources
+     */
+    public function getResources()
+    {
+        return array_unique($this->resources);
     }
 
     /**
@@ -253,16 +263,6 @@ class RouteCollection implements \IteratorAggregate, \Countable
         foreach ($this->routes as $route) {
             $route->setMethods($methods);
         }
-    }
-
-    /**
-     * Returns an array of resources loaded to build this collection.
-     *
-     * @return ResourceInterface[] An array of resources
-     */
-    public function getResources()
-    {
-        return array_unique($this->resources);
     }
 
     /**

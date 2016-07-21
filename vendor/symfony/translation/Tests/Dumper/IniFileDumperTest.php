@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Translation\Tests\Dumper;
 
-use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Dumper\IniFileDumper;
+use Symfony\Component\Translation\MessageCatalogue;
 
 class IniFileDumperTest extends \PHPUnit_Framework_TestCase
 {

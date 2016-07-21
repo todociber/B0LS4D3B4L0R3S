@@ -3,48 +3,44 @@
 namespace Illuminate\Database\Eloquent\Relations;
 
 use Closure;
-use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Expression;
+use Illuminate\Support\Arr;
 
 abstract class Relation
 {
-    /**
-     * The Eloquent query builder instance.
-     *
-     * @var \Illuminate\Database\Eloquent\Builder
-     */
-    protected $query;
-
-    /**
-     * The parent model instance.
-     *
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    protected $parent;
-
-    /**
-     * The related model instance.
-     *
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    protected $related;
-
     /**
      * Indicates if the relation is adding constraints.
      *
      * @var bool
      */
     protected static $constraints = true;
-
     /**
      * An array to map class names to their morph names in database.
      *
      * @var array
      */
     protected static $morphMap = [];
+    /**
+     * The Eloquent query builder instance.
+     *
+     * @var \Illuminate\Database\Eloquent\Builder
+     */
+    protected $query;
+    /**
+     * The parent model instance.
+     *
+     * @var \Illuminate\Database\Eloquent\Model
+     */
+    protected $parent;
+    /**
+     * The related model instance.
+     *
+     * @var \Illuminate\Database\Eloquent\Model
+     */
+    protected $related;
 
     /**
      * Create a new relation instance.
@@ -68,6 +64,67 @@ abstract class Relation
      * @return void
      */
     abstract public function addConstraints();
+
+    /**
+     * Run a callback with constraints disabled on the relation.
+     *
+     * @param  \Closure $callback
+     * @return mixed
+     */
+    public static function noConstraints(Closure $callback)
+    {
+        $previous = static::$constraints;
+
+        static::$constraints = false;
+
+        // When resetting the relation where clause, we want to shift the first element
+        // off of the bindings, leaving only the constraints that the developers put
+        // as "extra" on the relationships, and not original relation constraints.
+        try {
+            $results = call_user_func($callback);
+        } finally {
+            static::$constraints = $previous;
+        }
+
+        return $results;
+    }
+
+    /**
+     * Set or get the morph map for polymorphic relations.
+     *
+     * @param  array|null $map
+     * @param  bool $merge
+     * @return array
+     */
+    public static function morphMap(array $map = null, $merge = true)
+    {
+        $map = static::buildMorphMapFromModels($map);
+
+        if (is_array($map)) {
+            static::$morphMap = $merge ? array_merge(static::$morphMap, $map) : $map;
+        }
+
+        return static::$morphMap;
+    }
+
+    /**
+     * Builds a table-keyed array from model class names.
+     *
+     * @param  string[]|null $models
+     * @return array|null
+     */
+    protected static function buildMorphMapFromModels(array $models = null)
+    {
+        if (is_null($models) || Arr::isAssoc($models)) {
+            return $models;
+        }
+
+        $tables = array_map(function ($model) {
+            return (new $model)->getTable();
+        }, $models);
+
+        return array_combine($tables, $models);
+    }
 
     /**
      * Set the constraints for an eager load of the relation.
@@ -126,6 +183,16 @@ abstract class Relation
     }
 
     /**
+     * Get the related model of the relation.
+     *
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function getRelated()
+    {
+        return $this->related;
+    }
+
+    /**
      * Run a raw update against the base query.
      *
      * @param  array  $attributes
@@ -166,41 +233,24 @@ abstract class Relation
     }
 
     /**
-     * Run a callback with constraints disabled on the relation.
+     * Wrap the given value with the parent query's grammar.
      *
-     * @param  \Closure  $callback
-     * @return mixed
+     * @param  string $value
+     * @return string
      */
-    public static function noConstraints(Closure $callback)
+    public function wrap($value)
     {
-        $previous = static::$constraints;
-
-        static::$constraints = false;
-
-        // When resetting the relation where clause, we want to shift the first element
-        // off of the bindings, leaving only the constraints that the developers put
-        // as "extra" on the relationships, and not original relation constraints.
-        try {
-            $results = call_user_func($callback);
-        } finally {
-            static::$constraints = $previous;
-        }
-
-        return $results;
+        return $this->parent->newQueryWithoutScopes()->getQuery()->getGrammar()->wrap($value);
     }
 
     /**
-     * Get all of the primary keys for an array of models.
+     * Get the fully qualified parent key name.
      *
-     * @param  array   $models
-     * @param  string  $key
-     * @return array
+     * @return string
      */
-    protected function getKeys(array $models, $key = null)
+    public function getQualifiedParentKeyName()
     {
-        return array_unique(array_values(array_map(function ($value) use ($key) {
-            return $key ? $value->getAttribute($key) : $value->getKey();
-        }, $models)));
+        return $this->parent->getQualifiedKeyName();
     }
 
     /**
@@ -234,26 +284,6 @@ abstract class Relation
     }
 
     /**
-     * Get the fully qualified parent key name.
-     *
-     * @return string
-     */
-    public function getQualifiedParentKeyName()
-    {
-        return $this->parent->getQualifiedKeyName();
-    }
-
-    /**
-     * Get the related model of the relation.
-     *
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public function getRelated()
-    {
-        return $this->related;
-    }
-
-    /**
      * Get the name of the "created at" column.
      *
      * @return string
@@ -284,54 +314,6 @@ abstract class Relation
     }
 
     /**
-     * Wrap the given value with the parent query's grammar.
-     *
-     * @param  string  $value
-     * @return string
-     */
-    public function wrap($value)
-    {
-        return $this->parent->newQueryWithoutScopes()->getQuery()->getGrammar()->wrap($value);
-    }
-
-    /**
-     * Set or get the morph map for polymorphic relations.
-     *
-     * @param  array|null  $map
-     * @param  bool  $merge
-     * @return array
-     */
-    public static function morphMap(array $map = null, $merge = true)
-    {
-        $map = static::buildMorphMapFromModels($map);
-
-        if (is_array($map)) {
-            static::$morphMap = $merge ? array_merge(static::$morphMap, $map) : $map;
-        }
-
-        return static::$morphMap;
-    }
-
-    /**
-     * Builds a table-keyed array from model class names.
-     *
-     * @param  string[]|null  $models
-     * @return array|null
-     */
-    protected static function buildMorphMapFromModels(array $models = null)
-    {
-        if (is_null($models) || Arr::isAssoc($models)) {
-            return $models;
-        }
-
-        $tables = array_map(function ($model) {
-            return (new $model)->getTable();
-        }, $models);
-
-        return array_combine($tables, $models);
-    }
-
-    /**
      * Handle dynamic method calls to the relationship.
      *
      * @param  string  $method
@@ -357,5 +339,19 @@ abstract class Relation
     public function __clone()
     {
         $this->query = clone $this->query;
+    }
+
+    /**
+     * Get all of the primary keys for an array of models.
+     *
+     * @param  array $models
+     * @param  string $key
+     * @return array
+     */
+    protected function getKeys(array $models, $key = null)
+    {
+        return array_unique(array_values(array_map(function ($value) use ($key) {
+            return $key ? $value->getAttribute($key) : $value->getKey();
+        }, $models)));
     }
 }

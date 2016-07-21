@@ -13,11 +13,11 @@ namespace Symfony\Component\Console\Descriptor;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 /**
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
@@ -57,17 +57,6 @@ abstract class Descriptor implements DescriptorInterface
             default:
                 throw new InvalidArgumentException(sprintf('Object of type "%s" is not describable.', get_class($object)));
         }
-    }
-
-    /**
-     * Writes content to output.
-     *
-     * @param string $content
-     * @param bool   $decorated
-     */
-    protected function write($content, $decorated = false)
-    {
-        $this->output->write($content, false, $decorated ? OutputInterface::OUTPUT_NORMAL : OutputInterface::OUTPUT_RAW);
     }
 
     /**
@@ -119,4 +108,15 @@ abstract class Descriptor implements DescriptorInterface
      * @return string|mixed
      */
     abstract protected function describeApplication(Application $application, array $options = array());
+
+    /**
+     * Writes content to output.
+     *
+     * @param string $content
+     * @param bool $decorated
+     */
+    protected function write($content, $decorated = false)
+    {
+        $this->output->write($content, false, $decorated ? OutputInterface::OUTPUT_NORMAL : OutputInterface::OUTPUT_RAW);
+    }
 }

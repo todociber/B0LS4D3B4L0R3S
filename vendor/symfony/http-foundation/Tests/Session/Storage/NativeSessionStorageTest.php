@@ -32,24 +32,12 @@ class NativeSessionStorageTest extends \PHPUnit_Framework_TestCase
 {
     private $savePath;
 
-    protected function setUp()
+    public function testBag()
     {
-        $this->iniSet('session.save_handler', 'files');
-        $this->iniSet('session.save_path', $this->savePath = sys_get_temp_dir().'/sf2test');
-        if (!is_dir($this->savePath)) {
-            mkdir($this->savePath);
-        }
-    }
-
-    protected function tearDown()
-    {
-        session_write_close();
-        array_map('unlink', glob($this->savePath.'/*'));
-        if (is_dir($this->savePath)) {
-            rmdir($this->savePath);
-        }
-
-        $this->savePath = null;
+        $storage = $this->getStorage();
+        $bag = new FlashBag();
+        $storage->registerBag($bag);
+        $this->assertSame($bag, $storage->getBag($bag->getName()));
     }
 
     /**
@@ -63,14 +51,6 @@ class NativeSessionStorageTest extends \PHPUnit_Framework_TestCase
         $storage->registerBag(new AttributeBag());
 
         return $storage;
-    }
-
-    public function testBag()
-    {
-        $storage = $this->getStorage();
-        $bag = new FlashBag();
-        $storage->registerBag($bag);
-        $this->assertSame($bag, $storage->getBag($bag->getName()));
     }
 
     /**
@@ -242,5 +222,25 @@ class NativeSessionStorageTest extends \PHPUnit_Framework_TestCase
         $storage->start();
         $this->assertSame($id, $storage->getId(), 'Same session ID after restarting');
         $this->assertSame(7, $storage->getBag('attributes')->get('lucky'), 'Data still available');
+    }
+
+    protected function setUp()
+    {
+        $this->iniSet('session.save_handler', 'files');
+        $this->iniSet('session.save_path', $this->savePath = sys_get_temp_dir() . '/sf2test');
+        if (!is_dir($this->savePath)) {
+            mkdir($this->savePath);
+        }
+    }
+
+    protected function tearDown()
+    {
+        session_write_close();
+        array_map('unlink', glob($this->savePath . '/*'));
+        if (is_dir($this->savePath)) {
+            rmdir($this->savePath);
+        }
+
+        $this->savePath = null;
     }
 }

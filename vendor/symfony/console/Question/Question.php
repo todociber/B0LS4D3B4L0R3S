@@ -157,6 +157,21 @@ class Question
         return $this;
     }
 
+    protected function isAssoc($array)
+    {
+        return (bool)count(array_filter(array_keys($array), 'is_string'));
+    }
+
+    /**
+     * Gets the validator for the question.
+     *
+     * @return null|callable
+     */
+    public function getValidator()
+    {
+        return $this->validator;
+    }
+
     /**
      * Sets a validator for the question.
      *
@@ -169,16 +184,6 @@ class Question
         $this->validator = $validator;
 
         return $this;
-    }
-
-    /**
-     * Gets the validator for the question.
-     *
-     * @return null|callable
-     */
-    public function getValidator()
-    {
-        return $this->validator;
     }
 
     /**
@@ -216,6 +221,18 @@ class Question
     }
 
     /**
+     * Gets the normalizer for the response.
+     *
+     * The normalizer can ba a callable (a string), a closure or a class implementing __invoke.
+     *
+     * @return callable
+     */
+    public function getNormalizer()
+    {
+        return $this->normalizer;
+    }
+
+    /**
      * Sets a normalizer for the response.
      *
      * The normalizer can be a callable (a string), a closure or a class implementing __invoke.
@@ -229,22 +246,5 @@ class Question
         $this->normalizer = $normalizer;
 
         return $this;
-    }
-
-    /**
-     * Gets the normalizer for the response.
-     *
-     * The normalizer can ba a callable (a string), a closure or a class implementing __invoke.
-     *
-     * @return callable
-     */
-    public function getNormalizer()
-    {
-        return $this->normalizer;
-    }
-
-    protected function isAssoc($array)
-    {
-        return (bool) count(array_filter(array_keys($array), 'is_string'));
     }
 }

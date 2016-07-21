@@ -98,21 +98,23 @@ class MountManager
     }
 
     /**
-     * Get the filesystem with the corresponding prefix.
+     * @param string $directory
+     * @param bool $recursive
      *
-     * @param string $prefix
-     *
-     * @throws LogicException
-     *
-     * @return FilesystemInterface
+     * @return array
      */
-    public function getFilesystem($prefix)
+    public function listContents($directory = '', $recursive = false)
     {
-        if ( ! isset($this->filesystems[$prefix])) {
-            throw new LogicException('No filesystem mounted with prefix ' . $prefix);
+        list($prefix, $arguments) = $this->filterPrefix([$directory]);
+        $filesystem = $this->getFilesystem($prefix);
+        $directory = array_shift($arguments);
+        $result = $filesystem->listContents($directory, $recursive);
+
+        foreach ($result as &$file) {
+            $file['filesystem'] = $prefix;
         }
 
-        return $this->filesystems[$prefix];
+        return $result;
     }
 
     /**
@@ -145,23 +147,21 @@ class MountManager
     }
 
     /**
-     * @param string $directory
-     * @param bool   $recursive
+     * Get the filesystem with the corresponding prefix.
      *
-     * @return array
+     * @param string $prefix
+     *
+     * @throws LogicException
+     *
+     * @return FilesystemInterface
      */
-    public function listContents($directory = '', $recursive = false)
+    public function getFilesystem($prefix)
     {
-        list($prefix, $arguments) = $this->filterPrefix([$directory]);
-        $filesystem = $this->getFilesystem($prefix);
-        $directory = array_shift($arguments);
-        $result = $filesystem->listContents($directory, $recursive);
-
-        foreach ($result as &$file) {
-            $file['filesystem'] = $prefix;
+        if (!isset($this->filesystems[$prefix])) {
+            throw new LogicException('No filesystem mounted with prefix ' . $prefix);
         }
 
-        return $result;
+        return $this->filesystems[$prefix];
     }
 
     /**
@@ -180,33 +180,27 @@ class MountManager
     }
 
     /**
-     * @param $from
-     * @param $to
-     * @param array $config
+     * Invoke a plugin on a filesystem mounted on a given prefix.
      *
-     * @return bool
+     * @param $method
+     * @param $arguments
+     * @param $prefix
+     *
+     * @return mixed
      */
-    public function copy($from, $to, array $config = [])
+    public function invokePluginOnFilesystem($method, $arguments, $prefix)
     {
-        list($prefixFrom, $arguments) = $this->filterPrefix([$from]);
+        $filesystem = $this->getFilesystem($prefix);
 
-        $fsFrom = $this->getFilesystem($prefixFrom);
-        $buffer = call_user_func_array([$fsFrom, 'readStream'], $arguments);
-
-        if ($buffer === false) {
-            return false;
+        try {
+            return $this->invokePlugin($method, $arguments, $filesystem);
+        } catch (PluginNotFoundException $e) {
+            // Let it pass, it's ok, don't panic.
         }
 
-        list($prefixTo, $arguments) = $this->filterPrefix([$to]);
+        $callback = [$filesystem, $method];
 
-        $fsTo = $this->getFilesystem($prefixTo);
-        $result =  call_user_func_array([$fsTo, 'writeStream'], array_merge($arguments, [$buffer, $config]));
-
-        if (is_resource($buffer)) {
-            fclose($buffer);
-        }
-
-        return $result;
+        return call_user_func_array($callback, $arguments);
     }
 
     /**
@@ -246,26 +240,32 @@ class MountManager
     }
 
     /**
-     * Invoke a plugin on a filesystem mounted on a given prefix.
+     * @param $from
+     * @param $to
+     * @param array $config
      *
-     * @param $method
-     * @param $arguments
-     * @param $prefix
-     *
-     * @return mixed
+     * @return bool
      */
-    public function invokePluginOnFilesystem($method, $arguments, $prefix)
+    public function copy($from, $to, array $config = [])
     {
-        $filesystem = $this->getFilesystem($prefix);
+        list($prefixFrom, $arguments) = $this->filterPrefix([$from]);
 
-        try {
-            return $this->invokePlugin($method, $arguments, $filesystem);
-        } catch (PluginNotFoundException $e) {
-            // Let it pass, it's ok, don't panic.
+        $fsFrom = $this->getFilesystem($prefixFrom);
+        $buffer = call_user_func_array([$fsFrom, 'readStream'], $arguments);
+
+        if ($buffer === false) {
+            return false;
         }
 
-        $callback = [$filesystem, $method];
+        list($prefixTo, $arguments) = $this->filterPrefix([$to]);
 
-        return call_user_func_array($callback, $arguments);
+        $fsTo = $this->getFilesystem($prefixTo);
+        $result = call_user_func_array([$fsTo, 'writeStream'], array_merge($arguments, [$buffer, $config]));
+
+        if (is_resource($buffer)) {
+            fclose($buffer);
+        }
+
+        return $result;
     }
 }

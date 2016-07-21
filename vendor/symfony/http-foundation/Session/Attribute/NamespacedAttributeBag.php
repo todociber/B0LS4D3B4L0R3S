@@ -29,8 +29,8 @@ class NamespacedAttributeBag extends AttributeBag
     /**
      * Constructor.
      *
-     * @param string $storageKey         Session storage key.
-     * @param string $namespaceCharacter Namespace character to use in keys.
+     * @param string $storageKey Session storage key
+     * @param string $namespaceCharacter Namespace character to use in keys
      */
     public function __construct($storageKey = '_sf2_attributes', $namespaceCharacter = '/')
     {
@@ -52,48 +52,6 @@ class NamespacedAttributeBag extends AttributeBag
         }
 
         return array_key_exists($name, $attributes);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function get($name, $default = null)
-    {
-        // reference mismatch: if fixed, re-introduced in array_key_exists; keep as it is
-        $attributes = $this->resolveAttributePath($name);
-        $name = $this->resolveKey($name);
-
-        if (null === $attributes) {
-            return $default;
-        }
-
-        return array_key_exists($name, $attributes) ? $attributes[$name] : $default;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function set($name, $value)
-    {
-        $attributes = &$this->resolveAttributePath($name, true);
-        $name = $this->resolveKey($name);
-        $attributes[$name] = $value;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove($name)
-    {
-        $retval = null;
-        $attributes = &$this->resolveAttributePath($name);
-        $name = $this->resolveKey($name);
-        if (null !== $attributes && array_key_exists($name, $attributes)) {
-            $retval = $attributes[$name];
-            unset($attributes[$name]);
-        }
-
-        return $retval;
     }
 
     /**
@@ -156,5 +114,47 @@ class NamespacedAttributeBag extends AttributeBag
         }
 
         return $name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get($name, $default = null)
+    {
+        // reference mismatch: if fixed, re-introduced in array_key_exists; keep as it is
+        $attributes = $this->resolveAttributePath($name);
+        $name = $this->resolveKey($name);
+
+        if (null === $attributes) {
+            return $default;
+        }
+
+        return array_key_exists($name, $attributes) ? $attributes[$name] : $default;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function set($name, $value)
+    {
+        $attributes = &$this->resolveAttributePath($name, true);
+        $name = $this->resolveKey($name);
+        $attributes[$name] = $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove($name)
+    {
+        $retval = null;
+        $attributes = &$this->resolveAttributePath($name);
+        $name = $this->resolveKey($name);
+        if (null !== $attributes && array_key_exists($name, $attributes)) {
+            $retval = $attributes[$name];
+            unset($attributes[$name]);
+        }
+
+        return $retval;
     }
 }

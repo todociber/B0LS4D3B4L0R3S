@@ -11,9 +11,9 @@
 
 namespace Monolog\Handler;
 
-use RollbarNotifier;
 use Exception;
 use Monolog\Logger;
+use RollbarNotifier;
 
 /**
  * Sends errors to Rollbar
@@ -49,6 +49,17 @@ class RollbarHandler extends AbstractProcessingHandler
         $this->rollbarNotifier = $rollbarNotifier;
 
         parent::__construct($level, $bubble);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function close()
+    {
+        if ($this->hasRecords) {
+            $this->rollbarNotifier->flush();
+            $this->hasRecords = false;
+        }
     }
 
     /**
@@ -91,16 +102,5 @@ class RollbarHandler extends AbstractProcessingHandler
         }
 
         $this->hasRecords = true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function close()
-    {
-        if ($this->hasRecords) {
-            $this->rollbarNotifier->flush();
-            $this->hasRecords = false;
-        }
     }
 }

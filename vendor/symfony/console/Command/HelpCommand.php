@@ -13,8 +13,8 @@ namespace Symfony\Component\Console\Command;
 
 use Symfony\Component\Console\Helper\DescriptorHelper;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -25,6 +25,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 class HelpCommand extends Command
 {
     private $command;
+
+    /**
+     * Sets the command.
+     *
+     * @param Command $command The command to set
+     */
+    public function setCommand(Command $command)
+    {
+        $this->command = $command;
+    }
 
     /**
      * {@inheritdoc}
@@ -54,16 +64,6 @@ To display the list of available commands, please use the <info>list</info> comm
 EOF
             )
         ;
-    }
-
-    /**
-     * Sets the command.
-     *
-     * @param Command $command The command to set
-     */
-    public function setCommand(Command $command)
-    {
-        $this->command = $command;
     }
 
     /**

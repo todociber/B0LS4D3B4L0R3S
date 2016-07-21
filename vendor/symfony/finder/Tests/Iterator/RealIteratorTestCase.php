@@ -58,17 +58,6 @@ abstract class RealIteratorTestCase extends IteratorTestCase
         touch(self::toAbsolute('test.php'), strtotime('2005-10-15'));
     }
 
-    public static function tearDownAfterClass()
-    {
-        foreach (array_reverse(self::$files) as $file) {
-            if (DIRECTORY_SEPARATOR === $file[strlen($file) - 1]) {
-                @rmdir($file);
-            } else {
-                @unlink($file);
-            }
-        }
-    }
-
     protected static function toAbsolute($files = null)
     {
         /*
@@ -96,6 +85,17 @@ abstract class RealIteratorTestCase extends IteratorTestCase
         }
 
         return self::$tmpDir;
+    }
+
+    public static function tearDownAfterClass()
+    {
+        foreach (array_reverse(self::$files) as $file) {
+            if (DIRECTORY_SEPARATOR === $file[strlen($file) - 1]) {
+                @rmdir($file);
+            } else {
+                @unlink($file);
+            }
+        }
     }
 
     protected static function toAbsoluteFixtures($files)

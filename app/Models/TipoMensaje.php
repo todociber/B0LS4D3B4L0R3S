@@ -9,15 +9,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class TipoMensaje extends Model
 {
-    protected $table = 'tipo_mensajes';
-
     public $timestamps = true;
-
+    protected $table = 'tipo_mensajes';
     protected $fillable = [
         'nombre'
     ];
 
     protected $guarded = [];
 
-        
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
+    }
 }

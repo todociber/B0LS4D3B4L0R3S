@@ -54,30 +54,6 @@ class ZendMonitorHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record)
-    {
-        $this->writeZendMonitorCustomEvent(
-            $this->levelMap[$record['level']],
-            $record['message'],
-            $record['formatted']
-        );
-    }
-
-    /**
-     * Write a record to Zend Monitor
-     *
-     * @param int    $level
-     * @param string $message
-     * @param array  $formatted
-     */
-    protected function writeZendMonitorCustomEvent($level, $message, $formatted)
-    {
-        zend_monitor_custom_event($level, $message, $formatted);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getDefaultFormatter()
     {
         return new NormalizerFormatter();
@@ -91,5 +67,29 @@ class ZendMonitorHandler extends AbstractProcessingHandler
     public function getLevelMap()
     {
         return $this->levelMap;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function write(array $record)
+    {
+        $this->writeZendMonitorCustomEvent(
+            $this->levelMap[$record['level']],
+            $record['message'],
+            $record['formatted']
+        );
+    }
+
+    /**
+     * Write a record to Zend Monitor
+     *
+     * @param int $level
+     * @param string $message
+     * @param array $formatted
+     */
+    protected function writeZendMonitorCustomEvent($level, $message, $formatted)
+    {
+        zend_monitor_custom_event($level, $message, $formatted);
     }
 }

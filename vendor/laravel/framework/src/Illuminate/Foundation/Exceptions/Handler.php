@@ -3,20 +3,20 @@
 namespace Illuminate\Foundation\Exceptions;
 
 use Exception;
-use Psr\Log\LoggerInterface;
-use Illuminate\Http\Response;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Exception\HttpResponseException;
-use Symfony\Component\Debug\Exception\FlattenException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Console\Application as ConsoleApplication;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Exception\HttpResponseException;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\Debug\Exception\FlattenException;
+use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler implements ExceptionHandlerContract
 {
@@ -117,6 +117,33 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
+     * Convert an authentication exception into an unauthenticated response.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Auth\AuthenticationException $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function unauthenticated($request, AuthenticationException $e)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            return response('Unauthorized.', 401);
+        } else {
+            return redirect()->guest('login');
+        }
+    }
+
+    /**
+     * Determine if the given exception is an HTTP exception.
+     *
+     * @param  \Exception $e
+     * @return bool
+     */
+    protected function isHttpException(Exception $e)
+    {
+        return $e instanceof HttpException;
+    }
+
+    /**
      * Map exception into an illuminate response.
      *
      * @param  \Symfony\Component\HttpFoundation\Response  $response
@@ -128,18 +155,6 @@ class Handler implements ExceptionHandlerContract
         $response = new Response($response->getContent(), $response->getStatusCode(), $response->headers->all());
 
         return $response->withException($e);
-    }
-
-    /**
-     * Render an exception to the console.
-     *
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * @param  \Exception  $e
-     * @return void
-     */
-    public function renderForConsole($output, Exception $e)
-    {
-        (new ConsoleApplication)->renderException($e, $output);
     }
 
     /**
@@ -177,22 +192,6 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
-     * Convert an authentication exception into an unauthenticated response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $e
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    protected function unauthenticated($request, AuthenticationException $e)
-    {
-        if ($request->ajax() || $request->wantsJson()) {
-            return response('Unauthorized.', 401);
-        } else {
-            return redirect()->guest('login');
-        }
-    }
-
-    /**
      * Get the html response content.
      *
      * @param  string  $content
@@ -223,13 +222,14 @@ EOF;
     }
 
     /**
-     * Determine if the given exception is an HTTP exception.
+     * Render an exception to the console.
      *
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
      * @param  \Exception  $e
-     * @return bool
+     * @return void
      */
-    protected function isHttpException(Exception $e)
+    public function renderForConsole($output, Exception $e)
     {
-        return $e instanceof HttpException;
+        (new ConsoleApplication)->renderException($e, $output);
     }
 }

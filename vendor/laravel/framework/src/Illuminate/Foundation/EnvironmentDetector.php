@@ -25,17 +25,6 @@ class EnvironmentDetector
     }
 
     /**
-     * Set the application environment for a web request.
-     *
-     * @param  \Closure  $callback
-     * @return string
-     */
-    protected function detectWebEnvironment(Closure $callback)
-    {
-        return call_user_func($callback);
-    }
-
-    /**
      * Set the application environment from command-line arguments.
      *
      * @param  \Closure  $callback
@@ -65,5 +54,16 @@ class EnvironmentDetector
         return Arr::first($args, function ($k, $v) {
             return Str::startsWith($v, '--env');
         });
+    }
+
+    /**
+     * Set the application environment for a web request.
+     *
+     * @param  \Closure $callback
+     * @return string
+     */
+    protected function detectWebEnvironment(Closure $callback)
+    {
+        return call_user_func($callback);
     }
 }

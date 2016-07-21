@@ -46,16 +46,16 @@ class PoFileDumper extends FileDumper
         return $output;
     }
 
+    private function escape($str)
+    {
+        return addcslashes($str, "\0..\37\42\134");
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function getExtension()
     {
         return 'po';
-    }
-
-    private function escape($str)
-    {
-        return addcslashes($str, "\0..\37\42\134");
     }
 }

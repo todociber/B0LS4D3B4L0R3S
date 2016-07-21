@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Console\Output;
 
-use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Formatter\OutputFormatter;
+use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 
 /**
  * Base class for output classes.
@@ -49,17 +49,17 @@ abstract class Output implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function setFormatter(OutputFormatterInterface $formatter)
+    public function getFormatter()
     {
-        $this->formatter = $formatter;
+        return $this->formatter;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getFormatter()
+    public function setFormatter(OutputFormatterInterface $formatter)
     {
-        return $this->formatter;
+        $this->formatter = $formatter;
     }
 
     /**
@@ -81,34 +81,30 @@ abstract class Output implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function setVerbosity($level)
-    {
-        $this->verbosity = (int) $level;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getVerbosity()
-    {
-        return $this->verbosity;
-    }
-
     public function isQuiet()
     {
         return self::VERBOSITY_QUIET === $this->verbosity;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isVerbose()
     {
         return self::VERBOSITY_VERBOSE <= $this->verbosity;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isVeryVerbose()
     {
         return self::VERBOSITY_VERY_VERBOSE <= $this->verbosity;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isDebug()
     {
         return self::VERBOSITY_DEBUG <= $this->verbosity;
@@ -153,6 +149,22 @@ abstract class Output implements OutputInterface
 
             $this->doWrite($message, $newline);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVerbosity()
+    {
+        return $this->verbosity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setVerbosity($level)
+    {
+        $this->verbosity = (int)$level;
     }
 
     /**

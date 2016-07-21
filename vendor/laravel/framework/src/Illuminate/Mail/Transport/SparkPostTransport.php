@@ -2,8 +2,8 @@
 
 namespace Illuminate\Mail\Transport;
 
-use Swift_Mime_Message;
 use GuzzleHttp\ClientInterface;
+use Swift_Mime_Message;
 
 class SparkPostTransport extends Transport
 {
@@ -22,16 +22,25 @@ class SparkPostTransport extends Transport
     protected $key;
 
     /**
+     * Transmission options.
+     *
+     * @var array
+     */
+    protected $options = [];
+
+    /**
      * Create a new SparkPost transport instance.
      *
      * @param  \GuzzleHttp\ClientInterface  $client
      * @param  string  $key
+     * @param  array $options
      * @return void
      */
-    public function __construct(ClientInterface $client, $key)
+    public function __construct(ClientInterface $client, $key, $options = [])
     {
-        $this->client = $client;
         $this->key = $key;
+        $this->client = $client;
+        $this->options = $options;
     }
 
     /**
@@ -56,6 +65,10 @@ class SparkPostTransport extends Transport
                 ],
             ],
         ];
+
+        if ($this->options) {
+            $options['json']['options'] = $this->options;
+        }
 
         return $this->client->post('https://api.sparkpost.com/api/v1/transmissions', $options);
     }

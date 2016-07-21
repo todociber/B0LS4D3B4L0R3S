@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests;
+use App\Models\Departamento;
+use App\Models\Role;
 use App\Models\Usuario;
+use Chumper\Datatable\Datatable;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\Models\Role;
+
+//use App\Http\Controllers\Datatable;
 
 class UsuarioCasaCorredoraController extends Controller
 {
@@ -16,9 +19,26 @@ class UsuarioCasaCorredoraController extends Controller
 *
 * @return \Illuminate\Http\Response
 */
+
+
+    public function getDatatable()
+    {
+        return Datatable::collection(Usuario::all(array('nombre', 'apellido', 'correo')))
+            ->showColumns('nombre', 'apellido', 'correo')
+            ->searchColumns('nombre', 'apellido', 'correo')
+            ->orderColumns('nombre', 'apellido', 'correo')
+            ->make();
+    }
+
     public function index()
     {
 
+
+        $id = 9;
+        $information = Departamento::ofid($id)->get();
+
+
+        return view('CasaCorredora.Usuarios.MostrarUsuarios', ['information' => $information]);
     }
 
     /**

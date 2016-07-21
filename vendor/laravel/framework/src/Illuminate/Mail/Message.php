@@ -2,8 +2,8 @@
 
 namespace Illuminate\Mail;
 
-use Swift_Image;
 use Swift_Attachment;
+use Swift_Image;
 
 class Message
 {
@@ -86,6 +86,25 @@ class Message
     }
 
     /**
+     * Add a recipient to the message.
+     *
+     * @param  string|array $address
+     * @param  string $name
+     * @param  string $type
+     * @return $this
+     */
+    protected function addAddresses($address, $name, $type)
+    {
+        if (is_array($address)) {
+            $this->swift->{"set{$type}"}($address, $name);
+        } else {
+            $this->swift->{"add{$type}"}($address, $name);
+        }
+
+        return $this;
+    }
+
+    /**
      * Add a carbon copy to the message.
      *
      * @param  string|array  $address
@@ -119,25 +138,6 @@ class Message
     public function replyTo($address, $name = null)
     {
         return $this->addAddresses($address, $name, 'ReplyTo');
-    }
-
-    /**
-     * Add a recipient to the message.
-     *
-     * @param  string|array  $address
-     * @param  string  $name
-     * @param  string  $type
-     * @return $this
-     */
-    protected function addAddresses($address, $name, $type)
-    {
-        if (is_array($address)) {
-            $this->swift->{"set{$type}"}($address, $name);
-        } else {
-            $this->swift->{"add{$type}"}($address, $name);
-        }
-
-        return $this;
     }
 
     /**
@@ -192,6 +192,34 @@ class Message
     }
 
     /**
+     * Prepare and attach the given attachment.
+     *
+     * @param  \Swift_Attachment $attachment
+     * @param  array $options
+     * @return $this
+     */
+    protected function prepAttachment($attachment, $options = [])
+    {
+        // First we will check for a MIME type on the message, which instructs the
+        // mail client on what type of attachment the file is so that it may be
+        // downloaded correctly by the user. The MIME option is not required.
+        if (isset($options['mime'])) {
+            $attachment->setContentType($options['mime']);
+        }
+
+        // If an alternative name was given as an option, we will set that on this
+        // attachment so that it will be downloaded with the desired names from
+        // the developer, otherwise the default file names will get assigned.
+        if (isset($options['as'])) {
+            $attachment->setFilename($options['as']);
+        }
+
+        $this->swift->attach($attachment);
+
+        return $this;
+    }
+
+    /**
      * Attach in-memory data as an attachment.
      *
      * @param  string  $data
@@ -242,34 +270,6 @@ class Message
         $image = Swift_Image::newInstance($data, $name, $contentType);
 
         return $this->swift->embed($image);
-    }
-
-    /**
-     * Prepare and attach the given attachment.
-     *
-     * @param  \Swift_Attachment  $attachment
-     * @param  array  $options
-     * @return $this
-     */
-    protected function prepAttachment($attachment, $options = [])
-    {
-        // First we will check for a MIME type on the message, which instructs the
-        // mail client on what type of attachment the file is so that it may be
-        // downloaded correctly by the user. The MIME option is not required.
-        if (isset($options['mime'])) {
-            $attachment->setContentType($options['mime']);
-        }
-
-        // If an alternative name was given as an option, we will set that on this
-        // attachment so that it will be downloaded with the desired names from
-        // the developer, otherwise the default file names will get assigned.
-        if (isset($options['as'])) {
-            $attachment->setFilename($options['as']);
-        }
-
-        $this->swift->attach($attachment);
-
-        return $this;
     }
 
     /**

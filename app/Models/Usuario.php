@@ -10,10 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Usuario extends Model
 {
-    protected $table = 'usuarios';
-
     public $timestamps = true;
-
+    protected $table = 'usuarios';
     protected $fillable = [
         'nombre',
         'apellido',
@@ -28,15 +26,19 @@ class Usuario extends Model
     protected $dates = ['deleted_at'];
 
     protected $hidden = ['password', 'remember_token'];
-    public function idOrganizacion() {
-        return $this->belongsTo('App\Models\Organizacion', 'idOrganizacion');
+
+    public function Organizacion()
+    {
+        return $this->belongsTo(Organizacion::class, 'idOrganizacion', 'id');
     }
 
-    public function scopeOfType($query, $id){
+    public function scopeOfid($query, $id)
+    {
         if (trim($id)!="")
         {
             $query->where('id', $id);
         }
     }
-        
+
+
 }

@@ -2,13 +2,11 @@
 
 namespace Illuminate\Queue;
 
-use DateTime;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
+use DateTime;
+use Illuminate\Contracts\Queue\Queue as QueueContract;
 use Illuminate\Database\Connection;
 use Illuminate\Queue\Jobs\DatabaseJob;
-use Illuminate\Database\Query\Expression;
-use Illuminate\Contracts\Queue\Queue as QueueContract;
 
 class DatabaseQueue extends Queue implements QueueContract
 {
@@ -68,6 +66,70 @@ class DatabaseQueue extends Queue implements QueueContract
     public function push($job, $data = '', $queue = null)
     {
         return $this->pushToDatabase(0, $queue, $this->createPayload($job, $data));
+    }
+
+    /**
+     * Push a raw payload to the database with a given delay.
+     *
+     * @param  \DateTime|int $delay
+     * @param  string|null $queue
+     * @param  string $payload
+     * @param  int $attempts
+     * @return mixed
+     */
+    protected function pushToDatabase($delay, $queue, $payload, $attempts = 0)
+    {
+        $attributes = $this->buildDatabaseRecord(
+            $this->getQueue($queue), $payload, $this->getAvailableAt($delay), $attempts
+        );
+
+        return $this->database->table($this->table)->insertGetId($attributes);
+    }
+
+    /**
+     * Create an array to insert for the given job.
+     *
+     * @param  string|null $queue
+     * @param  string $payload
+     * @param  int $availableAt
+     * @param  int $attempts
+     * @return array
+     */
+    protected function buildDatabaseRecord($queue, $payload, $availableAt, $attempts = 0)
+    {
+        return [
+            'queue' => $queue,
+            'attempts' => $attempts,
+            'reserved' => 0,
+            'reserved_at' => null,
+            'available_at' => $availableAt,
+            'created_at' => $this->getTime(),
+            'payload' => $payload,
+        ];
+    }
+
+    /**
+     * Get the queue or return the default.
+     *
+     * @param  string|null $queue
+     * @return string
+     */
+    protected function getQueue($queue)
+    {
+        return $queue ?: $this->default;
+    }
+
+    /**
+     * Get the "available at" UNIX timestamp.
+     *
+     * @param  \DateTime|int $delay
+     * @return int
+     */
+    protected function getAvailableAt($delay)
+    {
+        $availableAt = $delay instanceof DateTime ? $delay : Carbon::now()->addSeconds($delay);
+
+        return $availableAt->getTimestamp();
     }
 
     /**
@@ -134,24 +196,6 @@ class DatabaseQueue extends Queue implements QueueContract
     }
 
     /**
-     * Push a raw payload to the database with a given delay.
-     *
-     * @param  \DateTime|int  $delay
-     * @param  string|null  $queue
-     * @param  string  $payload
-     * @param  int  $attempts
-     * @return mixed
-     */
-    protected function pushToDatabase($delay, $queue, $payload, $attempts = 0)
-    {
-        $attributes = $this->buildDatabaseRecord(
-            $this->getQueue($queue), $payload, $this->getAvailableAt($delay), $attempts
-        );
-
-        return $this->database->table($this->table)->insertGetId($attributes);
-    }
-
-    /**
      * Pop the next job off of the queue.
      *
      * @param  string  $queue
@@ -161,14 +205,10 @@ class DatabaseQueue extends Queue implements QueueContract
     {
         $queue = $this->getQueue($queue);
 
-        if (! is_null($this->expire)) {
-            $this->releaseJobsThatHaveBeenReservedTooLong($queue);
-        }
-
         $this->database->beginTransaction();
 
         if ($job = $this->getNextAvailableJob($queue)) {
-            $this->markJobAsReserved($job->id);
+            $job = $this->markJobAsReserved($job);
 
             $this->database->commit();
 
@@ -176,38 +216,6 @@ class DatabaseQueue extends Queue implements QueueContract
                 $this->container, $this, $job, $queue
             );
         }
-
-        $this->database->commit();
-    }
-
-    /**
-     * Release the jobs that have been reserved for too long.
-     *
-     * @param  string  $queue
-     * @return void
-     */
-    protected function releaseJobsThatHaveBeenReservedTooLong($queue)
-    {
-        if (random_int(1, 10) < 10) {
-            return;
-        }
-
-        $this->database->beginTransaction();
-
-        $stale = $this->database->table($this->table)
-                    ->lockForUpdate()
-                    ->where('queue', $this->getQueue($queue))
-                    ->where('reserved', 1)
-                    ->where('reserved_at', '<=', Carbon::now()->subSeconds($this->expire)->getTimestamp())
-                    ->get();
-
-        $this->database->table($this->table)
-            ->whereIn('id', Collection::make($stale)->pluck('id')->all())
-            ->update([
-                'reserved' => 0,
-                'reserved_at' => null,
-                'attempts' => new Expression('attempts + 1'),
-            ]);
 
         $this->database->commit();
     }
@@ -223,8 +231,10 @@ class DatabaseQueue extends Queue implements QueueContract
         $job = $this->database->table($this->table)
                     ->lockForUpdate()
                     ->where('queue', $this->getQueue($queue))
-                    ->where('reserved', 0)
-                    ->where('available_at', '<=', $this->getTime())
+            ->where(function ($query) {
+                $this->isAvailable($query);
+                $this->isReservedButExpired($query);
+            })
                     ->orderBy('id', 'asc')
                     ->first();
 
@@ -232,23 +242,61 @@ class DatabaseQueue extends Queue implements QueueContract
     }
 
     /**
-     * Mark the given job ID as reserved.
+     * Modify the query to check for available jobs.
      *
-     * @param  string  $id
+     * @param  \Illuminate\Database\Query\Builder $query
      * @return void
      */
-    protected function markJobAsReserved($id)
+    protected function isAvailable($query)
     {
-        $this->database->table($this->table)->where('id', $id)->update([
-            'reserved' => 1, 'reserved_at' => $this->getTime(),
+        $query->where(function ($query) {
+            $query->where('reserved', 0);
+            $query->where('available_at', '<=', $this->getTime());
+        });
+    }
+
+    /**
+     * Modify the query to check for jobs that are reserved but have expired.
+     *
+     * @param  \Illuminate\Database\Query\Builder $query
+     * @return void
+     */
+    protected function isReservedButExpired($query)
+    {
+        $expiration = Carbon::now()->subSeconds($this->expire)->getTimestamp();
+
+        $query->orWhere(function ($query) use ($expiration) {
+            $query->where('reserved', 1);
+            $query->where('reserved_at', '<=', $expiration);
+        });
+    }
+
+    /**
+     * Mark the given job ID as reserved.
+     *
+     * @param \stdClass $job
+     * @return \stdClass
+     */
+    protected function markJobAsReserved($job)
+    {
+        $job->reserved = 1;
+        $job->attempts = $job->attempts + 1;
+        $job->reserved_at = $this->getTime();
+
+        $this->database->table($this->table)->where('id', $job->id)->update([
+            'reserved' => $job->reserved,
+            'reserved_at' => $job->reserved_at,
+            'attempts' => $job->attempts,
         ]);
+
+        return $job;
     }
 
     /**
      * Delete a reserved job from the queue.
      *
-     * @param  string  $queue
-     * @param  string  $id
+     * @param  string $queue
+     * @param  string $id
      * @return void
      */
     public function deleteReserved($queue, $id)
@@ -260,52 +308,6 @@ class DatabaseQueue extends Queue implements QueueContract
         }
 
         $this->database->commit();
-    }
-
-    /**
-     * Get the "available at" UNIX timestamp.
-     *
-     * @param  \DateTime|int  $delay
-     * @return int
-     */
-    protected function getAvailableAt($delay)
-    {
-        $availableAt = $delay instanceof DateTime ? $delay : Carbon::now()->addSeconds($delay);
-
-        return $availableAt->getTimestamp();
-    }
-
-    /**
-     * Create an array to insert for the given job.
-     *
-     * @param  string|null  $queue
-     * @param  string  $payload
-     * @param  int  $availableAt
-     * @param  int  $attempts
-     * @return array
-     */
-    protected function buildDatabaseRecord($queue, $payload, $availableAt, $attempts = 0)
-    {
-        return [
-            'queue' => $queue,
-            'attempts' => $attempts,
-            'reserved' => 0,
-            'reserved_at' => null,
-            'available_at' => $availableAt,
-            'created_at' => $this->getTime(),
-            'payload' => $payload,
-        ];
-    }
-
-    /**
-     * Get the queue or return the default.
-     *
-     * @param  string|null  $queue
-     * @return string
-     */
-    protected function getQueue($queue)
-    {
-        return $queue ?: $this->default;
     }
 
     /**

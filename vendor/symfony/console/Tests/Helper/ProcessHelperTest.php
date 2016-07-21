@@ -13,8 +13,8 @@ namespace Symfony\Component\Console\Tests\Helper;
 
 use Symfony\Component\Console\Helper\DebugFormatterHelper;
 use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Helper\ProcessHelper;
+use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Process\Process;
 
 class ProcessHelperTest extends \PHPUnit_Framework_TestCase
@@ -29,6 +29,18 @@ class ProcessHelperTest extends \PHPUnit_Framework_TestCase
         $output = $this->getOutputStream($verbosity);
         $helper->run($output, $cmd, $error);
         $this->assertEquals($expected, $this->getOutput($output));
+    }
+
+    private function getOutputStream($verbosity)
+    {
+        return new StreamOutput(fopen('php://memory', 'r+', false), $verbosity, false);
+    }
+
+    private function getOutput(StreamOutput $output)
+    {
+        rewind($output->getStream());
+
+        return stream_get_contents($output->getStream());
     }
 
     public function testPassedCallbackIsExecuted()
@@ -101,17 +113,5 @@ EOT;
             array($successOutputProcessDebug, array('php', '-r', 'echo 42;'), StreamOutput::VERBOSITY_DEBUG, null),
             array($successOutputDebug, new Process('php -r "echo 42;"'), StreamOutput::VERBOSITY_DEBUG, null),
         );
-    }
-
-    private function getOutputStream($verbosity)
-    {
-        return new StreamOutput(fopen('php://memory', 'r+', false), $verbosity, false);
-    }
-
-    private function getOutput(StreamOutput $output)
-    {
-        rewind($output->getStream());
-
-        return stream_get_contents($output->getStream());
     }
 }

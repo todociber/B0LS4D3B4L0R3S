@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Yaml\Tests;
 
-use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Dumper;
+use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Yaml;
 
 class DumperTest extends \PHPUnit_Framework_TestCase
@@ -35,21 +35,6 @@ class DumperTest extends \PHPUnit_Framework_TestCase
             ),
         ),
     );
-
-    protected function setUp()
-    {
-        $this->parser = new Parser();
-        $this->dumper = new Dumper();
-        $this->path = __DIR__.'/Fixtures';
-    }
-
-    protected function tearDown()
-    {
-        $this->parser = null;
-        $this->dumper = null;
-        $this->path = null;
-        $this->array = null;
-    }
 
     public function testIndentationInConstructor()
     {
@@ -296,7 +281,6 @@ EOF;
      */
     public function testDumpObjectAsMap($object, $expected)
     {
-
         $yaml = $this->dumper->dump($object, 0, 0, Yaml::DUMP_OBJECT_AS_MAP);
 
         $this->assertEquals($expected, Yaml::parse($yaml, Yaml::PARSE_OBJECT_FOR_MAP));
@@ -362,6 +346,21 @@ EOF;
     public function testNegativeIndentationThrowsException()
     {
         new Dumper(-4);
+    }
+
+    protected function setUp()
+    {
+        $this->parser = new Parser();
+        $this->dumper = new Dumper();
+        $this->path = __DIR__ . '/Fixtures';
+    }
+
+    protected function tearDown()
+    {
+        $this->parser = null;
+        $this->dumper = null;
+        $this->path = null;
+        $this->array = null;
     }
 }
 

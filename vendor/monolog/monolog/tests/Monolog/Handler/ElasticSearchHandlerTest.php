@@ -11,13 +11,13 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Formatter\ElasticaFormatter;
-use Monolog\Formatter\NormalizerFormatter;
-use Monolog\TestCase;
-use Monolog\Logger;
 use Elastica\Client;
 use Elastica\Request;
 use Elastica\Response;
+use Monolog\Formatter\ElasticaFormatter;
+use Monolog\Formatter\NormalizerFormatter;
+use Monolog\Logger;
+use Monolog\TestCase;
 
 class ElasticSearchHandlerTest extends TestCase
 {

@@ -74,6 +74,11 @@ class ProcessUtils
         return escapeshellarg($argument);
     }
 
+    private static function isSurroundedBy($arg, $char)
+    {
+        return 2 < strlen($arg) && $char === $arg[0] && $char === $arg[strlen($arg) - 1];
+    }
+
     /**
      * Validates and normalizes a Process input.
      *
@@ -101,10 +106,5 @@ class ProcessUtils
         }
 
         return $input;
-    }
-
-    private static function isSurroundedBy($arg, $char)
-    {
-        return 2 < strlen($arg) && $char === $arg[0] && $char === $arg[strlen($arg) - 1];
     }
 }

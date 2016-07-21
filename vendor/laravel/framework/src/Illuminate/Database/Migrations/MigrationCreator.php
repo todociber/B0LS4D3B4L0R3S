@@ -3,8 +3,8 @@
 namespace Illuminate\Database\Migrations;
 
 use Closure;
-use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 
 class MigrationCreator
 {
@@ -59,6 +59,28 @@ class MigrationCreator
     }
 
     /**
+     * Get the full path name to the migration.
+     *
+     * @param  string $name
+     * @param  string $path
+     * @return string
+     */
+    protected function getPath($name, $path)
+    {
+        return $path . '/' . $this->getDatePrefix() . '_' . $name . '.php';
+    }
+
+    /**
+     * Get the date prefix for the migration.
+     *
+     * @return string
+     */
+    protected function getDatePrefix()
+    {
+        return date('Y_m_d_His');
+    }
+
+    /**
      * Get the migration stub file.
      *
      * @param  string  $table
@@ -79,6 +101,16 @@ class MigrationCreator
 
             return $this->files->get($this->getStubPath()."/{$stub}");
         }
+    }
+
+    /**
+     * Get the path to the stubs.
+     *
+     * @return string
+     */
+    public function getStubPath()
+    {
+        return __DIR__ . '/stubs';
     }
 
     /**
@@ -135,38 +167,6 @@ class MigrationCreator
     public function afterCreate(Closure $callback)
     {
         $this->postCreate[] = $callback;
-    }
-
-    /**
-     * Get the full path name to the migration.
-     *
-     * @param  string  $name
-     * @param  string  $path
-     * @return string
-     */
-    protected function getPath($name, $path)
-    {
-        return $path.'/'.$this->getDatePrefix().'_'.$name.'.php';
-    }
-
-    /**
-     * Get the date prefix for the migration.
-     *
-     * @return string
-     */
-    protected function getDatePrefix()
-    {
-        return date('Y_m_d_His');
-    }
-
-    /**
-     * Get the path to the stubs.
-     *
-     * @return string
-     */
-    public function getStubPath()
-    {
-        return __DIR__.'/stubs';
     }
 
     /**

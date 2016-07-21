@@ -95,20 +95,6 @@ class Swift_StreamFilters_ByteArrayReplacementFilter implements Swift_StreamFilt
     }
 
     /**
-     * Returns true if based on the buffer passed more bytes should be buffered.
-     *
-     * @param array $buffer
-     *
-     * @return bool
-     */
-    public function shouldBuffer($buffer)
-    {
-        $endOfBuffer = end($buffer);
-
-        return isset($this->_index[$endOfBuffer]);
-    }
-
-    /**
      * Perform the actual replacements on $buffer and return the result.
      *
      * @param array $buffer
@@ -165,5 +151,19 @@ class Swift_StreamFilters_ByteArrayReplacementFilter implements Swift_StreamFilt
         }
 
         return $newBuffer;
+    }
+
+    /**
+     * Returns true if based on the buffer passed more bytes should be buffered.
+     *
+     * @param array $buffer
+     *
+     * @return bool
+     */
+    public function shouldBuffer($buffer)
+    {
+        $endOfBuffer = end($buffer);
+
+        return isset($this->_index[$endOfBuffer]);
     }
 }

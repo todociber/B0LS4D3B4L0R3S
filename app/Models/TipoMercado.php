@@ -9,15 +9,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class TipoMercado extends Model
 {
-    protected $table = 'tipo_mercados';
-
     public $timestamps = true;
-
+    protected $table = 'tipo_mercados';
     protected $fillable = [
         'nombre'
     ];
 
     protected $guarded = [];
 
-        
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
+    }
 }
