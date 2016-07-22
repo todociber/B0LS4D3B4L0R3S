@@ -3430,6 +3430,51 @@
         ]
     },
     {
+        "name": "ignasbernotas/laravel-model-generator",
+        "version": "1.1.4",
+        "version_normalized": "1.1.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ignasbernotas/laravel-model-generator.git",
+            "reference": "343ad81e5ec64b224aff01e7054e98faf98f1c61"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ignasbernotas/laravel-model-generator/zipball/343ad81e5ec64b224aff01e7054e98faf98f1c61",
+            "reference": "343ad81e5ec64b224aff01e7054e98faf98f1c61",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/support": "~5.0",
+            "php": ">=5.4.0"
+        },
+        "time": "2016-05-24 16:57:40",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Iber\\Generator\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Ignas Bernotas",
+                "email": "ignas@iber.lt"
+            }
+        ],
+        "description": "Laravel 5 model generator from existing schema",
+        "keywords": [
+            "generator",
+            "laravel",
+            "model",
+            "schema"
+        ]
+    },
+    {
         "name": "laravelcollective/html",
         "version": "v5.2.4",
         "version_normalized": "5.2.4.0",
@@ -3486,31 +3531,37 @@
         "homepage": "http://laravelcollective.com"
     },
     {
-        "name": "ignasbernotas/laravel-model-generator",
-        "version": "1.1.4",
-        "version_normalized": "1.1.4.0",
+        "name": "laracasts/flash",
+        "version": "2.0.0",
+        "version_normalized": "2.0.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/ignasbernotas/laravel-model-generator.git",
-            "reference": "343ad81e5ec64b224aff01e7054e98faf98f1c61"
+            "url": "https://github.com/laracasts/flash.git",
+            "reference": "4df7200127a71511bdf116bc8b7a2586612c7a35"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/ignasbernotas/laravel-model-generator/zipball/343ad81e5ec64b224aff01e7054e98faf98f1c61",
-            "reference": "343ad81e5ec64b224aff01e7054e98faf98f1c61",
+            "url": "https://api.github.com/repos/laracasts/flash/zipball/4df7200127a71511bdf116bc8b7a2586612c7a35",
+            "reference": "4df7200127a71511bdf116bc8b7a2586612c7a35",
             "shasum": ""
         },
         "require": {
             "illuminate/support": "~5.0",
             "php": ">=5.4.0"
         },
-        "time": "2016-05-24 16:57:40",
+        "require-dev": {
+            "mockery/mockery": "dev-master"
+        },
+        "time": "2016-03-14 15:55:34",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
-            "psr-4": {
-                "Iber\\Generator\\": "src/"
-            }
+            "psr-0": {
+                "Laracasts\\Flash": "src/"
+            },
+            "files": [
+                "src/Laracasts/Flash/functions.php"
+            ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -3518,16 +3569,10 @@
         ],
         "authors": [
             {
-                "name": "Ignas Bernotas",
-                "email": "ignas@iber.lt"
+                "name": "Jeffrey Way",
+                "email": "jeffrey@laracasts.com"
             }
         ],
-        "description": "Laravel 5 model generator from existing schema",
-        "keywords": [
-            "generator",
-            "laravel",
-            "model",
-            "schema"
-        ]
+        "description": "Easy flash notifications"
     }
 ]

@@ -20,7 +20,12 @@
          folder instead of downloading all of them to reduce the load. -->
     {!! Html::style('assets/dist/css/skins/_all-skins.css') !!}
 
-
+      <!--  DROPZONE CSS -->
+    {!! Html::style('assets/css/dropzone.css') !!}
+            <!--  LADDA CSS -->
+    {!! Html::style('assets/css/ladda-themeless.min.css') !!}
+            <!--  SERO CSS -->
+    {!! Html::style('assets/css/SERO.css') !!}
             <!-- jQuery 2.1.4 -->
     {!! Html::script('assets/plugins/jQuery/jQuery-2.1.4.min.js') !!}
             <!-- Bootstrap 3.3.5 -->
@@ -36,7 +41,15 @@
     {!! Html::script('assets/dist/js/app.min.js') !!}
             <!-- AdminLTE for demo purposes -->
     {!! Html::script('assets/dist/js/demo.js') !!}
+            <!--  DROPZONE JS -->
+    {!! Html::script('assets/js/dropzone.js') !!}
+            <!--  LADDA JS -->
+    {!! Html::script('assets/js/spin.min.js') !!}
+    {!! Html::script('assets/js/ladda.min.js') !!}
 
+
+            <!--  SERO JS -->
+    {!! Html::script('assets/js/SERO.js') !!}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -200,8 +213,7 @@
         });
     });
 
-    $(document).ready(function () {
-    })
+
 </script>
 </body>
 </html>

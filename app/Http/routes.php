@@ -23,7 +23,8 @@ Route::get('bolsa/ListadoCasas','BolsaController@ListadoCasas')->name('listadoCa
 Route::get('bolsa/CatalogoUsuarios','BolsaController@ListadoUsuario')->name('catalogoUsuarios');
 Route::get('bolsa/NuevoUsuario','BolsaController@NuevoUsuario')->name('nuevoUsuario');
 Route::get('bolsa/MiPerfil','BolsaController@MiPerfil')->name('miPerfil');
-Route::post('bolsa/RegistrarNuevaCasa','BolsaController@RegistrarNuevaCasa')->name('nvoCasa');
+Route::resource('Bolsa','BolsaController');
+Route::post('bolsa/Upload','BolsaController@Upload')->name('upload');
 //RegistrarNuevaCasa
 //------BOLSA DE VALORES ROUTES--//
 
@@ -36,3 +37,6 @@ Route::resource('Login','LoginController');
 Route::get('clientes/NuevaOrden','ClientesController@NuevaOrden')->name('nuevaOrden');
 
 //------CLIENTES ROUTES----//
+
+//-----CASA CORREDORA ROUTES----//
+Route::resource('UsuarioCasaCorredora','UsuarioCasaCorredoraController');

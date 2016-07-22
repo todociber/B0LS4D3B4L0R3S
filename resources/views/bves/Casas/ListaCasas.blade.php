@@ -13,6 +13,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @include('alertas.flash')
                     <h3 class="box-title">Lista de casas</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">

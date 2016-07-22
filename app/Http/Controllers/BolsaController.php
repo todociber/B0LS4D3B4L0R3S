@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Organizacion;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Carbon\Carbon;
+use Log;
+use Mockery\CountValidator\Exception;
+use Validator;
 
 class BolsaController extends Controller
 {
@@ -17,21 +21,62 @@ class BolsaController extends Controller
 
     public function NuevaCasa()
     {
-        $organizacion = new Organizacion();
 
-        return View('bves.Casas.RegistroCasas')->with('casa',$organizacion);
+
+        $organizacion = new Organizacion;
+        return View('bves.Casas.RegistroCasas')->with('organizacion',$organizacion);
     }
 
 
     //REGISTRAR NUEVA CASA
 
-    public function RegistrarNuevaCasa(Request $request)
+    public function store(Request $request)
     {
 
-        $organizacion = new Organizacion();
+        try
+        {
+            $validator =  Validator::make($request->all(),[
+                'nombre' => 'required',
+                'correo' => 'required|email',
+                'direccion' => 'required',
+                'telefono' => 'required',
+                'codigo' => 'required',
+            ]);
+            if(!$validator->fails()){
+            $date = Carbon::now();
+            $path = $this->Upload($request);
+            if($path != 'error'){
+            $organizacion = new Organizacion();
+            $organizacion->nombre              = $request->input('nombre');
+            $organizacion->logo                = $path;
+            $organizacion->correo              = $request->input('correo');
+            $organizacion->direccion           = $request->input('direccion');
+            $organizacion->telefono            = $request->input('telefono');
+            $organizacion->codigo              = $request->input('codigo');
+            $organizacion->idTipoOrganizacion  = 1;
+            $organizacion->save();
+
+                return response()->json(['error'=>'0']);
+            }
+            else {
+
+                return response()->json(['error'=>'1']);
+
+                }
+            }
+            else {
+
+                return response()->json(['error'=>'2']);
+            }
+       // Flash::success('Casa registrada con éxito');
+
+        }
+        catch (Exception $e){
+
+            return response()->json(['error'=>'1', 'error'=>$e]);
 
 
-        return View('');
+        }
     }
 
 
@@ -62,5 +107,29 @@ class BolsaController extends Controller
         return View('bves.Perfil.MiPerfil');
     }
     
-    
+
+    //UPLOAD IMAGE
+    public function Upload($request) {
+
+        try {
+            //upload an image to the /img/tmp directory and return the filepath.
+            $date = Carbon::now();
+            $file = $request->file('file');
+            $tmpFilePath = '/imgTemp/';
+            $tmpFileName = $date->timestamp;
+            $file = $file->move(public_path() . $tmpFilePath, $tmpFileName);
+            $path = $tmpFileName;
+            return $path;
+        }
+        catch (Exception $e){
+
+            return 'error';
+
+        }
+        }
+
+
+
+
+
 }
