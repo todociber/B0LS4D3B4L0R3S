@@ -2,9 +2,9 @@
 
 namespace Illuminate\Foundation\Console;
 
-use Psy\Shell;
-use Psy\Configuration;
 use Illuminate\Console\Command;
+use Psy\Configuration;
+use Psy\Shell;
 use Symfony\Component\Console\Input\InputArgument;
 
 class TinkerCommand extends Command
@@ -55,6 +55,20 @@ class TinkerCommand extends Command
     }
 
     /**
+     * Get an array of Laravel tailored casters.
+     *
+     * @return array
+     */
+    protected function getCasters()
+    {
+        return [
+            'Illuminate\Foundation\Application' => 'Illuminate\Foundation\Console\IlluminateCaster::castApplication',
+            'Illuminate\Support\Collection' => 'Illuminate\Foundation\Console\IlluminateCaster::castCollection',
+            'Illuminate\Database\Eloquent\Model' => 'Illuminate\Foundation\Console\IlluminateCaster::castModel',
+        ];
+    }
+
+    /**
      * Get artisan commands to pass through to PsySH.
      *
      * @return array
@@ -70,20 +84,6 @@ class TinkerCommand extends Command
         }
 
         return $commands;
-    }
-
-    /**
-     * Get an array of Laravel tailored casters.
-     *
-     * @return array
-     */
-    protected function getCasters()
-    {
-        return [
-            'Illuminate\Foundation\Application' => 'Illuminate\Foundation\Console\IlluminateCaster::castApplication',
-            'Illuminate\Support\Collection' => 'Illuminate\Foundation\Console\IlluminateCaster::castCollection',
-            'Illuminate\Database\Eloquent\Model' => 'Illuminate\Foundation\Console\IlluminateCaster::castModel',
-        ];
     }
 
     /**

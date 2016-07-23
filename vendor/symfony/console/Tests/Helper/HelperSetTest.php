@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Console\Tests\Helper;
 
-use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\HelperSet;
 
 class HelperSetTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,6 +23,29 @@ class HelperSetTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($mock_helper, $helperset->get('fake_helper_alias'), '__construct sets given helper to helpers');
         $this->assertTrue($helperset->has('fake_helper_alias'), '__construct sets helper alias for given helper');
+    }
+
+    /**
+     * Create a generic mock for the helper interface. Optionally check for a call to setHelperSet with a specific
+     * helperset instance.
+     *
+     * @param string $name
+     * @param HelperSet $helperset allows a mock to verify a particular helperset set is being added to the Helper
+     */
+    private function getGenericMockHelper($name, HelperSet $helperset = null)
+    {
+        $mock_helper = $this->getMock('\Symfony\Component\Console\Helper\HelperInterface');
+        $mock_helper->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue($name));
+
+        if ($helperset) {
+            $mock_helper->expects($this->any())
+                ->method('setHelperSet')
+                ->with($this->equalTo($helperset));
+        }
+
+        return $mock_helper;
     }
 
     public function testSet()
@@ -106,28 +129,5 @@ class HelperSetTest extends \PHPUnit_Framework_TestCase
         foreach ($helperset as $helper) {
             $this->assertEquals($helpers[$i++], $helper->getName());
         }
-    }
-
-    /**
-     * Create a generic mock for the helper interface. Optionally check for a call to setHelperSet with a specific
-     * helperset instance.
-     *
-     * @param string    $name
-     * @param HelperSet $helperset allows a mock to verify a particular helperset set is being added to the Helper
-     */
-    private function getGenericMockHelper($name, HelperSet $helperset = null)
-    {
-        $mock_helper = $this->getMock('\Symfony\Component\Console\Helper\HelperInterface');
-        $mock_helper->expects($this->any())
-            ->method('getName')
-            ->will($this->returnValue($name));
-
-        if ($helperset) {
-            $mock_helper->expects($this->any())
-                ->method('setHelperSet')
-                ->with($this->equalTo($helperset));
-        }
-
-        return $mock_helper;
     }
 }

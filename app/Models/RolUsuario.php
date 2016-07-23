@@ -10,10 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class RolUsuario extends Model
 {
-    protected $table = 'rol_usuarios';
-
     public $timestamps = true;
-
+    protected $table = 'rol_usuarios';
     protected $fillable = [
         'idUsuario',
         'idRol',
@@ -31,5 +29,12 @@ class RolUsuario extends Model
     }
     public function idCliente() {
         return $this->belongsTo('App\Models\Cliente', 'idCliente');
+    }
+
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
     }
 }

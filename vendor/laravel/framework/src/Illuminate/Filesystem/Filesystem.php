@@ -4,18 +4,73 @@ namespace Illuminate\Filesystem;
 
 use ErrorException;
 use FilesystemIterator;
-use Symfony\Component\Finder\Finder;
-use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Support\Traits\Macroable;
+use Symfony\Component\Finder\Finder;
 
 class Filesystem
 {
     use Macroable;
 
     /**
-     * Determine if a file or directory exists.
+     * Get the returned value of a file.
      *
      * @param  string  $path
+     * @return mixed
+     *
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function getRequire($path)
+    {
+        if ($this->isFile($path)) {
+            return require $path;
+        }
+
+        throw new FileNotFoundException("File does not exist at path {$path}");
+    }
+
+    /**
+     * Determine if the given path is a file.
+     *
+     * @param  string $file
+     * @return bool
+     */
+    public function isFile($file)
+    {
+        return is_file($file);
+    }
+
+    /**
+     * Require the given file once.
+     *
+     * @param  string $file
+     * @return mixed
+     */
+    public function requireOnce($file)
+    {
+        require_once $file;
+    }
+
+    /**
+     * Prepend to a file.
+     *
+     * @param  string $path
+     * @param  string $data
+     * @return int
+     */
+    public function prepend($path, $data)
+    {
+        if ($this->exists($path)) {
+            return $this->put($path, $data . $this->get($path));
+        }
+
+        return $this->put($path, $data);
+    }
+
+    /**
+     * Determine if a file or directory exists.
+     *
+     * @param  string $path
      * @return bool
      */
     public function exists($path)
@@ -24,10 +79,23 @@ class Filesystem
     }
 
     /**
+     * Write the contents of a file.
+     *
+     * @param  string  $path
+     * @param  string  $contents
+     * @param  bool  $lock
+     * @return int
+     */
+    public function put($path, $contents, $lock = false)
+    {
+        return file_put_contents($path, $contents, $lock ? LOCK_EX : 0);
+    }
+
+    /**
      * Get the contents of a file.
      *
      * @param  string  $path
-     * @param  bool  $lock
+     * @param  bool $lock
      * @return string
      *
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
@@ -51,14 +119,16 @@ class Filesystem
     {
         $contents = '';
 
-        $handle = fopen($path, 'r');
+        $handle = fopen($path, 'rb');
 
         if ($handle) {
             try {
                 if (flock($handle, LOCK_SH)) {
-                    while (! feof($handle)) {
-                        $contents .= fread($handle, 1048576);
-                    }
+                    clearstatcache(true, $path);
+
+                    $contents = fread($handle, $this->size($path) ?: 1);
+
+                    flock($handle, LOCK_UN);
                 }
             } finally {
                 fclose($handle);
@@ -69,67 +139,21 @@ class Filesystem
     }
 
     /**
-     * Get the returned value of a file.
+     * Get the file size of a given file.
      *
      * @param  string  $path
-     * @return mixed
-     *
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
-    public function getRequire($path)
-    {
-        if ($this->isFile($path)) {
-            return require $path;
-        }
-
-        throw new FileNotFoundException("File does not exist at path {$path}");
-    }
-
-    /**
-     * Require the given file once.
-     *
-     * @param  string  $file
-     * @return mixed
-     */
-    public function requireOnce($file)
-    {
-        require_once $file;
-    }
-
-    /**
-     * Write the contents of a file.
-     *
-     * @param  string  $path
-     * @param  string  $contents
-     * @param  bool  $lock
      * @return int
      */
-    public function put($path, $contents, $lock = false)
+    public function size($path)
     {
-        return file_put_contents($path, $contents, $lock ? LOCK_EX : 0);
-    }
-
-    /**
-     * Prepend to a file.
-     *
-     * @param  string  $path
-     * @param  string  $data
-     * @return int
-     */
-    public function prepend($path, $data)
-    {
-        if ($this->exists($path)) {
-            return $this->put($path, $data.$this->get($path));
-        }
-
-        return $this->put($path, $data);
+        return filesize($path);
     }
 
     /**
      * Append to a file.
      *
      * @param  string  $path
-     * @param  string  $data
+     * @param  string $data
      * @return int
      */
     public function append($path, $data)
@@ -138,52 +162,15 @@ class Filesystem
     }
 
     /**
-     * Delete the file at a given path.
-     *
-     * @param  string|array  $paths
-     * @return bool
-     */
-    public function delete($paths)
-    {
-        $paths = is_array($paths) ? $paths : func_get_args();
-
-        $success = true;
-
-        foreach ($paths as $path) {
-            try {
-                if (! @unlink($path)) {
-                    $success = false;
-                }
-            } catch (ErrorException $e) {
-                $success = false;
-            }
-        }
-
-        return $success;
-    }
-
-    /**
      * Move a file to a new location.
      *
-     * @param  string  $path
+     * @param  string $path
      * @param  string  $target
      * @return bool
      */
     public function move($path, $target)
     {
         return rename($path, $target);
-    }
-
-    /**
-     * Copy a file to a new location.
-     *
-     * @param  string  $path
-     * @param  string  $target
-     * @return bool
-     */
-    public function copy($path, $target)
-    {
-        return copy($path, $target);
     }
 
     /**
@@ -253,17 +240,6 @@ class Filesystem
     }
 
     /**
-     * Get the file size of a given file.
-     *
-     * @param  string  $path
-     * @return int
-     */
-    public function size($path)
-    {
-        return filesize($path);
-    }
-
-    /**
      * Get the file's last modification time.
      *
      * @param  string  $path
@@ -275,17 +251,6 @@ class Filesystem
     }
 
     /**
-     * Determine if the given path is a directory.
-     *
-     * @param  string  $directory
-     * @return bool
-     */
-    public function isDirectory($directory)
-    {
-        return is_dir($directory);
-    }
-
-    /**
      * Determine if the given path is writable.
      *
      * @param  string  $path
@@ -294,17 +259,6 @@ class Filesystem
     public function isWritable($path)
     {
         return is_writable($path);
-    }
-
-    /**
-     * Determine if the given path is a file.
-     *
-     * @param  string  $file
-     * @return bool
-     */
-    public function isFile($file)
-    {
-        return is_file($file);
     }
 
     /**
@@ -371,21 +325,102 @@ class Filesystem
     }
 
     /**
-     * Create a directory.
+     * Move a directory.
      *
-     * @param  string  $path
-     * @param  int     $mode
-     * @param  bool    $recursive
-     * @param  bool    $force
+     * @param  string $from
+     * @param  string $to
+     * @param  bool $overwrite
      * @return bool
      */
-    public function makeDirectory($path, $mode = 0755, $recursive = false, $force = false)
+    public function moveDirectory($from, $to, $overwrite = false)
     {
-        if ($force) {
-            return @mkdir($path, $mode, $recursive);
+        if ($overwrite && $this->isDirectory($to)) {
+            $this->deleteDirectory($to);
+
+            $this->copyDirectory($from, $to);
+
+            $this->deleteDirectory($from);
+
+            return true;
         }
 
-        return mkdir($path, $mode, $recursive);
+        return @rename($from, $to) === true;
+    }
+
+    /**
+     * Determine if the given path is a directory.
+     *
+     * @param  string $directory
+     * @return bool
+     */
+    public function isDirectory($directory)
+    {
+        return is_dir($directory);
+    }
+
+    /**
+     * Recursively delete a directory.
+     *
+     * The directory itself may be optionally preserved.
+     *
+     * @param  string $directory
+     * @param  bool $preserve
+     * @return bool
+     */
+    public function deleteDirectory($directory, $preserve = false)
+    {
+        if (!$this->isDirectory($directory)) {
+            return false;
+        }
+
+        $items = new FilesystemIterator($directory);
+
+        foreach ($items as $item) {
+            // If the item is a directory, we can just recurse into the function and
+            // delete that sub-directory otherwise we'll just delete the file and
+            // keep iterating through each file until the directory is cleaned.
+            if ($item->isDir() && !$item->isLink()) {
+                $this->deleteDirectory($item->getPathname());
+            }
+
+            // If the item is just a file, we can go ahead and delete it since we're
+            // just looping through and waxing all of the files in this directory
+            // and calling directories recursively, so we delete the real path.
+            else {
+                $this->delete($item->getPathname());
+            }
+        }
+
+        if (!$preserve) {
+            @rmdir($directory);
+        }
+
+        return true;
+    }
+
+    /**
+     * Delete the file at a given path.
+     *
+     * @param  string|array $paths
+     * @return bool
+     */
+    public function delete($paths)
+    {
+        $paths = is_array($paths) ? $paths : func_get_args();
+
+        $success = true;
+
+        foreach ($paths as $path) {
+            try {
+                if (!@unlink($path)) {
+                    $success = false;
+                }
+            } catch (ErrorException $e) {
+                $success = false;
+            }
+        }
+
+        return $success;
     }
 
     /**
@@ -441,43 +476,33 @@ class Filesystem
     }
 
     /**
-     * Recursively delete a directory.
+     * Create a directory.
      *
-     * The directory itself may be optionally preserved.
-     *
-     * @param  string  $directory
-     * @param  bool    $preserve
+     * @param  string $path
+     * @param  int $mode
+     * @param  bool $recursive
+     * @param  bool $force
      * @return bool
      */
-    public function deleteDirectory($directory, $preserve = false)
+    public function makeDirectory($path, $mode = 0755, $recursive = false, $force = false)
     {
-        if (! $this->isDirectory($directory)) {
-            return false;
+        if ($force) {
+            return @mkdir($path, $mode, $recursive);
         }
 
-        $items = new FilesystemIterator($directory);
+        return mkdir($path, $mode, $recursive);
+    }
 
-        foreach ($items as $item) {
-            // If the item is a directory, we can just recurse into the function and
-            // delete that sub-directory otherwise we'll just delete the file and
-            // keep iterating through each file until the directory is cleaned.
-            if ($item->isDir() && ! $item->isLink()) {
-                $this->deleteDirectory($item->getPathname());
-            }
-
-            // If the item is just a file, we can go ahead and delete it since we're
-            // just looping through and waxing all of the files in this directory
-            // and calling directories recursively, so we delete the real path.
-            else {
-                $this->delete($item->getPathname());
-            }
-        }
-
-        if (! $preserve) {
-            @rmdir($directory);
-        }
-
-        return true;
+    /**
+     * Copy a file to a new location.
+     *
+     * @param  string $path
+     * @param  string $target
+     * @return bool
+     */
+    public function copy($path, $target)
+    {
+        return copy($path, $target);
     }
 
     /**

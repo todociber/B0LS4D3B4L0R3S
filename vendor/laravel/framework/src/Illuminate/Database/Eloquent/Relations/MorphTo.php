@@ -3,9 +3,9 @@
 namespace Illuminate\Database\Eloquent\Relations;
 
 use BadMethodCallException;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class MorphTo extends BelongsTo
 {
@@ -183,13 +183,39 @@ class MorphTo extends BelongsTo
 
         $key = $instance->getTable().'.'.$instance->getKeyName();
 
-        $eagerLoads = $this->getQuery()->nestedRelations($this->relation);
-
         $query = $this->replayMacros($instance->newQuery())
             ->mergeModelDefinedRelationConstraints($this->getQuery())
-            ->with($eagerLoads);
+            ->with($this->getQuery()->getEagerLoads());
 
         return $query->whereIn($key, $this->gatherKeysByType($type)->all())->get();
+    }
+
+    /**
+     * Create a new model instance by type.
+     *
+     * @param  string  $type
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function createModelByType($type)
+    {
+        $class = $this->parent->getActualClassNameForMorph($type);
+
+        return new $class;
+    }
+
+    /**
+     * Replay stored macro calls on the actual related instance.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function replayMacros(Builder $query)
+    {
+        foreach ($this->macroBuffer as $macro) {
+            call_user_func_array([$query, $macro['method']], $macro['parameters']);
+        }
+
+        return $query;
     }
 
     /**
@@ -205,19 +231,6 @@ class MorphTo extends BelongsTo
         return collect($this->dictionary[$type])->map(function ($models) use ($foreign) {
             return head($models)->{$foreign};
         })->values()->unique();
-    }
-
-    /**
-     * Create a new model instance by type.
-     *
-     * @param  string  $type
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public function createModelByType($type)
-    {
-        $class = $this->parent->getActualClassNameForMorph($type);
-
-        return new $class;
     }
 
     /**
@@ -238,21 +251,6 @@ class MorphTo extends BelongsTo
     public function getDictionary()
     {
         return $this->dictionary;
-    }
-
-    /**
-     * Replay stored macro calls on the actual related instance.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    protected function replayMacros(Builder $query)
-    {
-        foreach ($this->macroBuffer as $macro) {
-            call_user_func_array([$query, $macro['method']], $macro['parameters']);
-        }
-
-        return $query;
     }
 
     /**

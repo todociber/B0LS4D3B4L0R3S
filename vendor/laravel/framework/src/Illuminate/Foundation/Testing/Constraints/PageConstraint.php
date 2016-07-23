@@ -3,23 +3,12 @@
 namespace Illuminate\Foundation\Testing\Constraints;
 
 use PHPUnit_Framework_Constraint;
-use Symfony\Component\DomCrawler\Crawler;
-use SebastianBergmann\Comparator\ComparisonFailure;
 use PHPUnit_Framework_ExpectationFailedException as FailedExpection;
+use SebastianBergmann\Comparator\ComparisonFailure;
+use Symfony\Component\DomCrawler\Crawler;
 
 abstract class PageConstraint extends PHPUnit_Framework_Constraint
 {
-    /**
-     * Make sure we obtain the HTML from the crawler or the response.
-     *
-     * @param  \Symfony\Component\DomCrawler\Crawler|string  $crawler
-     * @return string
-     */
-    protected function html($crawler)
-    {
-        return is_object($crawler) ? $crawler->html() : $crawler;
-    }
-
     /**
      * Make sure we obtain the HTML from the crawler or the response.
      *
@@ -88,6 +77,17 @@ abstract class PageConstraint extends PHPUnit_Framework_Constraint
         }
 
         throw new FailedExpection($failureDescription, $comparisonFailure);
+    }
+
+    /**
+     * Make sure we obtain the HTML from the crawler or the response.
+     *
+     * @param  \Symfony\Component\DomCrawler\Crawler|string $crawler
+     * @return string
+     */
+    protected function html($crawler)
+    {
+        return is_object($crawler) ? $crawler->html() : $crawler;
     }
 
     /**

@@ -2,11 +2,11 @@
 
 namespace Illuminate\Auth;
 
-use Illuminate\Support\Str;
-use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Database\ConnectionInterface;
-use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
+use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Contracts\Hashing\Hasher as HasherContract;
+use Illuminate\Database\ConnectionInterface;
+use Illuminate\Support\Str;
 
 class DatabaseUserProvider implements UserProvider
 {
@@ -57,6 +57,19 @@ class DatabaseUserProvider implements UserProvider
         $user = $this->conn->table($this->table)->find($identifier);
 
         return $this->getGenericUser($user);
+    }
+
+    /**
+     * Get the generic user.
+     *
+     * @param  mixed $user
+     * @return \Illuminate\Auth\GenericUser|null
+     */
+    protected function getGenericUser($user)
+    {
+        if ($user !== null) {
+            return new GenericUser((array)$user);
+        }
     }
 
     /**
@@ -115,19 +128,6 @@ class DatabaseUserProvider implements UserProvider
         $user = $query->first();
 
         return $this->getGenericUser($user);
-    }
-
-    /**
-     * Get the generic user.
-     *
-     * @param  mixed  $user
-     * @return \Illuminate\Auth\GenericUser|null
-     */
-    protected function getGenericUser($user)
-    {
-        if ($user !== null) {
-            return new GenericUser((array) $user);
-        }
     }
 
     /**

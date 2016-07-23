@@ -44,6 +44,18 @@ class KeyGenerateCommand extends Command
     }
 
     /**
+     * Generate a random key for the application.
+     *
+     * @return string
+     */
+    protected function generateRandomKey()
+    {
+        return 'base64:' . base64_encode(random_bytes(
+            $this->laravel['config']['app.cipher'] == 'AES-128-CBC' ? 16 : 32
+        ));
+    }
+
+    /**
      * Set the application key in the environment file.
      *
      * @param  string  $key
@@ -55,18 +67,6 @@ class KeyGenerateCommand extends Command
             'APP_KEY='.$this->laravel['config']['app.key'],
             'APP_KEY='.$key,
             file_get_contents($this->laravel->environmentFilePath())
-        ));
-    }
-
-    /**
-     * Generate a random key for the application.
-     *
-     * @return string
-     */
-    protected function generateRandomKey()
-    {
-        return 'base64:'.base64_encode(random_bytes(
-            $this->laravel['config']['app.cipher'] == 'AES-128-CBC' ? 16 : 32
         ));
     }
 }

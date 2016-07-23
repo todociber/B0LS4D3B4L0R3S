@@ -2,42 +2,42 @@
 
 namespace Illuminate\Foundation\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Queue\Console\TableCommand;
-use Illuminate\Auth\Console\MakeAuthCommand;
-use Illuminate\Foundation\Console\UpCommand;
-use Illuminate\Foundation\Console\DownCommand;
 use Illuminate\Auth\Console\ClearResetsCommand;
-use Illuminate\Foundation\Console\ServeCommand;
+use Illuminate\Auth\Console\MakeAuthCommand;
 use Illuminate\Cache\Console\CacheTableCommand;
-use Illuminate\Queue\Console\FailedTableCommand;
-use Illuminate\Foundation\Console\TinkerCommand;
-use Illuminate\Foundation\Console\JobMakeCommand;
+use Illuminate\Database\Console\Seeds\SeederMakeCommand;
 use Illuminate\Foundation\Console\AppNameCommand;
-use Illuminate\Foundation\Console\OptimizeCommand;
-use Illuminate\Foundation\Console\TestMakeCommand;
-use Illuminate\Foundation\Console\RouteListCommand;
-use Illuminate\Foundation\Console\EventMakeCommand;
-use Illuminate\Foundation\Console\ModelMakeCommand;
-use Illuminate\Foundation\Console\ViewClearCommand;
-use Illuminate\Session\Console\SessionTableCommand;
-use Illuminate\Foundation\Console\PolicyMakeCommand;
-use Illuminate\Foundation\Console\RouteCacheCommand;
-use Illuminate\Foundation\Console\RouteClearCommand;
-use Illuminate\Routing\Console\ControllerMakeCommand;
-use Illuminate\Routing\Console\MiddlewareMakeCommand;
+use Illuminate\Foundation\Console\ClearCompiledCommand;
 use Illuminate\Foundation\Console\ConfigCacheCommand;
 use Illuminate\Foundation\Console\ConfigClearCommand;
 use Illuminate\Foundation\Console\ConsoleMakeCommand;
+use Illuminate\Foundation\Console\DownCommand;
 use Illuminate\Foundation\Console\EnvironmentCommand;
-use Illuminate\Foundation\Console\KeyGenerateCommand;
-use Illuminate\Foundation\Console\RequestMakeCommand;
-use Illuminate\Foundation\Console\ListenerMakeCommand;
-use Illuminate\Foundation\Console\ProviderMakeCommand;
-use Illuminate\Foundation\Console\ClearCompiledCommand;
 use Illuminate\Foundation\Console\EventGenerateCommand;
+use Illuminate\Foundation\Console\EventMakeCommand;
+use Illuminate\Foundation\Console\JobMakeCommand;
+use Illuminate\Foundation\Console\KeyGenerateCommand;
+use Illuminate\Foundation\Console\ListenerMakeCommand;
+use Illuminate\Foundation\Console\ModelMakeCommand;
+use Illuminate\Foundation\Console\OptimizeCommand;
+use Illuminate\Foundation\Console\PolicyMakeCommand;
+use Illuminate\Foundation\Console\ProviderMakeCommand;
+use Illuminate\Foundation\Console\RequestMakeCommand;
+use Illuminate\Foundation\Console\RouteCacheCommand;
+use Illuminate\Foundation\Console\RouteClearCommand;
+use Illuminate\Foundation\Console\RouteListCommand;
+use Illuminate\Foundation\Console\ServeCommand;
+use Illuminate\Foundation\Console\TestMakeCommand;
+use Illuminate\Foundation\Console\TinkerCommand;
+use Illuminate\Foundation\Console\UpCommand;
 use Illuminate\Foundation\Console\VendorPublishCommand;
-use Illuminate\Database\Console\Seeds\SeederMakeCommand;
+use Illuminate\Foundation\Console\ViewClearCommand;
+use Illuminate\Queue\Console\FailedTableCommand;
+use Illuminate\Queue\Console\TableCommand;
+use Illuminate\Routing\Console\ControllerMakeCommand;
+use Illuminate\Routing\Console\MiddlewareMakeCommand;
+use Illuminate\Session\Console\SessionTableCommand;
+use Illuminate\Support\ServiceProvider;
 
 class ArtisanServiceProvider extends ServiceProvider
 {
@@ -126,6 +126,20 @@ class ArtisanServiceProvider extends ServiceProvider
         }
 
         $this->commands(array_values($commands));
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        if ($this->app->environment('production')) {
+            return array_values($this->commands);
+        } else {
+            return array_merge(array_values($this->commands), array_values($this->devCommands));
+        }
     }
 
     /**
@@ -546,19 +560,5 @@ class ArtisanServiceProvider extends ServiceProvider
         $this->app->singleton('command.policy.make', function ($app) {
             return new PolicyMakeCommand($app['files']);
         });
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        if ($this->app->environment('production')) {
-            return array_values($this->commands);
-        } else {
-            return array_merge(array_values($this->commands), array_values($this->devCommands));
-        }
     }
 }

@@ -43,17 +43,6 @@ class Parser implements ParserInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function parse($source)
-    {
-        $reader = new Reader($source);
-        $stream = $this->tokenizer->tokenize($reader);
-
-        return $this->parseSelectorList($stream);
-    }
-
-    /**
      * Parses the arguments for ":nth-child()" and friends.
      *
      * @param Token[] $tokens
@@ -100,6 +89,17 @@ class Parser implements ParserInterface
             $first ? ('-' === $first || '+' === $first ? $int($first.'1') : $int($first)) : 1,
             isset($split[1]) && $split[1] ? $int($split[1]) : 0,
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function parse($source)
+    {
+        $reader = new Reader($source);
+        $stream = $this->tokenizer->tokenize($reader);
+
+        return $this->parseSelectorList($stream);
     }
 
     /**

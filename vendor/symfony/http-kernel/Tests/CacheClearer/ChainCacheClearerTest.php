@@ -38,6 +38,11 @@ class ChainCacheClearerTest extends \PHPUnit_Framework_TestCase
         $chainClearer->clear(self::$cacheDir);
     }
 
+    protected function getMockClearer()
+    {
+        return $this->getMock('Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface');
+    }
+
     public function testInjectClearerUsingAdd()
     {
         $clearer = $this->getMockClearer();
@@ -48,10 +53,5 @@ class ChainCacheClearerTest extends \PHPUnit_Framework_TestCase
         $chainClearer = new ChainCacheClearer();
         $chainClearer->add($clearer);
         $chainClearer->clear(self::$cacheDir);
-    }
-
-    protected function getMockClearer()
-    {
-        return $this->getMock('Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface');
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Illuminate\Cookie;
 
+use Illuminate\Contracts\Cookie\QueueingFactory as JarContract;
 use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\Cookie;
-use Illuminate\Contracts\Cookie\QueueingFactory as JarContract;
 
 class CookieJar implements JarContract
 {
@@ -37,6 +37,22 @@ class CookieJar implements JarContract
     protected $queued = [];
 
     /**
+     * Create a cookie that lasts "forever" (five years).
+     *
+     * @param  string $name
+     * @param  string $value
+     * @param  string $path
+     * @param  string $domain
+     * @param  bool $secure
+     * @param  bool $httpOnly
+     * @return \Symfony\Component\HttpFoundation\Cookie
+     */
+    public function forever($name, $value, $path = null, $domain = null, $secure = false, $httpOnly = true)
+    {
+        return $this->make($name, $value, 2628000, $path, $domain, $secure, $httpOnly);
+    }
+
+    /**
      * Create a new cookie instance.
      *
      * @param  string  $name
@@ -58,19 +74,16 @@ class CookieJar implements JarContract
     }
 
     /**
-     * Create a cookie that lasts "forever" (five years).
+     * Get the path and domain, or the default values.
      *
-     * @param  string  $name
-     * @param  string  $value
      * @param  string  $path
      * @param  string  $domain
      * @param  bool    $secure
-     * @param  bool    $httpOnly
-     * @return \Symfony\Component\HttpFoundation\Cookie
+     * @return array
      */
-    public function forever($name, $value, $path = null, $domain = null, $secure = false, $httpOnly = true)
+    protected function getPathAndDomain($path, $domain, $secure = false)
     {
-        return $this->make($name, $value, 2628000, $path, $domain, $secure, $httpOnly);
+        return [$path ?: $this->path, $domain ?: $this->domain, $secure ?: $this->secure];
     }
 
     /**
@@ -135,19 +148,6 @@ class CookieJar implements JarContract
     public function unqueue($name)
     {
         unset($this->queued[$name]);
-    }
-
-    /**
-     * Get the path and domain, or the default values.
-     *
-     * @param  string  $path
-     * @param  string  $domain
-     * @param  bool    $secure
-     * @return array
-     */
-    protected function getPathAndDomain($path, $domain, $secure = false)
-    {
-        return [$path ?: $this->path, $domain ?: $this->domain, $secure ?: $this->secure];
     }
 
     /**

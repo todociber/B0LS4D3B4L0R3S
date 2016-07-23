@@ -58,6 +58,23 @@ class FileLoader implements LoaderInterface
     }
 
     /**
+     * Load a locale from a given path.
+     *
+     * @param  string $path
+     * @param  string $locale
+     * @param  string $group
+     * @return array
+     */
+    protected function loadPath($path, $locale, $group)
+    {
+        if ($this->files->exists($full = "{$path}/{$locale}/{$group}.php")) {
+            return $this->files->getRequire($full);
+        }
+
+        return [];
+    }
+
+    /**
      * Load a namespaced translation group.
      *
      * @param  string  $locale
@@ -94,23 +111,6 @@ class FileLoader implements LoaderInterface
         }
 
         return $lines;
-    }
-
-    /**
-     * Load a locale from a given path.
-     *
-     * @param  string  $path
-     * @param  string  $locale
-     * @param  string  $group
-     * @return array
-     */
-    protected function loadPath($path, $locale, $group)
-    {
-        if ($this->files->exists($full = "{$path}/{$locale}/{$group}.php")) {
-            return $this->files->getRequire($full);
-        }
-
-        return [];
     }
 
     /**

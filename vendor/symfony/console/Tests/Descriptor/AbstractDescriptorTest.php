@@ -26,6 +26,15 @@ abstract class AbstractDescriptorTest extends \PHPUnit_Framework_TestCase
         $this->assertDescription($expectedDescription, $argument);
     }
 
+    protected function assertDescription($expectedDescription, $describedObject)
+    {
+        $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true);
+        $this->getDescriptor()->describe($output, $describedObject, array('raw_output' => true));
+        $this->assertEquals(trim($expectedDescription), trim(str_replace(PHP_EOL, "\n", $output->fetch())));
+    }
+
+    abstract protected function getDescriptor();
+
     /** @dataProvider getDescribeInputOptionTestData */
     public function testDescribeInputOption(InputOption $option, $expectedDescription)
     {
@@ -62,6 +71,19 @@ abstract class AbstractDescriptorTest extends \PHPUnit_Framework_TestCase
         return $this->getDescriptionTestData(ObjectsProvider::getInputArguments());
     }
 
+    private function getDescriptionTestData(array $objects)
+    {
+        $data = array();
+        foreach ($objects as $name => $object) {
+            $description = file_get_contents(sprintf('%s/../Fixtures/%s.%s', __DIR__, $name, $this->getFormat()));
+            $data[] = array($object, $description);
+        }
+
+        return $data;
+    }
+
+    abstract protected function getFormat();
+
     public function getDescribeInputOptionTestData()
     {
         return $this->getDescriptionTestData(ObjectsProvider::getInputOptions());
@@ -80,27 +102,5 @@ abstract class AbstractDescriptorTest extends \PHPUnit_Framework_TestCase
     public function getDescribeApplicationTestData()
     {
         return $this->getDescriptionTestData(ObjectsProvider::getApplications());
-    }
-
-    abstract protected function getDescriptor();
-
-    abstract protected function getFormat();
-
-    private function getDescriptionTestData(array $objects)
-    {
-        $data = array();
-        foreach ($objects as $name => $object) {
-            $description = file_get_contents(sprintf('%s/../Fixtures/%s.%s', __DIR__, $name, $this->getFormat()));
-            $data[] = array($object, $description);
-        }
-
-        return $data;
-    }
-
-    protected function assertDescription($expectedDescription, $describedObject)
-    {
-        $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true);
-        $this->getDescriptor()->describe($output, $describedObject, array('raw_output' => true));
-        $this->assertEquals(trim($expectedDescription), trim(str_replace(PHP_EOL, "\n", $output->fetch())));
     }
 }

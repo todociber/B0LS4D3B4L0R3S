@@ -10,10 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Mensaje extends Model
 {
-    protected $table = 'mensajes';
-
     public $timestamps = true;
-
+    protected $table = 'mensajes';
     protected $fillable = [
         'contenido',
         'idTipoMensaje',
@@ -35,4 +33,10 @@ class Mensaje extends Model
         return $this->belongsTo('App\Models\Ordene', 'idOrden');
     }
 
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
+    }
 }

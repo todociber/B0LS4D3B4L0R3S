@@ -10,10 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Ordene extends Model
 {
-    protected $table = 'ordenes';
-
     public $timestamps = true;
-
+    protected $table = 'ordenes';
     protected $fillable = [
         'correlativo',
         'Fecha de vigencia',
@@ -69,7 +67,12 @@ class Ordene extends Model
     }
 
 
-
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
+    }
 
 
 

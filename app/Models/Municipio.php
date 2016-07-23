@@ -9,10 +9,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Municipio extends Model
 {
-    protected $table = 'municipios';
-
     public $timestamps = true;
-
+    protected $table = 'municipios';
     protected $fillable = [
         'nombre',
         'id_departamento'
@@ -20,7 +18,16 @@ class Municipio extends Model
 
     protected $guarded = [];
 
-    public function idDepartamento() {
-        return $this->belongsTo('App\Models\Departamento', 'id_departamento');
+
+    public function Departamento()
+    {
+        return $this->belongsTo(Departamento::class, 'id_departamento', 'id');
+    }
+
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
     }
 }

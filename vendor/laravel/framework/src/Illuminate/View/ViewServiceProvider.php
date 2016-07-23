@@ -2,11 +2,11 @@
 
 namespace Illuminate\View;
 
-use Illuminate\View\Engines\PhpEngine;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\Engines\CompilerEngine;
 use Illuminate\View\Engines\EngineResolver;
-use Illuminate\View\Compilers\BladeCompiler;
+use Illuminate\View\Engines\PhpEngine;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -42,43 +42,6 @@ class ViewServiceProvider extends ServiceProvider
             }
 
             return $resolver;
-        });
-    }
-
-    /**
-     * Register the PHP engine implementation.
-     *
-     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
-     * @return void
-     */
-    public function registerPhpEngine($resolver)
-    {
-        $resolver->register('php', function () {
-            return new PhpEngine;
-        });
-    }
-
-    /**
-     * Register the Blade engine implementation.
-     *
-     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
-     * @return void
-     */
-    public function registerBladeEngine($resolver)
-    {
-        $app = $this->app;
-
-        // The Compiler engine requires an instance of the CompilerInterface, which in
-        // this case will be the Blade compiler, so we'll first create the compiler
-        // instance to pass into the engine so it can compile the views properly.
-        $app->singleton('blade.compiler', function ($app) {
-            $cache = $app['config']['view.compiled'];
-
-            return new BladeCompiler($app['files'], $cache);
-        });
-
-        $resolver->register('blade', function () use ($app) {
-            return new CompilerEngine($app['blade.compiler']);
         });
     }
 
@@ -121,6 +84,43 @@ class ViewServiceProvider extends ServiceProvider
             $env->share('app', $app);
 
             return $env;
+        });
+    }
+
+    /**
+     * Register the PHP engine implementation.
+     *
+     * @param  \Illuminate\View\Engines\EngineResolver $resolver
+     * @return void
+     */
+    public function registerPhpEngine($resolver)
+    {
+        $resolver->register('php', function () {
+            return new PhpEngine;
+        });
+    }
+
+    /**
+     * Register the Blade engine implementation.
+     *
+     * @param  \Illuminate\View\Engines\EngineResolver $resolver
+     * @return void
+     */
+    public function registerBladeEngine($resolver)
+    {
+        $app = $this->app;
+
+        // The Compiler engine requires an instance of the CompilerInterface, which in
+        // this case will be the Blade compiler, so we'll first create the compiler
+        // instance to pass into the engine so it can compile the views properly.
+        $app->singleton('blade.compiler', function ($app) {
+            $cache = $app['config']['view.compiled'];
+
+            return new BladeCompiler($app['files'], $cache);
+        });
+
+        $resolver->register('blade', function () use ($app) {
+            return new CompilerEngine($app['blade.compiler']);
         });
     }
 }

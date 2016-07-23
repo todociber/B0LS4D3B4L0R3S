@@ -3,11 +3,11 @@
 namespace Illuminate\Http;
 
 use BadMethodCallException;
-use Illuminate\Support\Str;
-use Illuminate\Support\MessageBag;
-use Illuminate\Support\ViewErrorBag;
-use Illuminate\Session\Store as SessionStore;
 use Illuminate\Contracts\Support\MessageProvider;
+use Illuminate\Session\Store as SessionStore;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\Str;
+use Illuminate\Support\ViewErrorBag;
 use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyUploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse as BaseRedirectResponse;
 
@@ -30,27 +30,9 @@ class RedirectResponse extends BaseRedirectResponse
     protected $session;
 
     /**
-     * Flash a piece of data to the session.
-     *
-     * @param  string|array  $key
-     * @param  mixed  $value
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function with($key, $value = null)
-    {
-        $key = is_array($key) ? $key : [$key => $value];
-
-        foreach ($key as $k => $v) {
-            $this->session->flash($k, $v);
-        }
-
-        return $this;
-    }
-
-    /**
      * Add multiple cookies to the response.
      *
-     * @param  array  $cookies
+     * @param  array $cookies
      * @return $this
      */
     public function withCookies(array $cookies)
@@ -65,6 +47,17 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Flash an array of input to the session.
      *
+     * @param  mixed  string
+     * @return $this
+     */
+    public function onlyInput()
+    {
+        return $this->withInput($this->request->only(func_get_args()));
+    }
+
+    /**
+     * Flash an array of input to the session.
+     *
      * @param  array  $input
      * @return $this
      */
@@ -72,26 +65,30 @@ class RedirectResponse extends BaseRedirectResponse
     {
         $input = $input ?: $this->request->input();
 
-        $this->session->flashInput($data = array_filter($input, $callback = function (&$value) use (&$callback) {
-            if (is_array($value)) {
-                $value = array_filter($value, $callback);
-            }
-
-            return ! $value instanceof SymfonyUploadedFile;
-        }));
+        $this->session->flashInput($this->removeFilesFromInput($input));
 
         return $this;
     }
 
     /**
-     * Flash an array of input to the session.
+     * Remove all uploaded files form the given input array.
      *
-     * @param  mixed  string
-     * @return $this
+     * @param  array $input
+     * @return array
      */
-    public function onlyInput()
+    protected function removeFilesFromInput(array $input)
     {
-        return $this->withInput($this->request->only(func_get_args()));
+        foreach ($input as $key => $value) {
+            if (is_array($value)) {
+                $input[$key] = $this->removeFilesFromInput($value);
+            }
+
+            if ($value instanceof SymfonyUploadedFile) {
+                unset($input[$key]);
+            }
+        }
+
+        return $input;
     }
 
     /**
@@ -196,5 +193,23 @@ class RedirectResponse extends BaseRedirectResponse
         }
 
         throw new BadMethodCallException("Method [$method] does not exist on Redirect.");
+    }
+
+    /**
+     * Flash a piece of data to the session.
+     *
+     * @param  string|array $key
+     * @param  mixed $value
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function with($key, $value = null)
+    {
+        $key = is_array($key) ? $key : [$key => $value];
+
+        foreach ($key as $k => $v) {
+            $this->session->flash($k, $v);
+        }
+
+        return $this;
     }
 }

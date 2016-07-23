@@ -149,8 +149,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Laracasts\Flash\FlashServiceProvider::class,
-
 
 
         /*
@@ -210,6 +208,8 @@ return [
         'Html' => 'Collective\Html\HtmlFacade',
         'Flash' => Laracasts\Flash\Flash::class,
         
+
+
     ],
 
 ];

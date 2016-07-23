@@ -9,15 +9,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Role extends Model
 {
-    protected $table = 'roles';
-
     public $timestamps = true;
-
+    protected $table = 'roles';
     protected $fillable = [
         'nombre'
     ];
 
     protected $guarded = [];
 
-        
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
+    }
 }

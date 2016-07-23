@@ -26,8 +26,6 @@ class FormFieldRegistry
      * Adds a field to the registry.
      *
      * @param FormField $field The field
-     *
-     * @throws \InvalidArgumentException when the name is malformed
      */
     public function add(FormField $field)
     {
@@ -49,11 +47,39 @@ class FormFieldRegistry
     }
 
     /**
+     * Splits a field name into segments as a web browser would do.
+     *
+     * <code>
+     *     getSegments('base[foo][3][]') = array('base', 'foo, '3', '');
+     * </code>
+     *
+     * @param string $name The name of the field
+     *
+     * @return string[] The list of segments
+     */
+    private function getSegments($name)
+    {
+        if (preg_match('/^(?P<base>[^[]+)(?P<extra>(\[.*)|$)/', $name, $m)) {
+            $segments = array($m['base']);
+            while (!empty($m['extra'])) {
+                $extra = $m['extra'];
+                if (preg_match('/^\[(?P<segment>.*?)\](?P<extra>.*)$/', $extra, $m)) {
+                    $segments[] = $m['segment'];
+                } else {
+                    $segments[] = $extra;
+                }
+            }
+
+            return $segments;
+        }
+
+        return array($name);
+    }
+
+    /**
      * Removes a field and its children from the registry.
      *
      * @param string $name The fully qualified name of the base field
-     *
-     * @throws \InvalidArgumentException when the name is malformed
      */
     public function remove($name)
     {
@@ -67,31 +93,6 @@ class FormFieldRegistry
             $target = &$target[$path];
         }
         unset($target[array_shift($segments)]);
-    }
-
-    /**
-     * Returns the value of the field and its children.
-     *
-     * @param string $name The fully qualified name of the field
-     *
-     * @return mixed The value of the field
-     *
-     * @throws \InvalidArgumentException when the name is malformed
-     * @throws \InvalidArgumentException if the field does not exist
-     */
-    public function &get($name)
-    {
-        $segments = $this->getSegments($name);
-        $target = &$this->fields;
-        while ($segments) {
-            $path = array_shift($segments);
-            if (!array_key_exists($path, $target)) {
-                throw new \InvalidArgumentException(sprintf('Unreachable field "%s"', $path));
-            }
-            $target = &$target[$path];
-        }
-
-        return $target;
     }
 
     /**
@@ -113,12 +114,35 @@ class FormFieldRegistry
     }
 
     /**
+     * Returns the value of the field and its children.
+     *
+     * @param string $name The fully qualified name of the field
+     *
+     * @return mixed The value of the field
+     *
+     * @throws \InvalidArgumentException if the field does not exist
+     */
+    public function &get($name)
+    {
+        $segments = $this->getSegments($name);
+        $target = &$this->fields;
+        while ($segments) {
+            $path = array_shift($segments);
+            if (!array_key_exists($path, $target)) {
+                throw new \InvalidArgumentException(sprintf('Unreachable field "%s"', $path));
+            }
+            $target = &$target[$path];
+        }
+
+        return $target;
+    }
+
+    /**
      * Set the value of a field and its children.
      *
      * @param string $name  The fully qualified name of the field
      * @param mixed  $value The value
      *
-     * @throws \InvalidArgumentException when the name is malformed
      * @throws \InvalidArgumentException if the field does not exist
      */
     public function set($name, $value)
@@ -134,16 +158,6 @@ class FormFieldRegistry
         } else {
             throw new \InvalidArgumentException(sprintf('Cannot set value on a compound field "%s".', $name));
         }
-    }
-
-    /**
-     * Returns the list of field with their value.
-     *
-     * @return FormField[] The list of fields as array((string) Fully qualified name => (mixed) value)
-     */
-    public function all()
-    {
-        return $this->walk($this->fields, $this->base);
     }
 
     /**
@@ -167,6 +181,16 @@ class FormFieldRegistry
     }
 
     /**
+     * Returns the list of field with their value.
+     *
+     * @return FormField[] The list of fields as array((string) Fully qualified name => (mixed) value)
+     */
+    public function all()
+    {
+        return $this->walk($this->fields, $this->base);
+    }
+
+    /**
      * Transforms a PHP array in a list of fully qualified name / value.
      *
      * @param array  $array  The PHP array
@@ -187,36 +211,5 @@ class FormFieldRegistry
         }
 
         return $output;
-    }
-
-    /**
-     * Splits a field name into segments as a web browser would do.
-     *
-     * <code>
-     *     getSegments('base[foo][3][]') = array('base', 'foo, '3', '');
-     * </code>
-     *
-     * @param string $name The name of the field
-     *
-     * @return string[] The list of segments
-     *
-     * @throws \InvalidArgumentException when the name is malformed
-     */
-    private function getSegments($name)
-    {
-        if (preg_match('/^(?P<base>[^[]+)(?P<extra>(\[.*)|$)/', $name, $m)) {
-            $segments = array($m['base']);
-            while (!empty($m['extra'])) {
-                if (preg_match('/^\[(?P<segment>.*?)\](?P<extra>.*)$/', $m['extra'], $m)) {
-                    $segments[] = $m['segment'];
-                } else {
-                    throw new \InvalidArgumentException(sprintf('Malformed field path "%s"', $name));
-                }
-            }
-
-            return $segments;
-        }
-
-        throw new \InvalidArgumentException(sprintf('Malformed field path "%s"', $name));
     }
 }

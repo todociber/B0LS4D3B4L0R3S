@@ -68,49 +68,37 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
         }
     }
 
-    /**
-     * Gets the called events.
-     *
-     * @return array An array of called events
-     *
-     * @see TraceableEventDispatcherInterface
-     */
-    public function countErrors()
+    private function computeErrorsCount()
     {
-        return isset($this->data['error_count']) ? $this->data['error_count'] : 0;
-    }
+        $count = array(
+            'error_count' => $this->logger->countErrors(),
+            'deprecation_count' => 0,
+            'scream_count' => 0,
+            'priorities' => array(),
+        );
 
-    /**
-     * Gets the logs.
-     *
-     * @return array An array of logs
-     */
-    public function getLogs()
-    {
-        return isset($this->data['logs']) ? $this->data['logs'] : array();
-    }
+        foreach ($this->logger->getLogs() as $log) {
+            if (isset($count['priorities'][$log['priority']])) {
+                ++$count['priorities'][$log['priority']]['count'];
+            } else {
+                $count['priorities'][$log['priority']] = array(
+                    'count' => 1,
+                    'name' => $log['priorityName'],
+                );
+            }
 
-    public function getPriorities()
-    {
-        return isset($this->data['priorities']) ? $this->data['priorities'] : array();
-    }
+            if (isset($log['context']['type'], $log['context']['level'])) {
+                if (E_DEPRECATED === $log['context']['type'] || E_USER_DEPRECATED === $log['context']['type']) {
+                    ++$count['deprecation_count'];
+                } elseif (!($log['context']['type'] & $log['context']['level'])) {
+                    ++$count['scream_count'];
+                }
+            }
+        }
 
-    public function countDeprecations()
-    {
-        return isset($this->data['deprecation_count']) ? $this->data['deprecation_count'] : 0;
-    }
+        ksort($count['priorities']);
 
-    public function countScreams()
-    {
-        return isset($this->data['scream_count']) ? $this->data['scream_count'] : 0;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'logger';
+        return $count;
     }
 
     private function sanitizeLogs($logs)
@@ -181,36 +169,48 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
         return $context;
     }
 
-    private function computeErrorsCount()
+    /**
+     * Gets the called events.
+     *
+     * @return array An array of called events
+     *
+     * @see TraceableEventDispatcherInterface
+     */
+    public function countErrors()
     {
-        $count = array(
-            'error_count' => $this->logger->countErrors(),
-            'deprecation_count' => 0,
-            'scream_count' => 0,
-            'priorities' => array(),
-        );
+        return isset($this->data['error_count']) ? $this->data['error_count'] : 0;
+    }
 
-        foreach ($this->logger->getLogs() as $log) {
-            if (isset($count['priorities'][$log['priority']])) {
-                ++$count['priorities'][$log['priority']]['count'];
-            } else {
-                $count['priorities'][$log['priority']] = array(
-                    'count' => 1,
-                    'name' => $log['priorityName'],
-                );
-            }
+    /**
+     * Gets the logs.
+     *
+     * @return array An array of logs
+     */
+    public function getLogs()
+    {
+        return isset($this->data['logs']) ? $this->data['logs'] : array();
+    }
 
-            if (isset($log['context']['type'], $log['context']['level'])) {
-                if (E_DEPRECATED === $log['context']['type'] || E_USER_DEPRECATED === $log['context']['type']) {
-                    ++$count['deprecation_count'];
-                } elseif (!($log['context']['type'] & $log['context']['level'])) {
-                    ++$count['scream_count'];
-                }
-            }
-        }
+    public function getPriorities()
+    {
+        return isset($this->data['priorities']) ? $this->data['priorities'] : array();
+    }
 
-        ksort($count['priorities']);
+    public function countDeprecations()
+    {
+        return isset($this->data['deprecation_count']) ? $this->data['deprecation_count'] : 0;
+    }
 
-        return $count;
+    public function countScreams()
+    {
+        return isset($this->data['scream_count']) ? $this->data['scream_count'] : 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'logger';
     }
 }

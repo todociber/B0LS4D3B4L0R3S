@@ -10,10 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Organizacion extends Model
 {
-    protected $table = 'organizacion';
-
     public $timestamps = true;
-
+    protected $table = 'organizacion';
     protected $fillable = [
         'codigo',
         'nombre',
@@ -33,5 +31,12 @@ class Organizacion extends Model
 
     public function idTipoOrganizacion() {
         return $this->belongsTo('App\Models\TipoOrganizacion', 'idTipoOrganizacion');
+    }
+
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
     }
 }

@@ -7,15 +7,15 @@ use Illuminate\Contracts\Auth\Access\Gate;
 trait Authorizable
 {
     /**
-     * Determine if the entity has a given ability.
+     * Determine if the entity does not have a given ability.
      *
      * @param  string  $ability
      * @param  array|mixed  $arguments
      * @return bool
      */
-    public function can($ability, $arguments = [])
+    public function cannot($ability, $arguments = [])
     {
-        return app(Gate::class)->forUser($this)->check($ability, $arguments);
+        return $this->cant($ability, $arguments);
     }
 
     /**
@@ -31,14 +31,14 @@ trait Authorizable
     }
 
     /**
-     * Determine if the entity does not have a given ability.
+     * Determine if the entity has a given ability.
      *
      * @param  string  $ability
      * @param  array|mixed  $arguments
      * @return bool
      */
-    public function cannot($ability, $arguments = [])
+    public function can($ability, $arguments = [])
     {
-        return $this->cant($ability, $arguments);
+        return app(Gate::class)->forUser($this)->check($ability, $arguments);
     }
 }

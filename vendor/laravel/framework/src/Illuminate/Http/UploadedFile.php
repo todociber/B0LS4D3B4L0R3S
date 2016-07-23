@@ -10,23 +10,22 @@ class UploadedFile extends SymfonyUploadedFile
     use Macroable;
 
     /**
-     * Get the fully qualified path to the file.
+     * Create a new file instance from a base instance.
      *
-     * @return string
+     * @param  \Symfony\Component\HttpFoundation\File\UploadedFile $file
+     * @param  bool $test
+     * @return static
      */
-    public function path()
+    public static function createFromBase(SymfonyUploadedFile $file, $test = false)
     {
-        return $this->getRealPath();
-    }
-
-    /**
-     * Get the file's extension.
-     *
-     * @return string
-     */
-    public function extension()
-    {
-        return $this->guessExtension();
+        return $file instanceof static ? $file : new static(
+            $file->getPathname(),
+            $file->getClientOriginalName(),
+            $file->getClientMimeType(),
+            $file->getClientSize(),
+            $file->getError(),
+            $test
+        );
     }
 
     /**
@@ -55,21 +54,22 @@ class UploadedFile extends SymfonyUploadedFile
     }
 
     /**
-     * Create a new file instance from a base instance.
+     * Get the fully qualified path to the file.
      *
-     * @param  \Symfony\Component\HttpFoundation\File\UploadedFile  $file
-     * @param  bool $test
-     * @return static
+     * @return string
      */
-    public static function createFromBase(SymfonyUploadedFile $file, $test = false)
+    public function path()
     {
-        return $file instanceof static ? $file : new static(
-            $file->getPathname(),
-            $file->getClientOriginalName(),
-            $file->getClientMimeType(),
-            $file->getClientSize(),
-            $file->getError(),
-            $test
-        );
+        return $this->getRealPath();
+    }
+
+    /**
+     * Get the file's extension.
+     *
+     * @return string
+     */
+    public function extension()
+    {
+        return $this->guessExtension();
     }
 }

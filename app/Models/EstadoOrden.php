@@ -9,15 +9,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class EstadoOrden extends Model
 {
-    protected $table = 'estado_orden';
-
     public $timestamps = true;
-
+    protected $table = 'estado_orden';
     protected $fillable = [
         'estado'
     ];
 
     protected $guarded = [];
 
-        
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
+    }
 }

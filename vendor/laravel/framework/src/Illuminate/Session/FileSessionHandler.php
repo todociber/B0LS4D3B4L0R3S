@@ -3,9 +3,9 @@
 namespace Illuminate\Session;
 
 use Carbon\Carbon;
+use Illuminate\Filesystem\Filesystem;
 use SessionHandlerInterface;
 use Symfony\Component\Finder\Finder;
-use Illuminate\Filesystem\Filesystem;
 
 class FileSessionHandler implements SessionHandlerInterface
 {

@@ -83,44 +83,6 @@ class TokenStream
     }
 
     /**
-     * Returns next token.
-     *
-     * @return Token
-     *
-     * @throws InternalErrorException If there is no more token
-     */
-    public function getNext()
-    {
-        if ($this->peeking) {
-            $this->peeking = false;
-            $this->used[] = $this->peeked;
-
-            return $this->peeked;
-        }
-
-        if (!isset($this->tokens[$this->cursor])) {
-            throw new InternalErrorException('Unexpected token stream end.');
-        }
-
-        return $this->tokens[$this->cursor++];
-    }
-
-    /**
-     * Returns peeked token.
-     *
-     * @return Token
-     */
-    public function getPeek()
-    {
-        if (!$this->peeking) {
-            $this->peeked = $this->getNext();
-            $this->peeking = true;
-        }
-
-        return $this->peeked;
-    }
-
-    /**
      * Returns used tokens.
      *
      * @return Token[]
@@ -146,6 +108,29 @@ class TokenStream
         }
 
         return $next->getValue();
+    }
+
+    /**
+     * Returns next token.
+     *
+     * @return Token
+     *
+     * @throws InternalErrorException If there is no more token
+     */
+    public function getNext()
+    {
+        if ($this->peeking) {
+            $this->peeking = false;
+            $this->used[] = $this->peeked;
+
+            return $this->peeked;
+        }
+
+        if (!isset($this->tokens[$this->cursor])) {
+            throw new InternalErrorException('Unexpected token stream end.');
+        }
+
+        return $this->tokens[$this->cursor++];
     }
 
     /**
@@ -180,5 +165,20 @@ class TokenStream
         if ($peek->isWhitespace()) {
             $this->getNext();
         }
+    }
+
+    /**
+     * Returns peeked token.
+     *
+     * @return Token
+     */
+    public function getPeek()
+    {
+        if (!$this->peeking) {
+            $this->peeked = $this->getNext();
+            $this->peeking = true;
+        }
+
+        return $this->peeked;
     }
 }

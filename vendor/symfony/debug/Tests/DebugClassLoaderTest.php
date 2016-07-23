@@ -18,26 +18,11 @@ use Symfony\Component\Debug\Exception\ContextErrorException;
 class DebugClassLoaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var int Error reporting level before running tests.
+     * @var int Error reporting level before running tests
      */
     private $errorReporting;
 
     private $loader;
-
-    protected function setUp()
-    {
-        $this->errorReporting = error_reporting(E_ALL);
-        $this->loader = new ClassLoader();
-        spl_autoload_register(array($this->loader, 'loadClass'), true, true);
-        DebugClassLoader::enable();
-    }
-
-    protected function tearDown()
-    {
-        DebugClassLoader::disable();
-        spl_autoload_unregister(array($this->loader, 'loadClass'));
-        error_reporting($this->errorReporting);
-    }
 
     public function testIdempotence()
     {
@@ -267,6 +252,21 @@ class DebugClassLoaderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertSame($xError, $lastError);
+    }
+
+    protected function setUp()
+    {
+        $this->errorReporting = error_reporting(E_ALL);
+        $this->loader = new ClassLoader();
+        spl_autoload_register(array($this->loader, 'loadClass'), true, true);
+        DebugClassLoader::enable();
+    }
+
+    protected function tearDown()
+    {
+        DebugClassLoader::disable();
+        spl_autoload_unregister(array($this->loader, 'loadClass'));
+        error_reporting($this->errorReporting);
     }
 }
 

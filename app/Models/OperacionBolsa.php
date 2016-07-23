@@ -10,10 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class OperacionBolsa extends Model
 {
-    protected $table = 'operacion_bolsas';
-
     public $timestamps = true;
-
+    protected $table = 'operacion_bolsas';
     protected $fillable = [
         'monto',
         'idOden'
@@ -25,5 +23,12 @@ class OperacionBolsa extends Model
     protected $dates = ['deleted_at'];
     public function idOrden() {
         return $this->belongsTo('App\Models\Ordene', 'idOden');
+    }
+
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
     }
 }

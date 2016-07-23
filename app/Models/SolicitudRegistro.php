@@ -10,10 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class SolicitudRegistro extends Model
 {
-    protected $table = 'solicitud_registros';
-
     public $timestamps = true;
-
+    protected $table = 'solicitud_registros';
     protected $fillable = [
         'idCliente',
         'idOrganizacion',
@@ -37,4 +35,11 @@ class SolicitudRegistro extends Model
         return $this->belongsTo('App\Models\EstadoSolicitud', 'idEstadoSolicitud');
     }
 
+
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
+    }
 }

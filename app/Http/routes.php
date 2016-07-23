@@ -23,9 +23,6 @@ Route::get('bolsa/ListadoCasas','BolsaController@ListadoCasas')->name('listadoCa
 Route::get('bolsa/CatalogoUsuarios','BolsaController@ListadoUsuario')->name('catalogoUsuarios');
 Route::get('bolsa/NuevoUsuario','BolsaController@NuevoUsuario')->name('nuevoUsuario');
 Route::get('bolsa/MiPerfil','BolsaController@MiPerfil')->name('miPerfil');
-Route::resource('Bolsa','BolsaController');
-Route::post('bolsa/Upload','BolsaController@Upload')->name('upload');
-//RegistrarNuevaCasa
 //------BOLSA DE VALORES ROUTES--//
 
 
@@ -40,3 +37,10 @@ Route::get('clientes/NuevaOrden','ClientesController@NuevaOrden')->name('nuevaOr
 
 //-----CASA CORREDORA ROUTES----//
 Route::resource('UsuarioCasaCorredora','UsuarioCasaCorredoraController');
+
+
+//-----CASA CORREDORA ROUTES----//
+Route::resource('UsuarioCasaCorredora','UsuarioCasaCorredoraController');
+
+
+Route::get('api/subscribers', array('as' => 'api.subscribers', 'uses' => 'UsuarioCasaCorredoraController@getDatatable'));

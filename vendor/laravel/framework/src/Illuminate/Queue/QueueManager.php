@@ -3,9 +3,9 @@
 namespace Illuminate\Queue;
 
 use Closure;
-use InvalidArgumentException;
 use Illuminate\Contracts\Queue\Factory as FactoryContract;
 use Illuminate\Contracts\Queue\Monitor as MonitorContract;
+use InvalidArgumentException;
 
 class QueueManager implements FactoryContract, MonitorContract
 {
@@ -119,57 +119,13 @@ class QueueManager implements FactoryContract, MonitorContract
     }
 
     /**
-     * Resolve a queue connection instance.
+     * Get the name of the default queue connection.
      *
-     * @param  string  $name
-     * @return \Illuminate\Contracts\Queue\Queue
+     * @return string
      */
-    public function connection($name = null)
+    public function getDefaultDriver()
     {
-        $name = $name ?: $this->getDefaultDriver();
-
-        // If the connection has not been resolved yet we will resolve it now as all
-        // of the connections are resolved when they are actually needed so we do
-        // not make any unnecessary connection to the various queue end-points.
-        if (! isset($this->connections[$name])) {
-            $this->connections[$name] = $this->resolve($name);
-
-            $this->connections[$name]->setContainer($this->app);
-
-            $this->connections[$name]->setEncrypter($this->app['encrypter']);
-        }
-
-        return $this->connections[$name];
-    }
-
-    /**
-     * Resolve a queue connection.
-     *
-     * @param  string  $name
-     * @return \Illuminate\Contracts\Queue\Queue
-     */
-    protected function resolve($name)
-    {
-        $config = $this->getConfig($name);
-
-        return $this->getConnector($config['driver'])->connect($config);
-    }
-
-    /**
-     * Get the connector for a given driver.
-     *
-     * @param  string  $driver
-     * @return \Illuminate\Queue\Connectors\ConnectorInterface
-     *
-     * @throws \InvalidArgumentException
-     */
-    protected function getConnector($driver)
-    {
-        if (isset($this->connectors[$driver])) {
-            return call_user_func($this->connectors[$driver]);
-        }
-
-        throw new InvalidArgumentException("No connector for [$driver]");
+        return $this->app['config']['queue.default'];
     }
 
     /**
@@ -194,31 +150,6 @@ class QueueManager implements FactoryContract, MonitorContract
     public function addConnector($driver, Closure $resolver)
     {
         $this->connectors[$driver] = $resolver;
-    }
-
-    /**
-     * Get the queue connection configuration.
-     *
-     * @param  string  $name
-     * @return array
-     */
-    protected function getConfig($name)
-    {
-        if ($name === null || $name === 'null') {
-            return ['driver' => 'null'];
-        }
-
-        return $this->app['config']["queue.connections.{$name}"];
-    }
-
-    /**
-     * Get the name of the default queue connection.
-     *
-     * @return string
-     */
-    public function getDefaultDriver()
-    {
-        return $this->app['config']['queue.default'];
     }
 
     /**
@@ -265,5 +196,74 @@ class QueueManager implements FactoryContract, MonitorContract
         $callable = [$this->connection(), $method];
 
         return call_user_func_array($callable, $parameters);
+    }
+
+    /**
+     * Resolve a queue connection instance.
+     *
+     * @param  string $name
+     * @return \Illuminate\Contracts\Queue\Queue
+     */
+    public function connection($name = null)
+    {
+        $name = $name ?: $this->getDefaultDriver();
+
+        // If the connection has not been resolved yet we will resolve it now as all
+        // of the connections are resolved when they are actually needed so we do
+        // not make any unnecessary connection to the various queue end-points.
+        if (!isset($this->connections[$name])) {
+            $this->connections[$name] = $this->resolve($name);
+
+            $this->connections[$name]->setContainer($this->app);
+
+            $this->connections[$name]->setEncrypter($this->app['encrypter']);
+        }
+
+        return $this->connections[$name];
+    }
+
+    /**
+     * Resolve a queue connection.
+     *
+     * @param  string $name
+     * @return \Illuminate\Contracts\Queue\Queue
+     */
+    protected function resolve($name)
+    {
+        $config = $this->getConfig($name);
+
+        return $this->getConnector($config['driver'])->connect($config);
+    }
+
+    /**
+     * Get the queue connection configuration.
+     *
+     * @param  string $name
+     * @return array
+     */
+    protected function getConfig($name)
+    {
+        if ($name === null || $name === 'null') {
+            return ['driver' => 'null'];
+        }
+
+        return $this->app['config']["queue.connections.{$name}"];
+    }
+
+    /**
+     * Get the connector for a given driver.
+     *
+     * @param  string $driver
+     * @return \Illuminate\Queue\Connectors\ConnectorInterface
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function getConnector($driver)
+    {
+        if (isset($this->connectors[$driver])) {
+            return call_user_func($this->connectors[$driver]);
+        }
+
+        throw new InvalidArgumentException("No connector for [$driver]");
     }
 }

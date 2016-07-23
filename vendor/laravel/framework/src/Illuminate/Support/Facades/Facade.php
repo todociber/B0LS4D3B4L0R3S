@@ -3,8 +3,8 @@
 namespace Illuminate\Support\Facades;
 
 use Mockery;
-use RuntimeException;
 use Mockery\MockInterface;
+use RuntimeException;
 
 abstract class Facade
 {
@@ -36,6 +36,18 @@ abstract class Facade
     }
 
     /**
+     * Get the registered name of the component.
+     *
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    protected static function getFacadeAccessor()
+    {
+        throw new RuntimeException('Facade does not implement getFacadeAccessor method.');
+    }
+
+    /**
      * Initiate a mock expectation on the facade.
      *
      * @param  mixed
@@ -52,6 +64,18 @@ abstract class Facade
         }
 
         return call_user_func_array([$mock, 'shouldReceive'], func_get_args());
+    }
+
+    /**
+     * Determines whether a mock is set as the instance of the facade.
+     *
+     * @return bool
+     */
+    protected static function isMock()
+    {
+        $name = static::getFacadeAccessor();
+
+        return isset(static::$resolvedInstance[$name]) && static::$resolvedInstance[$name] instanceof MockInterface;
     }
 
     /**
@@ -87,18 +111,6 @@ abstract class Facade
     }
 
     /**
-     * Determines whether a mock is set as the instance of the facade.
-     *
-     * @return bool
-     */
-    protected static function isMock()
-    {
-        $name = static::getFacadeAccessor();
-
-        return isset(static::$resolvedInstance[$name]) && static::$resolvedInstance[$name] instanceof MockInterface;
-    }
-
-    /**
      * Get the mockable class for the bound instance.
      *
      * @return string|null
@@ -118,18 +130,6 @@ abstract class Facade
     public static function getFacadeRoot()
     {
         return static::resolveFacadeInstance(static::getFacadeAccessor());
-    }
-
-    /**
-     * Get the registered name of the component.
-     *
-     * @return string
-     *
-     * @throws \RuntimeException
-     */
-    protected static function getFacadeAccessor()
-    {
-        throw new RuntimeException('Facade does not implement getFacadeAccessor method.');
     }
 
     /**

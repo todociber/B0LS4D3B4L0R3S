@@ -11,15 +11,15 @@
 
 namespace Symfony\Component\HttpKernel\Tests;
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class HttpKernelTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,6 +31,25 @@ class HttpKernelTest extends \PHPUnit_Framework_TestCase
         $kernel = new HttpKernel(new EventDispatcher(), $this->getResolver(function () { throw new \RuntimeException(); }));
 
         $kernel->handle(new Request(), HttpKernelInterface::MASTER_REQUEST, true);
+    }
+
+    protected function getResolver($controller = null)
+    {
+        if (null === $controller) {
+            $controller = function () {
+                return new Response('Hello');
+            };
+        }
+
+        $resolver = $this->getMock('Symfony\\Component\\HttpKernel\\Controller\\ControllerResolverInterface');
+        $resolver->expects($this->any())
+            ->method('getController')
+            ->will($this->returnValue($controller));
+        $resolver->expects($this->any())
+            ->method('getArguments')
+            ->will($this->returnValue(array()));
+
+        return $resolver;
     }
 
     /**
@@ -171,6 +190,12 @@ class HttpKernelTest extends \PHPUnit_Framework_TestCase
         $this->assertResponseEquals(new Response('foo'), $kernel->handle(new Request()));
     }
 
+    protected function assertResponseEquals(Response $expected, Response $actual)
+    {
+        $expected->setDate($actual->getDate());
+        $this->assertEquals($expected, $actual);
+    }
+
     public function testHandleWhenTheControllerIsAFunction()
     {
         $dispatcher = new EventDispatcher();
@@ -260,43 +285,41 @@ class HttpKernelTest extends \PHPUnit_Framework_TestCase
         $kernel->handle($request, HttpKernelInterface::MASTER_REQUEST);
     }
 
-    protected function getResolver($controller = null)
+    /**
+     * @expectedException Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     */
+    public function testInconsistentClientIpsOnMasterRequests()
     {
-        if (null === $controller) {
-            $controller = function () { return new Response('Hello'); };
-        }
+        $dispatcher = new EventDispatcher();
+        $dispatcher->addListener(KernelEvents::REQUEST, function ($event) {
+            $event->getRequest()->getClientIp();
+        });
 
-        $resolver = $this->getMock('Symfony\\Component\\HttpKernel\\Controller\\ControllerResolverInterface');
-        $resolver->expects($this->any())
-            ->method('getController')
-            ->will($this->returnValue($controller));
-        $resolver->expects($this->any())
-            ->method('getArguments')
-            ->will($this->returnValue(array()));
+        $kernel = new HttpKernel($dispatcher, $this->getResolver());
 
-        return $resolver;
-    }
+        $request = new Request();
+        $request->setTrustedProxies(array('1.1.1.1'));
+        $request->server->set('REMOTE_ADDR', '1.1.1.1');
+        $request->headers->set('FORWARDED', '2.2.2.2');
+        $request->headers->set('X_FORWARDED_FOR', '3.3.3.3');
 
-    protected function assertResponseEquals(Response $expected, Response $actual)
-    {
-        $expected->setDate($actual->getDate());
-        $this->assertEquals($expected, $actual);
+        $kernel->handle($request, $kernel::MASTER_REQUEST, false);
     }
 }
 
 class Controller
 {
+    public static function staticController()
+    {
+        return new Response('foo');
+    }
+
     public function __invoke()
     {
         return new Response('foo');
     }
 
     public function controller()
-    {
-        return new Response('foo');
-    }
-
-    public static function staticController()
     {
         return new Response('foo');
     }

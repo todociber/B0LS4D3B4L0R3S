@@ -10,10 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Cedeval extends Model
 {
-    protected $table = 'cedevals';
-
     public $timestamps = true;
-
+    protected $table = 'cedevals';
     protected $fillable = [
         'cuenta',
         'idCliente'
@@ -28,5 +26,11 @@ class Cedeval extends Model
         return $this->belongsTo('App\Models\Cliente', 'idCliente');
     }
 
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
+    }
 
 }

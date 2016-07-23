@@ -2,9 +2,9 @@
 
 namespace Illuminate\Routing;
 
+use Illuminate\Container\Container;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Container\Container;
 
 class ControllerDispatcher
 {

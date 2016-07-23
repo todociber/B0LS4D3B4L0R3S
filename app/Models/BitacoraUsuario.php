@@ -9,10 +9,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BitacoraUsuario extends Model
 {
-    protected $table = 'bitacora_usuarios';
-
     public $timestamps = true;
-
+    protected $table = 'bitacora_usuarios';
     protected $fillable = [
         'descripcion',
         'tipo Cambio',
@@ -22,5 +20,10 @@ class BitacoraUsuario extends Model
 
     protected $guarded = [];
 
-        
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
+    }
 }

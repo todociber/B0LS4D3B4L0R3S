@@ -11,11 +11,12 @@
 
 namespace Symfony\Component\HttpKernel\Profiler;
 
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Exception\ConflictingHeadersException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * Profiler.
@@ -150,6 +151,21 @@ class Profiler
         return $this->storage->find($ip, $url, $limit, $method, $this->getTimestamp($start), $this->getTimestamp($end));
     }
 
+    private function getTimestamp($value)
+    {
+        if (null === $value || '' == $value) {
+            return;
+        }
+
+        try {
+            $value = new \DateTime(is_numeric($value) ? '@' . $value : $value);
+        } catch (\Exception $e) {
+            return;
+        }
+
+        return $value->getTimestamp();
+    }
+
     /**
      * Collects data for the given Response.
      *
@@ -168,9 +184,13 @@ class Profiler
         $profile = new Profile(substr(hash('sha256', uniqid(mt_rand(), true)), 0, 6));
         $profile->setTime(time());
         $profile->setUrl($request->getUri());
-        $profile->setIp($request->getClientIp());
         $profile->setMethod($request->getMethod());
         $profile->setStatusCode($response->getStatusCode());
+        try {
+            $profile->setIp($request->getClientIp());
+        } catch (ConflictingHeadersException $e) {
+            $profile->setIp('Unknown');
+        }
 
         $response->headers->set('X-Debug-Token', $profile->getToken());
 
@@ -245,20 +265,5 @@ class Profiler
         }
 
         return $this->collectors[$name];
-    }
-
-    private function getTimestamp($value)
-    {
-        if (null === $value || '' == $value) {
-            return;
-        }
-
-        try {
-            $value = new \DateTime(is_numeric($value) ? '@'.$value : $value);
-        } catch (\Exception $e) {
-            return;
-        }
-
-        return $value->getTimestamp();
     }
 }

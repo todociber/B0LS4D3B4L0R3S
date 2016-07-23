@@ -2,10 +2,10 @@
 
 namespace Illuminate\Queue;
 
-use Pheanstalk\Pheanstalk;
-use Pheanstalk\Job as PheanstalkJob;
-use Illuminate\Queue\Jobs\BeanstalkdJob;
 use Illuminate\Contracts\Queue\Queue as QueueContract;
+use Illuminate\Queue\Jobs\BeanstalkdJob;
+use Pheanstalk\Job as PheanstalkJob;
+use Pheanstalk\Pheanstalk;
 
 class BeanstalkdQueue extends Queue implements QueueContract
 {
@@ -74,6 +74,17 @@ class BeanstalkdQueue extends Queue implements QueueContract
     }
 
     /**
+     * Get the queue or return the default.
+     *
+     * @param  string|null $queue
+     * @return string
+     */
+    public function getQueue($queue)
+    {
+        return $queue ?: $this->default;
+    }
+
+    /**
      * Push a new job onto the queue after a delay.
      *
      * @param  \DateTime|int  $delay
@@ -118,17 +129,6 @@ class BeanstalkdQueue extends Queue implements QueueContract
     public function deleteMessage($queue, $id)
     {
         $this->pheanstalk->useTube($this->getQueue($queue))->delete($id);
-    }
-
-    /**
-     * Get the queue or return the default.
-     *
-     * @param  string|null  $queue
-     * @return string
-     */
-    public function getQueue($queue)
-    {
-        return $queue ?: $this->default;
     }
 
     /**

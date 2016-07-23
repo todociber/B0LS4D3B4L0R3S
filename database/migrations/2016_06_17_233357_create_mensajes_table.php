@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateMensajesTable extends Migration
 {
@@ -16,7 +16,10 @@ class CreateMensajesTable extends Migration
             $table->increments('id');
             $table->string('contenido',500);
             $table->integer('idTipoMensaje')->unsigned();
+            $table->foreign('idTipoMensaje')->references('id')->on('tipo_mensajes');
+
             $table->integer('idOrden')->unsigned();
+            $table->foreign('idOrden')->references('id')->on('ordenes');
             $table->integer('emisor');
             $table->timestamps();
             $table->softDeletes();

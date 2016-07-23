@@ -10,10 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Cliente extends Model
 {
-    protected $table = 'clientes';
-
     public $timestamps = true;
-
+    protected $table = 'clientes';
     protected $fillable = [
         'dui',
         'nit',
@@ -25,5 +23,11 @@ class Cliente extends Model
     protected $dates = ['deleted_at'];
 
 
+    public function scopeOfid($query, $id)
+    {
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
+    }
 
 }

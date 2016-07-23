@@ -2,14 +2,14 @@
 
 namespace Illuminate\Console;
 
-use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Console\Application as ApplicationContract;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Events\Dispatcher;
+use Symfony\Component\Console\Application as SymfonyApplication;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Application as SymfonyApplication;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
-use Illuminate\Contracts\Console\Application as ApplicationContract;
 
 class Application extends SymfonyApplication implements ApplicationContract
 {
@@ -79,6 +79,34 @@ class Application extends SymfonyApplication implements ApplicationContract
     }
 
     /**
+     * Resolve an array of commands through the application.
+     *
+     * @param  array|mixed $commands
+     * @return $this
+     */
+    public function resolveCommands($commands)
+    {
+        $commands = is_array($commands) ? $commands : func_get_args();
+
+        foreach ($commands as $command) {
+            $this->resolve($command);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add a command, resolving through the application.
+     *
+     * @param  string $command
+     * @return \Symfony\Component\Console\Command\Command
+     */
+    public function resolve($command)
+    {
+        return $this->add($this->laravel->make($command));
+    }
+
+    /**
      * Add a command to the console.
      *
      * @param  \Symfony\Component\Console\Command\Command  $command
@@ -105,31 +133,13 @@ class Application extends SymfonyApplication implements ApplicationContract
     }
 
     /**
-     * Add a command, resolving through the application.
+     * Get the Laravel application instance.
      *
-     * @param  string  $command
-     * @return \Symfony\Component\Console\Command\Command
+     * @return \Illuminate\Contracts\Foundation\Application
      */
-    public function resolve($command)
+    public function getLaravel()
     {
-        return $this->add($this->laravel->make($command));
-    }
-
-    /**
-     * Resolve an array of commands through the application.
-     *
-     * @param  array|mixed  $commands
-     * @return $this
-     */
-    public function resolveCommands($commands)
-    {
-        $commands = is_array($commands) ? $commands : func_get_args();
-
-        foreach ($commands as $command) {
-            $this->resolve($command);
-        }
-
-        return $this;
+        return $this->laravel;
     }
 
     /**
@@ -158,15 +168,5 @@ class Application extends SymfonyApplication implements ApplicationContract
         $message = 'The environment the command should run under.';
 
         return new InputOption('--env', null, InputOption::VALUE_OPTIONAL, $message);
-    }
-
-    /**
-     * Get the Laravel application instance.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application
-     */
-    public function getLaravel()
-    {
-        return $this->laravel;
     }
 }

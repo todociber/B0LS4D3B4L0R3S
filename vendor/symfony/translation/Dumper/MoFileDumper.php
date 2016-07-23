@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Translation\Dumper;
 
-use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Loader\MoFileLoader;
+use Symfony\Component\Translation\MessageCatalogue;
 
 /**
  * MoFileDumper generates a gettext formatted string representation of a message catalogue.
@@ -67,16 +67,16 @@ class MoFileDumper extends FileDumper
         return $output;
     }
 
+    private function writeLong($str)
+    {
+        return pack('V*', $str);
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function getExtension()
     {
         return 'mo';
-    }
-
-    private function writeLong($str)
-    {
-        return pack('V*', $str);
     }
 }

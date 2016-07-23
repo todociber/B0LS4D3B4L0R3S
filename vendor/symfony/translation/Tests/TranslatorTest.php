@@ -11,10 +11,10 @@
 
 namespace Symfony\Component\Translation\Tests;
 
-use Symfony\Component\Translation\Translator;
-use Symfony\Component\Translation\MessageSelector;
 use Symfony\Component\Translation\Loader\ArrayLoader;
 use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Translation\MessageSelector;
+use Symfony\Component\Translation\Translator;
 
 class TranslatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -285,12 +285,12 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
 
         $resources = $translator->getCatalogue('en')->getResources();
         $this->assertCount(1, $resources);
-        $this->assertContains( __DIR__.DIRECTORY_SEPARATOR.'fixtures'.DIRECTORY_SEPARATOR.'resources.yml', $resources);
+        $this->assertContains(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'resources.yml', $resources);
 
         $resources = $translator->getCatalogue('en_GB')->getResources();
         $this->assertCount(2, $resources);
-        $this->assertContains( __DIR__.DIRECTORY_SEPARATOR.'fixtures'.DIRECTORY_SEPARATOR.'empty.yml', $resources);
-        $this->assertContains( __DIR__.DIRECTORY_SEPARATOR.'fixtures'.DIRECTORY_SEPARATOR.'resources.yml', $resources);
+        $this->assertContains(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'empty.yml', $resources);
+        $this->assertContains(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'resources.yml', $resources);
     }
 
     /**

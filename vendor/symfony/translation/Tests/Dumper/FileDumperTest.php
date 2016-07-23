@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Translation\Tests\Dumper;
 
-use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Dumper\FileDumper;
+use Symfony\Component\Translation\MessageCatalogue;
 
 class FileDumperTest extends \PHPUnit_Framework_TestCase
 {
