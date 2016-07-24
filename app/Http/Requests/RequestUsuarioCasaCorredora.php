@@ -24,7 +24,7 @@ class RequestUsuarioCasaCorredora extends Request
         return [
             'nombre'=>'required',
             'apellido'=>'required',
-            'correo'=>'required|unique:usuarios',
+            'email' => 'required|unique:usuarios,email',
             'rolUsuario' => 'required|exists:roles,id'
 
         ];

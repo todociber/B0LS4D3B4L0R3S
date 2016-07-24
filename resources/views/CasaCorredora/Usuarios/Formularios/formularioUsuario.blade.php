@@ -4,7 +4,7 @@
     {!!Form::label('Apellido')!!}
     {!!Form::text('apellido',null, ['class'=>'form-control', 'placeholder'=>'Ingrese el  Apellido del Usuario'])!!}
     {!!Form::label('Correo')!!}
-    {!!Form::email('correo',null, ['class'=>'form-control', 'placeholder'=>'Ingrese el  correo del Usuario'])!!}
+    {!!Form::email('email',null, ['class'=>'form-control', 'placeholder'=>'Ingrese el  correo del Usuario'])!!}
 
     {!! Form::label('Rol del usuario') !!}
 

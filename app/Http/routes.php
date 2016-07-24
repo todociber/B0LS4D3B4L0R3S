@@ -44,4 +44,8 @@ Route::get('UsuarioCasaCorredora/{id}/restaurar', 'UsuarioCasaCorredoraControlle
 Route::resource('UsuarioCasaCorredora','UsuarioCasaCorredoraController');
 
 
+Route::post('loginPost', 'Autenticador@loginPost');
 
+Route::auth();
+Route::get('admin', 'HomeController@index');
+Route::get('/home', 'HomeController@index');

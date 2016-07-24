@@ -65,11 +65,18 @@ class UsuarioCasaCorredoraController extends Controller
         {
             $cadena .= substr($caracteres,rand(0,strlen($caracteres)),1);
         }
+
+//COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
+
+        $cadena = 'todociber';
+
+
+//COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
         $Usuario = new Usuario(
             [
                 'nombre' => $request['nombre'],
                 'apellido' => $request['apellido'],
-                'correo' => $request['correo'],
+                'email' => $request['email'],
                 'password' => bcrypt($cadena),
             ]
         );
@@ -85,7 +92,7 @@ class UsuarioCasaCorredoraController extends Controller
         }
 
 
-        return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario  se registro exitosamente')->with('tipo', 'success');
+        return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario  se registro exitosamente la contraseña es ' . $cadena)->with('tipo', 'success');
     }
 
     /**
@@ -136,7 +143,7 @@ class UsuarioCasaCorredoraController extends Controller
         $rules = array(
             'nombre' => 'required',
             'apellido' => 'required',
-            'correo' => 'required|unique:usuarios,correo,' . $id,
+            'email' => 'required|unique:usuarios,email,' . $id,
             'rolUsuario' => 'required|exists:roles,id'
 
         );
@@ -154,7 +161,7 @@ class UsuarioCasaCorredoraController extends Controller
             [
                 'nombre'=>$request['nombre'],
                 'apellido'=>$request['apellido'],
-                'correo'=>$request['correo']
+                'email' => $request['email']
             ]
         );
         $usuario->save();

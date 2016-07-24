@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateUsuariosTable extends Migration
 {
@@ -16,7 +16,7 @@ class CreateUsuariosTable extends Migration
             $table->increments('id');
             $table->string('nombre',100);
             $table->string('apellido',100);
-            $table->string('correo',100);
+            $table->string('email', 100);
             $table->string('password',100);
             $table->integer('idOrganizacion')->unsigned()->nuleable();
             $table->foreign('idOrganizacion')

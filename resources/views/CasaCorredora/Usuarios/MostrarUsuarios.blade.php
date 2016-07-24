@@ -6,7 +6,7 @@
 @stop
 @section('content')
 
-
+    {{Auth::user()->nombre}}
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title">Nuevo Usuario</h3>
@@ -53,7 +53,7 @@
                                         </td>
                                         <td>{{$users->nombre}}</td>
                                         <td>{{$users->apellido}}</td>
-                                        <td>{{$users->correo}}</td>
+                                        <td>{{$users->email}}</td>
                                         <?php $roles = $users->UsuarioRoles ?>
                                         <td>@foreach($roles as $rolUsuario)
                                                 {{$rolUsuario->RolN->nombre}}<br>
