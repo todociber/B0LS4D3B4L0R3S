@@ -2,11 +2,11 @@
 
 namespace Illuminate\Queue;
 
-use Illuminate\Contracts\Database\ModelIdentifier;
-use Illuminate\Contracts\Queue\QueueableEntity;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use ReflectionClass;
 use ReflectionProperty;
+use Illuminate\Contracts\Queue\QueueableEntity;
+use Illuminate\Contracts\Database\ModelIdentifier;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 trait SerializesModels
 {
@@ -31,6 +31,20 @@ trait SerializesModels
     }
 
     /**
+     * Restore the model after serialization.
+     *
+     * @return void
+     */
+    public function __wakeup()
+    {
+        foreach ((new ReflectionClass($this))->getProperties() as $property) {
+            $property->setValue($this, $this->getRestoredPropertyValue(
+                $this->getPropertyValue($property)
+            ));
+        }
+    }
+
+    /**
      * Get the property value prepared for serialization.
      *
      * @param  mixed  $value
@@ -43,33 +57,6 @@ trait SerializesModels
         }
 
         return $value;
-    }
-
-    /**
-     * Get the property value for the given property.
-     *
-     * @param  \ReflectionProperty $property
-     * @return mixed
-     */
-    protected function getPropertyValue(ReflectionProperty $property)
-    {
-        $property->setAccessible(true);
-
-        return $property->getValue($this);
-    }
-
-    /**
-     * Restore the model after serialization.
-     *
-     * @return void
-     */
-    public function __wakeup()
-    {
-        foreach ((new ReflectionClass($this))->getProperties() as $property) {
-            $property->setValue($this, $this->getRestoredPropertyValue(
-                $this->getPropertyValue($property)
-            ));
-        }
     }
 
     /**
@@ -105,5 +92,18 @@ trait SerializesModels
 
         return $model->newQuery()->useWritePdo()
                     ->whereIn($model->getKeyName(), $value->id)->get();
+    }
+
+    /**
+     * Get the property value for the given property.
+     *
+     * @param  \ReflectionProperty  $property
+     * @return mixed
+     */
+    protected function getPropertyValue(ReflectionProperty $property)
+    {
+        $property->setAccessible(true);
+
+        return $property->getValue($this);
     }
 }

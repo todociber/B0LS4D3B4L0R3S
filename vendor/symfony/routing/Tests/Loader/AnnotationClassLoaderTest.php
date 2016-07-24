@@ -18,6 +18,14 @@ class AnnotationClassLoaderTest extends AbstractAnnotationLoaderTest
     protected $loader;
     private $reader;
 
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->reader = $this->getReader();
+        $this->loader = $this->getClassLoader($this->reader);
+    }
+
     /**
      * @expectedException \InvalidArgumentException
      */
@@ -139,11 +147,6 @@ class AnnotationClassLoaderTest extends AbstractAnnotationLoaderTest
         $this->assertSame($routeData['condition'], $route->getCondition(), '->load preserves condition annotation');
     }
 
-    private function getAnnotatedRoute($data)
-    {
-        return new Route($data);
-    }
-
     public function testClassRouteLoad()
     {
         $classRouteData = array(
@@ -178,11 +181,8 @@ class AnnotationClassLoaderTest extends AbstractAnnotationLoaderTest
         $this->assertEquals(array_merge($classRouteData['methods'], $methodRouteData['methods']), $route->getMethods(), '->load merges class and method route methods');
     }
 
-    protected function setUp()
+    private function getAnnotatedRoute($data)
     {
-        parent::setUp();
-
-        $this->reader = $this->getReader();
-        $this->loader = $this->getClassLoader($this->reader);
+        return new Route($data);
     }
 }

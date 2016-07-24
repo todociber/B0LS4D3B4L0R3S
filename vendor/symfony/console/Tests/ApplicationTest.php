@@ -12,22 +12,22 @@
 namespace Symfony\Component\Console\Tests;
 
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Event\ConsoleCommandEvent;
-use Symfony\Component\Console\Event\ConsoleExceptionEvent;
-use Symfony\Component\Console\Event\ConsoleTerminateEvent;
-use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Tester\ApplicationTester;
+use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Event\ConsoleExceptionEvent;
+use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
@@ -47,6 +47,23 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         require_once self::$fixturesPath.'/BarBucCommand.php';
         require_once self::$fixturesPath.'/FooSubnamespaced1Command.php';
         require_once self::$fixturesPath.'/FooSubnamespaced2Command.php';
+    }
+
+    protected function normalizeLineBreaks($text)
+    {
+        return str_replace(PHP_EOL, "\n", $text);
+    }
+
+    /**
+     * Replaces the dynamic placeholders of the command help text with a static version.
+     * The placeholder %command.full_name% includes the script path that is not predictable
+     * and can not be tested against.
+     */
+    protected function ensureStaticCommandHelp(Application $application)
+    {
+        foreach ($application->all() as $command) {
+            $command->setHelp(str_replace('%command.full_name%', 'app/console %command.name%', $command->getHelp()));
+        }
     }
 
     public function testConstructor()
@@ -81,11 +98,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $application = new Application();
         $this->assertStringEqualsFile(self::$fixturesPath.'/application_gethelp.txt', $this->normalizeLineBreaks($application->getHelp()), '->getHelp() returns a help message');
-    }
-
-    protected function normalizeLineBreaks($text)
-    {
-        return str_replace(PHP_EOL, "\n", $text);
     }
 
     public function testAll()
@@ -646,18 +658,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Replaces the dynamic placeholders of the command help text with a static version.
-     * The placeholder %command.full_name% includes the script path that is not predictable
-     * and can not be tested against.
-     */
-    protected function ensureStaticCommandHelp(Application $application)
-    {
-        foreach ($application->all() as $command) {
-            $command->setHelp(str_replace('%command.full_name%', 'app/console %command.name%', $command->getHelp()));
-        }
-    }
-
-    /**
      * Issue #9285.
      *
      * If the "verbose" option is just before an argument in ArgvInput,
@@ -891,32 +891,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('before.foo.after.'.PHP_EOL, $tester->getDisplay());
     }
 
-    protected function getDispatcher($skipCommand = false)
-    {
-        $dispatcher = new EventDispatcher();
-        $dispatcher->addListener('console.command', function (ConsoleCommandEvent $event) use ($skipCommand) {
-            $event->getOutput()->write('before.');
-
-            if ($skipCommand) {
-                $event->disableCommand();
-            }
-        });
-        $dispatcher->addListener('console.terminate', function (ConsoleTerminateEvent $event) use ($skipCommand) {
-            $event->getOutput()->writeln('after.');
-
-            if (!$skipCommand) {
-                $event->setExitCode(113);
-            }
-        });
-        $dispatcher->addListener('console.exception', function (ConsoleExceptionEvent $event) {
-            $event->getOutput()->write('caught.');
-
-            $event->setException(new \LogicException('caught.', $event->getExitCode(), $event->getException()));
-        });
-
-        return $dispatcher;
-    }
-
     /**
      * @expectedException        \LogicException
      * @expectedExceptionMessage caught
@@ -1039,6 +1013,32 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $application->setTerminalDimensions($width, 80);
         $this->assertSame(array($width, 80), $application->getTerminalDimensions());
+    }
+
+    protected function getDispatcher($skipCommand = false)
+    {
+        $dispatcher = new EventDispatcher();
+        $dispatcher->addListener('console.command', function (ConsoleCommandEvent $event) use ($skipCommand) {
+            $event->getOutput()->write('before.');
+
+            if ($skipCommand) {
+                $event->disableCommand();
+            }
+        });
+        $dispatcher->addListener('console.terminate', function (ConsoleTerminateEvent $event) use ($skipCommand) {
+            $event->getOutput()->writeln('after.');
+
+            if (!$skipCommand) {
+                $event->setExitCode(113);
+            }
+        });
+        $dispatcher->addListener('console.exception', function (ConsoleExceptionEvent $event) {
+            $event->getOutput()->write('caught.');
+
+            $event->setException(new \LogicException('caught.', $event->getExitCode(), $event->getException()));
+        });
+
+        return $dispatcher;
     }
 
     public function testSetRunCustomDefaultCommand()

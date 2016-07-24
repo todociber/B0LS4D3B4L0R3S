@@ -118,6 +118,27 @@ class BladeCompiler extends Compiler implements CompilerInterface
     }
 
     /**
+     * Get the path currently being compiled.
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Set the path currently being compiled.
+     *
+     * @param  string  $path
+     * @return void
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+    }
+
+    /**
      * Compile the given Blade template contents.
      *
      * @param  string  $value
@@ -171,25 +192,6 @@ class BladeCompiler extends Compiler implements CompilerInterface
     }
 
     /**
-     * Parse the tokens from the template.
-     *
-     * @param  array $token
-     * @return string
-     */
-    protected function parseToken($token)
-    {
-        list($id, $content) = $token;
-
-        if ($id == T_INLINE_HTML) {
-            foreach ($this->compilers as $type) {
-                $content = $this->{"compile{$type}"}($content);
-            }
-        }
-
-        return $content;
-    }
-
-    /**
      * Replace the raw placeholders with the original code stored in the raw blocks.
      *
      * @param  string  $result
@@ -207,160 +209,22 @@ class BladeCompiler extends Compiler implements CompilerInterface
     }
 
     /**
-     * Get the path currently being compiled.
+     * Parse the tokens from the template.
      *
+     * @param  array  $token
      * @return string
      */
-    public function getPath()
+    protected function parseToken($token)
     {
-        return $this->path;
-    }
+        list($id, $content) = $token;
 
-    /**
-     * Set the path currently being compiled.
-     *
-     * @param  string $path
-     * @return void
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-    }
+        if ($id == T_INLINE_HTML) {
+            foreach ($this->compilers as $type) {
+                $content = $this->{"compile{$type}"}($content);
+            }
+        }
 
-    /**
-     * Get the extensions used by the compiler.
-     *
-     * @return array
-     */
-    public function getExtensions()
-    {
-        return $this->extensions;
-    }
-
-    /**
-     * Register a custom Blade compiler.
-     *
-     * @param  callable $compiler
-     * @return void
-     */
-    public function extend(callable $compiler)
-    {
-        $this->extensions[] = $compiler;
-    }
-
-    /**
-     * Register a handler for custom directives.
-     *
-     * @param  string $name
-     * @param  callable $handler
-     * @return void
-     */
-    public function directive($name, callable $handler)
-    {
-        $this->customDirectives[$name] = $handler;
-    }
-
-    /**
-     * Get the list of custom directives.
-     *
-     * @return array
-     */
-    public function getCustomDirectives()
-    {
-        return $this->customDirectives;
-    }
-
-    /**
-     * Gets the raw tags used by the compiler.
-     *
-     * @return array
-     */
-    public function getRawTags()
-    {
-        return $this->rawTags;
-    }
-
-    /**
-     * Sets the raw tags used for the compiler.
-     *
-     * @param  string $openTag
-     * @param  string $closeTag
-     * @return void
-     */
-    public function setRawTags($openTag, $closeTag)
-    {
-        $this->rawTags = [preg_quote($openTag), preg_quote($closeTag)];
-    }
-
-    /**
-     * Sets the escaped content tags used for the compiler.
-     *
-     * @param  string $openTag
-     * @param  string $closeTag
-     * @return void
-     */
-    public function setEscapedContentTags($openTag, $closeTag)
-    {
-        $this->setContentTags($openTag, $closeTag, true);
-    }
-
-    /**
-     * Gets the content tags used for the compiler.
-     *
-     * @return string
-     */
-    public function getContentTags()
-    {
-        return $this->getTags();
-    }
-
-    /**
-     * Sets the content tags used for the compiler.
-     *
-     * @param  string $openTag
-     * @param  string $closeTag
-     * @param  bool $escaped
-     * @return void
-     */
-    public function setContentTags($openTag, $closeTag, $escaped = false)
-    {
-        $property = ($escaped === true) ? 'escapedTags' : 'contentTags';
-
-        $this->{$property} = [preg_quote($openTag), preg_quote($closeTag)];
-    }
-
-    /**
-     * Gets the tags used for the compiler.
-     *
-     * @param  bool $escaped
-     * @return array
-     */
-    protected function getTags($escaped = false)
-    {
-        $tags = $escaped ? $this->escapedTags : $this->contentTags;
-
-        return array_map('stripcslashes', $tags);
-    }
-
-    /**
-     * Gets the escaped content tags used for the compiler.
-     *
-     * @return string
-     */
-    public function getEscapedContentTags()
-    {
-        return $this->getTags(true);
-    }
-
-    /**
-     * Set the echo format to be used by the compiler.
-     *
-     * @param  string $format
-     * @return void
-     */
-    public function setEchoFormat($format)
-    {
-        $this->echoFormat = $format;
+        return $content;
     }
 
     /**
@@ -490,17 +354,6 @@ class BladeCompiler extends Compiler implements CompilerInterface
     }
 
     /**
-     * Compile the default values for the echo statement.
-     *
-     * @param  string $value
-     * @return string
-     */
-    public function compileEchoDefaults($value)
-    {
-        return preg_replace('/^(?=\$)(.+?)(?:\s+or\s+)(.+?)$/s', 'isset($1) ? $1 : $2', $value);
-    }
-
-    /**
      * Compile the "regular" echo statements.
      *
      * @param  string  $value
@@ -538,6 +391,17 @@ class BladeCompiler extends Compiler implements CompilerInterface
         };
 
         return preg_replace_callback($pattern, $callback, $value);
+    }
+
+    /**
+     * Compile the default values for the echo statement.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function compileEchoDefaults($value)
+    {
+        return preg_replace('/^(?=\$)(.+?)(?:\s+or\s+)(.+?)$/s', 'isset($1) ? $1 : $2', $value);
     }
 
     /**
@@ -982,21 +846,6 @@ class BladeCompiler extends Compiler implements CompilerInterface
     }
 
     /**
-     * Strip the parentheses from the given expression.
-     *
-     * @param  string $expression
-     * @return string
-     */
-    protected function stripParentheses($expression)
-    {
-        if (Str::startsWith($expression, '(')) {
-            $expression = substr($expression, 1, -1);
-        }
-
-        return $expression;
-    }
-
-    /**
      * Compile the include statements into valid PHP.
      *
      * @param  string  $expression
@@ -1053,5 +902,156 @@ class BladeCompiler extends Compiler implements CompilerInterface
     protected function compileEndpush($expression)
     {
         return '<?php $__env->stopPush(); ?>';
+    }
+
+    /**
+     * Strip the parentheses from the given expression.
+     *
+     * @param  string  $expression
+     * @return string
+     */
+    protected function stripParentheses($expression)
+    {
+        if (Str::startsWith($expression, '(')) {
+            $expression = substr($expression, 1, -1);
+        }
+
+        return $expression;
+    }
+
+    /**
+     * Get the extensions used by the compiler.
+     *
+     * @return array
+     */
+    public function getExtensions()
+    {
+        return $this->extensions;
+    }
+
+    /**
+     * Register a custom Blade compiler.
+     *
+     * @param  callable  $compiler
+     * @return void
+     */
+    public function extend(callable $compiler)
+    {
+        $this->extensions[] = $compiler;
+    }
+
+    /**
+     * Register a handler for custom directives.
+     *
+     * @param  string  $name
+     * @param  callable  $handler
+     * @return void
+     */
+    public function directive($name, callable $handler)
+    {
+        $this->customDirectives[$name] = $handler;
+    }
+
+    /**
+     * Get the list of custom directives.
+     *
+     * @return array
+     */
+    public function getCustomDirectives()
+    {
+        return $this->customDirectives;
+    }
+
+    /**
+     * Gets the raw tags used by the compiler.
+     *
+     * @return array
+     */
+    public function getRawTags()
+    {
+        return $this->rawTags;
+    }
+
+    /**
+     * Sets the raw tags used for the compiler.
+     *
+     * @param  string  $openTag
+     * @param  string  $closeTag
+     * @return void
+     */
+    public function setRawTags($openTag, $closeTag)
+    {
+        $this->rawTags = [preg_quote($openTag), preg_quote($closeTag)];
+    }
+
+    /**
+     * Sets the content tags used for the compiler.
+     *
+     * @param  string  $openTag
+     * @param  string  $closeTag
+     * @param  bool    $escaped
+     * @return void
+     */
+    public function setContentTags($openTag, $closeTag, $escaped = false)
+    {
+        $property = ($escaped === true) ? 'escapedTags' : 'contentTags';
+
+        $this->{$property} = [preg_quote($openTag), preg_quote($closeTag)];
+    }
+
+    /**
+     * Sets the escaped content tags used for the compiler.
+     *
+     * @param  string  $openTag
+     * @param  string  $closeTag
+     * @return void
+     */
+    public function setEscapedContentTags($openTag, $closeTag)
+    {
+        $this->setContentTags($openTag, $closeTag, true);
+    }
+
+    /**
+     * Gets the content tags used for the compiler.
+     *
+     * @return string
+     */
+    public function getContentTags()
+    {
+        return $this->getTags();
+    }
+
+    /**
+     * Gets the escaped content tags used for the compiler.
+     *
+     * @return string
+     */
+    public function getEscapedContentTags()
+    {
+        return $this->getTags(true);
+    }
+
+    /**
+     * Gets the tags used for the compiler.
+     *
+     * @param  bool  $escaped
+     * @return array
+     */
+    protected function getTags($escaped = false)
+    {
+        $tags = $escaped ? $this->escapedTags : $this->contentTags;
+
+        return array_map('stripcslashes', $tags);
+    }
+
+    /**
+     * Set the echo format to be used by the compiler.
+     *
+     * @param  string  $format
+     * @return void
+     */
+    public function setEchoFormat($format)
+    {
+        $this->echoFormat = $format;
     }
 }

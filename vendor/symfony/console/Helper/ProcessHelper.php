@@ -25,35 +25,6 @@ use Symfony\Component\Process\ProcessBuilder;
 class ProcessHelper extends Helper
 {
     /**
-     * Runs the process.
-     *
-     * This is identical to run() except that an exception is thrown if the process
-     * exits with a non-zero exit code.
-     *
-     * @param OutputInterface $output An OutputInterface instance
-     * @param string|Process $cmd An instance of Process or a command to run
-     * @param string|null $error An error message that must be displayed if something went wrong
-     * @param callable|null $callback A PHP callback to run whenever there is some
-     *                                  output available on STDOUT or STDERR
-     *
-     * @return Process The process that ran
-     *
-     * @throws ProcessFailedException
-     *
-     * @see run()
-     */
-    public function mustRun(OutputInterface $output, $cmd, $error = null, callable $callback = null)
-    {
-        $process = $this->run($output, $cmd, $error, $callback);
-
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
-
-        return $process;
-    }
-
-    /**
      * Runs an external process.
      *
      * @param OutputInterface      $output    An OutputInterface instance
@@ -103,9 +74,33 @@ class ProcessHelper extends Helper
         return $process;
     }
 
-    private function escapeString($str)
+    /**
+     * Runs the process.
+     *
+     * This is identical to run() except that an exception is thrown if the process
+     * exits with a non-zero exit code.
+     *
+     * @param OutputInterface $output   An OutputInterface instance
+     * @param string|Process  $cmd      An instance of Process or a command to run
+     * @param string|null     $error    An error message that must be displayed if something went wrong
+     * @param callable|null   $callback A PHP callback to run whenever there is some
+     *                                  output available on STDOUT or STDERR
+     *
+     * @return Process The process that ran
+     *
+     * @throws ProcessFailedException
+     *
+     * @see run()
+     */
+    public function mustRun(OutputInterface $output, $cmd, $error = null, callable $callback = null)
     {
-        return str_replace('<', '\\<', $str);
+        $process = $this->run($output, $cmd, $error, $callback);
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        return $process;
     }
 
     /**
@@ -132,6 +127,11 @@ class ProcessHelper extends Helper
                 call_user_func($callback, $type, $buffer);
             }
         };
+    }
+
+    private function escapeString($str)
+    {
+        return str_replace('<', '\\<', $str);
     }
 
     /**

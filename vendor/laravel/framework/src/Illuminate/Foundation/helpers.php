@@ -1,17 +1,17 @@
 <?php
 
-use Illuminate\Container\Container;
-use Illuminate\Contracts\Auth\Access\Gate;
-use Illuminate\Contracts\Auth\Factory as AuthFactory;
-use Illuminate\Contracts\Bus\Dispatcher;
-use Illuminate\Contracts\Cookie\Factory as CookieFactory;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Contracts\Validation\Factory as ValidationFactory;
-use Illuminate\Contracts\View\Factory as ViewFactory;
-use Illuminate\Database\Eloquent\Factory as EloquentFactory;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
+use Illuminate\Support\HtmlString;
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Contracts\Cookie\Factory as CookieFactory;
+use Illuminate\Database\Eloquent\Factory as EloquentFactory;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 
 if (! function_exists('abort')) {
     /**

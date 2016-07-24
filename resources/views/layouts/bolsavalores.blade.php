@@ -43,9 +43,8 @@
     {!! Html::script('assets/dist/js/demo.js') !!}
             <!--  DROPZONE JS -->
     {!! Html::script('assets/js/dropzone.js') !!}
-            <!--  LADDA JS -->
-    {!! Html::script('assets/js/spin.min.js') !!}
-    {!! Html::script('assets/js/ladda.min.js') !!}
+            <!--  loading JS -->
+    {!! Html::script('assets/js/loading.js') !!}
 
 
             <!--  SERO JS -->

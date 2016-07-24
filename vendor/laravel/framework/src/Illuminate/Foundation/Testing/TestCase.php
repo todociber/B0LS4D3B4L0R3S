@@ -45,6 +45,15 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     protected $setUpHasRun = false;
 
     /**
+     * Creates the application.
+     *
+     * Needs to be implemented by subclasses.
+     *
+     * @return \Symfony\Component\HttpKernel\HttpKernelInterface
+     */
+    abstract public function createApplication();
+
+    /**
      * Setup the test environment.
      *
      * @return void
@@ -75,15 +84,6 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 
         $this->app = $this->createApplication();
     }
-
-    /**
-     * Creates the application.
-     *
-     * Needs to be implemented by subclasses.
-     *
-     * @return \Symfony\Component\HttpKernel\HttpKernelInterface
-     */
-    abstract public function createApplication();
 
     /**
      * Boot the testing helper traits.

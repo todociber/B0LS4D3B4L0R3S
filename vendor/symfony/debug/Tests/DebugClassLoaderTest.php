@@ -24,6 +24,21 @@ class DebugClassLoaderTest extends \PHPUnit_Framework_TestCase
 
     private $loader;
 
+    protected function setUp()
+    {
+        $this->errorReporting = error_reporting(E_ALL);
+        $this->loader = new ClassLoader();
+        spl_autoload_register(array($this->loader, 'loadClass'), true, true);
+        DebugClassLoader::enable();
+    }
+
+    protected function tearDown()
+    {
+        DebugClassLoader::disable();
+        spl_autoload_unregister(array($this->loader, 'loadClass'));
+        error_reporting($this->errorReporting);
+    }
+
     public function testIdempotence()
     {
         DebugClassLoader::enable();
@@ -252,21 +267,6 @@ class DebugClassLoaderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertSame($xError, $lastError);
-    }
-
-    protected function setUp()
-    {
-        $this->errorReporting = error_reporting(E_ALL);
-        $this->loader = new ClassLoader();
-        spl_autoload_register(array($this->loader, 'loadClass'), true, true);
-        DebugClassLoader::enable();
-    }
-
-    protected function tearDown()
-    {
-        DebugClassLoader::disable();
-        spl_autoload_unregister(array($this->loader, 'loadClass'));
-        error_reporting($this->errorReporting);
     }
 }
 

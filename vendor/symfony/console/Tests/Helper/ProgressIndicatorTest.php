@@ -54,18 +54,6 @@ class ProgressIndicatorTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    protected function getOutputStream($decorated = true, $verbosity = StreamOutput::VERBOSITY_NORMAL)
-    {
-        return new StreamOutput(fopen('php://memory', 'r+', false), $verbosity, $decorated);
-    }
-
-    protected function generateOutput($expected)
-    {
-        $count = substr_count($expected, "\n");
-
-        return "\x0D" . ($count ? sprintf("\033[%dA", $count) : '') . $expected;
-    }
-
     public function testNonDecoratedOutput()
     {
         $bar = new ProgressIndicator($output = $this->getOutputStream(false));
@@ -178,5 +166,17 @@ class ProgressIndicatorTest extends \PHPUnit_Framework_TestCase
             array('very_verbose'),
             array('debug'),
         );
+    }
+
+    protected function getOutputStream($decorated = true, $verbosity = StreamOutput::VERBOSITY_NORMAL)
+    {
+        return new StreamOutput(fopen('php://memory', 'r+', false), $verbosity, $decorated);
+    }
+
+    protected function generateOutput($expected)
+    {
+        $count = substr_count($expected, "\n");
+
+        return "\x0D".($count ? sprintf("\033[%dA", $count) : '').$expected;
     }
 }

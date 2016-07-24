@@ -20,12 +20,34 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\MongoDbSessionHandl
  */
 class MongoDbSessionHandlerTest extends \PHPUnit_Framework_TestCase
 {
-    public $options;
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $mongo;
     private $storage;
+    public $options;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $mongoClass = version_compare(phpversion('mongo'), '1.3.0', '<') ? 'Mongo' : 'MongoClient';
+
+        $this->mongo = $this->getMockBuilder($mongoClass)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->options = array(
+            'id_field' => '_id',
+            'data_field' => 'data',
+            'time_field' => 'time',
+            'expiry_field' => 'expires_at',
+            'database' => 'sf2-test',
+            'collection' => 'session-test',
+        );
+
+        $this->storage = new MongoDbSessionHandler($this->mongo, $this->options);
+    }
 
     /**
      * @expectedException \InvalidArgumentException
@@ -85,15 +107,6 @@ class MongoDbSessionHandlerTest extends \PHPUnit_Framework_TestCase
             }));
 
         $this->assertEquals('bar', $this->storage->read('foo'));
-    }
-
-    private function createMongoCollectionMock()
-    {
-        $collection = $this->getMockBuilder('MongoCollection')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        return $collection;
     }
 
     public function testWrite()
@@ -231,25 +244,12 @@ class MongoDbSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf($mongoClass, $method->invoke($this->storage));
     }
 
-    protected function setUp()
+    private function createMongoCollectionMock()
     {
-        parent::setUp();
-
-        $mongoClass = version_compare(phpversion('mongo'), '1.3.0', '<') ? 'Mongo' : 'MongoClient';
-
-        $this->mongo = $this->getMockBuilder($mongoClass)
+        $collection = $this->getMockBuilder('MongoCollection')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->options = array(
-            'id_field' => '_id',
-            'data_field' => 'data',
-            'time_field' => 'time',
-            'expiry_field' => 'expires_at',
-            'database' => 'sf2-test',
-            'collection' => 'session-test',
-        );
-
-        $this->storage = new MongoDbSessionHandler($this->mongo, $this->options);
+        return $collection;
     }
 }

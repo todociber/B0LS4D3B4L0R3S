@@ -76,6 +76,19 @@ class ParameterBag implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Returns a parameter by name.
+     *
+     * @param string $key     The key
+     * @param mixed  $default The default value if the parameter key does not exist
+     *
+     * @return mixed
+     */
+    public function get($key, $default = null)
+    {
+        return array_key_exists($key, $this->parameters) ? $this->parameters[$key] : $default;
+    }
+
+    /**
      * Sets a parameter by name.
      *
      * @param string $key   The key
@@ -122,19 +135,6 @@ class ParameterBag implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Returns a parameter by name.
-     *
-     * @param string $key The key
-     * @param mixed $default The default value if the parameter key does not exist
-     *
-     * @return mixed
-     */
-    public function get($key, $default = null)
-    {
-        return array_key_exists($key, $this->parameters) ? $this->parameters[$key] : $default;
-    }
-
-    /**
      * Returns the alphabetic characters and digits of the parameter value.
      *
      * @param string $key     The parameter key
@@ -162,35 +162,6 @@ class ParameterBag implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Filter key.
-     *
-     * @param string $key Key
-     * @param mixed $default Default = null
-     * @param int $filter FILTER_* constant
-     * @param mixed $options Filter options
-     *
-     * @see http://php.net/manual/en/function.filter-var.php
-     *
-     * @return mixed
-     */
-    public function filter($key, $default = null, $filter = FILTER_DEFAULT, $options = array())
-    {
-        $value = $this->get($key, $default);
-
-        // Always turn $options into an array - this allows filter_var option shortcuts.
-        if (!is_array($options) && $options) {
-            $options = array('flags' => $options);
-        }
-
-        // Add a convenience check for arrays.
-        if (is_array($value) && !isset($options['flags'])) {
-            $options['flags'] = FILTER_REQUIRE_ARRAY;
-        }
-
-        return filter_var($value, $filter, $options);
-    }
-
-    /**
      * Returns the parameter value converted to integer.
      *
      * @param string $key     The parameter key
@@ -214,6 +185,35 @@ class ParameterBag implements \IteratorAggregate, \Countable
     public function getBoolean($key, $default = false)
     {
         return $this->filter($key, $default, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * Filter key.
+     *
+     * @param string $key     Key
+     * @param mixed  $default Default = null
+     * @param int    $filter  FILTER_* constant
+     * @param mixed  $options Filter options
+     *
+     * @see http://php.net/manual/en/function.filter-var.php
+     *
+     * @return mixed
+     */
+    public function filter($key, $default = null, $filter = FILTER_DEFAULT, $options = array())
+    {
+        $value = $this->get($key, $default);
+
+        // Always turn $options into an array - this allows filter_var option shortcuts.
+        if (!is_array($options) && $options) {
+            $options = array('flags' => $options);
+        }
+
+        // Add a convenience check for arrays.
+        if (is_array($value) && !isset($options['flags'])) {
+            $options['flags'] = FILTER_REQUIRE_ARRAY;
+        }
+
+        return filter_var($value, $filter, $options);
     }
 
     /**

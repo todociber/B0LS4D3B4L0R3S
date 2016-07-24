@@ -5,8 +5,8 @@ namespace Illuminate\Cache;
 use Closure;
 use Exception;
 use Illuminate\Contracts\Cache\Store;
-use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
 use Illuminate\Database\ConnectionInterface;
+use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
 
 class DatabaseStore implements Store
 {
@@ -88,26 +88,29 @@ class DatabaseStore implements Store
     }
 
     /**
-     * Get a query builder for the cache table.
-     *
-     * @return \Illuminate\Database\Query\Builder
-     */
-    protected function table()
-    {
-        return $this->connection->table($this->table);
-    }
-
-    /**
-     * Remove an item from the cache.
+     * Store an item in the cache for a given number of minutes.
      *
      * @param  string  $key
-     * @return bool
+     * @param  mixed   $value
+     * @param  int     $minutes
+     * @return void
      */
-    public function forget($key)
+    public function put($key, $value, $minutes)
     {
-        $this->table()->where('key', '=', $this->prefix . $key)->delete();
+        $key = $this->prefix.$key;
 
-        return true;
+        // All of the cached values in the database are encrypted in case this is used
+        // as a session data store by the consumer. We'll also calculate the expire
+        // time and place that on the table so we will check it on our retrieval.
+        $value = $this->encrypter->encrypt($value);
+
+        $expiration = $this->getTime() + ($minutes * 60);
+
+        try {
+            $this->table()->insert(compact('key', 'value', 'expiration'));
+        } catch (Exception $e) {
+            $this->table()->where('key', '=', $key)->update(compact('value', 'expiration'));
+        }
     }
 
     /**
@@ -121,6 +124,20 @@ class DatabaseStore implements Store
     {
         return $this->incrementOrDecrement($key, $value, function ($current, $value) {
             return $current + $value;
+        });
+    }
+
+    /**
+     * Decrement the value of an item in the cache.
+     *
+     * @param  string  $key
+     * @param  mixed   $value
+     * @return int|bool
+     */
+    public function decrement($key, $value = 1)
+    {
+        return $this->incrementOrDecrement($key, $value, function ($current, $value) {
+            return $current - $value;
         });
     }
 
@@ -163,17 +180,13 @@ class DatabaseStore implements Store
     }
 
     /**
-     * Decrement the value of an item in the cache.
+     * Get the current system time.
      *
-     * @param  string $key
-     * @param  mixed $value
-     * @return int|bool
+     * @return int
      */
-    public function decrement($key, $value = 1)
+    protected function getTime()
     {
-        return $this->incrementOrDecrement($key, $value, function ($current, $value) {
-            return $current - $value;
-        });
+        return time();
     }
 
     /**
@@ -189,39 +202,16 @@ class DatabaseStore implements Store
     }
 
     /**
-     * Store an item in the cache for a given number of minutes.
+     * Remove an item from the cache.
      *
      * @param  string  $key
-     * @param  mixed $value
-     * @param  int $minutes
-     * @return void
+     * @return bool
      */
-    public function put($key, $value, $minutes)
+    public function forget($key)
     {
-        $key = $this->prefix . $key;
+        $this->table()->where('key', '=', $this->prefix.$key)->delete();
 
-        // All of the cached values in the database are encrypted in case this is used
-        // as a session data store by the consumer. We'll also calculate the expire
-        // time and place that on the table so we will check it on our retrieval.
-        $value = $this->encrypter->encrypt($value);
-
-        $expiration = $this->getTime() + ($minutes * 60);
-
-        try {
-            $this->table()->insert(compact('key', 'value', 'expiration'));
-        } catch (Exception $e) {
-            $this->table()->where('key', '=', $key)->update(compact('value', 'expiration'));
-        }
-    }
-
-    /**
-     * Get the current system time.
-     *
-     * @return int
-     */
-    protected function getTime()
-    {
-        return time();
+        return true;
     }
 
     /**
@@ -232,6 +222,16 @@ class DatabaseStore implements Store
     public function flush()
     {
         $this->table()->delete();
+    }
+
+    /**
+     * Get a query builder for the cache table.
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    protected function table()
+    {
+        return $this->connection->table($this->table);
     }
 
     /**

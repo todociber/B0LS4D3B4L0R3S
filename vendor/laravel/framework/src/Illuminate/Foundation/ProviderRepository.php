@@ -2,8 +2,8 @@
 
 namespace Illuminate\Foundation;
 
-use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 
 class ProviderRepository
 {
@@ -78,34 +78,23 @@ class ProviderRepository
     }
 
     /**
-     * Load the service provider manifest JSON file.
+     * Register the load events for the given provider.
      *
-     * @return array|null
+     * @param  string  $provider
+     * @param  array  $events
+     * @return void
      */
-    public function loadManifest()
+    protected function registerLoadEvents($provider, array $events)
     {
-        // The service manifest is a file containing a JSON representation of every
-        // service provided by the application and whether its provider is using
-        // deferred loading or should be eagerly loaded on each request to us.
-        if ($this->files->exists($this->manifestPath)) {
-            $manifest = $this->files->getRequire($this->manifestPath);
-
-            if ($manifest) {
-                return array_merge(['when' => []], $manifest);
-            }
+        if (count($events) < 1) {
+            return;
         }
-    }
 
-    /**
-     * Determine if the manifest should be compiled.
-     *
-     * @param  array $manifest
-     * @param  array $providers
-     * @return bool
-     */
-    public function shouldRecompile($manifest, $providers)
-    {
-        return is_null($manifest) || $manifest['providers'] != $providers;
+        $app = $this->app;
+
+        $app->make('events')->listen($events, function () use ($app, $provider) {
+            $app->register($provider);
+        });
     }
 
     /**
@@ -147,25 +136,45 @@ class ProviderRepository
     }
 
     /**
-     * Create a fresh service manifest data structure.
-     *
-     * @param  array  $providers
-     * @return array
-     */
-    protected function freshManifest(array $providers)
-    {
-        return ['providers' => $providers, 'eager' => [], 'deferred' => []];
-    }
-
-    /**
      * Create a new provider instance.
      *
-     * @param  string $provider
+     * @param  string  $provider
      * @return \Illuminate\Support\ServiceProvider
      */
     public function createProvider($provider)
     {
         return new $provider($this->app);
+    }
+
+    /**
+     * Determine if the manifest should be compiled.
+     *
+     * @param  array  $manifest
+     * @param  array  $providers
+     * @return bool
+     */
+    public function shouldRecompile($manifest, $providers)
+    {
+        return is_null($manifest) || $manifest['providers'] != $providers;
+    }
+
+    /**
+     * Load the service provider manifest JSON file.
+     *
+     * @return array|null
+     */
+    public function loadManifest()
+    {
+        // The service manifest is a file containing a JSON representation of every
+        // service provided by the application and whether its provider is using
+        // deferred loading or should be eagerly loaded on each request to us.
+        if ($this->files->exists($this->manifestPath)) {
+            $manifest = $this->files->getRequire($this->manifestPath);
+
+            if ($manifest) {
+                return array_merge(['when' => []], $manifest);
+            }
+        }
     }
 
     /**
@@ -184,22 +193,13 @@ class ProviderRepository
     }
 
     /**
-     * Register the load events for the given provider.
+     * Create a fresh service manifest data structure.
      *
-     * @param  string $provider
-     * @param  array $events
-     * @return void
+     * @param  array  $providers
+     * @return array
      */
-    protected function registerLoadEvents($provider, array $events)
+    protected function freshManifest(array $providers)
     {
-        if (count($events) < 1) {
-            return;
-        }
-
-        $app = $this->app;
-
-        $app->make('events')->listen($events, function () use ($app, $provider) {
-            $app->register($provider);
-        });
+        return ['providers' => $providers, 'eager' => [], 'deferred' => []];
     }
 }

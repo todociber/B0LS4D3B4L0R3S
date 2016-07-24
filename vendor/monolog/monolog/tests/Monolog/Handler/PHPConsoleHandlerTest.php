@@ -34,28 +34,76 @@ class PHPConsoleHandlerTest extends TestCase
     /** @var  ErrorDispatcher|PHPUnit_Framework_MockObject_MockObject */
     protected $errorDispatcher;
 
-    public static function provideConnectorMethodsOptionsSets()
+    protected function setUp()
     {
-        return array(
-            array('sourcesBasePath', 'setSourcesBasePath', __DIR__),
-            array('serverEncoding', 'setServerEncoding', 'cp1251'),
-            array('password', 'setPassword', '******'),
-            array('enableSslOnlyMode', 'enableSslOnlyMode', true, false),
-            array('ipMasks', 'setAllowedIpMasks', array('127.0.0.*')),
-            array('headersLimit', 'setHeadersLimit', 2500),
-            array('enableEvalListener', 'startEvalRequestsListener', true, false),
-        );
+        if (!class_exists('PhpConsole\Connector')) {
+            $this->markTestSkipped('PHP Console library not found. See https://github.com/barbushin/php-console#installation');
+        }
+        $this->connector = $this->initConnectorMock();
+
+        $this->debugDispatcher = $this->initDebugDispatcherMock($this->connector);
+        $this->connector->setDebugDispatcher($this->debugDispatcher);
+
+        $this->errorDispatcher = $this->initErrorDispatcherMock($this->connector);
+        $this->connector->setErrorsDispatcher($this->errorDispatcher);
     }
 
-    public static function provideDumperOptionsValues()
+    protected function initDebugDispatcherMock(Connector $connector)
     {
-        return array(
-            array('dumperLevelLimit', 'levelLimit', 1001),
-            array('dumperItemsCountLimit', 'itemsCountLimit', 1002),
-            array('dumperItemSizeLimit', 'itemSizeLimit', 1003),
-            array('dumperDumpSizeLimit', 'dumpSizeLimit', 1004),
-            array('dumperDetectCallbacks', 'detectCallbacks', true),
-        );
+        return $this->getMockBuilder('PhpConsole\Dispatcher\Debug')
+            ->disableOriginalConstructor()
+            ->setMethods(array('dispatchDebug'))
+            ->setConstructorArgs(array($connector, $connector->getDumper()))
+            ->getMock();
+    }
+
+    protected function initErrorDispatcherMock(Connector $connector)
+    {
+        return $this->getMockBuilder('PhpConsole\Dispatcher\Errors')
+            ->disableOriginalConstructor()
+            ->setMethods(array('dispatchError', 'dispatchException'))
+            ->setConstructorArgs(array($connector, $connector->getDumper()))
+            ->getMock();
+    }
+
+    protected function initConnectorMock()
+    {
+        $connector = $this->getMockBuilder('PhpConsole\Connector')
+            ->disableOriginalConstructor()
+            ->setMethods(array(
+                'sendMessage',
+                'onShutDown',
+                'isActiveClient',
+                'setSourcesBasePath',
+                'setServerEncoding',
+                'setPassword',
+                'enableSslOnlyMode',
+                'setAllowedIpMasks',
+                'setHeadersLimit',
+                'startEvalRequestsListener',
+            ))
+            ->getMock();
+
+        $connector->expects($this->any())
+            ->method('isActiveClient')
+            ->will($this->returnValue(true));
+
+        return $connector;
+    }
+
+    protected function getHandlerDefaultOption($name)
+    {
+        $handler = new PHPConsoleHandler(array(), $this->connector);
+        $options = $handler->getOptions();
+
+        return $options[$name];
+    }
+
+    protected function initLogger($handlerOptions = array(), $level = Logger::DEBUG)
+    {
+        return new Logger('test', array(
+            new PHPConsoleHandler($handlerOptions, $this->connector, $level),
+        ));
     }
 
     public function testInitWithDefaultConnector()
@@ -76,13 +124,6 @@ class PHPConsoleHandlerTest extends TestCase
         $this->initLogger()->addDebug('test');
     }
 
-    protected function initLogger($handlerOptions = array(), $level = Logger::DEBUG)
-    {
-        return new Logger('test', array(
-            new PHPConsoleHandler($handlerOptions, $this->connector, $level),
-        ));
-    }
-
     public function testDebugContextInMessage()
     {
         $message = 'test';
@@ -94,6 +135,42 @@ class PHPConsoleHandlerTest extends TestCase
             $this->equalTo($tag)
         );
         $this->initLogger()->addDebug($message, $context);
+    }
+
+    public function testDebugTags($tagsContextKeys = null)
+    {
+        $expectedTags = mt_rand();
+        $logger = $this->initLogger($tagsContextKeys ? array('debugTagsKeysInContext' => $tagsContextKeys) : array());
+        if (!$tagsContextKeys) {
+            $tagsContextKeys = $this->getHandlerDefaultOption('debugTagsKeysInContext');
+        }
+        foreach ($tagsContextKeys as $key) {
+            $debugDispatcher = $this->initDebugDispatcherMock($this->connector);
+            $debugDispatcher->expects($this->once())->method('dispatchDebug')->with(
+                $this->anything(),
+                $this->equalTo($expectedTags)
+            );
+            $this->connector->setDebugDispatcher($debugDispatcher);
+            $logger->addDebug('test', array($key => $expectedTags));
+        }
+    }
+
+    public function testError($classesPartialsTraceIgnore = null)
+    {
+        $code = E_USER_NOTICE;
+        $message = 'message';
+        $file = __FILE__;
+        $line = __LINE__;
+        $this->errorDispatcher->expects($this->once())->method('dispatchError')->with(
+            $this->equalTo($code),
+            $this->equalTo($message),
+            $this->equalTo($file),
+            $this->equalTo($line),
+            $classesPartialsTraceIgnore ?: $this->equalTo($this->getHandlerDefaultOption('classesPartialsTraceIgnore'))
+        );
+        $errorHandler = ErrorHandler::register($this->initLogger($classesPartialsTraceIgnore ? array('classesPartialsTraceIgnore' => $classesPartialsTraceIgnore) : array()), false);
+        $errorHandler->registerErrorHandler(array(), false, E_USER_WARNING);
+        $errorHandler->handleError($code, $message, $file, $line);
     }
 
     public function testException()
@@ -129,62 +206,9 @@ class PHPConsoleHandlerTest extends TestCase
         $this->testError(array('Class', 'Namespace\\'));
     }
 
-    public function testError($classesPartialsTraceIgnore = null)
-    {
-        $code = E_USER_NOTICE;
-        $message = 'message';
-        $file = __FILE__;
-        $line = __LINE__;
-        $this->errorDispatcher->expects($this->once())->method('dispatchError')->with(
-            $this->equalTo($code),
-            $this->equalTo($message),
-            $this->equalTo($file),
-            $this->equalTo($line),
-            $classesPartialsTraceIgnore ?: $this->equalTo($this->getHandlerDefaultOption('classesPartialsTraceIgnore'))
-        );
-        $errorHandler = ErrorHandler::register($this->initLogger($classesPartialsTraceIgnore ? array('classesPartialsTraceIgnore' => $classesPartialsTraceIgnore) : array()), false);
-        $errorHandler->registerErrorHandler(array(), false, E_USER_WARNING);
-        $errorHandler->handleError($code, $message, $file, $line);
-    }
-
-    protected function getHandlerDefaultOption($name)
-    {
-        $handler = new PHPConsoleHandler(array(), $this->connector);
-        $options = $handler->getOptions();
-
-        return $options[$name];
-    }
-
     public function testOptionDebugTagsKeysInContext()
     {
         $this->testDebugTags(array('key1', 'key2'));
-    }
-
-    public function testDebugTags($tagsContextKeys = null)
-    {
-        $expectedTags = mt_rand();
-        $logger = $this->initLogger($tagsContextKeys ? array('debugTagsKeysInContext' => $tagsContextKeys) : array());
-        if (!$tagsContextKeys) {
-            $tagsContextKeys = $this->getHandlerDefaultOption('debugTagsKeysInContext');
-        }
-        foreach ($tagsContextKeys as $key) {
-            $debugDispatcher = $this->initDebugDispatcherMock($this->connector);
-            $debugDispatcher->expects($this->once())->method('dispatchDebug')->with(
-                $this->anything(),
-                $this->equalTo($expectedTags)
-            );
-            $this->connector->setDebugDispatcher($debugDispatcher);
-            $logger->addDebug('test', array($key => $expectedTags));
-        }
-    }
-
-    protected function initDebugDispatcherMock(Connector $connector)
-    {
-        return $this->getMockBuilder('PhpConsole\Dispatcher\Debug')
-            ->disableOriginalConstructor()
-            ->setMethods(array('dispatchDebug'))
-            ->setConstructorArgs(array($connector, $connector->getDumper()))
-            ->getMock();
     }
 
     public function testOptionUseOwnErrorsAndExceptionsHandler()
@@ -194,6 +218,19 @@ class PHPConsoleHandlerTest extends TestCase
         }));
         $this->assertEquals(array(Handler::getInstance(), 'handleException'), set_exception_handler(function () {
         }));
+    }
+
+    public static function provideConnectorMethodsOptionsSets()
+    {
+        return array(
+            array('sourcesBasePath', 'setSourcesBasePath', __DIR__),
+            array('serverEncoding', 'setServerEncoding', 'cp1251'),
+            array('password', 'setPassword', '******'),
+            array('enableSslOnlyMode', 'enableSslOnlyMode', true, false),
+            array('ipMasks', 'setAllowedIpMasks', array('127.0.0.*')),
+            array('headersLimit', 'setHeadersLimit', 2500),
+            array('enableEvalListener', 'startEvalRequestsListener', true, false),
+        );
     }
 
     /**
@@ -214,6 +251,17 @@ class PHPConsoleHandlerTest extends TestCase
         $this->assertTrue($this->connector->getDebugDispatcher()->detectTraceAndSource);
     }
 
+    public static function provideDumperOptionsValues()
+    {
+        return array(
+            array('dumperLevelLimit', 'levelLimit', 1001),
+            array('dumperItemsCountLimit', 'itemsCountLimit', 1002),
+            array('dumperItemSizeLimit', 'itemSizeLimit', 1003),
+            array('dumperDumpSizeLimit', 'dumpSizeLimit', 1004),
+            array('dumperDetectCallbacks', 'detectCallbacks', true),
+        );
+    }
+
     /**
      * @dataProvider provideDumperOptionsValues
      */
@@ -221,53 +269,5 @@ class PHPConsoleHandlerTest extends TestCase
     {
         new PHPConsoleHandler(array($option => $value), $this->connector);
         $this->assertEquals($value, $this->connector->getDumper()->$dumperProperty);
-    }
-
-    protected function setUp()
-    {
-        if (!class_exists('PhpConsole\Connector')) {
-            $this->markTestSkipped('PHP Console library not found. See https://github.com/barbushin/php-console#installation');
-        }
-        $this->connector = $this->initConnectorMock();
-
-        $this->debugDispatcher = $this->initDebugDispatcherMock($this->connector);
-        $this->connector->setDebugDispatcher($this->debugDispatcher);
-
-        $this->errorDispatcher = $this->initErrorDispatcherMock($this->connector);
-        $this->connector->setErrorsDispatcher($this->errorDispatcher);
-    }
-
-    protected function initConnectorMock()
-    {
-        $connector = $this->getMockBuilder('PhpConsole\Connector')
-            ->disableOriginalConstructor()
-            ->setMethods(array(
-                'sendMessage',
-                'onShutDown',
-                'isActiveClient',
-                'setSourcesBasePath',
-                'setServerEncoding',
-                'setPassword',
-                'enableSslOnlyMode',
-                'setAllowedIpMasks',
-                'setHeadersLimit',
-                'startEvalRequestsListener',
-            ))
-            ->getMock();
-
-        $connector->expects($this->any())
-            ->method('isActiveClient')
-            ->will($this->returnValue(true));
-
-        return $connector;
-    }
-
-    protected function initErrorDispatcherMock(Connector $connector)
-    {
-        return $this->getMockBuilder('PhpConsole\Dispatcher\Errors')
-            ->disableOriginalConstructor()
-            ->setMethods(array('dispatchError', 'dispatchException'))
-            ->setConstructorArgs(array($connector, $connector->getDumper()))
-            ->getMock();
     }
 }

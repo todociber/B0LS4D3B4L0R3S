@@ -11,11 +11,11 @@
 
 namespace Symfony\Component\HttpKernel\EventListener;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * TestSessionListener.
@@ -27,14 +27,6 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 abstract class TestSessionListener implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
-    {
-        return array(
-            KernelEvents::REQUEST => array('onKernelRequest', 192),
-            KernelEvents::RESPONSE => array('onKernelResponse', -128),
-        );
-    }
-
     public function onKernelRequest(GetResponseEvent $event)
     {
         if (!$event->isMasterRequest()) {
@@ -55,13 +47,6 @@ abstract class TestSessionListener implements EventSubscriberInterface
     }
 
     /**
-     * Gets the session object.
-     *
-     * @return SessionInterface|null A SessionInterface instance or null if no session is available
-     */
-    abstract protected function getSession();
-
-    /**
      * Checks if session was initialized and saves if current request is master
      * Runs on 'kernel.response' in test environment.
      *
@@ -80,4 +65,19 @@ abstract class TestSessionListener implements EventSubscriberInterface
             $event->getResponse()->headers->setCookie(new Cookie($session->getName(), $session->getId(), 0 === $params['lifetime'] ? 0 : time() + $params['lifetime'], $params['path'], $params['domain'], $params['secure'], $params['httponly']));
         }
     }
+
+    public static function getSubscribedEvents()
+    {
+        return array(
+            KernelEvents::REQUEST => array('onKernelRequest', 192),
+            KernelEvents::RESPONSE => array('onKernelResponse', -128),
+        );
+    }
+
+    /**
+     * Gets the session object.
+     *
+     * @return SessionInterface|null A SessionInterface instance or null if no session is available
+     */
+    abstract protected function getSession();
 }

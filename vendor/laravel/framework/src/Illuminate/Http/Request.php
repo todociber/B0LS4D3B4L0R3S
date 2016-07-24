@@ -2,14 +2,14 @@
 
 namespace Illuminate\Http;
 
-use ArrayAccess;
 use Closure;
-use Illuminate\Contracts\Support\Arrayable;
+use ArrayAccess;
+use SplFileInfo;
+use RuntimeException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
-use RuntimeException;
-use SplFileInfo;
+use Illuminate\Contracts\Support\Arrayable;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
@@ -58,42 +58,6 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
-     * Create an Illuminate request from a Symfony instance.
-     *
-     * @param  \Symfony\Component\HttpFoundation\Request $request
-     * @return \Illuminate\Http\Request
-     */
-    public static function createFromBase(SymfonyRequest $request)
-    {
-        if ($request instanceof static) {
-            return $request;
-        }
-
-        $content = $request->content;
-
-        $request = (new static)->duplicate(
-
-            $request->query->all(), $request->request->all(), $request->attributes->all(),
-
-            $request->cookies->all(), $request->files->all(), $request->server->all()
-        );
-
-        $request->content = $content;
-
-        $request->request = $request->getInputSource();
-
-        return $request;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function duplicate(array $query = null, array $request = null, array $attributes = null, array $cookies = null, array $files = null, array $server = null)
-    {
-        return parent::duplicate($query, $request, $attributes, $cookies, array_filter((array)$files), $server);
-    }
-
-    /**
      * Return the Request instance.
      *
      * @return $this
@@ -124,48 +88,6 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
-     * Get the full URL for the request with the added query string parameters.
-     *
-     * @param  array $query
-     * @return string
-     */
-    public function fullUrlWithQuery(array $query)
-    {
-        return count($this->query()) > 0
-            ? $this->url() . '/?' . http_build_query(array_merge($this->query(), $query))
-            : $this->fullUrl() . '?' . http_build_query($query);
-    }
-
-    /**
-     * Retrieve a query string item from the request.
-     *
-     * @param  string $key
-     * @param  string|array|null $default
-     * @return string|array
-     */
-    public function query($key = null, $default = null)
-    {
-        return $this->retrieveItem('query', $key, $default);
-    }
-
-    /**
-     * Retrieve a parameter item from a given source.
-     *
-     * @param  string $source
-     * @param  string $key
-     * @param  string|array|null $default
-     * @return string|array
-     */
-    protected function retrieveItem($source, $key, $default)
-    {
-        if (is_null($key)) {
-            return $this->$source->all();
-        }
-
-        return $this->$source->get($key, $default);
-    }
-
-    /**
      * Get the URL (no query string) for the request.
      *
      * @return string
@@ -190,13 +112,16 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
-     * Get the current encoded path info for the request.
+     * Get the full URL for the request with the added query string parameters.
      *
+     * @param  array  $query
      * @return string
      */
-    public function decodedPath()
+    public function fullUrlWithQuery(array $query)
     {
-        return rawurldecode($this->path());
+        return count($this->query()) > 0
+                        ? $this->url().'/?'.http_build_query(array_merge($this->query(), $query))
+                        : $this->fullUrl().'?'.http_build_query($query);
     }
 
     /**
@@ -209,6 +134,16 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
         $pattern = trim($this->getPathInfo(), '/');
 
         return $pattern == '' ? '/' : $pattern;
+    }
+
+    /**
+     * Get the current encoded path info for the request.
+     *
+     * @return string
+     */
+    public function decodedPath()
+    {
+        return rawurldecode($this->path());
     }
 
     /**
@@ -304,6 +239,16 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
+     * Returns the client IP address.
+     *
+     * @return string
+     */
+    public function ip()
+    {
+        return $this->getClientIp();
+    }
+
+    /**
      * Returns the client IP addresses.
      *
      * @return array
@@ -335,122 +280,9 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
-     * Get all of the input and files for the request.
-     *
-     * @return array
-     */
-    public function all()
-    {
-        return array_replace_recursive($this->input(), $this->allFiles());
-    }
-
-    /**
-     * Retrieve an input item from the request.
-     *
-     * @param  string  $key
-     * @param  string|array|null $default
-     * @return string|array
-     */
-    public function input($key = null, $default = null)
-    {
-        $input = $this->getInputSource()->all() + $this->query->all();
-
-        return data_get($input, $key, $default);
-    }
-
-    /**
-     * Get the input source for the request.
-     *
-     * @return \Symfony\Component\HttpFoundation\ParameterBag
-     */
-    protected function getInputSource()
-    {
-        if ($this->isJson()) {
-            return $this->json();
-        }
-
-        return $this->getMethod() == 'GET' ? $this->query : $this->request;
-    }
-
-    /**
-     * Determine if the request is sending JSON.
-     *
-     * @return bool
-     */
-    public function isJson()
-    {
-        return Str::contains($this->header('CONTENT_TYPE'), ['/json', '+json']);
-    }
-
-    /**
-     * Retrieve a header from the request.
-     *
-     * @param  string  $key
-     * @param  string|array|null  $default
-     * @return string|array
-     */
-    public function header($key = null, $default = null)
-    {
-        return $this->retrieveItem('headers', $key, $default);
-    }
-
-    /**
-     * Get the JSON payload for the request.
-     *
-     * @param  string $key
-     * @param  mixed $default
-     * @return mixed
-     */
-    public function json($key = null, $default = null)
-    {
-        if (!isset($this->json)) {
-            $this->json = new ParameterBag((array)json_decode($this->getContent(), true));
-        }
-
-        if (is_null($key)) {
-            return $this->json;
-        }
-
-        return data_get($this->json->all(), $key, $default);
-    }
-
-    /**
-     * Get an array of all of the files on the request.
-     *
-     * @return array
-     */
-    public function allFiles()
-    {
-        $files = $this->files->all();
-
-        return $this->convertedFiles
-            ? $this->convertedFiles
-            : $this->convertedFiles = $this->convertUploadedFiles($files);
-    }
-
-    /**
-     * Convert the given array of Symfony UploadedFiles to custom Laravel UploadedFiles.
-     *
-     * @param  array $files
-     * @return array
-     */
-    protected function convertUploadedFiles(array $files)
-    {
-        return array_map(function ($file) {
-            if (is_null($file) || (is_array($file) && empty(array_filter($file)))) {
-                return $file;
-            }
-
-            return is_array($file)
-                ? $this->convertUploadedFiles($file)
-                : UploadedFile::createFromBase($file);
-        }, $files);
-    }
-
-    /**
      * Determine if the request contains a non-empty value for an input item.
      *
-     * @param  string|array $key
+     * @param  string|array  $key
      * @return bool
      */
     public function has($key)
@@ -469,7 +301,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     /**
      * Determine if the given input key is an empty string for "has".
      *
-     * @param  string $key
+     * @param  string  $key
      * @return bool
      */
     protected function isEmptyString($key)
@@ -478,7 +310,52 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 
         $boolOrArray = is_bool($value) || is_array($value);
 
-        return !$boolOrArray && trim((string)$value) === '';
+        return ! $boolOrArray && trim((string) $value) === '';
+    }
+
+    /**
+     * Get all of the input and files for the request.
+     *
+     * @return array
+     */
+    public function all()
+    {
+        return array_replace_recursive($this->input(), $this->allFiles());
+    }
+
+    /**
+     * Retrieve an input item from the request.
+     *
+     * @param  string  $key
+     * @param  string|array|null  $default
+     * @return string|array
+     */
+    public function input($key = null, $default = null)
+    {
+        $input = $this->getInputSource()->all() + $this->query->all();
+
+        return data_get($input, $key, $default);
+    }
+
+    /**
+     * Get a subset of the items from the input data.
+     *
+     * @param  array|mixed  $keys
+     * @return array
+     */
+    public function only($keys)
+    {
+        $keys = is_array($keys) ? $keys : func_get_args();
+
+        $results = [];
+
+        $input = $this->all();
+
+        foreach ($keys as $key) {
+            Arr::set($results, $key, data_get($input, $key));
+        }
+
+        return $results;
     }
 
     /**
@@ -510,24 +387,15 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
-     * Get a subset of the items from the input data.
+     * Retrieve a query string item from the request.
      *
-     * @param  array|mixed $keys
-     * @return array
+     * @param  string  $key
+     * @param  string|array|null  $default
+     * @return string|array
      */
-    public function only($keys)
+    public function query($key = null, $default = null)
     {
-        $keys = is_array($keys) ? $keys : func_get_args();
-
-        $results = [];
-
-        $input = $this->all();
-
-        foreach ($keys as $key) {
-            Arr::set($results, $key, data_get($input, $key));
-        }
-
-        return $results;
+        return $this->retrieveItem('query', $key, $default);
     }
 
     /**
@@ -554,6 +422,51 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
+     * Get an array of all of the files on the request.
+     *
+     * @return array
+     */
+    public function allFiles()
+    {
+        $files = $this->files->all();
+
+        return $this->convertedFiles
+                    ? $this->convertedFiles
+                    : $this->convertedFiles = $this->convertUploadedFiles($files);
+    }
+
+    /**
+     * Convert the given array of Symfony UploadedFiles to custom Laravel UploadedFiles.
+     *
+     * @param  array  $files
+     * @return array
+     */
+    protected function convertUploadedFiles(array $files)
+    {
+        return array_map(function ($file) {
+            if (is_null($file) || (is_array($file) && empty(array_filter($file)))) {
+                return $file;
+            }
+
+            return is_array($file)
+                        ? $this->convertUploadedFiles($file)
+                        : UploadedFile::createFromBase($file);
+        }, $files);
+    }
+
+    /**
+     * Retrieve a file from the request.
+     *
+     * @param  string  $key
+     * @param  mixed  $default
+     * @return \Symfony\Component\HttpFoundation\File\UploadedFile|array|null
+     */
+    public function file($key = null, $default = null)
+    {
+        return data_get($this->allFiles(), $key, $default);
+    }
+
+    /**
      * Determine if the uploaded data contains a file.
      *
      * @param  string  $key
@@ -572,18 +485,6 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
         }
 
         return false;
-    }
-
-    /**
-     * Retrieve a file from the request.
-     *
-     * @param  string $key
-     * @param  mixed $default
-     * @return \Symfony\Component\HttpFoundation\File\UploadedFile|array|null
-     */
-    public function file($key = null, $default = null)
-    {
-        return data_get($this->allFiles(), $key, $default);
     }
 
     /**
@@ -606,6 +507,18 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     public function hasHeader($key)
     {
         return ! is_null($this->header($key));
+    }
+
+    /**
+     * Retrieve a header from the request.
+     *
+     * @param  string  $key
+     * @param  string|array|null  $default
+     * @return string|array
+     */
+    public function header($key = null, $default = null)
+    {
+        return $this->retrieveItem('headers', $key, $default);
     }
 
     /**
@@ -633,19 +546,17 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
-     * Get the session associated with the request.
+     * Flash the input for the current request to the session.
      *
-     * @return \Illuminate\Session\Store
-     *
-     * @throws \RuntimeException
+     * @param  string  $filter
+     * @param  array   $keys
+     * @return void
      */
-    public function session()
+    public function flash($filter = null, $keys = [])
     {
-        if (!$this->hasSession()) {
-            throw new RuntimeException('Session store not set on request.');
-        }
+        $flash = (! is_null($filter)) ? $this->$filter($keys) : $this->input();
 
-        return $this->getSession();
+        $this->session()->flashInput($flash);
     }
 
     /**
@@ -659,20 +570,6 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
         $keys = is_array($keys) ? $keys : func_get_args();
 
         return $this->flash('only', $keys);
-    }
-
-    /**
-     * Flash the input for the current request to the session.
-     *
-     * @param  string $filter
-     * @param  array $keys
-     * @return void
-     */
-    public function flash($filter = null, $keys = [])
-    {
-        $flash = (!is_null($filter)) ? $this->$filter($keys) : $this->input();
-
-        $this->session()->flashInput($flash);
     }
 
     /**
@@ -699,6 +596,23 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
+     * Retrieve a parameter item from a given source.
+     *
+     * @param  string  $source
+     * @param  string  $key
+     * @param  string|array|null  $default
+     * @return string|array
+     */
+    protected function retrieveItem($source, $key, $default)
+    {
+        if (is_null($key)) {
+            return $this->$source->all();
+        }
+
+        return $this->$source->get($key, $default);
+    }
+
+    /**
      * Merge new input into the current request's input array.
      *
      * @param  array  $input
@@ -721,46 +635,37 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
-     * Determine if the current request is asking for JSON in return.
+     * Get the JSON payload for the request.
      *
-     * @return bool
+     * @param  string  $key
+     * @param  mixed   $default
+     * @return mixed
      */
-    public function wantsJson()
+    public function json($key = null, $default = null)
     {
-        $acceptable = $this->getAcceptableContentTypes();
+        if (! isset($this->json)) {
+            $this->json = new ParameterBag((array) json_decode($this->getContent(), true));
+        }
 
-        return isset($acceptable[0]) && Str::contains($acceptable[0], ['/json', '+json']);
+        if (is_null($key)) {
+            return $this->json;
+        }
+
+        return data_get($this->json->all(), $key, $default);
     }
 
     /**
-     * Return the most suitable content type from the given array based on content negotiation.
+     * Get the input source for the request.
      *
-     * @param  string|array $contentTypes
-     * @return string|null
+     * @return \Symfony\Component\HttpFoundation\ParameterBag
      */
-    public function prefers($contentTypes)
+    protected function getInputSource()
     {
-        $accepts = $this->getAcceptableContentTypes();
-
-        $contentTypes = (array)$contentTypes;
-
-        foreach ($accepts as $accept) {
-            if (in_array($accept, ['*/*', '*'])) {
-                return $contentTypes[0];
-            }
-
-            foreach ($contentTypes as $contentType) {
-                $type = $contentType;
-
-                if (!is_null($mimeType = $this->getMimeType($contentType))) {
-                    $type = $mimeType;
-                }
-
-                if ($this->matchesType($type, $accept) || $accept === strtok($type, '/') . '/*') {
-                    return $contentType;
-                }
-            }
+        if ($this->isJson()) {
+            return $this->json();
         }
+
+        return $this->getMethod() == 'GET' ? $this->query : $this->request;
     }
 
     /**
@@ -782,13 +687,25 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
-     * Determines whether a request accepts JSON.
+     * Determine if the request is sending JSON.
      *
      * @return bool
      */
-    public function acceptsJson()
+    public function isJson()
     {
-        return $this->accepts('application/json');
+        return Str::contains($this->header('CONTENT_TYPE'), ['/json', '+json']);
+    }
+
+    /**
+     * Determine if the current request is asking for JSON in return.
+     *
+     * @return bool
+     */
+    public function wantsJson()
+    {
+        $acceptable = $this->getAcceptableContentTypes();
+
+        return isset($acceptable[0]) && Str::contains($acceptable[0], ['/json', '+json']);
     }
 
     /**
@@ -820,6 +737,47 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
         }
 
         return false;
+    }
+
+    /**
+     * Return the most suitable content type from the given array based on content negotiation.
+     *
+     * @param  string|array  $contentTypes
+     * @return string|null
+     */
+    public function prefers($contentTypes)
+    {
+        $accepts = $this->getAcceptableContentTypes();
+
+        $contentTypes = (array) $contentTypes;
+
+        foreach ($accepts as $accept) {
+            if (in_array($accept, ['*/*', '*'])) {
+                return $contentTypes[0];
+            }
+
+            foreach ($contentTypes as $contentType) {
+                $type = $contentType;
+
+                if (! is_null($mimeType = $this->getMimeType($contentType))) {
+                    $type = $mimeType;
+                }
+
+                if ($this->matchesType($type, $accept) || $accept === strtok($type, '/').'/*') {
+                    return $contentType;
+                }
+            }
+        }
+    }
+
+    /**
+     * Determines whether a request accepts JSON.
+     *
+     * @return bool
+     */
+    public function acceptsJson()
+    {
+        return $this->accepts('application/json');
     }
 
     /**
@@ -864,9 +822,61 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
+     * Create an Illuminate request from a Symfony instance.
+     *
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @return \Illuminate\Http\Request
+     */
+    public static function createFromBase(SymfonyRequest $request)
+    {
+        if ($request instanceof static) {
+            return $request;
+        }
+
+        $content = $request->content;
+
+        $request = (new static)->duplicate(
+
+            $request->query->all(), $request->request->all(), $request->attributes->all(),
+
+            $request->cookies->all(), $request->files->all(), $request->server->all()
+        );
+
+        $request->content = $content;
+
+        $request->request = $request->getInputSource();
+
+        return $request;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function duplicate(array $query = null, array $request = null, array $attributes = null, array $cookies = null, array $files = null, array $server = null)
+    {
+        return parent::duplicate($query, $request, $attributes, $cookies, array_filter((array) $files), $server);
+    }
+
+    /**
+     * Get the session associated with the request.
+     *
+     * @return \Illuminate\Session\Store
+     *
+     * @throws \RuntimeException
+     */
+    public function session()
+    {
+        if (! $this->hasSession()) {
+            throw new RuntimeException('Session store not set on request.');
+        }
+
+        return $this->getSession();
+    }
+
+    /**
      * Get the user making the request.
      *
-     * @param  string|null $guard
+     * @param  string|null  $guard
      * @return mixed
      */
     public function user($guard = null)
@@ -875,28 +885,21 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
-     * Get the user resolver callback.
+     * Get the route handling the request.
      *
-     * @return \Closure
-     */
-    public function getUserResolver()
-    {
-        return $this->userResolver ?: function () {
-            //
-        };
-    }
-
-    /**
-     * Set the user resolver callback.
+     * @param string|null $param
      *
-     * @param  \Closure $callback
-     * @return $this
+     * @return \Illuminate\Routing\Route|object|string
      */
-    public function setUserResolver(Closure $callback)
+    public function route($param = null)
     {
-        $this->userResolver = $callback;
+        $route = call_user_func($this->getRouteResolver());
 
-        return $this;
+        if (is_null($route) || is_null($param)) {
+            return $route;
+        } else {
+            return $route->parameter($param);
+        }
     }
 
     /**
@@ -921,21 +924,28 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
-     * Get the route handling the request.
+     * Get the user resolver callback.
      *
-     * @param string|null $param
-     *
-     * @return \Illuminate\Routing\Route|object|string
+     * @return \Closure
      */
-    public function route($param = null)
+    public function getUserResolver()
     {
-        $route = call_user_func($this->getRouteResolver());
+        return $this->userResolver ?: function () {
+            //
+        };
+    }
 
-        if (is_null($route) || is_null($param)) {
-            return $route;
-        } else {
-            return $route->parameter($param);
-        }
+    /**
+     * Set the user resolver callback.
+     *
+     * @param  \Closure  $callback
+     * @return $this
+     */
+    public function setUserResolver(Closure $callback)
+    {
+        $this->userResolver = $callback;
+
+        return $this;
     }
 
     /**
@@ -961,16 +971,6 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
         $this->routeResolver = $callback;
 
         return $this;
-    }
-
-    /**
-     * Returns the client IP address.
-     *
-     * @return string
-     */
-    public function ip()
-    {
-        return $this->getClientIp();
     }
 
     /**

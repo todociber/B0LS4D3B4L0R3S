@@ -2,14 +2,14 @@
 
 namespace Illuminate\Routing;
 
-use ArrayIterator;
 use Countable;
+use ArrayIterator;
+use IteratorAggregate;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Arr;
-use IteratorAggregate;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class RouteCollection implements Countable, IteratorAggregate
 {
@@ -99,18 +99,6 @@ class RouteCollection implements Countable, IteratorAggregate
     }
 
     /**
-     * Add a route to the controller action dictionary.
-     *
-     * @param  array $action
-     * @param  \Illuminate\Routing\Route $route
-     * @return void
-     */
-    protected function addToActionList($action, $route)
-    {
-        $this->actionList[trim($action['controller'], '\\')] = $route;
-    }
-
-    /**
      * Refresh the name look-up table.
      *
      * This is done in case any names are fluently defined.
@@ -126,6 +114,18 @@ class RouteCollection implements Countable, IteratorAggregate
                 $this->nameList[$route->getName()] = $route;
             }
         }
+    }
+
+    /**
+     * Add a route to the controller action dictionary.
+     *
+     * @param  array  $action
+     * @param  \Illuminate\Routing\Route  $route
+     * @return void
+     */
+    protected function addToActionList($action, $route)
+    {
+        $this->actionList[trim($action['controller'], '\\')] = $route;
     }
 
     /**
@@ -159,46 +159,6 @@ class RouteCollection implements Countable, IteratorAggregate
         }
 
         throw new NotFoundHttpException;
-    }
-
-    /**
-     * Get all of the routes in the collection.
-     *
-     * @param  string|null $method
-     * @return array
-     */
-    public function get($method = null)
-    {
-        if (is_null($method)) {
-            return $this->getRoutes();
-        }
-
-        return Arr::get($this->routes, $method, []);
-    }
-
-    /**
-     * Get all of the routes in the collection.
-     *
-     * @return array
-     */
-    public function getRoutes()
-    {
-        return array_values($this->allRoutes);
-    }
-
-    /**
-     * Determine if a route in the array matches the request.
-     *
-     * @param  array $routes
-     * @param  \Illuminate\http\Request $request
-     * @param  bool $includingMethod
-     * @return \Illuminate\Routing\Route|null
-     */
-    protected function check(array $routes, $request, $includingMethod = true)
-    {
-        return Arr::first($routes, function ($key, $value) use ($request, $includingMethod) {
-            return $value->matches($request, $includingMethod);
-        });
     }
 
     /**
@@ -259,6 +219,36 @@ class RouteCollection implements Countable, IteratorAggregate
     }
 
     /**
+     * Determine if a route in the array matches the request.
+     *
+     * @param  array  $routes
+     * @param  \Illuminate\http\Request  $request
+     * @param  bool  $includingMethod
+     * @return \Illuminate\Routing\Route|null
+     */
+    protected function check(array $routes, $request, $includingMethod = true)
+    {
+        return Arr::first($routes, function ($key, $value) use ($request, $includingMethod) {
+            return $value->matches($request, $includingMethod);
+        });
+    }
+
+    /**
+     * Get all of the routes in the collection.
+     *
+     * @param  string|null  $method
+     * @return array
+     */
+    public function get($method = null)
+    {
+        if (is_null($method)) {
+            return $this->getRoutes();
+        }
+
+        return Arr::get($this->routes, $method, []);
+    }
+
+    /**
      * Determine if the route collection contains a given named route.
      *
      * @param  string  $name
@@ -289,6 +279,16 @@ class RouteCollection implements Countable, IteratorAggregate
     public function getByAction($action)
     {
         return isset($this->actionList[$action]) ? $this->actionList[$action] : null;
+    }
+
+    /**
+     * Get all of the routes in the collection.
+     *
+     * @return array
+     */
+    public function getRoutes()
+    {
+        return array_values($this->allRoutes);
     }
 
     /**

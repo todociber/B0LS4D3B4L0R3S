@@ -19,10 +19,13 @@ Route::get('/', function () {
 //-----BOLSA DE VALORES ROUTES---//
 
 Route::get('bolsa/NuevaCasa','BolsaController@NuevaCasa')->name('nuevaCasa');
+Route::get('bolsa/EditarCasa/{id}','BolsaController@editarCasa')->name('editarCasa');
 Route::get('bolsa/ListadoCasas','BolsaController@ListadoCasas')->name('listadoCasas');
 Route::get('bolsa/CatalogoUsuarios','BolsaController@ListadoUsuario')->name('catalogoUsuarios');
 Route::get('bolsa/NuevoUsuario','BolsaController@NuevoUsuario')->name('nuevoUsuario');
 Route::get('bolsa/MiPerfil','BolsaController@MiPerfil')->name('miPerfil');
+Route::resource('Bolsa','BolsaController');
+Route::post('bolsa/Upload','BolsaController@Upload')->name('upload');
 //------BOLSA DE VALORES ROUTES--//
 
 

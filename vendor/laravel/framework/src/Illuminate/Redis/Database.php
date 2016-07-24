@@ -3,9 +3,9 @@
 namespace Illuminate\Redis;
 
 use Closure;
-use Illuminate\Contracts\Redis\Database as DatabaseContract;
-use Illuminate\Support\Arr;
 use Predis\Client;
+use Illuminate\Support\Arr;
+use Illuminate\Contracts\Redis\Database as DatabaseContract;
 
 class Database implements DatabaseContract
 {
@@ -66,16 +66,26 @@ class Database implements DatabaseContract
     }
 
     /**
-     * Subscribe to a set of given channels with wildcards.
+     * Get a specific Redis connection instance.
      *
-     * @param  array|string $channels
-     * @param  \Closure $callback
-     * @param  string $connection
-     * @return void
+     * @param  string  $name
+     * @return \Predis\ClientInterface|null
      */
-    public function psubscribe($channels, Closure $callback, $connection = null)
+    public function connection($name = 'default')
     {
-        return $this->subscribe($channels, $callback, $connection, __FUNCTION__);
+        return Arr::get($this->clients, $name ?: 'default');
+    }
+
+    /**
+     * Run a command against the Redis database.
+     *
+     * @param  string  $method
+     * @param  array   $parameters
+     * @return mixed
+     */
+    public function command($method, array $parameters = [])
+    {
+        return call_user_func_array([$this->clients['default'], $method], $parameters);
     }
 
     /**
@@ -103,14 +113,16 @@ class Database implements DatabaseContract
     }
 
     /**
-     * Get a specific Redis connection instance.
+     * Subscribe to a set of given channels with wildcards.
      *
-     * @param  string $name
-     * @return \Predis\ClientInterface|null
+     * @param  array|string  $channels
+     * @param  \Closure  $callback
+     * @param  string  $connection
+     * @return void
      */
-    public function connection($name = 'default')
+    public function psubscribe($channels, Closure $callback, $connection = null)
     {
-        return Arr::get($this->clients, $name ?: 'default');
+        return $this->subscribe($channels, $callback, $connection, __FUNCTION__);
     }
 
     /**
@@ -123,17 +135,5 @@ class Database implements DatabaseContract
     public function __call($method, $parameters)
     {
         return $this->command($method, $parameters);
-    }
-
-    /**
-     * Run a command against the Redis database.
-     *
-     * @param  string $method
-     * @param  array $parameters
-     * @return mixed
-     */
-    public function command($method, array $parameters = [])
-    {
-        return call_user_func_array([$this->clients['default'], $method], $parameters);
     }
 }

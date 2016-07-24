@@ -3,8 +3,8 @@
 namespace Illuminate\View\Engines;
 
 use Exception;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Throwable;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class PhpEngine implements EngineInterface
 {

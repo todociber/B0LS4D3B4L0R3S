@@ -2,9 +2,9 @@
 
 namespace Illuminate\Pagination;
 
+use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\Pagination\Paginator as PaginatorContract;
 use Illuminate\Contracts\Pagination\Presenter as PresenterContract;
-use Illuminate\Support\HtmlString;
 
 class BootstrapThreePresenter implements PresenterContract
 {
@@ -38,6 +38,16 @@ class BootstrapThreePresenter implements PresenterContract
     }
 
     /**
+     * Determine if the underlying paginator being presented has pages to show.
+     *
+     * @return bool
+     */
+    public function hasPages()
+    {
+        return $this->paginator->hasPages();
+    }
+
+    /**
      * Convert the URL window into Bootstrap HTML.
      *
      * @return \Illuminate\Support\HtmlString
@@ -57,16 +67,6 @@ class BootstrapThreePresenter implements PresenterContract
     }
 
     /**
-     * Determine if the underlying paginator being presented has pages to show.
-     *
-     * @return bool
-     */
-    public function hasPages()
-    {
-        return $this->paginator->hasPages();
-    }
-
-    /**
      * Get HTML wrapper for an available page link.
      *
      * @param  string  $url
@@ -82,6 +82,17 @@ class BootstrapThreePresenter implements PresenterContract
     }
 
     /**
+     * Get HTML wrapper for disabled text.
+     *
+     * @param  string  $text
+     * @return string
+     */
+    protected function getDisabledTextWrapper($text)
+    {
+        return '<li class="disabled"><span>'.$text.'</span></li>';
+    }
+
+    /**
      * Get HTML wrapper for active text.
      *
      * @param  string  $text
@@ -89,7 +100,7 @@ class BootstrapThreePresenter implements PresenterContract
      */
     protected function getActivePageWrapper($text)
     {
-        return '<li class="active"><span>' . $text . '</span></li>';
+        return '<li class="active"><span>'.$text.'</span></li>';
     }
 
     /**
@@ -100,17 +111,6 @@ class BootstrapThreePresenter implements PresenterContract
     protected function getDots()
     {
         return $this->getDisabledTextWrapper('...');
-    }
-
-    /**
-     * Get HTML wrapper for disabled text.
-     *
-     * @param  string $text
-     * @return string
-     */
-    protected function getDisabledTextWrapper($text)
-    {
-        return '<li class="disabled"><span>' . $text . '</span></li>';
     }
 
     /**

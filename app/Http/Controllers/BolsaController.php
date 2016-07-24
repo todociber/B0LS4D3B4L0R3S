@@ -24,7 +24,7 @@ class BolsaController extends Controller
 
 
         $organizacion = new Organizacion;
-        return View('bves.Casas.RegistroCasas')->with('organizacion',$organizacion);
+        return View('bves.Casas.RegistroCasas')->with('organizacion',$organizacion)->with('title','Crear casa');
     }
 
 
@@ -43,30 +43,38 @@ class BolsaController extends Controller
                 'codigo' => 'required',
             ]);
             if(!$validator->fails()){
-            $date = Carbon::now();
+            $codCasa = Organizacion::where('codigo', $request['codigo'])->get();
+                if(!$codCasa->isEmpty()){
+                    
+                    
+               
             $path = $this->Upload($request);
-            if($path != 'error'){
-            $organizacion = new Organizacion();
-            $organizacion->nombre              = $request->input('nombre');
-            $organizacion->logo                = $path;
-            $organizacion->correo              = $request->input('correo');
-            $organizacion->direccion           = $request->input('direccion');
-            $organizacion->telefono            = $request->input('telefono');
-            $organizacion->codigo              = $request->input('codigo');
-            $organizacion->idTipoOrganizacion  = 1;
-            $organizacion->save();
+                if($path != 'error'){
+                 $organizacion = new Organizacion();
+                 $organizacion->nombre              = $request->input('nombre');
+                 $organizacion->logo                = $path;
+                 $organizacion->correo              = $request->input('correo');
+                 $organizacion->direccion           = $request->input('direccion');
+                 $organizacion->telefono            = $request->input('telefono');
+                 $organizacion->codigo              = $request->input('codigo');
+                 $organizacion->idTipoOrganizacion  = 1;
+                 $organizacion->save();
 
+                //errir 0 todo bien, error 1, no se guardo la imagen, error 3 ya existe una casa con ese codigo
                 return response()->json(['error'=>'0']);
-            }
-            else {
+                 }
+                else {
 
-                return response()->json(['error'=>'1']);
+                   return response()->json(['error'=>'1']);
 
-                }
-            }
-            else {
-
+                 }
+              } else {
+    
                 return response()->json(['error'=>'2']);
+                  }
+            } else {
+
+                return response()->json(['error'=>'3']);
             }
        // Flash::success('Casa registrada con éxito');
 
@@ -79,10 +87,75 @@ class BolsaController extends Controller
         }
     }
 
+    public function edit($id){
+        
+        $organizacion = Organizacion::find($id);
+        return view('bves.Casas.ModificarCasa',['organizacion'=>$organizacion,'title'=>'modificar']);
+        
+    }
 
+    public function editarCasa($id){
+        //'id'=>'my-dropzone','class' => 'dropzone',
+        $organizacion = Organizacion::find($id);
+      //  var_dump(json_encode($organizacion));
+        return view('bves.Casas.ModificarCasa',['organizacion'=>$organizacion]);
+
+    }
+
+    public function update(Request $request,$id)
+    {
+
+        try{
+
+        $validator =  Validator::make($request->all(),[
+            'nombre' => 'required',
+            'correo' => 'required|email',
+            'direccion' => 'required',
+            'telefono' => 'required',
+            'codigo' => 'required',
+        ]);
+        if(!$validator->fails()) {
+
+            $organizacion = Organizacion::find($id);
+            $path = $this->Upload($request);
+            if ($path != 'error') {
+                $organizacion->fill(
+                    [
+                        'nombre' => $request['nombre'],
+                        'logo' => $organizacion,
+                        'correo' => $request['correo'],
+                        'direccion' => $request['direccion'],
+                        'telefono' => $request['telefono'],
+                        'codigo' => $request['codigo'],
+                    ]
+                );
+                $organizacion->save();
+                return response()->json(['error'=>'0']);
+            } else {
+
+                return response()->json(['error' => '1']);
+
+            }
+        }
+        else {
+
+            return response()->json(['error'=>'2']);
+        }
+        }
+        catch(Exception $e){
+
+            return response()->json(['error'=>'1', 'error'=>$e]);
+
+        }
+    }
+    
+    
     public function ListadoCasas()
     {
-        return View('bves.Casas.ListaCasas');
+        $organizaciones = Organizacion::withTrashed()->get();
+
+
+        return View('bves.Casas.ListaCasas',['organizaciones'=>$organizaciones]);
     }
 
     //-------CONTROL DE CASAS CORREDORAS-----//

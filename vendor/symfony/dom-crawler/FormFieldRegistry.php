@@ -47,36 +47,6 @@ class FormFieldRegistry
     }
 
     /**
-     * Splits a field name into segments as a web browser would do.
-     *
-     * <code>
-     *     getSegments('base[foo][3][]') = array('base', 'foo, '3', '');
-     * </code>
-     *
-     * @param string $name The name of the field
-     *
-     * @return string[] The list of segments
-     */
-    private function getSegments($name)
-    {
-        if (preg_match('/^(?P<base>[^[]+)(?P<extra>(\[.*)|$)/', $name, $m)) {
-            $segments = array($m['base']);
-            while (!empty($m['extra'])) {
-                $extra = $m['extra'];
-                if (preg_match('/^\[(?P<segment>.*?)\](?P<extra>.*)$/', $extra, $m)) {
-                    $segments[] = $m['segment'];
-                } else {
-                    $segments[] = $extra;
-                }
-            }
-
-            return $segments;
-        }
-
-        return array($name);
-    }
-
-    /**
      * Removes a field and its children from the registry.
      *
      * @param string $name The fully qualified name of the base field
@@ -93,24 +63,6 @@ class FormFieldRegistry
             $target = &$target[$path];
         }
         unset($target[array_shift($segments)]);
-    }
-
-    /**
-     * Tests whether the form has the given field.
-     *
-     * @param string $name The fully qualified name of the field
-     *
-     * @return bool Whether the form has the given field
-     */
-    public function has($name)
-    {
-        try {
-            $this->get($name);
-
-            return true;
-        } catch (\InvalidArgumentException $e) {
-            return false;
-        }
     }
 
     /**
@@ -138,6 +90,24 @@ class FormFieldRegistry
     }
 
     /**
+     * Tests whether the form has the given field.
+     *
+     * @param string $name The fully qualified name of the field
+     *
+     * @return bool Whether the form has the given field
+     */
+    public function has($name)
+    {
+        try {
+            $this->get($name);
+
+            return true;
+        } catch (\InvalidArgumentException $e) {
+            return false;
+        }
+    }
+
+    /**
      * Set the value of a field and its children.
      *
      * @param string $name  The fully qualified name of the field
@@ -161,6 +131,16 @@ class FormFieldRegistry
     }
 
     /**
+     * Returns the list of field with their value.
+     *
+     * @return FormField[] The list of fields as array((string) Fully qualified name => (mixed) value)
+     */
+    public function all()
+    {
+        return $this->walk($this->fields, $this->base);
+    }
+
+    /**
      * Creates an instance of the class.
      *
      * This function is made private because it allows overriding the $base and
@@ -178,16 +158,6 @@ class FormFieldRegistry
         $registry->fields = $values;
 
         return $registry;
-    }
-
-    /**
-     * Returns the list of field with their value.
-     *
-     * @return FormField[] The list of fields as array((string) Fully qualified name => (mixed) value)
-     */
-    public function all()
-    {
-        return $this->walk($this->fields, $this->base);
     }
 
     /**
@@ -211,5 +181,35 @@ class FormFieldRegistry
         }
 
         return $output;
+    }
+
+    /**
+     * Splits a field name into segments as a web browser would do.
+     *
+     * <code>
+     *     getSegments('base[foo][3][]') = array('base', 'foo, '3', '');
+     * </code>
+     *
+     * @param string $name The name of the field
+     *
+     * @return string[] The list of segments
+     */
+    private function getSegments($name)
+    {
+        if (preg_match('/^(?P<base>[^[]+)(?P<extra>(\[.*)|$)/', $name, $m)) {
+            $segments = array($m['base']);
+            while (!empty($m['extra'])) {
+                $extra = $m['extra'];
+                if (preg_match('/^\[(?P<segment>.*?)\](?P<extra>.*)$/', $extra, $m)) {
+                    $segments[] = $m['segment'];
+                } else {
+                    $segments[] = $extra;
+                }
+            }
+
+            return $segments;
+        }
+
+        return array($name);
     }
 }

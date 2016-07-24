@@ -38,19 +38,6 @@ class UnixPipes extends AbstractPipes
         parent::__construct($input);
     }
 
-    /**
-     * Creates a new UnixPipes instance.
-     *
-     * @param Process $process
-     * @param string|resource $input
-     *
-     * @return UnixPipes
-     */
-    public static function create(Process $process, $input)
-    {
-        return new static($process->isTty(), $process->isPty(), $input, $process->isOutputDisabled());
-    }
-
     public function __destruct()
     {
         $this->close();
@@ -154,5 +141,18 @@ class UnixPipes extends AbstractPipes
     public function areOpen()
     {
         return (bool) $this->pipes;
+    }
+
+    /**
+     * Creates a new UnixPipes instance.
+     *
+     * @param Process         $process
+     * @param string|resource $input
+     *
+     * @return UnixPipes
+     */
+    public static function create(Process $process, $input)
+    {
+        return new static($process->isTty(), $process->isPty(), $input, $process->isOutputDisabled());
     }
 }

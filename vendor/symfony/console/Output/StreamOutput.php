@@ -58,29 +58,6 @@ class StreamOutput extends Output
     }
 
     /**
-     * Returns true if the stream supports colorization.
-     *
-     * Colorization is disabled if not supported by the stream:
-     *
-     *  -  Windows before 10.0.10586 without Ansicon, ConEmu or Mintty
-     *  -  non tty consoles
-     *
-     * @return bool true if the stream supports colorization, false otherwise
-     */
-    protected function hasColorSupport()
-    {
-        if (DIRECTORY_SEPARATOR === '\\') {
-            return
-                0 >= version_compare('10.0.10586', PHP_WINDOWS_VERSION_MAJOR.'.'.PHP_WINDOWS_VERSION_MINOR.'.'.PHP_WINDOWS_VERSION_BUILD)
-                || false !== getenv('ANSICON')
-                || 'ON' === getenv('ConEmuANSI')
-                || 'xterm' === getenv('TERM');
-        }
-
-        return function_exists('posix_isatty') && @posix_isatty($this->stream);
-    }
-
-    /**
      * Gets the stream attached to this StreamOutput instance.
      *
      * @return resource A stream resource
@@ -101,5 +78,28 @@ class StreamOutput extends Output
         }
 
         fflush($this->stream);
+    }
+
+    /**
+     * Returns true if the stream supports colorization.
+     *
+     * Colorization is disabled if not supported by the stream:
+     *
+     *  -  Windows before 10.0.10586 without Ansicon, ConEmu or Mintty
+     *  -  non tty consoles
+     *
+     * @return bool true if the stream supports colorization, false otherwise
+     */
+    protected function hasColorSupport()
+    {
+        if (DIRECTORY_SEPARATOR === '\\') {
+            return
+                0 >= version_compare('10.0.10586', PHP_WINDOWS_VERSION_MAJOR.'.'.PHP_WINDOWS_VERSION_MINOR.'.'.PHP_WINDOWS_VERSION_BUILD)
+                || false !== getenv('ANSICON')
+                || 'ON' === getenv('ConEmuANSI')
+                || 'xterm' === getenv('TERM');
+        }
+
+        return function_exists('posix_isatty') && @posix_isatty($this->stream);
     }
 }

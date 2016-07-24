@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Translation\Tests\Dumper;
 
-use Symfony\Component\Translation\Dumper\JsonFileDumper;
 use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Translation\Dumper\JsonFileDumper;
 
 class JsonFileDumperTest extends \PHPUnit_Framework_TestCase
 {

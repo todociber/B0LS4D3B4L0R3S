@@ -98,23 +98,6 @@ class AmqpCaster
         return $a;
     }
 
-    private static function extractFlags($flags)
-    {
-        $flagsArray = array();
-
-        foreach (self::$flags as $value => $name) {
-            if ($flags & $value) {
-                $flagsArray[] = $name;
-            }
-        }
-
-        if (!$flagsArray) {
-            $flagsArray = array('AMQP_NOPARAM');
-        }
-
-        return new ConstStub(implode('|', $flagsArray), $flags);
-    }
-
     public static function castExchange(\AMQPExchange $c, array $a, Stub $stub, $isNested)
     {
         $prefix = Caster::PREFIX_VIRTUAL;
@@ -160,5 +143,22 @@ class AmqpCaster
         );
 
         return $a;
+    }
+
+    private static function extractFlags($flags)
+    {
+        $flagsArray = array();
+
+        foreach (self::$flags as $value => $name) {
+            if ($flags & $value) {
+                $flagsArray[] = $name;
+            }
+        }
+
+        if (!$flagsArray) {
+            $flagsArray = array('AMQP_NOPARAM');
+        }
+
+        return new ConstStub(implode('|', $flagsArray), $flags);
     }
 }

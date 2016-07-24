@@ -131,11 +131,6 @@ class DeduplicationHandler extends BufferHandler
         return false;
     }
 
-    private function appendRecord(array $record)
-    {
-        file_put_contents($this->deduplicationStore, $record['datetime']->getTimestamp() . ':' . $record['level_name'] . ':' . preg_replace('{[\r\n].*}', '', $record['message']) . "\n", FILE_APPEND);
-    }
-
     private function collectLogs()
     {
         if (!file_exists($this->deduplicationStore)) {
@@ -165,5 +160,10 @@ class DeduplicationHandler extends BufferHandler
         fclose($handle);
 
         $this->gc = false;
+    }
+
+    private function appendRecord(array $record)
+    {
+        file_put_contents($this->deduplicationStore, $record['datetime']->getTimestamp() . ':' . $record['level_name'] . ':' . preg_replace('{[\r\n].*}', '', $record['message']) . "\n", FILE_APPEND);
     }
 }

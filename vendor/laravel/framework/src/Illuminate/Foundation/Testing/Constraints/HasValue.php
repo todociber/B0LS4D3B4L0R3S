@@ -7,6 +7,16 @@ use Symfony\Component\DomCrawler\Crawler;
 class HasValue extends FormFieldConstraint
 {
     /**
+     * Get the valid elements.
+     *
+     * @return string
+     */
+    protected function validElements()
+    {
+        return 'input,textarea';
+    }
+
+    /**
      * Check if the input contains the expected value.
      *
      * @param  \Symfony\Component\DomCrawler\Crawler|string  $crawler
@@ -34,16 +44,6 @@ class HasValue extends FormFieldConstraint
         return $field->nodeName() == 'input'
             ? $field->attr('value')
             : $field->text();
-    }
-
-    /**
-     * Get the valid elements.
-     *
-     * @return string
-     */
-    protected function validElements()
-    {
-        return 'input,textarea';
     }
 
     /**

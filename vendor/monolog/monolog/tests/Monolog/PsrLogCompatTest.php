@@ -11,8 +11,8 @@
 
 namespace Monolog;
 
-use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\TestHandler;
+use Monolog\Formatter\LineFormatter;
 use Monolog\Processor\PsrLogMessageProcessor;
 use Psr\Log\Test\LoggerInterfaceTest;
 

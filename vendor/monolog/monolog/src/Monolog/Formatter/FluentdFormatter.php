@@ -53,16 +53,6 @@ class FluentdFormatter implements FormatterInterface
         return $this->levelTag;
     }
 
-    public function formatBatch(array $records)
-    {
-        $message = '';
-        foreach ($records as $record) {
-            $message .= $this->format($record);
-        }
-
-        return $message;
-    }
-
     public function format(array $record)
     {
         $tag = $record['channel'];
@@ -81,5 +71,15 @@ class FluentdFormatter implements FormatterInterface
         }
 
         return json_encode(array($tag, $record['datetime']->getTimestamp(), $message));
+    }
+
+    public function formatBatch(array $records)
+    {
+        $message = '';
+        foreach ($records as $record) {
+            $message .= $this->format($record);
+        }
+
+        return $message;
     }
 }

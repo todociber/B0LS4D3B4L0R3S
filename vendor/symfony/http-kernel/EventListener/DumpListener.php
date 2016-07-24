@@ -28,19 +28,13 @@ class DumpListener implements EventSubscriberInterface
     private $dumper;
 
     /**
-     * @param ClonerInterface $cloner Cloner service
+     * @param ClonerInterface     $cloner Cloner service
      * @param DataDumperInterface $dumper Dumper service
      */
     public function __construct(ClonerInterface $cloner, DataDumperInterface $dumper)
     {
         $this->cloner = $cloner;
         $this->dumper = $dumper;
-    }
-
-    public static function getSubscribedEvents()
-    {
-        // Register early to have a working dump() as early as possible
-        return array(KernelEvents::REQUEST => array('configure', 1024));
     }
 
     public function configure()
@@ -51,5 +45,11 @@ class DumpListener implements EventSubscriberInterface
         VarDumper::setHandler(function ($var) use ($cloner, $dumper) {
             $dumper->dump($cloner->cloneVar($var));
         });
+    }
+
+    public static function getSubscribedEvents()
+    {
+        // Register early to have a working dump() as early as possible
+        return array(KernelEvents::REQUEST => array('configure', 1024));
     }
 }

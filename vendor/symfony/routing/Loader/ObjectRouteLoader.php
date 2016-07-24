@@ -23,6 +23,18 @@ use Symfony\Component\Routing\RouteCollection;
 abstract class ObjectRouteLoader extends Loader
 {
     /**
+     * Returns the object that the method will be called on to load routes.
+     *
+     * For example, if your application uses a service container,
+     * the $id may be a service id.
+     *
+     * @param string $id
+     *
+     * @return object
+     */
+    abstract protected function getServiceObject($id);
+
+    /**
      * Calls the service that will load the routes.
      *
      * @param mixed       $resource Some value that will resolve to a callable
@@ -65,16 +77,12 @@ abstract class ObjectRouteLoader extends Loader
     }
 
     /**
-     * Returns the object that the method will be called on to load routes.
-     *
-     * For example, if your application uses a service container,
-     * the $id may be a service id.
-     *
-     * @param string $id
-     *
-     * @return object
+     * {@inheritdoc}
      */
-    abstract protected function getServiceObject($id);
+    public function supports($resource, $type = null)
+    {
+        return 'service' === $type;
+    }
 
     private function addClassResource(\ReflectionClass $class, RouteCollection $collection)
     {
@@ -83,13 +91,5 @@ abstract class ObjectRouteLoader extends Loader
                 $collection->addResource(new FileResource($class->getFileName()));
             }
         } while ($class = $class->getParentClass());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supports($resource, $type = null)
-    {
-        return 'service' === $type;
     }
 }

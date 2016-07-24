@@ -20,86 +20,40 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th>CODIGO</th>
-                            <th>NOMBRE</th>
-                            <th>ESTADO</th>
-                            <th>CORREO</th>
+                            <th>Id</th>
+                            <th>Codigo</th>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Direccion</th>
+                            <th>Télefono</th>
+                            <th>Fecha de creación</th>
+                            <th>Estado</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>SYS</td>
-                            <td>Activo</td>
-                            <td>sys@sys.com</td>
+                        @foreach ($organizaciones as $organizacion)
+                            <tr>
+                                <td>{{$organizacion->id}}</td>
+                                <td>{{$organizacion->codigo}}</td>
+                                <td>{{$organizacion->nombre}}</td>
+                                <td>{{$organizacion->correo}}</td>
+                                <td>{{$organizacion->direccion}}</td>
+                                <td>{{$organizacion->telefono}}</td>
+                                <td>{{$organizacion->created_at}}</td>
+                                <td>@if($organizacion->deleted_at == null)
+                                        <p class="p-green">Activo</p>
+                                        @else
+                                        <p class="p-red">
+                                        Innactivo
+                                        </p>
+                                    @endif
+                                </td>
+                                <td><a class="btn btn-primary background-pencil" href="{!! route('editarCasa',['id'=>$organizacion->id])!!}"><em class="fa fa-pencil"></em></a></td>
+                            </tr>
+                        @endforeach
 
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>SYS</td>
-                            <td>Activo</td>
-                            <td>sys@sys.com</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>SYS</td>
-                            <td>Activo</td>
-                            <td>sys@sys.com</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>SYS</td>
-                            <td>Activo</td>
-                            <td>sys@sys.com</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>SYS</td>
-                            <td>Activo</td>
-                            <td>sys@sys.com</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>SYS</td>
-                            <td>Activo</td>
-                            <td>sys@sys.com</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>SYS</td>
-                            <td>Activo</td>
-                            <td>sys@sys.com</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>SYS</td>
-                            <td>Activo</td>
-                            <td>sys@sys.com</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>SYS</td>
-                            <td>Activo</td>
-                            <td>sys@sys.com</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>SYS</td>
-                            <td>Activo</td>
-                            <td>sys@sys.com</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>SYS</td>
-                            <td>Activo</td>
-                            <td>sys@sys.com</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>SYS</td>
-                            <td>Activo</td>
-                            <td>sys@sys.com</td>
-                        </tr>
+
                         </tbody>
 
                     </table>

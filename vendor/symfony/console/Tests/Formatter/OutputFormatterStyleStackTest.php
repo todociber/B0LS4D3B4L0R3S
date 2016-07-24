@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Console\Tests\Formatter;
 
-use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Formatter\OutputFormatterStyleStack;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class OutputFormatterStyleStackTest extends \PHPUnit_Framework_TestCase
 {

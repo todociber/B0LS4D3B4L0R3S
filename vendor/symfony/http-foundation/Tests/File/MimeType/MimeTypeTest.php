@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\HttpFoundation\Tests\File\MimeType;
 
-use Symfony\Component\HttpFoundation\File\MimeType\FileBinaryMimeTypeGuesser;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
+use Symfony\Component\HttpFoundation\File\MimeType\FileBinaryMimeTypeGuesser;
 
 /**
  * @requires extension fileinfo
@@ -20,15 +20,6 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 class MimeTypeTest extends \PHPUnit_Framework_TestCase
 {
     protected $path;
-
-    public static function tearDownAfterClass()
-    {
-        $path = __DIR__ . '/../Fixtures/to_delete';
-        if (file_exists($path)) {
-            @chmod($path, 0666);
-            @unlink($path);
-        }
-    }
 
     public function testGuessImageWithoutExtension()
     {
@@ -84,6 +75,15 @@ class MimeTypeTest extends \PHPUnit_Framework_TestCase
             MimeTypeGuesser::getInstance()->guess($path);
         } else {
             $this->markTestSkipped('Can not verify chmod operations, change of file permissions failed');
+        }
+    }
+
+    public static function tearDownAfterClass()
+    {
+        $path = __DIR__.'/../Fixtures/to_delete';
+        if (file_exists($path)) {
+            @chmod($path, 0666);
+            @unlink($path);
         }
     }
 }

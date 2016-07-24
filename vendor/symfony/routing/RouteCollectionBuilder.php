@@ -81,34 +81,21 @@ class RouteCollectionBuilder
     }
 
     /**
-     * Finds a loader able to load an imported resource and loads it.
+     * Adds a route and returns it for future modification.
      *
-     * @param mixed $resource A resource
-     * @param string|null $type The resource type or null if unknown
+     * @param string      $path       The route path
+     * @param string      $controller The route's controller
+     * @param string|null $name       The name to give this route
      *
-     * @return RouteCollection
-     *
-     * @throws FileLoaderLoadException If no loader is found
+     * @return Route
      */
-    private function load($resource, $type = null)
+    public function add($path, $controller, $name = null)
     {
-        if (null === $this->loader) {
-            throw new \BadMethodCallException('Cannot import other routing resources: you must pass a LoaderInterface when constructing RouteCollectionBuilder.');
-        }
+        $route = new Route($path);
+        $route->setDefault('_controller', $controller);
+        $this->addRoute($route, $name);
 
-        if ($this->loader->supports($resource, $type)) {
-            return $this->loader->load($resource, $type);
-        }
-
-        if (null === $resolver = $this->loader->getResolver()) {
-            throw new FileLoaderLoadException($resource);
-        }
-
-        if (false === $loader = $resolver->resolve($resource, $type)) {
-            throw new FileLoaderLoadException($resource);
-        }
-
-        return $loader->load($resource, $type);
+        return $route;
     }
 
     /**
@@ -119,6 +106,18 @@ class RouteCollectionBuilder
     public function createBuilder()
     {
         return new self($this->loader);
+    }
+
+    /**
+     * Add a RouteCollectionBuilder.
+     *
+     * @param string                 $prefix
+     * @param RouteCollectionBuilder $builder
+     */
+    public function mount($prefix, RouteCollectionBuilder $builder)
+    {
+        $builder->prefix = trim(trim($prefix), '/');
+        $this->routes[] = $builder;
     }
 
     /**
@@ -139,50 +138,6 @@ class RouteCollectionBuilder
         $this->routes[$name] = $route;
 
         return $this;
-    }
-
-    /**
-     * Adds a resource for this collection.
-     *
-     * @param ResourceInterface $resource
-     *
-     * @return $this
-     */
-    private function addResource(ResourceInterface $resource)
-    {
-        $this->resources[] = $resource;
-
-        return $this;
-    }
-
-    /**
-     * Add a RouteCollectionBuilder.
-     *
-     * @param string $prefix
-     * @param RouteCollectionBuilder $builder
-     */
-    public function mount($prefix, RouteCollectionBuilder $builder)
-    {
-        $builder->prefix = trim(trim($prefix), '/');
-        $this->routes[] = $builder;
-    }
-
-    /**
-     * Adds a route and returns it for future modification.
-     *
-     * @param string $path The route path
-     * @param string $controller The route's controller
-     * @param string|null $name The name to give this route
-     *
-     * @return Route
-     */
-    public function add($path, $controller, $name = null)
-    {
-        $route = new Route($path);
-        $route->setDefault('_controller', $controller);
-        $this->addRoute($route, $name);
-
-        return $route;
     }
 
     /**
@@ -290,6 +245,20 @@ class RouteCollectionBuilder
     }
 
     /**
+     * Adds a resource for this collection.
+     *
+     * @param ResourceInterface $resource
+     *
+     * @return $this
+     */
+    private function addResource(ResourceInterface $resource)
+    {
+        $this->resources[] = $resource;
+
+        return $this;
+    }
+
+    /**
      * Creates the final RouteCollection and returns it.
      *
      * @return RouteCollection
@@ -368,5 +337,36 @@ class RouteCollectionBuilder
         $routeName = preg_replace('/_+/', '_', $routeName);
 
         return $routeName;
+    }
+
+    /**
+     * Finds a loader able to load an imported resource and loads it.
+     *
+     * @param mixed       $resource A resource
+     * @param string|null $type     The resource type or null if unknown
+     *
+     * @return RouteCollection
+     *
+     * @throws FileLoaderLoadException If no loader is found
+     */
+    private function load($resource, $type = null)
+    {
+        if (null === $this->loader) {
+            throw new \BadMethodCallException('Cannot import other routing resources: you must pass a LoaderInterface when constructing RouteCollectionBuilder.');
+        }
+
+        if ($this->loader->supports($resource, $type)) {
+            return $this->loader->load($resource, $type);
+        }
+
+        if (null === $resolver = $this->loader->getResolver()) {
+            throw new FileLoaderLoadException($resource);
+        }
+
+        if (false === $loader = $resolver->resolve($resource, $type)) {
+            throw new FileLoaderLoadException($resource);
+        }
+
+        return $loader->load($resource, $type);
     }
 }

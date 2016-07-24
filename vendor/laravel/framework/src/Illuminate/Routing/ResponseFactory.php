@@ -2,16 +2,16 @@
 
 namespace Illuminate\Routing;
 
-use Illuminate\Contracts\Routing\ResponseFactory as FactoryContract;
+use JsonSerializable;
+use Illuminate\Support\Str;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\View\Factory as ViewFactory;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
-use Illuminate\Support\Str;
-use Illuminate\Support\Traits\Macroable;
-use JsonSerializable;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Illuminate\Contracts\Routing\ResponseFactory as FactoryContract;
 
 class ResponseFactory implements FactoryContract
 {
@@ -45,23 +45,9 @@ class ResponseFactory implements FactoryContract
     }
 
     /**
-     * Return a new view response from the application.
-     *
-     * @param  string $view
-     * @param  array $data
-     * @param  int  $status
-     * @param  array  $headers
-     * @return \Illuminate\Http\Response
-     */
-    public function view($view, $data = [], $status = 200, array $headers = [])
-    {
-        return static::make($this->view->make($view, $data), $status, $headers);
-    }
-
-    /**
      * Return a new response from the application.
      *
-     * @param  string $content
+     * @param  string  $content
      * @param  int  $status
      * @param  array  $headers
      * @return \Illuminate\Http\Response
@@ -72,18 +58,17 @@ class ResponseFactory implements FactoryContract
     }
 
     /**
-     * Return a new JSONP response from the application.
+     * Return a new view response from the application.
      *
-     * @param  string $callback
-     * @param  string|array  $data
+     * @param  string  $view
+     * @param  array  $data
      * @param  int  $status
      * @param  array  $headers
-     * @param  int  $options
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
-    public function jsonp($callback, $data = [], $status = 200, array $headers = [], $options = 0)
+    public function view($view, $data = [], $status = 200, array $headers = [])
     {
-        return $this->json($data, $status, $headers, $options)->setCallback($callback);
+        return static::make($this->view->make($view, $data), $status, $headers);
     }
 
     /**
@@ -97,11 +82,26 @@ class ResponseFactory implements FactoryContract
      */
     public function json($data = [], $status = 200, array $headers = [], $options = 0)
     {
-        if ($data instanceof Arrayable && !$data instanceof JsonSerializable) {
+        if ($data instanceof Arrayable && ! $data instanceof JsonSerializable) {
             $data = $data->toArray();
         }
 
         return new JsonResponse($data, $status, $headers, $options);
+    }
+
+    /**
+     * Return a new JSONP response from the application.
+     *
+     * @param  string  $callback
+     * @param  string|array  $data
+     * @param  int  $status
+     * @param  array  $headers
+     * @param  int  $options
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function jsonp($callback, $data = [], $status = 200, array $headers = [], $options = 0)
+    {
+        return $this->json($data, $status, $headers, $options)->setCallback($callback);
     }
 
     /**

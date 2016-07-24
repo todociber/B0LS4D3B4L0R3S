@@ -29,14 +29,14 @@
 
             init: function() {
                 var submitBtn = document.querySelector("#clickable");
-                buttonLada =  Ladda.create(submitBtn);
                 var myDropzone = this;
 
                 submitBtn.addEventListener("click", function(e){
                     e.preventDefault();
                     e.stopPropagation();
                     myDropzone.processQueue();
-                    buttonLada.start();
+                    waitingDialog.show('Procesando Espere... ',{ progressType: 'info'});
+
                 });
                 this.on("addedfile", function(file) {
                   //  alert("file uploaded");
@@ -48,8 +48,7 @@
                 });
 
                 this.on("success", function(file, data) {
-                    Ladda.stopAll();
-                  //  buttonLada.toggle();
+                    waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});
                     console.log('succes ' + file.code);
                     if(data.error == '0'){
                         $('#modalbody').text('Datos guardados con exito');
@@ -59,7 +58,11 @@
                     }
                    else if(data.error == '2'){
 
-                        $('#modalbody').text('Faltan datos, asegure de llenar todos los campos del formularios');
+                        $('#modalbody').text('Faltan datos, asegure de llenar todos los campos del formulario o de escribir una dirección de correo eléctronica correctamente');
+                    }
+                    else if(data.error == '3'){
+
+                        $('#modalbody').text('Ya exite una casa registrada con ese coódigo ');
                     }
                     else {
 
@@ -69,7 +72,7 @@
                     $('#modal').modal('show');
                 });
                 this.on("error",function (file,error) {
-                    Ladda.stopAll();
+                    waitingDialog.hide();
                     $('#modalbody').text('Ocurrio un problema al ingresar los datos');
                     $('#modal').modal('show');
                 });
@@ -102,15 +105,15 @@
                                 <div class="col-md-12">
                                     @include('alertas.errores')
                                     @include('alertas.flash')
-                                   {{Form::model($organizacion,['route'=>'Bolsa.store','method' =>'POST', 'id'=>'my-dropzone','class' => 'dropzone', 'files' => true])  }}
-                                    @include('bves.Casas.Formularios.FormularioCasa')
+                                   {{Form::open(['route'=>'Bolsa.store','method' =>'POST', 'id'=>'my-dropzone','class' => 'dropzone', 'files' => true])  }}
+                                    @include('bves.Casas.Formulario.FormularioCasa')
 
                                 </div>
 
                             </div>
                         </div>
                         <div class="box-footer">
-                            {!!Form::submit('Registrar Casa', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'clickable','data-style'=>'expand-left'])!!}
+                            {!!Form::submit($title, ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'clickable','data-style'=>'expand-left'])!!}
                         </div>
                         {{ Form::close() }}
                     </div>

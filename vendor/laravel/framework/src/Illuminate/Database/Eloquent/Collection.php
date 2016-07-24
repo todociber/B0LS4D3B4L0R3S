@@ -2,10 +2,10 @@
 
 namespace Illuminate\Database\Eloquent;
 
-use Illuminate\Contracts\Queue\QueueableCollection;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection as BaseCollection;
 use LogicException;
+use Illuminate\Support\Arr;
+use Illuminate\Contracts\Queue\QueueableCollection;
+use Illuminate\Support\Collection as BaseCollection;
 
 class Collection extends BaseCollection implements QueueableCollection
 {
@@ -49,6 +49,19 @@ class Collection extends BaseCollection implements QueueableCollection
     }
 
     /**
+     * Add an item to the collection.
+     *
+     * @param  mixed  $item
+     * @return $this
+     */
+    public function add($item)
+    {
+        $this->items[] = $item;
+
+        return $this;
+    }
+
+    /**
      * Determine if a key exists in the collection.
      *
      * @param  mixed  $key
@@ -73,6 +86,18 @@ class Collection extends BaseCollection implements QueueableCollection
     }
 
     /**
+     * Get the array of primary keys.
+     *
+     * @return array
+     */
+    public function modelKeys()
+    {
+        return array_map(function ($m) {
+            return $m->getKey();
+        }, $this->items);
+    }
+
+    /**
      * Merge the collection with the given items.
      *
      * @param  \ArrayAccess|array  $items
@@ -87,25 +112,6 @@ class Collection extends BaseCollection implements QueueableCollection
         }
 
         return new static(array_values($dictionary));
-    }
-
-    /**
-     * Get a dictionary keyed by primary keys.
-     *
-     * @param  \ArrayAccess|array|null $items
-     * @return array
-     */
-    public function getDictionary($items = null)
-    {
-        $items = is_null($items) ? $this->items : $items;
-
-        $dictionary = [];
-
-        foreach ($items as $value) {
-            $dictionary[$value->getKey()] = $value;
-        }
-
-        return $dictionary;
     }
 
     /**
@@ -127,19 +133,6 @@ class Collection extends BaseCollection implements QueueableCollection
         }
 
         return $diff;
-    }
-
-    /**
-     * Add an item to the collection.
-     *
-     * @param  mixed $item
-     * @return $this
-     */
-    public function add($item)
-    {
-        $this->items[] = $item;
-
-        return $this;
     }
 
     /**
@@ -222,19 +215,6 @@ class Collection extends BaseCollection implements QueueableCollection
      *
      * @param  array|string  $attributes
      * @return $this
-     *
-     * @deprecated since version 5.2. Use the "makeVisible" method directly.
-     */
-    public function withHidden($attributes)
-    {
-        return $this->makeVisible($attributes);
-    }
-
-    /**
-     * Make the given, typically hidden, attributes visible across the entire collection.
-     *
-     * @param  array|string  $attributes
-     * @return $this
      */
     public function makeVisible($attributes)
     {
@@ -244,15 +224,35 @@ class Collection extends BaseCollection implements QueueableCollection
     }
 
     /**
-     * Get an array with the values of a given key.
+     * Make the given, typically hidden, attributes visible across the entire collection.
      *
-     * @param  string $value
-     * @param  string|null $key
-     * @return \Illuminate\Support\Collection
+     * @param  array|string  $attributes
+     * @return $this
+     *
+     * @deprecated since version 5.2. Use the "makeVisible" method directly.
      */
-    public function pluck($value, $key = null)
+    public function withHidden($attributes)
     {
-        return $this->toBase()->pluck($value, $key);
+        return $this->makeVisible($attributes);
+    }
+
+    /**
+     * Get a dictionary keyed by primary keys.
+     *
+     * @param  \ArrayAccess|array|null  $items
+     * @return array
+     */
+    public function getDictionary($items = null)
+    {
+        $items = is_null($items) ? $this->items : $items;
+
+        $dictionary = [];
+
+        foreach ($items as $value) {
+            $dictionary[$value->getKey()] = $value;
+        }
+
+        return $dictionary;
     }
 
     /**
@@ -260,13 +260,15 @@ class Collection extends BaseCollection implements QueueableCollection
      */
 
     /**
-     * Get a base Support collection instance from this collection.
+     * Get an array with the values of a given key.
      *
+     * @param  string  $value
+     * @param  string|null  $key
      * @return \Illuminate\Support\Collection
      */
-    public function toBase()
+    public function pluck($value, $key = null)
     {
-        return new BaseCollection($this->items);
+        return $this->toBase()->pluck($value, $key);
     }
 
     /**
@@ -354,14 +356,12 @@ class Collection extends BaseCollection implements QueueableCollection
     }
 
     /**
-     * Get the array of primary keys.
+     * Get a base Support collection instance from this collection.
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
-    public function modelKeys()
+    public function toBase()
     {
-        return array_map(function ($m) {
-            return $m->getKey();
-        }, $this->items);
+        return new BaseCollection($this->items);
     }
 }

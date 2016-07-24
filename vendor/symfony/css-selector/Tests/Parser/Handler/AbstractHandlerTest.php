@@ -31,19 +31,6 @@ abstract class AbstractHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertRemainingContent($reader, $remainingContent);
     }
 
-    abstract protected function generateHandler();
-
-    protected function assertRemainingContent(Reader $reader, $remainingContent)
-    {
-        if ('' === $remainingContent) {
-            $this->assertEquals(0, $reader->getRemainingLength());
-            $this->assertTrue($reader->isEOF());
-        } else {
-            $this->assertEquals(strlen($remainingContent), $reader->getRemainingLength());
-            $this->assertEquals(0, $reader->getOffset($remainingContent));
-        }
-    }
-
     /** @dataProvider getDontHandleValueTestData */
     public function testDontHandleValue($value)
     {
@@ -55,6 +42,12 @@ abstract class AbstractHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertRemainingContent($reader, $value);
     }
 
+    abstract public function getHandleValueTestData();
+
+    abstract public function getDontHandleValueTestData();
+
+    abstract protected function generateHandler();
+
     protected function assertStreamEmpty(TokenStream $stream)
     {
         $property = new \ReflectionProperty($stream, 'tokens');
@@ -63,7 +56,14 @@ abstract class AbstractHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $property->getValue($stream));
     }
 
-    abstract public function getHandleValueTestData();
-
-    abstract public function getDontHandleValueTestData();
+    protected function assertRemainingContent(Reader $reader, $remainingContent)
+    {
+        if ('' === $remainingContent) {
+            $this->assertEquals(0, $reader->getRemainingLength());
+            $this->assertTrue($reader->isEOF());
+        } else {
+            $this->assertEquals(strlen($remainingContent), $reader->getRemainingLength());
+            $this->assertEquals(0, $reader->getOffset($remainingContent));
+        }
+    }
 }

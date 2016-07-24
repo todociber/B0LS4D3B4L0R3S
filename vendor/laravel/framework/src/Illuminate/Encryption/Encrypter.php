@@ -2,10 +2,10 @@
 
 namespace Illuminate\Encryption;
 
-use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
-use Illuminate\Contracts\Encryption\EncryptException;
 use RuntimeException;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Contracts\Encryption\EncryptException;
+use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
 
 class Encrypter extends BaseEncrypter implements EncrypterContract
 {
@@ -84,16 +84,6 @@ class Encrypter extends BaseEncrypter implements EncrypterContract
     }
 
     /**
-     * Get the IV size for the cipher.
-     *
-     * @return int
-     */
-    protected function getIvSize()
-    {
-        return 16;
-    }
-
-    /**
      * Decrypt the given value.
      *
      * @param  string  $payload
@@ -114,5 +104,15 @@ class Encrypter extends BaseEncrypter implements EncrypterContract
         }
 
         return unserialize($decrypted);
+    }
+
+    /**
+     * Get the IV size for the cipher.
+     *
+     * @return int
+     */
+    protected function getIvSize()
+    {
+        return 16;
     }
 }

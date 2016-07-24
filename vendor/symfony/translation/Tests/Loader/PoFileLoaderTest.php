@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Translation\Tests\Loader;
 
-use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Translation\Loader\PoFileLoader;
+use Symfony\Component\Config\Resource\FileResource;
 
 class PoFileLoaderTest extends \PHPUnit_Framework_TestCase
 {

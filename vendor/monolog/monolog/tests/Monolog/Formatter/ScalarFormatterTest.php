@@ -20,6 +20,30 @@ class ScalarFormatterTest extends \PHPUnit_Framework_TestCase
         $this->formatter = new ScalarFormatter();
     }
 
+    public function buildTrace(\Exception $e)
+    {
+        $data = array();
+        $trace = $e->getTrace();
+        foreach ($trace as $frame) {
+            if (isset($frame['file'])) {
+                $data[] = $frame['file'].':'.$frame['line'];
+            } else {
+                $data[] = json_encode($frame);
+            }
+        }
+
+        return $data;
+    }
+
+    public function encodeJson($data)
+    {
+        if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+            return json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        }
+
+        return json_encode($data);
+    }
+
     public function testFormat()
     {
         $exception = new \Exception('foo');
@@ -48,30 +72,6 @@ class ScalarFormatterTest extends \PHPUnit_Framework_TestCase
                 'trace'   => $this->buildTrace($exception),
             )),
         ), $formatted);
-    }
-
-    public function encodeJson($data)
-    {
-        if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
-            return json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        }
-
-        return json_encode($data);
-    }
-
-    public function buildTrace(\Exception $e)
-    {
-        $data = array();
-        $trace = $e->getTrace();
-        foreach ($trace as $frame) {
-            if (isset($frame['file'])) {
-                $data[] = $frame['file'] . ':' . $frame['line'];
-            } else {
-                $data[] = json_encode($frame);
-            }
-        }
-
-        return $data;
     }
 
     public function testFormatWithErrorContext()

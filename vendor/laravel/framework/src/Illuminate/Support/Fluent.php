@@ -3,9 +3,9 @@
 namespace Illuminate\Support;
 
 use ArrayAccess;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Arrayable;
 
 class Fluent implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
 {
@@ -30,6 +30,22 @@ class Fluent implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
     }
 
     /**
+     * Get an attribute from the container.
+     *
+     * @param  string  $key
+     * @param  mixed   $default
+     * @return mixed
+     */
+    public function get($key, $default = null)
+    {
+        if (array_key_exists($key, $this->attributes)) {
+            return $this->attributes[$key];
+        }
+
+        return value($default);
+    }
+
+    /**
      * Get the attributes from the container.
      *
      * @return array
@@ -40,14 +56,13 @@ class Fluent implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Convert the Fluent instance to JSON.
+     * Convert the Fluent instance to an array.
      *
-     * @param  int $options
-     * @return string
+     * @return array
      */
-    public function toJson($options = 0)
+    public function toArray()
     {
-        return json_encode($this->jsonSerialize(), $options);
+        return $this->attributes;
     }
 
     /**
@@ -61,13 +76,14 @@ class Fluent implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Convert the Fluent instance to an array.
+     * Convert the Fluent instance to JSON.
      *
-     * @return array
+     * @param  int  $options
+     * @return string
      */
-    public function toArray()
+    public function toJson($options = 0)
     {
-        return $this->attributes;
+        return json_encode($this->jsonSerialize(), $options);
     }
 
     /**
@@ -150,22 +166,6 @@ class Fluent implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
     public function __set($key, $value)
     {
         $this->attributes[$key] = $value;
-    }
-
-    /**
-     * Get an attribute from the container.
-     *
-     * @param  string $key
-     * @param  mixed $default
-     * @return mixed
-     */
-    public function get($key, $default = null)
-    {
-        if (array_key_exists($key, $this->attributes)) {
-            return $this->attributes[$key];
-        }
-
-        return value($default);
     }
 
     /**

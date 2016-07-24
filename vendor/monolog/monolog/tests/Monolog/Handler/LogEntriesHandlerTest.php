@@ -11,8 +11,8 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Logger;
 use Monolog\TestCase;
+use Monolog\Logger;
 
 /**
  * @author Robert Kaufmann III <rok3@rok3.me>
@@ -40,6 +40,22 @@ class LogEntriesHandlerTest extends TestCase
         $this->assertRegexp('/testToken \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] test.CRITICAL: Critical write test/', $content);
     }
 
+    public function testWriteBatchContent()
+    {
+        $records = array(
+            $this->getRecord(),
+            $this->getRecord(),
+            $this->getRecord(),
+        );
+        $this->createHandler();
+        $this->handler->handleBatch($records);
+
+        fseek($this->res, 0);
+        $content = fread($this->res, 1024);
+
+        $this->assertRegexp('/(testToken \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] .* \[\] \[\]\n){3}/', $content);
+    }
+
     private function createHandler()
     {
         $useSSL = extension_loaded('openssl');
@@ -64,21 +80,5 @@ class LogEntriesHandlerTest extends TestCase
         $this->handler->expects($this->any())
             ->method('closeSocket')
             ->will($this->returnValue(true));
-    }
-
-    public function testWriteBatchContent()
-    {
-        $records = array(
-            $this->getRecord(),
-            $this->getRecord(),
-            $this->getRecord(),
-        );
-        $this->createHandler();
-        $this->handler->handleBatch($records);
-
-        fseek($this->res, 0);
-        $content = fread($this->res, 1024);
-
-        $this->assertRegexp('/(testToken \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] .* \[\] \[\]\n){3}/', $content);
     }
 }

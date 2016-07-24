@@ -57,16 +57,6 @@ class RedisStore extends TaggableStore implements Store
     }
 
     /**
-     * Get the Redis connection instance.
-     *
-     * @return \Predis\ClientInterface
-     */
-    public function connection()
-    {
-        return $this->redis->connection($this->connection);
-    }
-
-    /**
      * Retrieve multiple items from the cache by key.
      *
      * Items not found in the cache will have a null value.
@@ -92,6 +82,21 @@ class RedisStore extends TaggableStore implements Store
     }
 
     /**
+     * Store an item in the cache for a given number of minutes.
+     *
+     * @param  string  $key
+     * @param  mixed   $value
+     * @param  int     $minutes
+     * @return void
+     */
+    public function put($key, $value, $minutes)
+    {
+        $value = is_numeric($value) ? $value : serialize($value);
+
+        $this->connection()->setex($this->prefix.$key, (int) max(1, $minutes * 60), $value);
+    }
+
+    /**
      * Store multiple items in the cache for a given number of minutes.
      *
      * @param  array  $values
@@ -107,21 +112,6 @@ class RedisStore extends TaggableStore implements Store
         }
 
         $this->connection()->exec();
-    }
-
-    /**
-     * Store an item in the cache for a given number of minutes.
-     *
-     * @param  string $key
-     * @param  mixed $value
-     * @param  int $minutes
-     * @return void
-     */
-    public function put($key, $value, $minutes)
-    {
-        $value = is_numeric($value) ? $value : serialize($value);
-
-        $this->connection()->setex($this->prefix . $key, (int)max(1, $minutes * 60), $value);
     }
 
     /**
@@ -192,6 +182,16 @@ class RedisStore extends TaggableStore implements Store
     public function tags($names)
     {
         return new RedisTaggedCache($this, new TagSet($this, is_array($names) ? $names : func_get_args()));
+    }
+
+    /**
+     * Get the Redis connection instance.
+     *
+     * @return \Predis\ClientInterface
+     */
+    public function connection()
+    {
+        return $this->redis->connection($this->connection);
     }
 
     /**
