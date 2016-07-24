@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Models\Departamento;
 use App\Models\Role;
+use App\Models\RolUsuario;
 use App\Models\Usuario;
 use Chumper\Datatable\Datatable;
 use Illuminate\Http\Request;
@@ -55,8 +56,6 @@ class UsuarioCasaCorredoraController extends Controller
      */
     public function store(Requests\RequestUsuarioCasaCorredora $request)
     {
-
-
         $caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //posibles caracteres a usar
         $numerodeletras=8; //numero de letras para generar el texto
         $cadena = ""; //variable para almacenar la cadena generada
@@ -64,12 +63,22 @@ class UsuarioCasaCorredoraController extends Controller
         {
             $cadena .= substr($caracteres,rand(0,strlen($caracteres)),1);
         }
-        Usuario::create([
-            'nombre'=>$request['nombre'],
-            'apellido'=>$request['apellido'],
-            'correo'=>$request['correo'],
-            'password'=>bcrypt($cadena),
+        $Usuario = new Usuario(
+            [
+                'nombre' => $request['nombre'],
+                'apellido' => $request['apellido'],
+                'correo' => $request['correo'],
+                'password' => bcrypt($cadena),
+            ]
+        );
+
+        $Usuario->save();
+        $RolUsuario = new RolUsuario([
+            'idUsuario' => $Usuario->id,
+            'idRol' => $request['rolUsuario'],
         ]);
+        $RolUsuario->save();
+
          return redirect('/UsuarioCasaCorredora')->with('message','El cliente se registro exitosamente')->with('tipo','success');
     }
 

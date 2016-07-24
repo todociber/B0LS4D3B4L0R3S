@@ -8,6 +8,8 @@
 
     {!! Form::label('Rol del Usuario') !!}
     {!! Form::select('rolUsuario', $roles, null, ['class' => 'form-control']) !!}
+
+
     <br>
 
 
