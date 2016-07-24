@@ -12,176 +12,64 @@
             <h3 class="box-title">Nuevo Usuario</h3>
         </div><!-- /.box-header -->
         <!-- form start -->
-
         <div class="box-body">
             <div role="form">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-
-    @foreach($information as $info)
-
-
-
-        <?php
-
-        $muns = $info->Municipio;
-        ?>
-        @foreach($muns as $dir)
-
-            <?php $direccionActual = $dir->Direccione; ?>
-            <br>
-            {{$dir->nombre}}
-            <br>
-
-            @foreach($direccionActual as $direccionDetalle)
-                <br>
-
-                {{$direccionDetalle->ClienteDireccionN->dui}}
-            <br>
-
-
-
-            @endforeach
-
-        @endforeach
-        <br>
-    @endforeach
-    <br>
-
+                            @if(Session::has('message'))
+                                <div class="alert alert-{{Session::get('tipo')}} alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                                aria-hidden="true">&times;</span></button>
+                                    {{Session::get('message')}}
+                                </div>
+                            @endif
+                            {!!link_to_route('UsuarioCasaCorredora.crear', $title = 'Crear Usuario ', $parameters = [], $attributes = ['class'=>'btn btn-success'])!!}
+                            <br><br>
 
                             <table id="example1" class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
-                                    <th><p class="text-center">Correlativo</p></th>
-                                    <th><p class="text-center">Tipo</p></th>
-                                    <th><p class="text-center">Mercado</p></th>
-                                    <th><p class="text-center">Monto</p></th>
-                                    <th><p class="text-center">Fecha de vencimiento</p></th>
-                                    <th>Estado</th>
+                                    <th><p class="text-center">Nombre</p></th>
+                                    <th><p class="text-center">Apellido</p></th>
+                                    <th><p class="text-center">Correo</p></th>
+                                    <th><p class="text-center">Roles</p></th>
+                                    <th><p class="text-center">Estado</p></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td class="text-center"><a class="btn-table" href="ordenes_detalle.html"> <i
-                                                    class="fa fa-archive" aria-hidden="true"></i></a>
-                                        <a class="btn btn-primary" style="background-color:#444444; "><em
-                                                    class="fa fa-pencil"></em></a>
-
-                                    </td>
-                                    <td>55667701</td>
-                                    <td>Compra</td>
-                                    <td>Reportos</td>
-                                    <td>$300</td>
-                                    <td>01/06/2016</td>
-                                    <td><p style="color:green;">Vigente</p></td>
-
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><a class="btn-table" href="ordenes_detalle.html"> <i
-                                                    class="fa fa-archive"
-                                                    aria-hidden="true"></i></a>
-
-                                    </td>
-                                    <td>55667702</td>
-                                    <td>Compra</td>
-                                    <td>Reportos</td>
-                                    <td>$300</td>
-                                    <td>01/06/2016</td>
-                                    <td><p style="color:red;">Anulada</p></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><a class="btn-table" href="ordenes_detalle.html"> <i
-                                                    class="fa fa-archive"
-                                                    aria-hidden="true"></i></a>
-
-                                    </td>
-                                    <td>55667703</td>
-                                    <td>Compra</td>
-                                    <td>Reportos</td>
-                                    <td>$300</td>
-                                    <td>01/06/2016</td>
-                                    <td><p style="color:darkred;">Rechazada</p></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><a class="btn-table" href="ordenes_detalle.html"> <i
-                                                    class="fa fa-archive" aria-hidden="true"></i></a>
-
-                                    </td>
-                                    <td>55667703</td>
-                                    <td>Compra</td>
-                                    <td>Reportos</td>
-                                    <td>$300</td>
-                                    <td>01/06/2016</td>
-                                    <td><p style="color:green;">Pre-Vigente</p></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><a class="btn-table" href="ordenes_detalle.html"> <i
-                                                    class="fa fa-archive" aria-hidden="true"></i></a>
-
-                                    </td>
-                                    <td>55667703</td>
-                                    <td>Compra</td>
-                                    <td>Reportos</td>
-                                    <td>$300</td>
-                                    <td>01/06/2016</td>
-                                    <td><p style="color:blue;">Ejecutada</p></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><a class="btn-table" href="ordenes_detalle.html"> <i
-                                                    class="fa fa-archive" aria-hidden="true"></i></a>
-
-                                    </td>
-                                    <td>55667703</td>
-                                    <td>Compra</td>
-                                    <td>Reportos</td>
-                                    <td>$300</td>
-                                    <td>01/06/2016</td>
-                                    <td><p style="color:orangered;">Vencida</p></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><a class="btn-table" href="ordenes_detalle.html"> <i
-                                                    class="fa fa-archive" aria-hidden="true"></i></a>
-
-                                    </td>
-                                    <td>55667703</td>
-                                    <td>Compra</td>
-                                    <td>Reportos</td>
-                                    <td>$300</td>
-                                    <td>01/06/2016</td>
-                                    <td><p style="color:saddlebrown;">Finalizada</p></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><a class="btn-table" href="ordenes_detalle.html"> <i
-                                                    class="fa fa-archive" aria-hidden="true"></i></a>
-
-                                    </td>
-                                    <td>55667703</td>
-                                    <td>Compra</td>
-                                    <td>Reportos</td>
-                                    <td>$300</td>
-                                    <td>01/06/2016</td>
-                                    <td><p style="color:saddlebrown;">Finalizada</p></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><a class="btn-table" href="ordenes_detalle.html"> <i
-                                                    class="fa fa-archive" aria-hidden="true"></i></a>
-
-                                    </td>
-                                    <td>55667703</td>
-                                    <td>Compra</td>
-                                    <td>Reportos</td>
-                                    <td>$300</td>
-                                    <td>01/06/2016</td>
-                                    <td><p style="color:saddlebrown;">Finalizada</p></td>
-                                </tr>
-
-
+                                @foreach($Usuarios as $users)
+                                    <tr>
+                                        <td>{!!link_to_route('UsuarioCasaCorredora.edit', $title = ' Editar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-primary'])!!}
+                                            <br><br>
+                                            @if($users->deleted_at == null)
+                                                {!!Form::open(['route'=>['UsuarioCasaCorredora.destroy', $users->id], 'method'=>'DELETE'])!!}
+                                                {!!Form::submit('Desactivar  Usuario ', ['class'=>'btn btn-danger'])!!}
+                                                {!!Form::close()!!}
+                                            @else
+                                                {!!link_to_route('UsuarioCasaCorredora.restaurar', $title = 'Activar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-warning'])!!}
+                                            @endif
+                                        </td>
+                                        <td>{{$users->nombre}}</td>
+                                        <td>{{$users->apellido}}</td>
+                                        <td>{{$users->correo}}</td>
+                                        <?php $roles = $users->UsuarioRoles ?>
+                                        <td>@foreach($roles as $rolUsuario)
+                                                {{$rolUsuario->RolN->nombre}}<br>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @if($users->deleted_at == null)
+                                                Activo
+                                            @else
+                                                Inactivo
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
-
                             </table>
-
 
                         </div>
                     </div><!--row-->

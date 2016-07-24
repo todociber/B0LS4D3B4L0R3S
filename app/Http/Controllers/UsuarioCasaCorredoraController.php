@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Models\Departamento;
 use App\Models\Role;
 use App\Models\RolUsuario;
 use App\Models\Usuario;
-use Chumper\Datatable\Datatable;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 
 //use App\Http\Controllers\Datatable;
@@ -28,11 +28,10 @@ class UsuarioCasaCorredoraController extends Controller
     {
 
 
-        $id = 6;
-        $information = Departamento::ofid($id)->get();
+        $Usuarios = Usuario::withTrashed()->get();
 
 
-        return view('CasaCorredora.Usuarios.MostrarUsuarios', ['information' => $information]);
+        return view('CasaCorredora.Usuarios.MostrarUsuarios', ['Usuarios' => $Usuarios]);
     }
 
     /**
@@ -42,9 +41,12 @@ class UsuarioCasaCorredoraController extends Controller
      */
     public function create()
     {
-        $roles =Role::orderBy('nombre','asc')->where('id','!=','5')->lists('nombre', 'id');
+        return redirect('/UsuarioCasaCorredora/crear');
+    }
 
-
+    public function crear()
+    {
+        $roles = Role::orderBy('nombre', 'asc')->where('id', '!=', '5')->where('id', '!=', '1')->get();
         return view('CasaCorredora.Usuarios.NuevoUsuario',compact('roles'));
     }
 
@@ -73,13 +75,17 @@ class UsuarioCasaCorredoraController extends Controller
         );
 
         $Usuario->save();
-        $RolUsuario = new RolUsuario([
-            'idUsuario' => $Usuario->id,
-            'idRol' => $request['rolUsuario'],
-        ]);
-        $RolUsuario->save();
 
-         return redirect('/UsuarioCasaCorredora')->with('message','El cliente se registro exitosamente')->with('tipo','success');
+        foreach ($request['rolUsuario'] as $roles) {
+            $RolUsuario = new RolUsuario([
+                'idUsuario' => $Usuario->id,
+                'idRol' => $roles,
+            ]);
+            $RolUsuario->save();
+        }
+
+
+        return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario  se registro exitosamente')->with('tipo', 'success');
     }
 
     /**
@@ -101,9 +107,20 @@ class UsuarioCasaCorredoraController extends Controller
      */
     public function edit($id)
     {
-        $usuarios = Usuario::find($id);
+        /*$usuarios = Usuario::find($id);
         $roles =Role::orderBy('nombre','asc')->where('id','!=','5')->lists('nombre', 'id');
         return view('CasaCorredora.Usuarios.EditarUsuario', ['usuarios' => $usuarios,'roles'=>$roles]);
+   */
+
+        return redirect('/UsuarioCasaCorredora/' . $id . '/editar');
+    }
+
+    public function editar($id)
+    {
+        $usuarios = Usuario::find($id);
+        $roles = Role::orderBy('nombre', 'asc')->where('id', '!=', '5')->where('id', '!=', '1')->get();
+        $rolesSeleccionados = RolUsuario::where('idUsuario', '=', $id)->get();
+        return view('CasaCorredora.Usuarios.EditarUsuario', ['usuarios' => $usuarios, 'roles' => $roles, 'rolSeleccionados' => $rolesSeleccionados]);
     }
 
     /**
@@ -115,6 +132,23 @@ class UsuarioCasaCorredoraController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $rules = array(
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'correo' => 'required|unique:usuarios,correo,' . $id,
+            'rolUsuario' => 'required|exists:roles,id'
+
+        );
+        $error = Validator::make($request->all(), $rules);
+        if ($error->fails()) {
+
+            return redirect()->back()
+                ->withErrors($error->errors())
+                ->withInput($request->all());
+        }
+
+
         $usuario = Usuario::find($id);
         $usuario->fill(
             [
@@ -124,7 +158,60 @@ class UsuarioCasaCorredoraController extends Controller
             ]
         );
         $usuario->save();
-        return redirect('/UsuarioCasaCorredora')->with('message','El cliente se edito exitosamente')->with('tipo','success');
+
+        $rolesDisponibles = Role::all();
+
+        foreach ($rolesDisponibles as $rolDisponible) {
+
+            $existe = 0;
+            $idRolDisponible = $rolDisponible->id;
+            $NRolesActivosByUser = DB::table('rol_usuarios')
+                ->select(DB::raw('count(*) as N'))
+                ->where('idUsuario', $id)
+                ->where('idRol', $idRolDisponible)
+                ->where('deleted_at', null)
+                ->get();
+            if ($NRolesActivosByUser[0]->N > 0) {
+                $existeId = 0;
+                foreach ($request['rolUsuario'] as $role2) {
+
+
+                    if ($role2 == $idRolDisponible) {
+                        $existeId = 1;
+                    }
+
+                }
+
+                if ($existeId == 0) {
+                    $RolUsuarioABorrar = RolUsuario::where('idUsuario', $id)
+                        ->where('idRol', $idRolDisponible)->first();
+
+                    $RolUsuarioABorrar->delete();
+                }
+
+
+            }
+        }
+
+
+        foreach ($request['rolUsuario'] as $roles) {
+            $NRolesActivos = DB::table('rol_usuarios')
+                ->select(DB::raw('count(*) as N'))
+                ->where('idUsuario', $id)
+                ->where('idRol', $roles)
+                ->where('deleted_at', null)
+                ->get();
+
+            if ($NRolesActivos[0]->N == 0) {
+                $RolUsuario = new RolUsuario([
+                    'idUsuario' => $usuario->id,
+                    'idRol' => $roles,
+                ]);
+                $RolUsuario->save();
+            }
+
+        }
+        return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se edito exitosamente')->with('tipo', 'success');
     }
 
     /**
@@ -136,5 +223,18 @@ class UsuarioCasaCorredoraController extends Controller
     public function destroy($id)
     {
 
+
+        $Usuario = Usuario::ofid($id);
+        $Usuario->delete();
+        return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se elimino exitosamente')->with('tipo', 'danger');
+    }
+
+    public function restaurar($id)
+    {
+
+
+        $Usuario = Usuario::ofid($id);
+        $Usuario->restore();
+        return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se activo exitosamente')->with('tipo', 'warning');
     }
 }

@@ -36,6 +36,11 @@ Route::get('clientes/NuevaOrden','ClientesController@NuevaOrden')->name('nuevaOr
 //------CLIENTES ROUTES----//
 
 //-----CASA CORREDORA ROUTES----//
+
+
+Route::get('UsuarioCasaCorredora/crear', 'UsuarioCasaCorredoraController@crear')->name('UsuarioCasaCorredora.crear');
+Route::get('UsuarioCasaCorredora/{id}/editar', 'UsuarioCasaCorredoraController@editar');
+Route::get('UsuarioCasaCorredora/{id}/restaurar', 'UsuarioCasaCorredoraController@restaurar')->name('UsuarioCasaCorredora.restaurar');
 Route::resource('UsuarioCasaCorredora','UsuarioCasaCorredoraController');
 
 
