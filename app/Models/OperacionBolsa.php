@@ -21,8 +21,11 @@ class OperacionBolsa extends Model
 
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    public function idOrden() {
-        return $this->belongsTo('App\Models\Ordene', 'idOden');
+
+
+    public function OrdenN()
+    {
+        return $this->belongsTo(Ordene::class, 'idOden', 'id');
     }
 
     public function scopeOfid($query, $id)

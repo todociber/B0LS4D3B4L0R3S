@@ -17,6 +17,12 @@ class TipoOrden extends Model
 
     protected $guarded = [];
 
+
+    public function Ordenes_TipoOrden()
+    {
+        return $this->hasMany(Ordene::class, 'idTipoOrden', 'id');
+    }
+
     public function scopeOfid($query, $id)
     {
         if (trim($id) != "") {

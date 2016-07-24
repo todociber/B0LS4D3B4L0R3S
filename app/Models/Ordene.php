@@ -37,35 +37,64 @@ class Ordene extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
-    public function idTipoMercado() {
-        return $this->belongsTo('App\Models\TipoMercado', 'idTipoMercado');
+
+    public function EstadoOrdenN()
+    {
+        return $this->belongsTo(EstadoOrden::class, 'idEstadoOrden', 'id');
     }
 
-    public function idCliente() {
-        return $this->belongsTo('App\Models\Cliente', 'idCliente');
+    public function MensajesN_Orden()
+    {
+        return $this->hasMany(Mensaje::class, 'idOrden', 'id');
     }
 
-    public function idCorredor() {
-        return $this->belongsTo('App\Models\Usuario', 'idCorredor');
-    }
-    public function idTipoOrden() {
-        return $this->belongsTo('App\Models\TipoOrden', 'idTipoOrden');
-    }
-    public function idTipoEjecucion() {
-        return $this->belongsTo('App\Models\TipoEjecucion', 'idTipoEjecucion');
+
+    public function Operaiones_ordenes()
+    {
+        return $this->hasMany(OperacionBolsa::class, 'idOden', 'id');
     }
 
-    public function idEstadoOrden() {
-        return $this->belongsTo('App\Models\EstadoOrden', 'idEstadoOrden');
-    }
-    public function idOrganizacion() {
-        return $this->belongsTo('App\Models\Organizacion', 'idOrganizacion');
+
+    public function TipoMercadoN()
+    {
+        return $this->belongsTo(TipoMercado::class, 'idTipoMercado', 'id');
     }
 
-    public function idOrden() {
-        return $this->belongsTo('App\Models\Ordene', 'idOrden');
+
+    public function ClientesN()
+    {
+        return $this->belongsTo(Cliente::class, 'idCliente', 'id');
     }
 
+    public function Corredor_UsuarioN()
+    {
+        return $this->belongsTo(Usuario::class, 'idCorredor', 'id');
+    }
+
+    public function TipoOrdenN()
+    {
+        return $this->belongsTo(TipoOrden::class, 'idTipoOrden', 'id');
+    }
+
+    public function TipoEjecucionN()
+    {
+        return $this->belongsTo(TipoEjecucion::class, 'idTipoEjecucion', 'id');
+    }
+
+    public function EstadoOrden()
+    {
+        return $this->belongsTo(EstadoOrden::class, 'idEstadoOrden', 'id');
+    }
+
+    public function OrganizacionOrdenN()
+    {
+        return $this->belongsTo(Organizacion::class, 'idOrganizacion', 'id');
+    }
+
+    public function OrdenPadre()
+    {
+        return $this->belongsTo(Ordene::class, 'idOrden', 'id');
+    }
 
     public function scopeOfid($query, $id)
     {

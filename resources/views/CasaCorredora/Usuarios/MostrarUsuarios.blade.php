@@ -11,36 +11,30 @@
 
     @foreach($information as $info)
 
+        {{$info->nombre}}
 
         <?php
 
-        $municpio = $info->Municipio;
-
-
-
-
+        $muns = $info->Municipio;
         ?>
+        @foreach($muns as $dir)
 
-
-        <br>
-        <br>
-        Departamento: <br>
-        {{$info->nombre}}
-        <br>
-        Id Departamento:
-        {{$info->id}}
-        <br>
-        <br>
-
-        @foreach($municpio as $muni)
+            <?php $direccionActual = $dir->Direccione; ?>
             <br>
-            Municipio:
-            {{$muni->nombre}}
-
+            {{$dir->nombre}}
             <br>
+
+            @foreach($direccionActual as $direccionDetalle)
+                <br>
+
+                {{$direccionDetalle->ClienteDireccionN->dui}}
+            <br>
+
+
+
+            @endforeach
 
         @endforeach
-
         <br>
     @endforeach
     <br>

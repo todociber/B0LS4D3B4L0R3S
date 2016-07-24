@@ -32,6 +32,21 @@ class Usuario extends Model
         return $this->belongsTo(Organizacion::class, 'idOrganizacion', 'id');
     }
 
+    public function OrdenesUsuario()
+    {
+        return $this->hasMany(Ordene::class, 'idCorredor', 'id');
+    }
+
+    public function UsuarioRoles()
+    {
+        return $this->hasMany(RolUsuario::class, 'idUsuario', 'id');
+    }
+
+    public function BitacoraUsuarios()
+    {
+        return $this->hasMany(BitacoraUsuario::class, 'idUsuario', 'id');
+    }
+
     public function scopeOfid($query, $id)
     {
         if (trim($id)!="")

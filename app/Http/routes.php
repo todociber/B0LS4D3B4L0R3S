@@ -39,4 +39,4 @@ Route::get('clientes/NuevaOrden','ClientesController@NuevaOrden')->name('nuevaOr
 Route::resource('UsuarioCasaCorredora','UsuarioCasaCorredoraController');
 
 
-Route::get('api/subscribers', array('as' => 'api.subscribers', 'uses' => 'UsuarioCasaCorredoraController@getDatatable'));
+

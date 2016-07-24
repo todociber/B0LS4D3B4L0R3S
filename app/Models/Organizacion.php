@@ -28,10 +28,32 @@ class Organizacion extends Model
     protected $dates = ['deleted_at'];
 
 
-
-    public function idTipoOrganizacion() {
-        return $this->belongsTo('App\Models\TipoOrganizacion', 'idTipoOrganizacion');
+    public function TipoOrganizacionN()
+    {
+        return $this->belongsTo(TipoOrganizacion::class, 'idTipoOrganizacion', 'id');
     }
+
+    public function ClienteOrganizacion()
+    {
+        return $this->hasMany(ClienteOrganizacion::class, 'idOrganizacion', 'id');
+    }
+
+    public function SolicitudOrganizacion()
+    {
+        return $this->hasMany(SolicitudRegistro::class, 'idOrganizacion', 'id');
+    }
+
+    public function OrdenesOrganizacion()
+    {
+        return $this->hasMany(Ordene::class, 'idOrganizacion', 'id');
+    }
+
+    public function BitacoraUsuariosOrganizacion()
+    {
+        return $this->hasMany(BitacoraUsuario::class, 'idOrganizacion', 'id');
+    }
+
+
 
     public function scopeOfid($query, $id)
     {

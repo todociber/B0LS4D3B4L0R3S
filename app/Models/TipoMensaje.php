@@ -17,6 +17,12 @@ class TipoMensaje extends Model
 
     protected $guarded = [];
 
+    public function MensajesN()
+    {
+        return $this->hasMany(Mensaje::class, 'idTipoMensaje', 'id');
+    }
+
+
     public function scopeOfid($query, $id)
     {
         if (trim($id) != "") {
