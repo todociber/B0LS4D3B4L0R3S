@@ -3,9 +3,9 @@
 namespace Illuminate\Cache;
 
 use Exception;
-use Illuminate\Contracts\Cache\Store;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Contracts\Cache\Store;
 
 class FileStore implements Store
 {
@@ -90,45 +90,33 @@ class FileStore implements Store
     }
 
     /**
-     * Get the full path for the given cache key.
+     * Store an item in the cache for a given number of minutes.
      *
      * @param  string  $key
-     * @return string
+     * @param  mixed   $value
+     * @param  int     $minutes
+     * @return void
      */
-    protected function path($key)
+    public function put($key, $value, $minutes)
     {
-        $parts = array_slice(str_split($hash = sha1($key), 2), 0, 2);
+        $value = $this->expiration($minutes).serialize($value);
 
-        return $this->directory . '/' . implode('/', $parts) . '/' . $hash;
+        $this->createCacheDirectory($path = $this->path($key));
+
+        $this->files->put($path, $value, true);
     }
 
     /**
-     * Remove an item from the cache.
+     * Create the file cache directory if necessary.
      *
-     * @param  string $key
-     * @return bool
+     * @param  string  $path
+     * @return void
      */
-    public function forget($key)
+    protected function createCacheDirectory($path)
     {
-        $file = $this->path($key);
-
-        if ($this->files->exists($file)) {
-            return $this->files->delete($file);
+        if (! $this->files->exists(dirname($path))) {
+            $this->files->makeDirectory(dirname($path), 0777, true, true);
         }
-
-        return false;
-    }
-
-    /**
-     * Decrement the value of an item in the cache.
-     *
-     * @param  string $key
-     * @param  mixed $value
-     * @return int
-     */
-    public function decrement($key, $value = 1)
-    {
-        return $this->increment($key, $value * -1);
     }
 
     /**
@@ -150,62 +138,44 @@ class FileStore implements Store
     }
 
     /**
-     * Store an item in the cache for a given number of minutes.
+     * Decrement the value of an item in the cache.
      *
      * @param  string  $key
      * @param  mixed   $value
-     * @param  int $minutes
-     * @return void
-     */
-    public function put($key, $value, $minutes)
-    {
-        $value = $this->expiration($minutes) . serialize($value);
-
-        $this->createCacheDirectory($path = $this->path($key));
-
-        $this->files->put($path, $value, true);
-    }
-
-    /**
-     * Get the expiration time based on the given minutes.
-     *
-     * @param  int $minutes
      * @return int
      */
-    protected function expiration($minutes)
+    public function decrement($key, $value = 1)
     {
-        $time = time() + ($minutes * 60);
-
-        if ($minutes === 0 || $time > 9999999999) {
-            return 9999999999;
-        }
-
-        return (int)$time;
-    }
-
-    /**
-     * Create the file cache directory if necessary.
-     *
-     * @param  string $path
-     * @return void
-     */
-    protected function createCacheDirectory($path)
-    {
-        if (!$this->files->exists(dirname($path))) {
-            $this->files->makeDirectory(dirname($path), 0777, true, true);
-        }
+        return $this->increment($key, $value * -1);
     }
 
     /**
      * Store an item in the cache indefinitely.
      *
      * @param  string  $key
-     * @param  mixed $value
+     * @param  mixed   $value
      * @return void
      */
     public function forever($key, $value)
     {
         $this->put($key, $value, 0);
+    }
+
+    /**
+     * Remove an item from the cache.
+     *
+     * @param  string  $key
+     * @return bool
+     */
+    public function forget($key)
+    {
+        $file = $this->path($key);
+
+        if ($this->files->exists($file)) {
+            return $this->files->delete($file);
+        }
+
+        return false;
     }
 
     /**
@@ -220,6 +190,36 @@ class FileStore implements Store
                 $this->files->deleteDirectory($directory);
             }
         }
+    }
+
+    /**
+     * Get the full path for the given cache key.
+     *
+     * @param  string  $key
+     * @return string
+     */
+    protected function path($key)
+    {
+        $parts = array_slice(str_split($hash = sha1($key), 2), 0, 2);
+
+        return $this->directory.'/'.implode('/', $parts).'/'.$hash;
+    }
+
+    /**
+     * Get the expiration time based on the given minutes.
+     *
+     * @param  int  $minutes
+     * @return int
+     */
+    protected function expiration($minutes)
+    {
+        $time = time() + ($minutes * 60);
+
+        if ($minutes === 0 || $time > 9999999999) {
+            return 9999999999;
+        }
+
+        return (int) $time;
     }
 
     /**

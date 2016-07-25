@@ -12,15 +12,15 @@
 namespace Symfony\Component\HttpKernel\EventListener;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\ConsoleEvents;
-use Symfony\Component\Console\Event\ConsoleEvent;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Console\ConsoleEvents;
+use Symfony\Component\Console\Event\ConsoleEvent;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 
 /**
  * Configures errors and exceptions handlers.
@@ -53,17 +53,6 @@ class DebugHandlersListener implements EventSubscriberInterface
         $this->throwAt = is_numeric($throwAt) ? (int) $throwAt : (null === $throwAt ? null : ($throwAt ? E_ALL : null));
         $this->scream = (bool) $scream;
         $this->fileLinkFormat = $fileLinkFormat ?: ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
-    }
-
-    public static function getSubscribedEvents()
-    {
-        $events = array(KernelEvents::REQUEST => array('configure', 2048));
-
-        if (defined('Symfony\Component\Console\ConsoleEvents::COMMAND')) {
-            $events[ConsoleEvents::COMMAND] = array('configure', 2048);
-        }
-
-        return $events;
     }
 
     /**
@@ -134,5 +123,16 @@ class DebugHandlersListener implements EventSubscriberInterface
             }
             $this->exceptionHandler = null;
         }
+    }
+
+    public static function getSubscribedEvents()
+    {
+        $events = array(KernelEvents::REQUEST => array('configure', 2048));
+
+        if (defined('Symfony\Component\Console\ConsoleEvents::COMMAND')) {
+            $events[ConsoleEvents::COMMAND] = array('configure', 2048);
+        }
+
+        return $events;
     }
 }

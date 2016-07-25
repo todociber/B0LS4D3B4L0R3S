@@ -42,15 +42,6 @@ abstract class MultiplePcreFilterIterator extends FilterIterator
     }
 
     /**
-     * Converts string into regexp.
-     *
-     * @param string $str Pattern
-     *
-     * @return string regexp corresponding to a given string
-     */
-    abstract protected function toRegex($str);
-
-    /**
      * Checks whether the string is accepted by the regex filters.
      *
      * If there is no regexps defined in the class, this method will accept the string.
@@ -111,4 +102,13 @@ abstract class MultiplePcreFilterIterator extends FilterIterator
 
         return false;
     }
+
+    /**
+     * Converts string into regexp.
+     *
+     * @param string $str Pattern
+     *
+     * @return string regexp corresponding to a given string
+     */
+    abstract protected function toRegex($str);
 }

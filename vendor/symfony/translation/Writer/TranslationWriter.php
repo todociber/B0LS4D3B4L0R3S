@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Translation\Writer;
 
-use Symfony\Component\Translation\Dumper\DumperInterface;
 use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Translation\Dumper\DumperInterface;
 
 /**
  * TranslationWriter writes translation messages.

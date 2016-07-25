@@ -36,24 +36,7 @@ Route::get('clientes/NuevaOrden','ClientesController@NuevaOrden')->name('nuevaOr
 //------CLIENTES ROUTES----//
 
 //-----CASA CORREDORA ROUTES----//
+Route::resource('UsuarioCasaCorredora','UsuarioCasaCorredoraController');
 
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::group(['middleware' => 'administrradorBolsa'], function () {
-        Route::get('UsuarioCasaCorredora/crear', 'UsuarioCasaCorredoraController@crear')->name('UsuarioCasaCorredora.crear');
-        Route::get('UsuarioCasaCorredora/{id}/editar', 'UsuarioCasaCorredoraController@editar')->name('UsuarioCasaCorredora.editar');
-        Route::get('UsuarioCasaCorredora/{id}/restaurar', 'UsuarioCasaCorredoraController@restaurar')->name('UsuarioCasaCorredora.restaurar');
-        Route::get('UsuarioCasaCorredora/{id}/resetear', 'UsuarioCasaCorredoraController@resetar')->name('UsuarioCasaCorredora.resetearpassword');
-        Route::resource('UsuarioCasaCorredora', 'UsuarioCasaCorredoraController');
-    });
-});
-
-
-
-
-
-Route::post('loginPost', 'Autenticador@loginPost');
-
-Route::auth();
-Route::get('admin', 'HomeController@index');
-Route::get('/home', 'HomeController@index');
+Route::get('api/subscribers', array('as' => 'api.subscribers', 'uses' => 'UsuarioCasaCorredoraController@getDatatable'));

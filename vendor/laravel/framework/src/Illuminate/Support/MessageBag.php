@@ -3,11 +3,11 @@
 namespace Illuminate\Support;
 
 use Countable;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\MessageBag as MessageBagContract;
-use Illuminate\Contracts\Support\MessageProvider;
 use JsonSerializable;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\MessageProvider;
+use Illuminate\Contracts\Support\MessageBag as MessageBagContract;
 
 class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, MessageBagContract, MessageProvider
 {
@@ -65,20 +65,6 @@ class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, Me
     }
 
     /**
-     * Determine if a key and message combination already exists.
-     *
-     * @param  string $key
-     * @param  string $message
-     * @return bool
-     */
-    protected function isUnique($key, $message)
-    {
-        $messages = (array)$this->messages;
-
-        return !isset($messages[$key]) || !in_array($message, $messages[$key]);
-    }
-
-    /**
      * Merge a new array of messages into the bag.
      *
      * @param  \Illuminate\Contracts\Support\MessageProvider|array  $messages
@@ -96,26 +82,23 @@ class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, Me
     }
 
     /**
-     * Determine if messages exist for any of the given keys.
+     * Determine if a key and message combination already exists.
      *
-     * @param  array $keys
+     * @param  string  $key
+     * @param  string  $message
      * @return bool
      */
-    public function hasAny($keys = [])
+    protected function isUnique($key, $message)
     {
-        foreach ($keys as $key) {
-            if ($this->has($key)) {
-                return true;
-            }
-        }
+        $messages = (array) $this->messages;
 
-        return false;
+        return ! isset($messages[$key]) || ! in_array($message, $messages[$key]);
     }
 
     /**
      * Determine if messages exist for all of the given keys.
      *
-     * @param  array|string $key
+     * @param  array|string  $key
      * @return bool
      */
     public function has($key = null)
@@ -132,6 +115,23 @@ class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, Me
     }
 
     /**
+     * Determine if messages exist for any of the given keys.
+     *
+     * @param  array  $keys
+     * @return bool
+     */
+    public function hasAny($keys = [])
+    {
+        foreach ($keys as $key) {
+            if ($this->has($key)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Get the first message from the bag for a given key.
      *
      * @param  string  $key
@@ -143,6 +143,25 @@ class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, Me
         $messages = is_null($key) ? $this->all($format) : $this->get($key, $format);
 
         return count($messages) > 0 ? $messages[0] : '';
+    }
+
+    /**
+     * Get all of the messages from the bag for a given key.
+     *
+     * @param  string  $key
+     * @param  string  $format
+     * @return array
+     */
+    public function get($key, $format = null)
+    {
+        // If the message exists in the container, we will transform it and return
+        // the message. Otherwise, we'll return an empty array since the entire
+        // methods is to return back an array of messages in the first place.
+        if (array_key_exists($key, $this->messages)) {
+            return $this->transform($this->messages[$key], $this->checkFormat($format), $key);
+        }
+
+        return [];
     }
 
     /**
@@ -165,14 +184,14 @@ class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, Me
     }
 
     /**
-     * Get the appropriate format based on the given format.
+     * Get all of the unique messages for every key in the bag.
      *
      * @param  string  $format
-     * @return string
+     * @return array
      */
-    protected function checkFormat($format)
+    public function unique($format = null)
     {
-        return $format ?: $this->format;
+        return array_unique($this->all($format));
     }
 
     /**
@@ -200,33 +219,34 @@ class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, Me
     }
 
     /**
-     * Get all of the messages from the bag for a given key.
+     * Get the appropriate format based on the given format.
      *
-     * @param  string $key
      * @param  string  $format
-     * @return array
+     * @return string
      */
-    public function get($key, $format = null)
+    protected function checkFormat($format)
     {
-        // If the message exists in the container, we will transform it and return
-        // the message. Otherwise, we'll return an empty array since the entire
-        // methods is to return back an array of messages in the first place.
-        if (array_key_exists($key, $this->messages)) {
-            return $this->transform($this->messages[$key], $this->checkFormat($format), $key);
-        }
-
-        return [];
+        return $format ?: $this->format;
     }
 
     /**
-     * Get all of the unique messages for every key in the bag.
+     * Get the raw messages in the container.
      *
-     * @param  string $format
      * @return array
      */
-    public function unique($format = null)
+    public function messages()
     {
-        return array_unique($this->all($format));
+        return $this->messages;
+    }
+
+    /**
+     * Get the raw messages in the container.
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->messages();
     }
 
     /**
@@ -293,24 +313,13 @@ class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, Me
     }
 
     /**
-     * Convert the message bag to its string representation.
+     * Get the instance as an array.
      *
-     * @return string
+     * @return array
      */
-    public function __toString()
+    public function toArray()
     {
-        return $this->toJson();
-    }
-
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param  int $options
-     * @return string
-     */
-    public function toJson($options = 0)
-    {
-        return json_encode($this->jsonSerialize(), $options);
+        return $this->getMessages();
     }
 
     /**
@@ -324,32 +333,23 @@ class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, Me
     }
 
     /**
-     * Get the instance as an array.
+     * Convert the object to its JSON representation.
      *
-     * @return array
+     * @param  int  $options
+     * @return string
      */
-    public function toArray()
+    public function toJson($options = 0)
     {
-        return $this->getMessages();
+        return json_encode($this->jsonSerialize(), $options);
     }
 
     /**
-     * Get the raw messages in the container.
+     * Convert the message bag to its string representation.
      *
-     * @return array
+     * @return string
      */
-    public function getMessages()
+    public function __toString()
     {
-        return $this->messages();
-    }
-
-    /**
-     * Get the raw messages in the container.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return $this->messages;
+        return $this->toJson();
     }
 }

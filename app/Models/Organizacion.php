@@ -61,4 +61,5 @@ class Organizacion extends Model
             $query->where('id', $id);
         }
     }
+    
 }

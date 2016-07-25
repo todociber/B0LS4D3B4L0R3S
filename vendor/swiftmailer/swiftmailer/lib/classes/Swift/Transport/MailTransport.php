@@ -67,18 +67,6 @@ class Swift_Transport_MailTransport implements Swift_Transport
     }
 
     /**
-     * Get the additional parameters used on the mail() function.
-     *
-     * This string is formatted for sprintf() where %s is the sender address.
-     *
-     * @return string
-     */
-    public function getExtraParams()
-    {
-        return $this->_extraParams;
-    }
-
-    /**
      * Set the additional parameters used on the mail() function.
      *
      * This string is formatted for sprintf() where %s is the sender address.
@@ -92,6 +80,18 @@ class Swift_Transport_MailTransport implements Swift_Transport
         $this->_extraParams = $params;
 
         return $this;
+    }
+
+    /**
+     * Get the additional parameters used on the mail() function.
+     *
+     * This string is formatted for sprintf() where %s is the sender address.
+     *
+     * @return string
+     */
+    public function getExtraParams()
+    {
+        return $this->_extraParams;
     }
 
     /**
@@ -195,6 +195,16 @@ class Swift_Transport_MailTransport implements Swift_Transport
         return $count;
     }
 
+    /**
+     * Register a plugin.
+     *
+     * @param Swift_Events_EventListener $plugin
+     */
+    public function registerPlugin(Swift_Events_EventListener $plugin)
+    {
+        $this->_eventDispatcher->bindEventListener($plugin);
+    }
+
     /** Throw a TransportException, first sending it to any listeners */
     protected function _throwException(Swift_TransportException $e)
     {
@@ -243,15 +253,5 @@ class Swift_Transport_MailTransport implements Swift_Transport
         }
 
         return !empty($extraParams) ? $extraParams : null;
-    }
-
-    /**
-     * Register a plugin.
-     *
-     * @param Swift_Events_EventListener $plugin
-     */
-    public function registerPlugin(Swift_Events_EventListener $plugin)
-    {
-        $this->_eventDispatcher->bindEventListener($plugin);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Illuminate\Mail;
 
-use Illuminate\Support\ServiceProvider;
 use Swift_Mailer;
+use Illuminate\Support\ServiceProvider;
 
 class MailServiceProvider extends ServiceProvider
 {
@@ -53,6 +53,22 @@ class MailServiceProvider extends ServiceProvider
     }
 
     /**
+     * Set a few dependencies on the mailer instance.
+     *
+     * @param  \Illuminate\Mail\Mailer  $mailer
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function setMailerDependencies($mailer, $app)
+    {
+        $mailer->setContainer($app);
+
+        if ($app->bound('queue')) {
+            $mailer->setQueue($app['queue.connection']);
+        }
+    }
+
+    /**
      * Register the Swift Mailer instance.
      *
      * @return void
@@ -79,22 +95,6 @@ class MailServiceProvider extends ServiceProvider
         $this->app['swift.transport'] = $this->app->share(function ($app) {
             return new TransportManager($app);
         });
-    }
-
-    /**
-     * Set a few dependencies on the mailer instance.
-     *
-     * @param  \Illuminate\Mail\Mailer $mailer
-     * @param  \Illuminate\Foundation\Application $app
-     * @return void
-     */
-    protected function setMailerDependencies($mailer, $app)
-    {
-        $mailer->setContainer($app);
-
-        if ($app->bound('queue')) {
-            $mailer->setQueue($app['queue.connection']);
-        }
     }
 
     /**

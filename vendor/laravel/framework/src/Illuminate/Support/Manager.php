@@ -40,40 +40,11 @@ abstract class Manager
     }
 
     /**
-     * Register a custom driver creator Closure.
+     * Get the default driver name.
      *
-     * @param  string $driver
-     * @param  \Closure $callback
-     * @return $this
+     * @return string
      */
-    public function extend($driver, Closure $callback)
-    {
-        $this->customCreators[$driver] = $callback;
-
-        return $this;
-    }
-
-    /**
-     * Get all of the created "drivers".
-     *
-     * @return array
-     */
-    public function getDrivers()
-    {
-        return $this->drivers;
-    }
-
-    /**
-     * Dynamically call the default driver instance.
-     *
-     * @param  string $method
-     * @param  array $parameters
-     * @return mixed
-     */
-    public function __call($method, $parameters)
-    {
-        return call_user_func_array([$this->driver(), $method], $parameters);
-    }
+    abstract public function getDefaultDriver();
 
     /**
      * Get a driver instance.
@@ -94,13 +65,6 @@ abstract class Manager
 
         return $this->drivers[$driver];
     }
-
-    /**
-     * Get the default driver name.
-     *
-     * @return string
-     */
-    abstract public function getDefaultDriver();
 
     /**
      * Create a new driver instance.
@@ -135,5 +99,41 @@ abstract class Manager
     protected function callCustomCreator($driver)
     {
         return $this->customCreators[$driver]($this->app);
+    }
+
+    /**
+     * Register a custom driver creator Closure.
+     *
+     * @param  string    $driver
+     * @param  \Closure  $callback
+     * @return $this
+     */
+    public function extend($driver, Closure $callback)
+    {
+        $this->customCreators[$driver] = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Get all of the created "drivers".
+     *
+     * @return array
+     */
+    public function getDrivers()
+    {
+        return $this->drivers;
+    }
+
+    /**
+     * Dynamically call the default driver instance.
+     *
+     * @param  string  $method
+     * @param  array   $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return call_user_func_array([$this->driver(), $method], $parameters);
     }
 }

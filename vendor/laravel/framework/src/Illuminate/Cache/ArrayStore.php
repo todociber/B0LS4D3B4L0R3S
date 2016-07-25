@@ -29,15 +29,16 @@ class ArrayStore extends TaggableStore implements Store
     }
 
     /**
-     * Decrement the value of an item in the cache.
+     * Store an item in the cache for a given number of minutes.
      *
      * @param  string  $key
      * @param  mixed   $value
-     * @return int
+     * @param  int     $minutes
+     * @return void
      */
-    public function decrement($key, $value = 1)
+    public function put($key, $value, $minutes)
     {
-        return $this->increment($key, $value * -1);
+        $this->storage[$key] = $value;
     }
 
     /**
@@ -55,6 +56,18 @@ class ArrayStore extends TaggableStore implements Store
     }
 
     /**
+     * Decrement the value of an item in the cache.
+     *
+     * @param  string  $key
+     * @param  mixed   $value
+     * @return int
+     */
+    public function decrement($key, $value = 1)
+    {
+        return $this->increment($key, $value * -1);
+    }
+
+    /**
      * Store an item in the cache indefinitely.
      *
      * @param  string  $key
@@ -64,19 +77,6 @@ class ArrayStore extends TaggableStore implements Store
     public function forever($key, $value)
     {
         $this->put($key, $value, 0);
-    }
-
-    /**
-     * Store an item in the cache for a given number of minutes.
-     *
-     * @param  string  $key
-     * @param  mixed   $value
-     * @param  int $minutes
-     * @return void
-     */
-    public function put($key, $value, $minutes)
-    {
-        $this->storage[$key] = $value;
     }
 
     /**

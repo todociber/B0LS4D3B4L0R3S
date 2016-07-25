@@ -26,35 +26,19 @@
                             <div class="content">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form role="form">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Nombre</label>
-                                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Ingresar Nombre">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Apellido</label>
-                                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Ingresar Apellido">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Correo institucional</label>
-                                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Ingresar Correo">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Estado</label>
-                                                <select type="text" class="form-control" id="exampleInputEmail1" placeholder="Estado">
-                                                    <option>Seleccionar Estado</option>
-                                                    <option>Activo</option>
-                                                    <option>Inactivo</option>
-                                                </select>
-                                            </div>
-                                        </form>
+                                        @include('alertas.errores')
+                                        @include('alertas.flash')
+                                        {{Form::open(['route'=>'UsuarioBolsa.store','method' =>'POST', 'id'=>'form','role' => 'form'])  }}
+                                        @include('bves.Usuarios.FormularioUserBolsa.FormularioUserBolsa')
+
                                     </div>
 
                                 </div>
                             </div>
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-primary btn-flat">Registrar</button>
+                                {!!Form::submit('Registrar Usuario', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit', 'onclick'=>"waitingDialog.show('Procesando... ',{ progressType: 'info'})"])!!}
                             </div>
+                            {{ Form::close() }}
 
                         </div>
 

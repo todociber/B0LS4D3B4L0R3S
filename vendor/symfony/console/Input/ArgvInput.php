@@ -46,7 +46,7 @@ class ArgvInput extends Input
     /**
      * Constructor.
      *
-     * @param array|null $argv An array of parameters from the CLI (in the argv format)
+     * @param array|null           $argv       An array of parameters from the CLI (in the argv format)
      * @param InputDefinition|null $definition A InputDefinition instance
      */
     public function __construct(array $argv = null, InputDefinition $definition = null)
@@ -61,91 +61,6 @@ class ArgvInput extends Input
         $this->tokens = $argv;
 
         parent::__construct($definition);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFirstArgument()
-    {
-        foreach ($this->tokens as $token) {
-            if ($token && '-' === $token[0]) {
-                continue;
-            }
-
-            return $token;
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasParameterOption($values, $onlyParams = false)
-    {
-        $values = (array)$values;
-
-        foreach ($this->tokens as $token) {
-            if ($onlyParams && $token === '--') {
-                return false;
-            }
-            foreach ($values as $value) {
-                if ($token === $value || 0 === strpos($token, $value . '=')) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParameterOption($values, $default = false, $onlyParams = false)
-    {
-        $values = (array)$values;
-        $tokens = $this->tokens;
-
-        while (0 < count($tokens)) {
-            $token = array_shift($tokens);
-            if ($onlyParams && $token === '--') {
-                return false;
-            }
-
-            foreach ($values as $value) {
-                if ($token === $value || 0 === strpos($token, $value . '=')) {
-                    if (false !== $pos = strpos($token, '=')) {
-                        return substr($token, $pos + 1);
-                    }
-
-                    return array_shift($tokens);
-                }
-            }
-        }
-
-        return $default;
-    }
-
-    /**
-     * Returns a stringified representation of the args passed to the command.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        $tokens = array_map(function ($token) {
-            if (preg_match('{^(-[^=]+=)(.+)}', $token, $match)) {
-                return $match[1] . $this->escapeToken($match[2]);
-            }
-
-            if ($token && $token[0] !== '-') {
-                return $this->escapeToken($token);
-            }
-
-            return $token;
-        }, $this->tokens);
-
-        return implode(' ', $tokens);
     }
 
     protected function setTokens(array $tokens)
@@ -172,6 +87,69 @@ class ArgvInput extends Input
             } else {
                 $this->parseArgument($token);
             }
+        }
+    }
+
+    /**
+     * Parses a short option.
+     *
+     * @param string $token The current token
+     */
+    private function parseShortOption($token)
+    {
+        $name = substr($token, 1);
+
+        if (strlen($name) > 1) {
+            if ($this->definition->hasShortcut($name[0]) && $this->definition->getOptionForShortcut($name[0])->acceptValue()) {
+                // an option with a value (with no space)
+                $this->addShortOption($name[0], substr($name, 1));
+            } else {
+                $this->parseShortOptionSet($name);
+            }
+        } else {
+            $this->addShortOption($name, null);
+        }
+    }
+
+    /**
+     * Parses a short option set.
+     *
+     * @param string $name The current token
+     *
+     * @throws RuntimeException When option given doesn't exist
+     */
+    private function parseShortOptionSet($name)
+    {
+        $len = strlen($name);
+        for ($i = 0; $i < $len; ++$i) {
+            if (!$this->definition->hasShortcut($name[$i])) {
+                throw new RuntimeException(sprintf('The "-%s" option does not exist.', $name[$i]));
+            }
+
+            $option = $this->definition->getOptionForShortcut($name[$i]);
+            if ($option->acceptValue()) {
+                $this->addLongOption($option->getName(), $i === $len - 1 ? null : substr($name, $i + 1));
+
+                break;
+            } else {
+                $this->addLongOption($option->getName(), null);
+            }
+        }
+    }
+
+    /**
+     * Parses a long option.
+     *
+     * @param string $token The current token
+     */
+    private function parseLongOption($token)
+    {
+        $name = substr($token, 2);
+
+        if (false !== $pos = strpos($name, '=')) {
+            $this->addLongOption(substr($name, 0, $pos), substr($name, $pos + 1));
+        } else {
+            $this->addLongOption($name, null);
         }
     }
 
@@ -203,19 +181,20 @@ class ArgvInput extends Input
     }
 
     /**
-     * Parses a long option.
+     * Adds a short option value.
      *
-     * @param string $token The current token
+     * @param string $shortcut The short option key
+     * @param mixed  $value    The value for the option
+     *
+     * @throws RuntimeException When option given doesn't exist
      */
-    private function parseLongOption($token)
+    private function addShortOption($shortcut, $value)
     {
-        $name = substr($token, 2);
-
-        if (false !== $pos = strpos($name, '=')) {
-            $this->addLongOption(substr($name, 0, $pos), substr($name, $pos + 1));
-        } else {
-            $this->addLongOption($name, null);
+        if (!$this->definition->hasShortcut($shortcut)) {
+            throw new RuntimeException(sprintf('The "-%s" option does not exist.', $shortcut));
         }
+
+        $this->addLongOption($this->definition->getOptionForShortcut($shortcut)->getName(), $value);
     }
 
     /**
@@ -274,66 +253,87 @@ class ArgvInput extends Input
     }
 
     /**
-     * Parses a short option.
-     *
-     * @param string $token The current token
+     * {@inheritdoc}
      */
-    private function parseShortOption($token)
+    public function getFirstArgument()
     {
-        $name = substr($token, 1);
-
-        if (strlen($name) > 1) {
-            if ($this->definition->hasShortcut($name[0]) && $this->definition->getOptionForShortcut($name[0])->acceptValue()) {
-                // an option with a value (with no space)
-                $this->addShortOption($name[0], substr($name, 1));
-            } else {
-                $this->parseShortOptionSet($name);
+        foreach ($this->tokens as $token) {
+            if ($token && '-' === $token[0]) {
+                continue;
             }
-        } else {
-            $this->addShortOption($name, null);
+
+            return $token;
         }
     }
 
     /**
-     * Adds a short option value.
-     *
-     * @param string $shortcut The short option key
-     * @param mixed $value The value for the option
-     *
-     * @throws RuntimeException When option given doesn't exist
+     * {@inheritdoc}
      */
-    private function addShortOption($shortcut, $value)
+    public function hasParameterOption($values, $onlyParams = false)
     {
-        if (!$this->definition->hasShortcut($shortcut)) {
-            throw new RuntimeException(sprintf('The "-%s" option does not exist.', $shortcut));
+        $values = (array) $values;
+
+        foreach ($this->tokens as $token) {
+            if ($onlyParams && $token === '--') {
+                return false;
+            }
+            foreach ($values as $value) {
+                if ($token === $value || 0 === strpos($token, $value.'=')) {
+                    return true;
+                }
+            }
         }
 
-        $this->addLongOption($this->definition->getOptionForShortcut($shortcut)->getName(), $value);
+        return false;
     }
 
     /**
-     * Parses a short option set.
-     *
-     * @param string $name The current token
-     *
-     * @throws RuntimeException When option given doesn't exist
+     * {@inheritdoc}
      */
-    private function parseShortOptionSet($name)
+    public function getParameterOption($values, $default = false, $onlyParams = false)
     {
-        $len = strlen($name);
-        for ($i = 0; $i < $len; ++$i) {
-            if (!$this->definition->hasShortcut($name[$i])) {
-                throw new RuntimeException(sprintf('The "-%s" option does not exist.', $name[$i]));
+        $values = (array) $values;
+        $tokens = $this->tokens;
+
+        while (0 < count($tokens)) {
+            $token = array_shift($tokens);
+            if ($onlyParams && $token === '--') {
+                return false;
             }
 
-            $option = $this->definition->getOptionForShortcut($name[$i]);
-            if ($option->acceptValue()) {
-                $this->addLongOption($option->getName(), $i === $len - 1 ? null : substr($name, $i + 1));
+            foreach ($values as $value) {
+                if ($token === $value || 0 === strpos($token, $value.'=')) {
+                    if (false !== $pos = strpos($token, '=')) {
+                        return substr($token, $pos + 1);
+                    }
 
-                break;
-            } else {
-                $this->addLongOption($option->getName(), null);
+                    return array_shift($tokens);
+                }
             }
         }
+
+        return $default;
+    }
+
+    /**
+     * Returns a stringified representation of the args passed to the command.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $tokens = array_map(function ($token) {
+            if (preg_match('{^(-[^=]+=)(.+)}', $token, $match)) {
+                return $match[1].$this->escapeToken($match[2]);
+            }
+
+            if ($token && $token[0] !== '-') {
+                return $this->escapeToken($token);
+            }
+
+            return $token;
+        }, $this->tokens);
+
+        return implode(' ', $tokens);
     }
 }

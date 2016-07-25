@@ -24,6 +24,35 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
     protected static $records = array();
 
     /**
+     * {@inheritDoc}
+     *
+     * Formatted output may contain some formatting markers to be transferred to `console.log` using the %c format.
+     *
+     * Example of formatted string:
+     *
+     *     You can do [[blue text]]{color: blue} or [[green background]]{background-color: green; color: white}
+     */
+    protected function getDefaultFormatter()
+    {
+        return new LineFormatter('[[%channel%]]{macro: autolabel} [[%level_name%]]{font-weight: bold} %message%');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function write(array $record)
+    {
+        // Accumulate records
+        self::$records[] = $record;
+
+        // Register shutdown handler if not already done
+        if (!self::$initialized) {
+            self::$initialized = true;
+            $this->registerShutdownFunction();
+        }
+    }
+
+    /**
      * Convert records to javascript console commands and send it to the browser.
      * This method is automatically called on PHP shutdown if output is HTML or Javascript.
      */
@@ -42,6 +71,34 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
             }
             self::reset();
         }
+    }
+
+    /**
+     * Forget all logged records
+     */
+    public static function reset()
+    {
+        self::$records = array();
+    }
+
+    /**
+     * Wrapper for register_shutdown_function to allow overriding
+     */
+    protected function registerShutdownFunction()
+    {
+        if (PHP_SAPI !== 'cli') {
+            register_shutdown_function(array('Monolog\Handler\BrowserConsoleHandler', 'send'));
+        }
+    }
+
+    /**
+     * Wrapper for echo to allow overriding
+     *
+     * @param string $str
+     */
+    protected static function writeOutput($str)
+    {
+        echo $str;
     }
 
     /**
@@ -73,16 +130,6 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
         return 'html';
     }
 
-    /**
-     * Wrapper for echo to allow overriding
-     *
-     * @param string $str
-     */
-    protected static function writeOutput($str)
-    {
-        echo $str;
-    }
-
     private static function generateScript()
     {
         $script = array();
@@ -103,43 +150,6 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
         }
 
         return "(function (c) {if (c && c.groupCollapsed) {\n" . implode("\n", $script) . "\n}})(console);";
-    }
-
-    private static function dump($title, array $dict)
-    {
-        $script = array();
-        $dict = array_filter($dict);
-        if (empty($dict)) {
-            return $script;
-        }
-        $script[] = self::call('log', self::quote('%c%s'), self::quote('font-weight: bold'), self::quote($title));
-        foreach ($dict as $key => $value) {
-            $value = json_encode($value);
-            if (empty($value)) {
-                $value = self::quote('');
-            }
-            $script[] = self::call('log', self::quote('%s: %o'), self::quote($key), $value);
-        }
-
-        return $script;
-    }
-
-    private static function call()
-    {
-        $args = func_get_args();
-        $method = array_shift($args);
-
-        return self::call_array($method, $args);
-    }
-
-    private static function call_array($method, array $args)
-    {
-        return 'c.' . $method . '(' . implode(', ', $args) . ');';
-    }
-
-    private static function quote($arg)
-    {
-        return '"' . addcslashes($arg, "\"\n\\") . '"';
     }
 
     private static function handleStyles($formatted)
@@ -181,50 +191,40 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
         }, $style);
     }
 
-    /**
-     * Forget all logged records
-     */
-    public static function reset()
+    private static function dump($title, array $dict)
     {
-        self::$records = array();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * Formatted output may contain some formatting markers to be transferred to `console.log` using the %c format.
-     *
-     * Example of formatted string:
-     *
-     *     You can do [[blue text]]{color: blue} or [[green background]]{background-color: green; color: white}
-     */
-    protected function getDefaultFormatter()
-    {
-        return new LineFormatter('[[%channel%]]{macro: autolabel} [[%level_name%]]{font-weight: bold} %message%');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function write(array $record)
-    {
-        // Accumulate records
-        self::$records[] = $record;
-
-        // Register shutdown handler if not already done
-        if (!self::$initialized) {
-            self::$initialized = true;
-            $this->registerShutdownFunction();
+        $script = array();
+        $dict = array_filter($dict);
+        if (empty($dict)) {
+            return $script;
         }
+        $script[] = self::call('log', self::quote('%c%s'), self::quote('font-weight: bold'), self::quote($title));
+        foreach ($dict as $key => $value) {
+            $value = json_encode($value);
+            if (empty($value)) {
+                $value = self::quote('');
+            }
+            $script[] = self::call('log', self::quote('%s: %o'), self::quote($key), $value);
+        }
+
+        return $script;
     }
 
-    /**
-     * Wrapper for register_shutdown_function to allow overriding
-     */
-    protected function registerShutdownFunction()
+    private static function quote($arg)
     {
-        if (PHP_SAPI !== 'cli') {
-            register_shutdown_function(array('Monolog\Handler\BrowserConsoleHandler', 'send'));
-        }
+        return '"' . addcslashes($arg, "\"\n\\") . '"';
+    }
+
+    private static function call()
+    {
+        $args = func_get_args();
+        $method = array_shift($args);
+
+        return self::call_array($method, $args);
+    }
+
+    private static function call_array($method, array $args)
+    {
+        return 'c.' . $method . '(' . implode(', ', $args) . ');';
     }
 }

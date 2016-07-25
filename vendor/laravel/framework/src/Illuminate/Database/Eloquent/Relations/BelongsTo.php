@@ -2,37 +2,40 @@
 
 namespace Illuminate\Database\Eloquent\Relations;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Expression;
+use Illuminate\Database\Eloquent\Collection;
 
 class BelongsTo extends Relation
 {
-    /**
-     * The count of self joins.
-     *
-     * @var int
-     */
-    protected static $selfJoinCount = 0;
     /**
      * The foreign key of the parent model.
      *
      * @var string
      */
     protected $foreignKey;
+
     /**
      * The associated key on the parent model.
      *
      * @var string
      */
     protected $otherKey;
+
     /**
      * The name of the relationship.
      *
      * @var string
      */
     protected $relation;
+
+    /**
+     * The count of self joins.
+     *
+     * @var int
+     */
+    protected static $selfJoinCount = 0;
 
     /**
      * Create a new belongs to relationship instance.
@@ -51,6 +54,16 @@ class BelongsTo extends Relation
         $this->foreignKey = $foreignKey;
 
         parent::__construct($query, $parent);
+    }
+
+    /**
+     * Get the results of the relationship.
+     *
+     * @return mixed
+     */
+    public function getResults()
+    {
+        return $this->query->first();
     }
 
     /**
@@ -120,16 +133,6 @@ class BelongsTo extends Relation
     public function getRelationCountHash()
     {
         return 'laravel_reserved_'.static::$selfJoinCount++;
-    }
-
-    /**
-     * Get the fully qualified foreign key of the relationship.
-     *
-     * @return string
-     */
-    public function getQualifiedForeignKey()
-    {
-        return $this->parent->getTable() . '.' . $this->foreignKey;
     }
 
     /**
@@ -273,16 +276,6 @@ class BelongsTo extends Relation
     }
 
     /**
-     * Get the results of the relationship.
-     *
-     * @return mixed
-     */
-    public function getResults()
-    {
-        return $this->query->first();
-    }
-
-    /**
      * Get the foreign key of the relationship.
      *
      * @return string
@@ -290,6 +283,16 @@ class BelongsTo extends Relation
     public function getForeignKey()
     {
         return $this->foreignKey;
+    }
+
+    /**
+     * Get the fully qualified foreign key of the relationship.
+     *
+     * @return string
+     */
+    public function getQualifiedForeignKey()
+    {
+        return $this->parent->getTable().'.'.$this->foreignKey;
     }
 
     /**

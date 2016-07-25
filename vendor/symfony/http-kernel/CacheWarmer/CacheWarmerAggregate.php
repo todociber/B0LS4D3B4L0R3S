@@ -28,11 +28,6 @@ class CacheWarmerAggregate implements CacheWarmerInterface
         }
     }
 
-    public function add(CacheWarmerInterface $warmer)
-    {
-        $this->warmers[] = $warmer;
-    }
-
     public function enableOptionalWarmers()
     {
         $this->optionalsEnabled = true;
@@ -70,5 +65,10 @@ class CacheWarmerAggregate implements CacheWarmerInterface
         foreach ($warmers as $warmer) {
             $this->add($warmer);
         }
+    }
+
+    public function add(CacheWarmerInterface $warmer)
+    {
+        $this->warmers[] = $warmer;
     }
 }

@@ -3,10 +3,10 @@
 namespace Illuminate\Session;
 
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Database\ConnectionInterface;
 use SessionHandlerInterface;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Database\ConnectionInterface;
+use Illuminate\Contracts\Container\Container;
 
 class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareInterface
 {
@@ -81,6 +81,28 @@ class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareI
     /**
      * {@inheritdoc}
      */
+    public function read($sessionId)
+    {
+        $session = (object) $this->getQuery()->find($sessionId);
+
+        if (isset($session->last_activity)) {
+            if ($session->last_activity < Carbon::now()->subMinutes($this->minutes)->getTimestamp()) {
+                $this->exists = true;
+
+                return;
+            }
+        }
+
+        if (isset($session->payload)) {
+            $this->exists = true;
+
+            return base64_decode($session->payload);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function write($sessionId, $data)
     {
         $payload = $this->getDefaultPayload($data);
@@ -132,38 +154,6 @@ class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareI
     /**
      * {@inheritdoc}
      */
-    public function read($sessionId)
-    {
-        $session = (object)$this->getQuery()->find($sessionId);
-
-        if (isset($session->last_activity)) {
-            if ($session->last_activity < Carbon::now()->subMinutes($this->minutes)->getTimestamp()) {
-                $this->exists = true;
-
-                return;
-            }
-        }
-
-        if (isset($session->payload)) {
-            $this->exists = true;
-
-            return base64_decode($session->payload);
-        }
-    }
-
-    /**
-     * Get a fresh query builder instance for the table.
-     *
-     * @return \Illuminate\Database\Query\Builder
-     */
-    protected function getQuery()
-    {
-        return $this->connection->table($this->table);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function destroy($sessionId)
     {
         $this->getQuery()->where('id', $sessionId)->delete();
@@ -175,6 +165,16 @@ class DatabaseSessionHandler implements SessionHandlerInterface, ExistenceAwareI
     public function gc($lifetime)
     {
         $this->getQuery()->where('last_activity', '<=', time() - $lifetime)->delete();
+    }
+
+    /**
+     * Get a fresh query builder instance for the table.
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    protected function getQuery()
+    {
+        return $this->connection->table($this->table);
     }
 
     /**

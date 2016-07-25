@@ -2,10 +2,10 @@
 
 namespace Illuminate\Queue\Jobs;
 
+use Illuminate\Support\Arr;
+use Illuminate\Queue\RedisQueue;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Queue\Job as JobContract;
-use Illuminate\Queue\RedisQueue;
-use Illuminate\Support\Arr;
 
 class RedisJob extends Job implements JobContract
 {
@@ -61,21 +61,6 @@ class RedisJob extends Job implements JobContract
     }
 
     /**
-     * Release the job back into the queue.
-     *
-     * @param  int $delay
-     * @return void
-     */
-    public function release($delay = 0)
-    {
-        parent::release($delay);
-
-        $this->delete();
-
-        $this->redis->release($this->queue, $this->job, $delay, $this->attempts() + 1);
-    }
-
-    /**
      * Delete the job from the queue.
      *
      * @return void
@@ -85,6 +70,21 @@ class RedisJob extends Job implements JobContract
         parent::delete();
 
         $this->redis->deleteReserved($this->queue, $this->job);
+    }
+
+    /**
+     * Release the job back into the queue.
+     *
+     * @param  int   $delay
+     * @return void
+     */
+    public function release($delay = 0)
+    {
+        parent::release($delay);
+
+        $this->delete();
+
+        $this->redis->release($this->queue, $this->job, $delay, $this->attempts() + 1);
     }
 
     /**

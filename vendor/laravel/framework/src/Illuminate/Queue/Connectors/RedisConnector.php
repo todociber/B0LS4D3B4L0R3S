@@ -2,9 +2,9 @@
 
 namespace Illuminate\Queue\Connectors;
 
-use Illuminate\Queue\RedisQueue;
-use Illuminate\Redis\Database;
 use Illuminate\Support\Arr;
+use Illuminate\Redis\Database;
+use Illuminate\Queue\RedisQueue;
 
 class RedisConnector implements ConnectorInterface
 {

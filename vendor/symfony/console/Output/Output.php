@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Console\Output;
 
-use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 
 /**
  * Base class for output classes.
@@ -49,17 +49,17 @@ abstract class Output implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function getFormatter()
+    public function setFormatter(OutputFormatterInterface $formatter)
     {
-        return $this->formatter;
+        $this->formatter = $formatter;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setFormatter(OutputFormatterInterface $formatter)
+    public function getFormatter()
     {
-        $this->formatter = $formatter;
+        return $this->formatter;
     }
 
     /**
@@ -76,6 +76,22 @@ abstract class Output implements OutputInterface
     public function isDecorated()
     {
         return $this->formatter->isDecorated();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setVerbosity($level)
+    {
+        $this->verbosity = (int) $level;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVerbosity()
+    {
+        return $this->verbosity;
     }
 
     /**
@@ -149,22 +165,6 @@ abstract class Output implements OutputInterface
 
             $this->doWrite($message, $newline);
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getVerbosity()
-    {
-        return $this->verbosity;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setVerbosity($level)
-    {
-        $this->verbosity = (int)$level;
     }
 
     /**

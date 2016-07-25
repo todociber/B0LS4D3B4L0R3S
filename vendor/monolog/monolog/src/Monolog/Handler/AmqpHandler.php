@@ -11,11 +11,11 @@
 
 namespace Monolog\Handler;
 
-use AMQPExchange;
-use Monolog\Formatter\JsonFormatter;
 use Monolog\Logger;
-use PhpAmqpLib\Channel\AMQPChannel;
+use Monolog\Formatter\JsonFormatter;
 use PhpAmqpLib\Message\AMQPMessage;
+use PhpAmqpLib\Channel\AMQPChannel;
+use AMQPExchange;
 
 class AmqpHandler extends AbstractProcessingHandler
 {
@@ -52,6 +52,33 @@ class AmqpHandler extends AbstractProcessingHandler
     /**
      * {@inheritDoc}
      */
+    protected function write(array $record)
+    {
+        $data = $record["formatted"];
+        $routingKey = $this->getRoutingKey($record);
+
+        if ($this->exchange instanceof AMQPExchange) {
+            $this->exchange->publish(
+                $data,
+                $routingKey,
+                0,
+                array(
+                    'delivery_mode' => 2,
+                    'content_type' => 'application/json',
+                )
+            );
+        } else {
+            $this->exchange->basic_publish(
+                $this->createAmqpMessage($data),
+                $this->exchangeName,
+                $routingKey
+            );
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function handleBatch(array $records)
     {
         if ($this->exchange instanceof AMQPExchange) {
@@ -79,21 +106,6 @@ class AmqpHandler extends AbstractProcessingHandler
     }
 
     /**
-     * @param  string $data
-     * @return AMQPMessage
-     */
-    private function createAmqpMessage($data)
-    {
-        return new AMQPMessage(
-            (string)$data,
-            array(
-                'delivery_mode' => 2,
-                'content_type' => 'application/json',
-            )
-        );
-    }
-
-    /**
      * Gets the routing key for the AMQP exchange
      *
      * @param  array  $record
@@ -112,30 +124,18 @@ class AmqpHandler extends AbstractProcessingHandler
     }
 
     /**
-     * {@inheritDoc}
+     * @param  string      $data
+     * @return AMQPMessage
      */
-    protected function write(array $record)
+    private function createAmqpMessage($data)
     {
-        $data = $record["formatted"];
-        $routingKey = $this->getRoutingKey($record);
-
-        if ($this->exchange instanceof AMQPExchange) {
-            $this->exchange->publish(
-                $data,
-                $routingKey,
-                0,
-                array(
-                    'delivery_mode' => 2,
-                    'content_type' => 'application/json',
-                )
-            );
-        } else {
-            $this->exchange->basic_publish(
-                $this->createAmqpMessage($data),
-                $this->exchangeName,
-                $routingKey
-            );
-        }
+        return new AMQPMessage(
+            (string) $data,
+            array(
+                'delivery_mode' => 2,
+                'content_type' => 'application/json',
+            )
+        );
     }
 
     /**

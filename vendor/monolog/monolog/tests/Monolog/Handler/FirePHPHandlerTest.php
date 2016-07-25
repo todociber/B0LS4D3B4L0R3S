@@ -11,8 +11,8 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Logger;
 use Monolog\TestCase;
+use Monolog\Logger;
 
 /**
  * @covers Monolog\Handler\FirePHPHandler
@@ -84,13 +84,13 @@ class TestFirePHPHandler extends FirePHPHandler
         self::$messageIndex = 1;
     }
 
-    public function getHeaders()
-    {
-        return $this->headers;
-    }
-
     protected function sendHeader($header, $content)
     {
         $this->headers[$header] = $content;
+    }
+
+    public function getHeaders()
+    {
+        return $this->headers;
     }
 }

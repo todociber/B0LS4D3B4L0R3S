@@ -3,40 +3,13 @@
 namespace Illuminate\Queue;
 
 use Exception;
+use Throwable;
+use Illuminate\Queue\Jobs\SyncJob;
 use Illuminate\Contracts\Queue\Job;
 use Illuminate\Contracts\Queue\Queue as QueueContract;
-use Illuminate\Queue\Jobs\SyncJob;
-use Throwable;
 
 class SyncQueue extends Queue implements QueueContract
 {
-    /**
-     * Push a raw payload onto the queue.
-     *
-     * @param  string $payload
-     * @param  string $queue
-     * @param  array $options
-     * @return mixed
-     */
-    public function pushRaw($payload, $queue = null, array $options = [])
-    {
-        //
-    }
-
-    /**
-     * Push a new job onto the queue after a delay.
-     *
-     * @param  \DateTime|int $delay
-     * @param  string $job
-     * @param  mixed $data
-     * @param  string $queue
-     * @return mixed
-     */
-    public function later($delay, $job, $data = '', $queue = null)
-    {
-        return $this->push($job, $data, $queue);
-    }
-
     /**
      * Push a new job onto the queue.
      *
@@ -72,6 +45,44 @@ class SyncQueue extends Queue implements QueueContract
         }
 
         return 0;
+    }
+
+    /**
+     * Push a raw payload onto the queue.
+     *
+     * @param  string  $payload
+     * @param  string  $queue
+     * @param  array   $options
+     * @return mixed
+     */
+    public function pushRaw($payload, $queue = null, array $options = [])
+    {
+        //
+    }
+
+    /**
+     * Push a new job onto the queue after a delay.
+     *
+     * @param  \DateTime|int  $delay
+     * @param  string  $job
+     * @param  mixed   $data
+     * @param  string  $queue
+     * @return mixed
+     */
+    public function later($delay, $job, $data = '', $queue = null)
+    {
+        return $this->push($job, $data, $queue);
+    }
+
+    /**
+     * Pop the next job off of the queue.
+     *
+     * @param  string  $queue
+     * @return \Illuminate\Contracts\Queue\Job|null
+     */
+    public function pop($queue = null)
+    {
+        //
     }
 
     /**
@@ -157,16 +168,5 @@ class SyncQueue extends Queue implements QueueContract
         if ($this->container->bound('events')) {
             $this->container['events']->fire(new Events\JobFailed('sync', $job, $data));
         }
-    }
-
-    /**
-     * Pop the next job off of the queue.
-     *
-     * @param  string $queue
-     * @return \Illuminate\Contracts\Queue\Job|null
-     */
-    public function pop($queue = null)
-    {
-        //
     }
 }

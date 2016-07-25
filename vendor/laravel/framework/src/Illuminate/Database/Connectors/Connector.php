@@ -2,10 +2,10 @@
 
 namespace Illuminate\Database\Connectors;
 
-use Exception;
-use Illuminate\Database\DetectsLostConnections;
-use Illuminate\Support\Arr;
 use PDO;
+use Exception;
+use Illuminate\Support\Arr;
+use Illuminate\Database\DetectsLostConnections;
 
 class Connector
 {
@@ -63,6 +63,27 @@ class Connector
     }
 
     /**
+     * Get the default PDO connection options.
+     *
+     * @return array
+     */
+    public function getDefaultOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set the default PDO connection options.
+     *
+     * @param  array  $options
+     * @return void
+     */
+    public function setDefaultOptions(array $options)
+    {
+        $this->options = $options;
+    }
+
+    /**
      * Handle a exception that occurred during connect execution.
      *
      * @param  \Exception  $e
@@ -81,26 +102,5 @@ class Connector
         }
 
         throw $e;
-    }
-
-    /**
-     * Get the default PDO connection options.
-     *
-     * @return array
-     */
-    public function getDefaultOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * Set the default PDO connection options.
-     *
-     * @param  array $options
-     * @return void
-     */
-    public function setDefaultOptions(array $options)
-    {
-        $this->options = $options;
     }
 }

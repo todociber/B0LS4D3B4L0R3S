@@ -3,8 +3,8 @@
 namespace Illuminate\Session;
 
 use Carbon\Carbon;
-use Illuminate\Database\ConnectionInterface;
 use SessionHandlerInterface;
+use Illuminate\Database\ConnectionInterface;
 
 /**
  * @deprecated since version 5.2. Use Illuminate\Session\DatabaseSessionHandler.
@@ -93,16 +93,6 @@ class LegacyDatabaseSessionHandler implements SessionHandlerInterface, Existence
     }
 
     /**
-     * Get a fresh query builder instance for the table.
-     *
-     * @return \Illuminate\Database\Query\Builder
-     */
-    protected function getQuery()
-    {
-        return $this->connection->table($this->table);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function write($sessionId, $data)
@@ -134,6 +124,16 @@ class LegacyDatabaseSessionHandler implements SessionHandlerInterface, Existence
     public function gc($lifetime)
     {
         $this->getQuery()->where('last_activity', '<=', time() - $lifetime)->delete();
+    }
+
+    /**
+     * Get a fresh query builder instance for the table.
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    protected function getQuery()
+    {
+        return $this->connection->table($this->table);
     }
 
     /**

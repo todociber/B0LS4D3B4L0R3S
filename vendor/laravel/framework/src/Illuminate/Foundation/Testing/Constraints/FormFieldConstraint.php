@@ -34,6 +34,15 @@ abstract class FormFieldConstraint extends PageConstraint
     }
 
     /**
+     * Get the valid elements.
+     *
+     * Multiple elements should be separated by commas without spaces.
+     *
+     * @return string
+     */
+    abstract protected function validElements();
+
+    /**
      * Get the form field.
      *
      * @param  \Symfony\Component\DomCrawler\Crawler  $crawler
@@ -70,13 +79,4 @@ abstract class FormFieldConstraint extends PageConstraint
             return "{$element}#{$id}, {$element}[name='{$name}']";
         })->all();
     }
-
-    /**
-     * Get the valid elements.
-     *
-     * Multiple elements should be separated by commas without spaces.
-     *
-     * @return string
-     */
-    abstract protected function validElements();
 }

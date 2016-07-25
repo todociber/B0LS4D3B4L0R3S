@@ -2,17 +2,17 @@
 
 namespace Illuminate\View;
 
+use Exception;
+use Throwable;
 use ArrayAccess;
 use BadMethodCallException;
-use Exception;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\MessageProvider;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Contracts\View\View as ViewContract;
-use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
+use Illuminate\Support\MessageBag;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\View\Engines\EngineInterface;
-use Throwable;
+use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\Support\MessageProvider;
+use Illuminate\Contracts\View\View as ViewContract;
 
 class View implements ArrayAccess, ViewContract
 {
@@ -72,18 +72,6 @@ class View implements ArrayAccess, ViewContract
     }
 
     /**
-     * Get the sections of the rendered view.
-     *
-     * @return array
-     */
-    public function renderSections()
-    {
-        return $this->render(function () {
-            return $this->factory->getSections();
-        });
-    }
-
-    /**
      * Get the string contents of the view.
      *
      * @param  callable|null  $callback
@@ -140,6 +128,18 @@ class View implements ArrayAccess, ViewContract
     }
 
     /**
+     * Get the sections of the rendered view.
+     *
+     * @return array
+     */
+    public function renderSections()
+    {
+        return $this->render(function () {
+            return $this->factory->getSections();
+        });
+    }
+
+    /**
      * Get the evaluated contents of the view.
      *
      * @return string
@@ -168,19 +168,6 @@ class View implements ArrayAccess, ViewContract
     }
 
     /**
-     * Add a view instance to the view data.
-     *
-     * @param  string $key
-     * @param  string $view
-     * @param  array $data
-     * @return $this
-     */
-    public function nest($key, $view, array $data = [])
-    {
-        return $this->with($key, $this->factory->make($view, $data));
-    }
-
-    /**
      * Add a piece of data to the view.
      *
      * @param  string|array  $key
@@ -196,6 +183,19 @@ class View implements ArrayAccess, ViewContract
         }
 
         return $this;
+    }
+
+    /**
+     * Add a view instance to the view data.
+     *
+     * @param  string  $key
+     * @param  string  $view
+     * @param  array   $data
+     * @return $this
+     */
+    public function nest($key, $view, array $data = [])
+    {
+        return $this->with($key, $this->factory->make($view, $data));
     }
 
     /**
