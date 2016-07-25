@@ -1,6 +1,6 @@
 @extends('layouts.bolsavalores')
 @section('title')
-    <title>Nueva usuario</title>
+    <title>Modificar usuario</title>
 @stop
 
 
@@ -18,7 +18,7 @@
                     <!-- general form elements -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Registro de Usuario</h3>
+                            <h3 class="box-title">Modificar de Usuario</h3>
                         </div><!-- /.box-header -->
                         <!-- form start -->
 
@@ -28,7 +28,7 @@
                                     <div class="col-md-12">
                                         @include('alertas.errores')
                                         @include('alertas.flash')
-                                        {{Form::open(['route'=>'UsuarioBolsa.store','method' =>'POST', 'id'=>'form','role' => 'form'])  }}
+                                        {{Form::model($usuario,['route'=>['UsuarioBolsa.update', $usuario->id],'method' =>'PUT', 'id'=>'form','role' => 'form'])  }}
                                         @include('bves.Usuarios.FormularioUserBolsa.FormularioUserBolsa')
 
                                     </div>
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="box-footer">
-                                {!!Form::submit('Registrar Usuario', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit', 'onclick'=>"waitingDialog.show('Procesando... ',{ progressType: 'info'})"])!!}
+                                {!!Form::submit('Modificar Usuario', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit', 'onclick'=>"waitingDialog.show('Procesando... ',{ progressType: 'info'})"])!!}
                             </div>
                             {{ Form::close() }}
 

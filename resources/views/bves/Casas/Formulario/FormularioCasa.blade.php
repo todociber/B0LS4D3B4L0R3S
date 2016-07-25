@@ -25,7 +25,7 @@
     <br/><br/>
     @if(isset($organizacion))
 
-        {!!   Html::image($organizacion->logo) !!}
+        {!!   Html::image(public_path().'/imgTemp/'.$organizacion->logo.'.png') !!}
     @endif
     Haz click para subir una imagen.
     </div>
@@ -42,7 +42,7 @@
         <select class="form-control" id="estado"  name="Estado">
             @if($organizacion->deleted_at == null)
                 <option selected value="1">Activo</option>
-                <option value="0">Innactivo</option>
+                <option value="0">Inactivo</option>
             @else
 
                 <option  value="1">Activo</option>
@@ -51,7 +51,7 @@
         </select>
 
     @else
-        {{Form::select('Estado', array('Activo' => '1', 'Innactivo' => '0'),['class'=>'form-control', 'required', 'id'=>'estado'])}}
+        {{Form::select('Estado', array('1' => 'Activo', '0' => 'Innactivo'),null,['class'=>'form-control', 'required', 'id'=>'estado'])}}
     @endif
 </div>
 

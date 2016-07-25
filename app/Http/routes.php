@@ -18,14 +18,25 @@ Route::get('/', function () {
 
 //-----BOLSA DE VALORES ROUTES---//
 
+
+//------CASAS CRUD------//
 Route::get('bolsa/NuevaCasa','BolsaController@NuevaCasa')->name('nuevaCasa');
 Route::get('bolsa/EditarCasa/{id}','BolsaController@editarCasa')->name('editarCasa');
 Route::get('bolsa/ListadoCasas','BolsaController@ListadoCasas')->name('listadoCasas');
-Route::get('bolsa/CatalogoUsuarios','BolsaController@ListadoUsuario')->name('catalogoUsuarios');
-Route::get('bolsa/NuevoUsuario','BolsaController@NuevoUsuario')->name('nuevoUsuario');
-Route::get('bolsa/MiPerfil','BolsaController@MiPerfil')->name('miPerfil');
+Route::get('bolsa/EliminarCasa/{id}','BolsaController@eliminarCasa')->name('eliminarCasa');
+Route::get('bolsa/RestaurarCasa/{id}','BolsaController@RestoreCasa')->name('restaurarcasa');
 Route::resource('Bolsa','BolsaController');
 Route::post('bolsa/Upload','BolsaController@Upload')->name('upload');
+
+//------USUARIOS BOLSA CRUD------//
+Route::get('bolsa/CatalogoUsuarios','UsuariosBolsaController@ListadoUsuario')->name('catalogoUsuarios');
+Route::get('bolsa/NuevoUsuario','UsuariosBolsaController@NuevoUsuario')->name('nuevoUsuario');
+Route::get('bolsa/ModificarUsuario/{id}','UsuariosBolsaController@ModificarUsuario')->name('modificarusuario');
+Route::get('bolsa/MiPerfil','UsuariosBolsaController@MiPerfil')->name('miPerfil');
+Route::get('bolsa/EliminarUsuario/{id}','UsuariosBolsaController@EliminarUsuario')->name('eliminarusuario');
+Route::get('bolsa/RestaurarUsuario/{id}','UsuariosBolsaController@RestaurarUsuario')->name('restaurarusuario');
+Route::resource('UsuarioBolsa','UsuariosBolsaController');
+
 //------BOLSA DE VALORES ROUTES--//
 
 

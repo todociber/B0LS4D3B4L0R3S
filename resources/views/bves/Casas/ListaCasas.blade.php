@@ -8,6 +8,8 @@
         $('#casas').addClass('active');
         $('#catalogoCasas').addClass('active');
 
+
+
     </script>
     <div class="row">
         <div class="col-xs-12">
@@ -42,14 +44,28 @@
                                 <td>{{$organizacion->telefono}}</td>
                                 <td>{{$organizacion->created_at}}</td>
                                 <td>@if($organizacion->deleted_at == null)
-                                        <p class="p-green">Activo</p>
+                                        <p class="p-green">
+                                            Activo
+                                        </p>
                                         @else
                                         <p class="p-red">
                                         Innactivo
                                         </p>
                                     @endif
                                 </td>
-                                <td><a class="btn btn-primary background-pencil" href="{!! route('editarCasa',['id'=>$organizacion->id])!!}"><em class="fa fa-pencil"></em></a></td>
+
+                                <td><a class="btn btn-primary background-pencil" href="{!! route('editarCasa',['id'=>$organizacion->id])!!}"><em class="fa fa-pencil"></em></a>
+                                    @if($organizacion->deleted_at == null)
+
+                                            <button onclick="window.location.href='{!! route('eliminarCasa',['id'=>$organizacion->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'});"><span class="glyphicon glyphicon-remove p-red"></span></button>
+
+                                    @else
+
+                                            <button onclick="window.location.href='{!! route('restaurarcasa',['id'=>$organizacion->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'}); "><span class="glyphicon glyphicon-ok p-green"></span></button>
+
+
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
 

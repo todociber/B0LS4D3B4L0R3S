@@ -13,105 +13,54 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @include('alertas.flash')
                     <h3 class="box-title">Lista de Usuarios</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>NOMBRE</th>
-                            <th>FECHA DE REGISTRO</th>
-                            <th>ESTADO</th>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Fecha de creación</th>
+                            <th>Estado</th>
 
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Juan</td>
-                            <td>12/12/12</td>
-                            <td>Activo</td>
+                        @foreach ($usuarios as $usuario)
+                            <tr>
+                                <td>{{$usuario->id}}</td>
+                                <td>{{$usuario->nombre}}</td>
+                                <td>{{$usuario->email}}</td>
+                                <td>{{$usuario->created_at}}</td>
+                                <td>@if($usuario->deleted_at == null)
+                                        <p class="p-green">
+                                            Activo
+                                        </p>
+                                    @else
+                                        <p class="p-red">
+                                            Innactivo
+                                        </p>
+                                    @endif
+                                </td>
 
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Juan</td>
-                            <td>12/12/12</td>
-                            <td>Activo</td>
+                                <td><a class="btn btn-primary background-pencil" href="{!! route('modificarusuario',['id'=>$usuario->id])!!}"><em class="fa fa-pencil"></em></a>
+                                    @if($usuario->deleted_at == null)
 
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Juan</td>
-                            <td>12/12/12</td>
-                            <td>Activo</td>
+                                        <button onclick="window.location.href='{!! route('eliminarusuario',['id'=>$usuario->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'});"><span class="glyphicon glyphicon-remove p-red"></span></button>
 
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Juan</td>
-                            <td>12/12/12</td>
-                            <td>Activo</td>
+                                    @else
 
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Juan</td>
-                            <td>12/12/12</td>
-                            <td>Activo</td>
-
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Juan</td>
-                            <td>12/12/12</td>
-                            <td>Activo</td>
-
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Juan</td>
-                            <td>12/12/12</td>
-                            <td>Activo</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Juan</td>
-                            <td>12/12/12</td>
-                            <td>Activo</td>
+                                        <button onclick="window.location.href='{!! route('restaurarusuario',['id'=>$usuario->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'}); "><span class="glyphicon glyphicon-ok p-green"></span></button>
 
 
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Juan</td>
-                            <td>12/12/12</td>
-                            <td>Activo</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Juan</td>
-                            <td>12/12/12</td>
-                            <td>Activo</td>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
 
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Juan</td>
-                            <td>12/12/12</td>
-                            <td>Activo</td>
-
-
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Juan</td>
-                            <td>12/12/12</td>
-                            <td>Activo</td>
-
-
-                        </tr>
                         </tbody>
 
                     </table>

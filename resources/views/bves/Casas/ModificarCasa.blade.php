@@ -10,6 +10,14 @@
             $('#casas').addClass('active');
             $('#registrar').addClass('active');
             var buttonLada;
+            var dataError;
+
+            $('#modal').on('hidden.bs.modal', function () {
+                if(dataError == '0'){
+
+                    window.location.href = '{!! route('listadoCasas') !!}';
+                }
+            });
             // var btn = $('.ladda-button');
             //   var buttonLada = Ladda.create(btn);
         });
@@ -35,10 +43,20 @@
                     e.preventDefault();
                     e.stopPropagation();
                     myDropzone.processQueue();
-                    waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});
+                    console.log('file ' +myDropzone.files.length);
+                    if(myDropzone.files.length > 0){
+                        waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});
+                    }
+                    else {
+                        $('#modalbody').text('Debe subir una imagen');
+                        $('#modal').modal('show');
+
+                    }
+
 
                 });
                 this.on("addedfile", function(file) {
+
                     //  alert("file uploaded");
                 });
 
@@ -48,8 +66,9 @@
                 });
 
                 this.on("success", function(file, data) {
-                    waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});
-                    console.log('succes ' + file.code);
+                    waitingDialog.hide();
+                    //  waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});
+                    dataError = data.error;
                     if(data.error == '0'){
                         $('#modalbody').text('Datos guardados con exito');
 
@@ -62,7 +81,7 @@
                     }
                     else if(data.error == '3'){
 
-                        $('#modalbody').text('Ya exite una casa registrada con ese coódigo ');
+                        $('#modalbody').text('Ya exite una casa registrada con ese código ');
                     }
                     else {
 
@@ -95,7 +114,7 @@
                     <!-- general form elements -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Registro de Casas</h3>
+                            <h3 class="box-title">Modificar Casas</h3>
                         </div><!-- /.box-header -->
                         <!-- form start -->
 
@@ -105,7 +124,7 @@
                                     <div class="col-md-12">
                                         @include('alertas.errores')
                                         @include('alertas.flash')
-                                        {!! Form::model([$organizacion,['route'=>['Bolsa.update', $organizacion->id],'method' =>'PUT'], 'id'=>'my-dropzone','class' => 'dropzone', 'files' => true])   !!}
+                                        {!! Form::model($organizacion,['route'=>['Bolsa.update', $organizacion->id],'method' =>'PUT', 'id'=>'my-dropzone','class' => 'dropzone', 'files' => true])   !!}
                                         @include('bves.Casas.Formulario.FormularioCasa')
 
                                     </div>

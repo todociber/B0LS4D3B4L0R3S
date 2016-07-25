@@ -10,6 +10,13 @@
             $('#casas').addClass('active');
             $('#registrar').addClass('active');
             var buttonLada;
+            var dataError;
+            $('#modal').on('hidden.bs.modal', function () {
+                if(dataError == '0'){
+
+                    window.location.href = '{!! route('listadoCasas') !!}';
+                }
+            });
            // var btn = $('.ladda-button');
          //   var buttonLada = Ladda.create(btn);
         });
@@ -35,8 +42,14 @@
                     e.preventDefault();
                     e.stopPropagation();
                     myDropzone.processQueue();
-                    waitingDialog.show('Procesando Espere... ',{ progressType: 'info'});
+                    if(myDropzone.files.length > 0){
+                        waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});
+                    }
+                    else {
+                        $('#modalbody').text('Debe subir una imagen');
+                        $('#modal').modal('show');
 
+                    }
                 });
                 this.on("addedfile", function(file) {
                   //  alert("file uploaded");
@@ -48,8 +61,8 @@
                 });
 
                 this.on("success", function(file, data) {
-                    waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});
-                    console.log('succes ' + file.code);
+                    waitingDialog.hide();
+                    dataError = data.error;
                     if(data.error == '0'){
                         $('#modalbody').text('Datos guardados con exito');
 
@@ -62,7 +75,7 @@
                     }
                     else if(data.error == '3'){
 
-                        $('#modalbody').text('Ya exite una casa registrada con ese coódigo ');
+                        $('#modalbody').text('Ya exite una casa registrada con el código ingresado');
                     }
                     else {
 
@@ -113,7 +126,7 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            {!!Form::submit($title, ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'clickable','data-style'=>'expand-left'])!!}
+                            {!!Form::submit('Registrar casa', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'clickable','data-style'=>'expand-left'])!!}
                         </div>
                         {{ Form::close() }}
                     </div>
