@@ -8,3 +8,8 @@ Homestead.json
 .env
 composer.phar
 composer.lock
+/.idea
+.env
+.env.example
+.idea
+/.idea

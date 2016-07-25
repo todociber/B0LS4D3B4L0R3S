@@ -15,4 +15,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::Resource('Login','LoginController');
+
+//-----BOLSA DE VALORES ROUTES---//
+
+Route::get('bolsa/NuevaCasa','BolsaController@NuevaCasa')->name('nuevaCasa');
+Route::get('bolsa/ListadoCasas','BolsaController@ListadoCasas')->name('listadoCasas');
+Route::get('bolsa/CatalogoUsuarios','BolsaController@ListadoUsuario')->name('catalogoUsuarios');
+Route::get('bolsa/NuevoUsuario','BolsaController@NuevoUsuario')->name('nuevoUsuario');
+Route::get('bolsa/MiPerfil','BolsaController@MiPerfil')->name('miPerfil');
+//------BOLSA DE VALORES ROUTES--//
+
+
+Route::resource('Login','LoginController');
+
+
+//------CLIENTES ROUTES----//
+
+Route::get('clientes/NuevaOrden','ClientesController@NuevaOrden')->name('nuevaOrden');
+
+//------CLIENTES ROUTES----//
+
+//-----CASA CORREDORA ROUTES----//
+Route::resource('UsuarioCasaCorredora','UsuarioCasaCorredoraController');
+
+
+Route::get('api/subscribers', array('as' => 'api.subscribers', 'uses' => 'UsuarioCasaCorredoraController@getDatatable'));
