@@ -22,8 +22,9 @@ class Cedeval extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
-    public function idCliente() {
-        return $this->belongsTo('App\Models\Cliente', 'idCliente');
+    public function clientesCuenta()
+    {
+        return $this->belongsTo(Cliente::class, 'idCliente', 'id');
     }
 
     public function scopeOfid($query, $id)

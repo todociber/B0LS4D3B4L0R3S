@@ -14,8 +14,12 @@ class EstadoSolicitud extends Model
     protected $fillable = [
         'nombre'
     ];
-
     protected $guarded = [];
+
+    public function Municipio()
+    {
+        return $this->hasMany(SolicitudRegistro::class, 'idEstadoSolicitud', 'id');
+    }
 
     public function scopeOfid($query, $id)
     {

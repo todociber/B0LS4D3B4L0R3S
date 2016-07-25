@@ -23,6 +23,42 @@ class Cliente extends Model
     protected $dates = ['deleted_at'];
 
 
+    public function CuentaCedeval()
+    {
+        return $this->hasMany(Cedeval::class, 'idCliente', 'id');
+    }
+
+    public function ClienteOrganizacionR()
+    {
+        return $this->hasMany(ClienteOrganizacion::class, 'idCliente', 'id');
+    }
+
+    public function ClienteSolicitud()
+    {
+        return $this->hasMany(SolicitudRegistro::class, 'idCliente', 'id');
+    }
+
+
+    public function Ordenes_Cliente()
+    {
+        return $this->hasMany(Ordene::class, 'idCliente', 'id');
+    }
+
+
+    public function RolUsuarioNs()
+    {
+        return $this->hasMany(RolUsuario::class, 'idCliente', 'id');
+    }
+
+    public function DireccionesUsuario()
+    {
+        return $this->hasMany(Direccione::class, 'idCliente', 'id');
+    }
+
+    public function TelefonosUsuario()
+    {
+        return $this->hasMany(Telefono::class, 'idCliente', 'id');
+    }
     public function scopeOfid($query, $id)
     {
         if (trim($id) != "") {

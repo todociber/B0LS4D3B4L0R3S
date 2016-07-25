@@ -17,6 +17,11 @@ class TipoTelefono extends Model
 
     protected $guarded = [];
 
+
+    public function TelefonosTipos()
+    {
+        return $this->hasMany(Telefono::class, 'idTipoTelefono', 'id');
+    }
     public function scopeOfid($query, $id)
     {
         if (trim($id) != "") {

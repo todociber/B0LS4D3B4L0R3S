@@ -24,12 +24,22 @@ class RolUsuario extends Model
     protected $dates = ['deleted_at'];
 
 
-    public function idRol() {
-        return $this->belongsTo('App\Models\Role', 'idRol');
+    public function UsuarioN()
+    {
+        return $this->belongsTo(Usuario::class, 'idUsuario', 'id');
     }
-    public function idCliente() {
-        return $this->belongsTo('App\Models\Cliente', 'idCliente');
+
+    public function RolN()
+    {
+        return $this->belongsTo(Role::class, 'idRol', 'id');
     }
+
+    public function ClienteN()
+    {
+        return $this->belongsTo(Cliente::class, 'idCliente', 'id');
+    }
+
+
 
     public function scopeOfid($query, $id)
     {

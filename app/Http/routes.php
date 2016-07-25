@@ -57,4 +57,4 @@ Route::resource('UsuarioCasaCorredora','UsuarioCasaCorredoraController');
 Route::resource('UsuarioCasaCorredora','UsuarioCasaCorredoraController');
 
 
-Route::get('api/subscribers', array('as' => 'api.subscribers', 'uses' => 'UsuarioCasaCorredoraController@getDatatable'));
+

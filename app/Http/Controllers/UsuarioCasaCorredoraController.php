@@ -21,20 +21,13 @@ class UsuarioCasaCorredoraController extends Controller
 */
 
 
-    public function getDatatable()
-    {
-        return Datatable::collection(Usuario::all(array('nombre', 'apellido', 'correo')))
-            ->showColumns('nombre', 'apellido', 'correo')
-            ->searchColumns('nombre', 'apellido', 'correo')
-            ->orderColumns('nombre', 'apellido', 'correo')
-            ->make();
-    }
+
 
     public function index()
     {
 
 
-        $id = 9;
+        $id = 6;
         $information = Departamento::ofid($id)->get();
 
 

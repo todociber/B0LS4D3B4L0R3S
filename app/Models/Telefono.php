@@ -24,13 +24,17 @@ class Telefono extends Model
     protected $dates = ['deleted_at'];
 
 
-    public function idCliente() {
-        return $this->belongsTo('App\Models\Cliente', 'idCliente');
+    public function TipoTelefonoN()
+    {
+        return $this->belongsTo(TipoTelefono::class, 'idTipoTelefono', 'id');
     }
 
-    public function idTipoTelefono() {
-        return $this->belongsTo('App\Models\TipoTelefono', 'idTipoTelefono');
+
+    public function ClienteN()
+    {
+        return $this->belongsTo(Cliente::class, 'idCliente', 'id');
     }
+
 
     public function scopeOfid($query, $id)
     {

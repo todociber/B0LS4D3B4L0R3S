@@ -17,6 +17,12 @@ class TipoMercado extends Model
 
     protected $guarded = [];
 
+
+    public function TipoMercadoOrdenes()
+    {
+        return $this->hasMany(Ordene::class, 'idTipoMercado', 'id');
+    }
+
     public function scopeOfid($query, $id)
     {
         if (trim($id) != "") {

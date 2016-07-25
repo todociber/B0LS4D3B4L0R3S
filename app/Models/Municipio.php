@@ -24,6 +24,11 @@ class Municipio extends Model
         return $this->belongsTo(Departamento::class, 'id_departamento', 'id');
     }
 
+
+    public function Direccione()
+    {
+        return $this->hasMany(Direccione::class, 'idMunicipio', 'id');
+    }
     public function scopeOfid($query, $id)
     {
         if (trim($id) != "") {

@@ -17,6 +17,11 @@ class EstadoOrden extends Model
 
     protected $guarded = [];
 
+    public function EstadosOrdenes()
+    {
+        return $this->hasMany(Ordene::class, 'idEstadoOrden', 'id');
+    }
+
     public function scopeOfid($query, $id)
     {
         if (trim($id) != "") {

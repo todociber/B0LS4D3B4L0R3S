@@ -20,6 +20,18 @@ class BitacoraUsuario extends Model
 
     protected $guarded = [];
 
+
+    public function OrganizacionesN()
+    {
+        return $this->belongsTo(Organizacion::class, 'idOrganizacion', 'id');
+    }
+
+    public function UsuariosN()
+    {
+        return $this->belongsTo(Usuario::class, 'idUsuario', 'id');
+    }
+
+
     public function scopeOfid($query, $id)
     {
         if (trim($id) != "") {

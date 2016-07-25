@@ -24,15 +24,20 @@ class SolicitudRegistro extends Model
 
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    public function idCliente() {
-        return $this->belongsTo('App\Models\Cliente', 'idCliente');
+
+    public function EstadoSolicitudN()
+    {
+        return $this->belongsTo(EstadoSolicitud::class, 'idEstadoSolicitud', 'id');
     }
 
-    public function idOrganizacion() {
-        return $this->belongsTo('App\Models\Organizacion', 'idOrganizacion');
+    public function OrganizacionN()
+    {
+        return $this->belongsTo(Organizacion::class, 'idOrganizacion', 'id');
     }
-    public function idEstadoSolicitud() {
-        return $this->belongsTo('App\Models\EstadoSolicitud', 'idEstadoSolicitud');
+
+    public function ClienteN()
+    {
+        return $this->belongsTo(Cliente::class, 'idCliente', 'id');
     }
 
 

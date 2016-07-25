@@ -17,6 +17,11 @@ class Role extends Model
 
     protected $guarded = [];
 
+    public function RolUsuariosN()
+    {
+        return $this->hasMany(RolUsuario::class, 'idRol', 'id');
+    }
+
     public function scopeOfid($query, $id)
     {
         if (trim($id) != "") {

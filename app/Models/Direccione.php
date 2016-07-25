@@ -22,12 +22,14 @@ class Direccione extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
-    public function idCliente() {
-        return $this->belongsTo('App\Models\Cliente', 'idCliente');
+    public function ClienteDireccionN()
+    {
+        return $this->belongsTo(Cliente::class, 'idCliente', 'id');
     }
 
-    public function idMunicipio() {
-        return $this->belongsTo('App\Models\Municipio', 'idMunicipio');
+    public function MunicipioDireccion()
+    {
+        return $this->belongsTo(Municipio::class, 'idMunicipio', 'id');
     }
 
     public function scopeOfid($query, $id)

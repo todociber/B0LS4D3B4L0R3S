@@ -17,6 +17,11 @@ class TipoOrganizacion extends Model
 
     protected $guarded = [];
 
+    public function OrganizacionesTipos()
+    {
+        return $this->hasMany(Organizacion::class, 'idTipoOrganizacion', 'id');
+    }
+
     public function scopeOfid($query, $id)
     {
         if (trim($id) != "") {

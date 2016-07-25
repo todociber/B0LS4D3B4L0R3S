@@ -22,12 +22,14 @@ class ClienteOrganizacion extends Model
     protected $dates = ['deleted_at'];
 
 
-    public function idCliente() {
-        return $this->belongsTo('App\Models\Cliente', 'idCliente');
+    public function OrganizacionesDeCliente()
+    {
+        return $this->belongsTo(Cliente::class, 'idCliente', 'id');
     }
 
-    public function idOrganizacion() {
-        return $this->belongsTo('App\Models\Organizacion', 'idOrganizacion');
+    public function ClienteOrganizacion_Organizacion()
+    {
+        return $this->belongsTo(Organizacion::class, 'idOrganizacion', 'id');
     }
 
 

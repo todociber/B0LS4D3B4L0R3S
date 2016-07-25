@@ -17,6 +17,11 @@ class TipoEjecucion extends Model
 
     protected $guarded = [];
 
+
+    public function Tipo_ordenes()
+    {
+        return $this->hasMany(Ordene::class, 'idTipoEjecucion', 'id');
+    }
     public function scopeOfid($query, $id)
     {
         if (trim($id) != "") {
