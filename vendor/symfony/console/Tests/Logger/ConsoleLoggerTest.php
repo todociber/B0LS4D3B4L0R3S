@@ -11,11 +11,11 @@
 
 namespace Symfony\Component\Console\Tests\Logger;
 
-use Psr\Log\Test\LoggerInterfaceTest;
 use Psr\Log\LogLevel;
+use Psr\Log\Test\LoggerInterfaceTest;
 use Symfony\Component\Console\Logger\ConsoleLogger;
-use Symfony\Component\Console\Tests\Fixtures\DummyOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Tests\Fixtures\DummyOutput;
 
 /**
  * Console logger test.

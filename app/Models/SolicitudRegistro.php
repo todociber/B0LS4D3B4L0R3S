@@ -16,8 +16,8 @@ class SolicitudRegistro extends Model
         'idCliente',
         'idOrganizacion',
         'idEstadoSolicitud',
-        'numero de afiliado',
-        'comentario de rechazo'
+        'numeroDeAfiliado',
+        'comentarioDeRechazo'
     ];
 
     protected $guarded = [];

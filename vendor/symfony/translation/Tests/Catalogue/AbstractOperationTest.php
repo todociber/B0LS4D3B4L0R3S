@@ -27,6 +27,8 @@ abstract class AbstractOperationTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    abstract protected function createOperation(MessageCatalogueInterface $source, MessageCatalogueInterface $target);
+
     public function testGetMergedDomains()
     {
         $this->assertEquals(
@@ -68,6 +70,4 @@ abstract class AbstractOperationTest extends \PHPUnit_Framework_TestCase
             )->getResult()
         );
     }
-
-    abstract protected function createOperation(MessageCatalogueInterface $source, MessageCatalogueInterface $target);
 }

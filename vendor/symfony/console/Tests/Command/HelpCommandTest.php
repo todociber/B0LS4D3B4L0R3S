@@ -11,10 +11,10 @@
 
 namespace Symfony\Component\Console\Tests\Command;
 
-use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\HelpCommand;
 use Symfony\Component\Console\Command\ListCommand;
-use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Tester\CommandTester;
 
 class HelpCommandTest extends \PHPUnit_Framework_TestCase
 {

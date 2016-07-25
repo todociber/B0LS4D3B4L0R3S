@@ -47,6 +47,16 @@ class StreamedResponse extends Response
     }
 
     /**
+     * Sets the PHP callback associated with this Response.
+     *
+     * @param callable $callback A valid PHP callback
+     */
+    public function setCallback(callable $callback)
+    {
+        $this->callback = $callback;
+    }
+
+    /**
      * Factory method for chainability.
      *
      * @param callable|null $callback A valid PHP callback or null to set it later
@@ -58,16 +68,6 @@ class StreamedResponse extends Response
     public static function create($callback = null, $status = 200, $headers = array())
     {
         return new static($callback, $status, $headers);
-    }
-
-    /**
-     * Sets the PHP callback associated with this Response.
-     *
-     * @param callable $callback A valid PHP callback
-     */
-    public function setCallback(callable $callback)
-    {
-        $this->callback = $callback;
     }
 
     /**

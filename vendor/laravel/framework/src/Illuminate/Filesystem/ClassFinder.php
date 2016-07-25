@@ -45,6 +45,17 @@ class ClassFinder
     }
 
     /**
+     * Determine if the given token is a namespace keyword.
+     *
+     * @param  array|string $token
+     * @return bool
+     */
+    protected function tokenIsNamespace($token)
+    {
+        return is_array($token) && $token[0] == T_NAMESPACE;
+    }
+
+    /**
      * Find the namespace in the tokens starting at a given key.
      *
      * @param  int  $key
@@ -67,10 +78,32 @@ class ClassFinder
     }
 
     /**
+     * Determine if the given token is part of the namespace.
+     *
+     * @param  array|string  $token
+     * @return bool
+     */
+    protected function isPartOfNamespace($token)
+    {
+        return is_array($token) && ($token[0] == T_STRING || $token[0] == T_NS_SEPARATOR);
+    }
+
+    /**
+     * Determine if the given token is a class or interface keyword.
+     *
+     * @param  array|string  $token
+     * @return bool
+     */
+    protected function tokenIsClassOrInterface($token)
+    {
+        return is_array($token) && ($token[0] == T_CLASS || $token[0] == T_INTERFACE);
+    }
+
+    /**
      * Find the class in the tokens starting at a given key.
      *
-     * @param  int  $key
-     * @param  array  $tokens
+     * @param  int $key
+     * @param  array $tokens
      * @return string|null
      */
     protected function getClass($key, array $tokens)
@@ -86,39 +119,6 @@ class ClassFinder
                 return $class;
             }
         }
-    }
-
-    /**
-     * Determine if the given token is a namespace keyword.
-     *
-     * @param  array|string  $token
-     * @return bool
-     */
-    protected function tokenIsNamespace($token)
-    {
-        return is_array($token) && $token[0] == T_NAMESPACE;
-    }
-
-    /**
-     * Determine if the given token is a class or interface keyword.
-     *
-     * @param  array|string  $token
-     * @return bool
-     */
-    protected function tokenIsClassOrInterface($token)
-    {
-        return is_array($token) && ($token[0] == T_CLASS || $token[0] == T_INTERFACE);
-    }
-
-    /**
-     * Determine if the given token is part of the namespace.
-     *
-     * @param  array|string  $token
-     * @return bool
-     */
-    protected function isPartOfNamespace($token)
-    {
-        return is_array($token) && ($token[0] == T_STRING || $token[0] == T_NS_SEPARATOR);
     }
 
     /**

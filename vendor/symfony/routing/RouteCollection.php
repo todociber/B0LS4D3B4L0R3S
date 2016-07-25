@@ -80,16 +80,6 @@ class RouteCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Returns all routes in this collection.
-     *
-     * @return Route[] An array of routes
-     */
-    public function all()
-    {
-        return $this->routes;
-    }
-
-    /**
      * Gets a route by name.
      *
      * @param string $name The route name
@@ -129,6 +119,26 @@ class RouteCollection implements \IteratorAggregate, \Countable
         }
 
         $this->resources = array_merge($this->resources, $collection->getResources());
+    }
+
+    /**
+     * Returns all routes in this collection.
+     *
+     * @return Route[] An array of routes
+     */
+    public function all()
+    {
+        return $this->routes;
+    }
+
+    /**
+     * Returns an array of resources loaded to build this collection.
+     *
+     * @return ResourceInterface[] An array of resources
+     */
+    public function getResources()
+    {
+        return array_unique($this->resources);
     }
 
     /**
@@ -253,16 +263,6 @@ class RouteCollection implements \IteratorAggregate, \Countable
         foreach ($this->routes as $route) {
             $route->setMethods($methods);
         }
-    }
-
-    /**
-     * Returns an array of resources loaded to build this collection.
-     *
-     * @return ResourceInterface[] An array of resources
-     */
-    public function getResources()
-    {
-        return array_unique($this->resources);
     }
 
     /**

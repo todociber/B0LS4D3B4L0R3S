@@ -23,6 +23,16 @@ class HasText extends PageConstraint
     }
 
     /**
+     * Returns a string representation of the object.
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return "the text [{$this->text}]";
+    }
+
+    /**
      * Check if the plain text is found in the given crawler.
      *
      * @param  \Symfony\Component\DomCrawler\Crawler|string  $crawler
@@ -33,15 +43,5 @@ class HasText extends PageConstraint
         $pattern = $this->getEscapedPattern($this->text);
 
         return preg_match("/$pattern/i", $this->text($crawler));
-    }
-
-    /**
-     * Returns a string representation of the object.
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return "the text [{$this->text}]";
     }
 }

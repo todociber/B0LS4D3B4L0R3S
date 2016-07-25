@@ -11,20 +11,14 @@
 
 namespace Monolog\Handler;
 
-use Monolog\TestCase;
 use Monolog\Logger;
+use Monolog\TestCase;
 
 /**
  * @covers Monolog\Handler\ChromePHPHandler
  */
 class ChromePHPHandlerTest extends TestCase
 {
-    protected function setUp()
-    {
-        TestChromePHPHandler::reset();
-        $_SERVER['HTTP_USER_AGENT'] = 'Monolog Test; Chrome/1.0';
-    }
-
     public function testHeaders()
     {
         $handler = new TestChromePHPHandler();
@@ -115,6 +109,12 @@ class ChromePHPHandlerTest extends TestCase
 
         $this->assertEquals($expected, $handler2->getHeaders());
     }
+
+    protected function setUp()
+    {
+        TestChromePHPHandler::reset();
+        $_SERVER['HTTP_USER_AGENT'] = 'Monolog Test; Chrome/1.0';
+    }
 }
 
 class TestChromePHPHandler extends ChromePHPHandler
@@ -129,13 +129,13 @@ class TestChromePHPHandler extends ChromePHPHandler
         self::$json['rows'] = array();
     }
 
-    protected function sendHeader($header, $content)
-    {
-        $this->headers[$header] = $content;
-    }
-
     public function getHeaders()
     {
         return $this->headers;
+    }
+
+    protected function sendHeader($header, $content)
+    {
+        $this->headers[$header] = $content;
     }
 }

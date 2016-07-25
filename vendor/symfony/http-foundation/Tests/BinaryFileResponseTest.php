@@ -18,6 +18,14 @@ use Symfony\Component\HttpFoundation\Tests\File\FakeFile;
 
 class BinaryFileResponseTest extends ResponseTestCase
 {
+    public static function tearDownAfterClass()
+    {
+        $path = __DIR__ . '/../Fixtures/to_delete';
+        if (file_exists($path)) {
+            @unlink($path);
+        }
+    }
+
     public function testConstruction()
     {
         $file = __DIR__.'/../README.md';
@@ -318,13 +326,5 @@ class BinaryFileResponseTest extends ResponseTestCase
     protected function provideResponse()
     {
         return new BinaryFileResponse(__DIR__.'/../README.md', 200, array('Content-Type' => 'application/octet-stream'));
-    }
-
-    public static function tearDownAfterClass()
-    {
-        $path = __DIR__.'/../Fixtures/to_delete';
-        if (file_exists($path)) {
-            @unlink($path);
-        }
     }
 }

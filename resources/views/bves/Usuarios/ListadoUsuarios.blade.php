@@ -46,14 +46,18 @@
                                     @endif
                                 </td>
 
-                                <td><a class="btn btn-primary background-pencil" href="{!! route('modificarusuario',['id'=>$usuario->id])!!}"><em class="fa fa-pencil"></em></a>
+                                <td><a class="btn btn-primary background-pencil"
+                                       href="{!! route('modificarusuario',['id'=>$usuario->id])!!}"><em
+                                                class="fa fa-pencil"></em></a>
                                     @if($usuario->deleted_at == null)
 
-                                        <button onclick="window.location.href='{!! route('eliminarusuario',['id'=>$usuario->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'});"><span class="glyphicon glyphicon-remove p-red"></span></button>
+                                        <button onclick="window.location.href='{!! route('eliminarusuario',['id'=>$usuario->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'});">
+                                            <span class="glyphicon glyphicon-remove p-red"></span></button>
 
                                     @else
 
-                                        <button onclick="window.location.href='{!! route('restaurarusuario',['id'=>$usuario->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'}); "><span class="glyphicon glyphicon-ok p-green"></span></button>
+                                        <button onclick="window.location.href='{!! route('restaurarusuario',['id'=>$usuario->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'}); ">
+                                            <span class="glyphicon glyphicon-ok p-green"></span></button>
 
 
                                     @endif

@@ -11,13 +11,13 @@
 
 namespace Symfony\Component\HttpKernel\EventListener;
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\RequestContextAwareInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Routing\RequestContextAwareInterface;
 
 /**
  * Initializes the locale based on the current request.
@@ -44,6 +44,15 @@ class LocaleListener implements EventSubscriberInterface
         $this->router = $router;
     }
 
+    public static function getSubscribedEvents()
+    {
+        return array(
+            // must be registered after the Router to have access to the _locale
+            KernelEvents::REQUEST => array(array('onKernelRequest', 16)),
+            KernelEvents::FINISH_REQUEST => array(array('onKernelFinishRequest', 0)),
+        );
+    }
+
     public function onKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
@@ -51,13 +60,6 @@ class LocaleListener implements EventSubscriberInterface
 
         $this->setLocale($request);
         $this->setRouterContext($request);
-    }
-
-    public function onKernelFinishRequest(FinishRequestEvent $event)
-    {
-        if (null !== $parentRequest = $this->requestStack->getParentRequest()) {
-            $this->setRouterContext($parentRequest);
-        }
     }
 
     private function setLocale(Request $request)
@@ -74,12 +76,10 @@ class LocaleListener implements EventSubscriberInterface
         }
     }
 
-    public static function getSubscribedEvents()
+    public function onKernelFinishRequest(FinishRequestEvent $event)
     {
-        return array(
-            // must be registered after the Router to have access to the _locale
-            KernelEvents::REQUEST => array(array('onKernelRequest', 16)),
-            KernelEvents::FINISH_REQUEST => array(array('onKernelFinishRequest', 0)),
-        );
+        if (null !== $parentRequest = $this->requestStack->getParentRequest()) {
+            $this->setRouterContext($parentRequest);
+        }
     }
 }

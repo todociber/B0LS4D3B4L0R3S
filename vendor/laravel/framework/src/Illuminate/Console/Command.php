@@ -3,15 +3,15 @@
 namespace Illuminate\Console;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Formatter\OutputFormatterStyle;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Question\Question;
 
 class Command extends SymfonyCommand
 {
@@ -140,6 +140,26 @@ class Command extends SymfonyCommand
     }
 
     /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [];
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [];
+    }
+
+    /**
      * Run the console command.
      *
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
@@ -153,20 +173,6 @@ class Command extends SymfonyCommand
         $this->output = new OutputStyle($input, $output);
 
         return parent::run($input, $output);
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * @return mixed
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $method = method_exists($this, 'handle') ? 'handle' : 'fire';
-
-        return $this->laravel->call([$this, $method]);
     }
 
     /**
@@ -389,6 +395,23 @@ class Command extends SymfonyCommand
     }
 
     /**
+     * Get the verbosity level in terms of Symfony's OutputInterface level.
+     *
+     * @param  string|int $level
+     * @return int
+     */
+    protected function parseVerbosity($level = null)
+    {
+        if (isset($this->verbosityMap[$level])) {
+            $level = $this->verbosityMap[$level];
+        } elseif (!is_int($level)) {
+            $level = $this->verbosity;
+        }
+
+        return $level;
+    }
+
+    /**
      * Write a string as comment output.
      *
      * @param  string  $string
@@ -443,54 +466,6 @@ class Command extends SymfonyCommand
     }
 
     /**
-     * Get the verbosity level in terms of Symfony's OutputInterface level.
-     *
-     * @param  string|int  $level
-     * @return int
-     */
-    protected function parseVerbosity($level = null)
-    {
-        if (isset($this->verbosityMap[$level])) {
-            $level = $this->verbosityMap[$level];
-        } elseif (! is_int($level)) {
-            $level = $this->verbosity;
-        }
-
-        return $level;
-    }
-
-    /**
-     * Set the verbosity level.
-     *
-     * @param string|int $level
-     * @return void
-     */
-    protected function setVerbosity($level)
-    {
-        $this->verbosity = $this->parseVerbosity($level);
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [];
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
-    }
-
-    /**
      * Get the output implementation.
      *
      * @return \Symfony\Component\Console\Output\OutputInterface
@@ -513,11 +488,36 @@ class Command extends SymfonyCommand
     /**
      * Set the Laravel application instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $laravel
+     * @param  \Illuminate\Contracts\Container\Container $laravel
      * @return void
      */
     public function setLaravel($laravel)
     {
         $this->laravel = $laravel;
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @param  \Symfony\Component\Console\Input\InputInterface $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     * @return mixed
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $method = method_exists($this, 'handle') ? 'handle' : 'fire';
+
+        return $this->laravel->call([$this, $method]);
+    }
+
+    /**
+     * Set the verbosity level.
+     *
+     * @param string|int $level
+     * @return void
+     */
+    protected function setVerbosity($level)
+    {
+        $this->verbosity = $this->parseVerbosity($level);
     }
 }

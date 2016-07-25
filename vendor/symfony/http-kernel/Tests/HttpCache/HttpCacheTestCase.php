@@ -30,39 +30,6 @@ class HttpCacheTestCase extends \PHPUnit_Framework_TestCase
     protected $esi;
     protected $store;
 
-    protected function setUp()
-    {
-        $this->kernel = null;
-
-        $this->cache = null;
-        $this->esi = null;
-        $this->caches = array();
-        $this->cacheConfig = array();
-
-        $this->request = null;
-        $this->response = null;
-        $this->responses = array();
-
-        $this->catch = false;
-
-        $this->clearDirectory(sys_get_temp_dir().'/http_cache');
-    }
-
-    protected function tearDown()
-    {
-        $this->kernel = null;
-        $this->cache = null;
-        $this->caches = null;
-        $this->request = null;
-        $this->response = null;
-        $this->responses = null;
-        $this->cacheConfig = null;
-        $this->catch = null;
-        $this->esi = null;
-
-        $this->clearDirectory(sys_get_temp_dir().'/http_cache');
-    }
-
     public function assertHttpKernelIsCalled()
     {
         $this->assertTrue($this->kernel->hasBeenCalled());
@@ -136,7 +103,6 @@ class HttpCacheTestCase extends \PHPUnit_Framework_TestCase
         return $values;
     }
 
-    // A basic response with 200 status code and a tiny body.
     public function setNextResponse($statusCode = 200, array $headers = array(), $body = 'Hello World', \Closure $customizer = null)
     {
         $this->kernel = new TestHttpKernel($body, $statusCode, $headers, $customizer);
@@ -147,9 +113,29 @@ class HttpCacheTestCase extends \PHPUnit_Framework_TestCase
         $this->kernel = new TestMultipleHttpKernel($responses);
     }
 
+    // A basic response with 200 status code and a tiny body.
+
     public function catchExceptions($catch = true)
     {
         $this->catch = $catch;
+    }
+
+    protected function setUp()
+    {
+        $this->kernel = null;
+
+        $this->cache = null;
+        $this->esi = null;
+        $this->caches = array();
+        $this->cacheConfig = array();
+
+        $this->request = null;
+        $this->response = null;
+        $this->responses = array();
+
+        $this->catch = false;
+
+        $this->clearDirectory(sys_get_temp_dir() . '/http_cache');
     }
 
     public static function clearDirectory($directory)
@@ -173,5 +159,20 @@ class HttpCacheTestCase extends \PHPUnit_Framework_TestCase
         }
 
         closedir($fp);
+    }
+
+    protected function tearDown()
+    {
+        $this->kernel = null;
+        $this->cache = null;
+        $this->caches = null;
+        $this->request = null;
+        $this->response = null;
+        $this->responses = null;
+        $this->cacheConfig = null;
+        $this->catch = null;
+        $this->esi = null;
+
+        $this->clearDirectory(sys_get_temp_dir() . '/http_cache');
     }
 }

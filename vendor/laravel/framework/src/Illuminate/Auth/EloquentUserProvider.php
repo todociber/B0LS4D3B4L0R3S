@@ -2,10 +2,10 @@
 
 namespace Illuminate\Auth;
 
-use Illuminate\Support\Str;
+use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
+use Illuminate\Support\Str;
 
 class EloquentUserProvider implements UserProvider
 {
@@ -45,6 +45,18 @@ class EloquentUserProvider implements UserProvider
     public function retrieveById($identifier)
     {
         return $this->createModel()->newQuery()->find($identifier);
+    }
+
+    /**
+     * Create a new instance of the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function createModel()
+    {
+        $class = '\\' . ltrim($this->model, '\\');
+
+        return new $class;
     }
 
     /**
@@ -116,18 +128,6 @@ class EloquentUserProvider implements UserProvider
         $plain = $credentials['password'];
 
         return $this->hasher->check($plain, $user->getAuthPassword());
-    }
-
-    /**
-     * Create a new instance of the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public function createModel()
-    {
-        $class = '\\'.ltrim($this->model, '\\');
-
-        return new $class;
     }
 
     /**

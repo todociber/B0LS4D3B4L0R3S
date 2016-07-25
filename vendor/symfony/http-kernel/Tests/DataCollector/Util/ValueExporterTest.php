@@ -20,11 +20,6 @@ class ValueExporterTest extends \PHPUnit_Framework_TestCase
      */
     private $valueExporter;
 
-    protected function setUp()
-    {
-        $this->valueExporter = new ValueExporter();
-    }
-
     public function testDateTime()
     {
         $dateTime = new \DateTime('2014-06-10 07:35:40', new \DateTimeZone('UTC'));
@@ -43,5 +38,10 @@ class ValueExporterTest extends \PHPUnit_Framework_TestCase
         $array = new \ArrayObject($foo);
         $array['__PHP_Incomplete_Class_Name'] = 'AppBundle/Foo';
         $this->assertSame('__PHP_Incomplete_Class(AppBundle/Foo)', $this->valueExporter->exportValue($foo));
+    }
+
+    protected function setUp()
+    {
+        $this->valueExporter = new ValueExporter();
     }
 }

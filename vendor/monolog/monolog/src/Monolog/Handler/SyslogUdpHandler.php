@@ -11,8 +11,8 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Logger;
 use Monolog\Handler\SyslogUdp\UdpSocket;
+use Monolog\Logger;
 
 /**
  * A Handler for logging to a remote syslogd server.
@@ -37,6 +37,19 @@ class SyslogUdpHandler extends AbstractSyslogHandler
         $this->socket = new UdpSocket($host, $port ?: 514);
     }
 
+    public function close()
+    {
+        $this->socket->close();
+    }
+
+    /**
+     * Inject your own socket, mainly used for testing
+     */
+    public function setSocket($socket)
+    {
+        $this->socket = $socket;
+    }
+
     protected function write(array $record)
     {
         $lines = $this->splitMessageIntoLines($record['formatted']);
@@ -46,11 +59,6 @@ class SyslogUdpHandler extends AbstractSyslogHandler
         foreach ($lines as $line) {
             $this->socket->write($line, $header);
         }
-    }
-
-    public function close()
-    {
-        $this->socket->close();
     }
 
     private function splitMessageIntoLines($message)
@@ -70,13 +78,5 @@ class SyslogUdpHandler extends AbstractSyslogHandler
         $priority = $severity + $this->facility;
 
         return "<$priority>1 ";
-    }
-
-    /**
-     * Inject your own socket, mainly used for testing
-     */
-    public function setSocket($socket)
-    {
-        $this->socket = $socket;
     }
 }

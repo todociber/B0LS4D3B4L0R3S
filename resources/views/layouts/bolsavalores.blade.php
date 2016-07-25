@@ -20,7 +20,7 @@
          folder instead of downloading all of them to reduce the load. -->
     {!! Html::style('assets/dist/css/skins/_all-skins.css') !!}
 
-      <!--  DROPZONE CSS -->
+            <!--  DROPZONE CSS -->
     {!! Html::style('assets/css/dropzone.css') !!}
             <!--  LADDA CSS -->
     {!! Html::style('assets/css/ladda-themeless.min.css') !!}

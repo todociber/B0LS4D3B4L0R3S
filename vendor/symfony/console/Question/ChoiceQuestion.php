@@ -42,84 +42,6 @@ class ChoiceQuestion extends Question
     }
 
     /**
-     * Returns available choices.
-     *
-     * @return array
-     */
-    public function getChoices()
-    {
-        return $this->choices;
-    }
-
-    /**
-     * Sets multiselect option.
-     *
-     * When multiselect is set to true, multiple choices can be answered.
-     *
-     * @param bool $multiselect
-     *
-     * @return ChoiceQuestion The current instance
-     */
-    public function setMultiselect($multiselect)
-    {
-        $this->multiselect = $multiselect;
-        $this->setValidator($this->getDefaultValidator());
-
-        return $this;
-    }
-
-    /**
-     * Returns whether the choices are multiselect.
-     *
-     * @return bool
-     */
-    public function isMultiselect()
-    {
-        return $this->multiselect;
-    }
-
-    /**
-     * Gets the prompt for choices.
-     *
-     * @return string
-     */
-    public function getPrompt()
-    {
-        return $this->prompt;
-    }
-
-    /**
-     * Sets the prompt for choices.
-     *
-     * @param string $prompt
-     *
-     * @return ChoiceQuestion The current instance
-     */
-    public function setPrompt($prompt)
-    {
-        $this->prompt = $prompt;
-
-        return $this;
-    }
-
-    /**
-     * Sets the error message for invalid values.
-     *
-     * The error message has a string placeholder (%s) for the invalid value.
-     *
-     * @param string $errorMessage
-     *
-     * @return ChoiceQuestion The current instance
-     */
-    public function setErrorMessage($errorMessage)
-    {
-        $this->errorMessage = $errorMessage;
-        $this->setValidator($this->getDefaultValidator());
-
-        return $this;
-    }
-
-    /**
      * Returns the default answer validator.
      *
      * @return callable
@@ -174,7 +96,7 @@ class ChoiceQuestion extends Question
                     throw new InvalidArgumentException(sprintf($errorMessage, $value));
                 }
 
-                $multiselectChoices[] = (string) $result;
+                $multiselectChoices[] = (string)$result;
             }
 
             if ($multiselect) {
@@ -183,5 +105,83 @@ class ChoiceQuestion extends Question
 
             return current($multiselectChoices);
         };
+    }
+
+    /**
+     * Returns available choices.
+     *
+     * @return array
+     */
+    public function getChoices()
+    {
+        return $this->choices;
+    }
+
+    /**
+     * Returns whether the choices are multiselect.
+     *
+     * @return bool
+     */
+    public function isMultiselect()
+    {
+        return $this->multiselect;
+    }
+
+    /**
+     * Sets multiselect option.
+     *
+     * When multiselect is set to true, multiple choices can be answered.
+     *
+     * @param bool $multiselect
+     *
+     * @return ChoiceQuestion The current instance
+     */
+    public function setMultiselect($multiselect)
+    {
+        $this->multiselect = $multiselect;
+        $this->setValidator($this->getDefaultValidator());
+
+        return $this;
+    }
+
+    /**
+     * Gets the prompt for choices.
+     *
+     * @return string
+     */
+    public function getPrompt()
+    {
+        return $this->prompt;
+    }
+
+    /**
+     * Sets the prompt for choices.
+     *
+     * @param string $prompt
+     *
+     * @return ChoiceQuestion The current instance
+     */
+    public function setPrompt($prompt)
+    {
+        $this->prompt = $prompt;
+
+        return $this;
+    }
+
+    /**
+     * Sets the error message for invalid values.
+     *
+     * The error message has a string placeholder (%s) for the invalid value.
+     *
+     * @param string $errorMessage
+     *
+     * @return ChoiceQuestion The current instance
+     */
+    public function setErrorMessage($errorMessage)
+    {
+        $this->errorMessage = $errorMessage;
+        $this->setValidator($this->getDefaultValidator());
+
+        return $this;
     }
 }

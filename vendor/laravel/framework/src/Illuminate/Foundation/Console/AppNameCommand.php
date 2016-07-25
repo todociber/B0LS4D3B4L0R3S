@@ -3,10 +3,10 @@
 namespace Illuminate\Foundation\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Composer;
-use Symfony\Component\Finder\Finder;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Composer;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Finder\Finder;
 
 class AppNameCommand extends Command
 {
@@ -87,6 +87,51 @@ class AppNameCommand extends Command
     }
 
     /**
+     * Set the bootstrap namespaces.
+     *
+     * @return void
+     */
+    protected function setBootstrapNamespaces()
+    {
+        $search = [
+            $this->currentRoot . '\\Http',
+            $this->currentRoot . '\\Console',
+            $this->currentRoot . '\\Exceptions',
+        ];
+
+        $replace = [
+            $this->argument('name') . '\\Http',
+            $this->argument('name') . '\\Console',
+            $this->argument('name') . '\\Exceptions',
+        ];
+
+        $this->replaceIn($this->getBootstrapPath(), $search, $replace);
+    }
+
+    /**
+     * Replace the given string in the given file.
+     *
+     * @param  string $path
+     * @param  string|array $search
+     * @param  string|array $replace
+     * @return void
+     */
+    protected function replaceIn($path, $search, $replace)
+    {
+        $this->files->put($path, str_replace($search, $replace, $this->files->get($path)));
+    }
+
+    /**
+     * Get the path to the bootstrap/app.php file.
+     *
+     * @return string
+     */
+    protected function getBootstrapPath()
+    {
+        return $this->laravel->bootstrapPath() . '/app.php';
+    }
+
+    /**
      * Set the namespace on the files in the app directory.
      *
      * @return void
@@ -125,40 +170,6 @@ class AppNameCommand extends Command
     }
 
     /**
-     * Set the bootstrap namespaces.
-     *
-     * @return void
-     */
-    protected function setBootstrapNamespaces()
-    {
-        $search = [
-            $this->currentRoot.'\\Http',
-            $this->currentRoot.'\\Console',
-            $this->currentRoot.'\\Exceptions',
-        ];
-
-        $replace = [
-            $this->argument('name').'\\Http',
-            $this->argument('name').'\\Console',
-            $this->argument('name').'\\Exceptions',
-        ];
-
-        $this->replaceIn($this->getBootstrapPath(), $search, $replace);
-    }
-
-    /**
-     * Set the PSR-4 namespace in the Composer file.
-     *
-     * @return void
-     */
-    protected function setComposerNamespace()
-    {
-        $this->replaceIn(
-            $this->getComposerPath(), str_replace('\\', '\\\\', $this->currentRoot).'\\\\', str_replace('\\', '\\\\', $this->argument('name')).'\\\\'
-        );
-    }
-
-    /**
      * Set the namespace in the appropriate configuration files.
      *
      * @return void
@@ -193,6 +204,17 @@ class AppNameCommand extends Command
     }
 
     /**
+     * Get the path to the given configuration file.
+     *
+     * @param  string $name
+     * @return string
+     */
+    protected function getConfigPath($name)
+    {
+        return $this->laravel['path.config'] . '/' . $name . '.php';
+    }
+
+    /**
      * Set the authentication User namespace.
      *
      * @return void
@@ -217,38 +239,15 @@ class AppNameCommand extends Command
     }
 
     /**
-     * Set the namespace in database factory files.
+     * Set the PSR-4 namespace in the Composer file.
      *
      * @return void
      */
-    protected function setDatabaseFactoryNamespaces()
+    protected function setComposerNamespace()
     {
         $this->replaceIn(
-            $this->laravel->databasePath().'/factories/ModelFactory.php', $this->currentRoot, $this->argument('name')
+            $this->getComposerPath(), str_replace('\\', '\\\\', $this->currentRoot) . '\\\\', str_replace('\\', '\\\\', $this->argument('name')) . '\\\\'
         );
-    }
-
-    /**
-     * Replace the given string in the given file.
-     *
-     * @param  string  $path
-     * @param  string|array  $search
-     * @param  string|array  $replace
-     * @return void
-     */
-    protected function replaceIn($path, $search, $replace)
-    {
-        $this->files->put($path, str_replace($search, $replace, $this->files->get($path)));
-    }
-
-    /**
-     * Get the path to the bootstrap/app.php file.
-     *
-     * @return string
-     */
-    protected function getBootstrapPath()
-    {
-        return $this->laravel->bootstrapPath().'/app.php';
     }
 
     /**
@@ -262,14 +261,15 @@ class AppNameCommand extends Command
     }
 
     /**
-     * Get the path to the given configuration file.
+     * Set the namespace in database factory files.
      *
-     * @param  string  $name
-     * @return string
+     * @return void
      */
-    protected function getConfigPath($name)
+    protected function setDatabaseFactoryNamespaces()
     {
-        return $this->laravel['path.config'].'/'.$name.'.php';
+        $this->replaceIn(
+            $this->laravel->databasePath() . '/factories/ModelFactory.php', $this->currentRoot, $this->argument('name')
+        );
     }
 
     /**

@@ -30,7 +30,7 @@ class ArrayInput extends Input
     /**
      * Constructor.
      *
-     * @param array                $parameters An array of parameters
+     * @param array $parameters An array of parameters
      * @param InputDefinition|null $definition A InputDefinition instance
      */
     public function __construct(array $parameters, InputDefinition $definition = null)
@@ -141,23 +141,6 @@ class ArrayInput extends Input
     }
 
     /**
-     * Adds a short option value.
-     *
-     * @param string $shortcut The short option key
-     * @param mixed  $value    The value for the option
-     *
-     * @throws InvalidOptionException When option given doesn't exist
-     */
-    private function addShortOption($shortcut, $value)
-    {
-        if (!$this->definition->hasShortcut($shortcut)) {
-            throw new InvalidOptionException(sprintf('The "-%s" option does not exist.', $shortcut));
-        }
-
-        $this->addLongOption($this->definition->getOptionForShortcut($shortcut)->getName(), $value);
-    }
-
-    /**
      * Adds a long option value.
      *
      * @param string $name  The long option key
@@ -183,6 +166,23 @@ class ArrayInput extends Input
         }
 
         $this->options[$name] = $value;
+    }
+
+    /**
+     * Adds a short option value.
+     *
+     * @param string $shortcut The short option key
+     * @param mixed $value The value for the option
+     *
+     * @throws InvalidOptionException When option given doesn't exist
+     */
+    private function addShortOption($shortcut, $value)
+    {
+        if (!$this->definition->hasShortcut($shortcut)) {
+            throw new InvalidOptionException(sprintf('The "-%s" option does not exist.', $shortcut));
+        }
+
+        $this->addLongOption($this->definition->getOptionForShortcut($shortcut)->getName(), $value);
     }
 
     /**

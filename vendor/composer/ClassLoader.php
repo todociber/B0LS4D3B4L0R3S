@@ -230,16 +230,6 @@ class ClassLoader
     }
 
     /**
-     * Turns on searching the include path for class files.
-     *
-     * @param bool $useIncludePath
-     */
-    public function setUseIncludePath($useIncludePath)
-    {
-        $this->useIncludePath = $useIncludePath;
-    }
-
-    /**
      * Can be used to check if the autoloader uses the include path to check
      * for classes.
      *
@@ -251,14 +241,13 @@ class ClassLoader
     }
 
     /**
-     * Turns off searching the prefix and fallback directories for classes
-     * that have not been registered with the class map.
+     * Turns on searching the include path for class files.
      *
-     * @param bool $classMapAuthoritative
+     * @param bool $useIncludePath
      */
-    public function setClassMapAuthoritative($classMapAuthoritative)
+    public function setUseIncludePath($useIncludePath)
     {
-        $this->classMapAuthoritative = $classMapAuthoritative;
+        $this->useIncludePath = $useIncludePath;
     }
 
     /**
@@ -269,6 +258,17 @@ class ClassLoader
     public function isClassMapAuthoritative()
     {
         return $this->classMapAuthoritative;
+    }
+
+    /**
+     * Turns off searching the prefix and fallback directories for classes
+     * that have not been registered with the class map.
+     *
+     * @param bool $classMapAuthoritative
+     */
+    public function setClassMapAuthoritative($classMapAuthoritative)
+    {
+        $this->classMapAuthoritative = $classMapAuthoritative;
     }
 
     /**

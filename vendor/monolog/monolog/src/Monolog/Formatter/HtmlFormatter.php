@@ -44,35 +44,19 @@ class HtmlFormatter extends NormalizerFormatter
     }
 
     /**
-     * Creates an HTML table row
+     * Formats a set of log records.
      *
-     * @param  string $th       Row header content
-     * @param  string $td       Row standard cell content
-     * @param  bool   $escapeTd false if td content must not be html escaped
-     * @return string
+     * @param  array $records A set of records to format
+     * @return mixed The formatted set of records
      */
-    protected function addRow($th, $td = ' ', $escapeTd = true)
+    public function formatBatch(array $records)
     {
-        $th = htmlspecialchars($th, ENT_NOQUOTES, 'UTF-8');
-        if ($escapeTd) {
-            $td = '<pre>'.htmlspecialchars($td, ENT_NOQUOTES, 'UTF-8').'</pre>';
+        $message = '';
+        foreach ($records as $record) {
+            $message .= $this->format($record);
         }
 
-        return "<tr style=\"padding: 4px;spacing: 0;text-align: left;\">\n<th style=\"background: #cccccc\" width=\"100px\">$th:</th>\n<td style=\"padding: 4px;spacing: 0;text-align: left;background: #eeeeee\">".$td."</td>\n</tr>";
-    }
-
-    /**
-     * Create a HTML h1 tag
-     *
-     * @param  string $title Text to be in the h1
-     * @param  int    $level Error level
-     * @return string
-     */
-    protected function addTitle($title, $level)
-    {
-        $title = htmlspecialchars($title, ENT_NOQUOTES, 'UTF-8');
-
-        return '<h1 style="background: '.$this->logLevels[$level].';color: #ffffff;padding: 5px;" class="monolog-output">'.$title.'</h1>';
+        return $message;
     }
 
     /**
@@ -110,19 +94,35 @@ class HtmlFormatter extends NormalizerFormatter
     }
 
     /**
-     * Formats a set of log records.
+     * Create a HTML h1 tag
      *
-     * @param  array $records A set of records to format
-     * @return mixed The formatted set of records
+     * @param  string $title Text to be in the h1
+     * @param  int $level Error level
+     * @return string
      */
-    public function formatBatch(array $records)
+    protected function addTitle($title, $level)
     {
-        $message = '';
-        foreach ($records as $record) {
-            $message .= $this->format($record);
+        $title = htmlspecialchars($title, ENT_NOQUOTES, 'UTF-8');
+
+        return '<h1 style="background: ' . $this->logLevels[$level] . ';color: #ffffff;padding: 5px;" class="monolog-output">' . $title . '</h1>';
+    }
+
+    /**
+     * Creates an HTML table row
+     *
+     * @param  string $th Row header content
+     * @param  string $td Row standard cell content
+     * @param  bool $escapeTd false if td content must not be html escaped
+     * @return string
+     */
+    protected function addRow($th, $td = ' ', $escapeTd = true)
+    {
+        $th = htmlspecialchars($th, ENT_NOQUOTES, 'UTF-8');
+        if ($escapeTd) {
+            $td = '<pre>' . htmlspecialchars($td, ENT_NOQUOTES, 'UTF-8') . '</pre>';
         }
 
-        return $message;
+        return "<tr style=\"padding: 4px;spacing: 0;text-align: left;\">\n<th style=\"background: #cccccc\" width=\"100px\">$th:</th>\n<td style=\"padding: 4px;spacing: 0;text-align: left;background: #eeeeee\">" . $td . "</td>\n</tr>";
     }
 
     protected function convertToString($data)

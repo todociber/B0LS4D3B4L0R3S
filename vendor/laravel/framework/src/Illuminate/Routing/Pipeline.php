@@ -3,12 +3,12 @@
 namespace Illuminate\Routing;
 
 use Closure;
-use Throwable;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline as BasePipeline;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Throwable;
 
 /**
  * This extended pipeline catches any exceptions that occur during each slice.
@@ -40,25 +40,6 @@ class Pipeline extends BasePipeline
     }
 
     /**
-     * Get the initial slice to begin the stack call.
-     *
-     * @param  \Closure  $destination
-     * @return \Closure
-     */
-    protected function getInitialSlice(Closure $destination)
-    {
-        return function ($passable) use ($destination) {
-            try {
-                return call_user_func($destination, $passable);
-            } catch (Exception $e) {
-                return $this->handleException($passable, $e);
-            } catch (Throwable $e) {
-                return $this->handleException($passable, new FatalThrowableError($e));
-            }
-        };
-    }
-
-    /**
      * Handle the given exception.
      *
      * @param  mixed  $passable
@@ -84,5 +65,24 @@ class Pipeline extends BasePipeline
         }
 
         return $response;
+    }
+
+    /**
+     * Get the initial slice to begin the stack call.
+     *
+     * @param  \Closure $destination
+     * @return \Closure
+     */
+    protected function getInitialSlice(Closure $destination)
+    {
+        return function ($passable) use ($destination) {
+            try {
+                return call_user_func($destination, $passable);
+            } catch (Exception $e) {
+                return $this->handleException($passable, $e);
+            } catch (Throwable $e) {
+                return $this->handleException($passable, new FatalThrowableError($e));
+            }
+        };
     }
 }

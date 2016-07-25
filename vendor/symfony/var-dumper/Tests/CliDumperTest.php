@@ -332,6 +332,24 @@ EOTXT
         );
     }
 
+    private function getSpecialVars()
+    {
+        foreach (array_keys($GLOBALS) as $var) {
+            if ('GLOBALS' !== $var) {
+                unset($GLOBALS[$var]);
+            }
+        }
+
+        $var = function &() {
+            $var = array();
+            $var[] = &$var;
+
+            return $var;
+        };
+
+        return array($var(), $GLOBALS, &$GLOBALS);
+    }
+
     /**
      * @runInSeparateProcess
      * @preserveGlobalState disabled
@@ -413,23 +431,5 @@ EOTXT
             ,
             $out
         );
-    }
-
-    private function getSpecialVars()
-    {
-        foreach (array_keys($GLOBALS) as $var) {
-            if ('GLOBALS' !== $var) {
-                unset($GLOBALS[$var]);
-            }
-        }
-
-        $var = function &() {
-            $var = array();
-            $var[] = &$var;
-
-            return $var;
-        };
-
-        return array($var(), $GLOBALS, &$GLOBALS);
     }
 }

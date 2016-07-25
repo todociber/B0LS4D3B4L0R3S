@@ -2,8 +2,8 @@
 
 namespace Illuminate\Foundation\Support\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
+use Illuminate\Support\ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -41,14 +41,6 @@ class EventServiceProvider extends ServiceProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function register()
-    {
-        //
-    }
-
-    /**
      * Get the events and handlers.
      *
      * @return array
@@ -56,5 +48,13 @@ class EventServiceProvider extends ServiceProvider
     public function listens()
     {
         return $this->listen;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register()
+    {
+        //
     }
 }

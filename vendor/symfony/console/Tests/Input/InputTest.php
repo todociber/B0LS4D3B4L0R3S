@@ -12,8 +12,8 @@
 namespace Symfony\Component\Console\Tests\Input;
 
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 
 class InputTest extends \PHPUnit_Framework_TestCase

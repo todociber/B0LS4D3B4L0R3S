@@ -2,14 +2,14 @@
 
 namespace Illuminate\Session\Middleware;
 
-use Closure;
 use Carbon\Carbon;
-use Illuminate\Support\Arr;
+use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Session\SessionManager;
-use Illuminate\Session\SessionInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 use Illuminate\Session\CookieSessionHandler;
+use Illuminate\Session\SessionInterface;
+use Illuminate\Session\SessionManager;
+use Illuminate\Support\Arr;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
 class StartSession
@@ -76,17 +76,13 @@ class StartSession
     }
 
     /**
-     * Perform any final actions for the request lifecycle.
+     * Determine if a session driver has been configured.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Symfony\Component\HttpFoundation\Response  $response
-     * @return void
+     * @return bool
      */
-    public function terminate($request, $response)
+    protected function sessionConfigured()
     {
-        if ($this->sessionHandled && $this->sessionConfigured() && ! $this->usingCookieSessions()) {
-            $this->manager->driver()->save();
-        }
+        return !is_null(Arr::get($this->manager->getSessionConfig(), 'driver'));
     }
 
     /**
@@ -122,20 +118,6 @@ class StartSession
     }
 
     /**
-     * Store the current URL for the request if necessary.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Session\SessionInterface  $session
-     * @return void
-     */
-    protected function storeCurrentUrl(Request $request, $session)
-    {
-        if ($request->method() === 'GET' && $request->route() && ! $request->ajax()) {
-            $session->setPreviousUrl($request->fullUrl());
-        }
-    }
-
-    /**
      * Remove the garbage from the session if necessary.
      *
      * @param  \Illuminate\Session\SessionInterface  $session
@@ -165,6 +147,30 @@ class StartSession
     }
 
     /**
+     * Get the session lifetime in seconds.
+     *
+     * @return int
+     */
+    protected function getSessionLifetimeInSeconds()
+    {
+        return Arr::get($this->manager->getSessionConfig(), 'lifetime') * 60;
+    }
+
+    /**
+     * Store the current URL for the request if necessary.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Session\SessionInterface $session
+     * @return void
+     */
+    protected function storeCurrentUrl(Request $request, $session)
+    {
+        if ($request->method() === 'GET' && $request->route() && !$request->ajax()) {
+            $session->setPreviousUrl($request->fullUrl());
+        }
+    }
+
+    /**
      * Add the session cookie to the application response.
      *
      * @param  \Symfony\Component\HttpFoundation\Response  $response
@@ -187,13 +193,30 @@ class StartSession
     }
 
     /**
-     * Get the session lifetime in seconds.
+     * Determine if the session is using cookie sessions.
      *
-     * @return int
+     * @return bool
      */
-    protected function getSessionLifetimeInSeconds()
+    protected function usingCookieSessions()
     {
-        return Arr::get($this->manager->getSessionConfig(), 'lifetime') * 60;
+        if (!$this->sessionConfigured()) {
+            return false;
+        }
+
+        return $this->manager->driver()->getHandler() instanceof CookieSessionHandler;
+    }
+
+    /**
+     * Determine if the configured session driver is persistent.
+     *
+     * @param  array|null $config
+     * @return bool
+     */
+    protected function sessionIsPersistent(array $config = null)
+    {
+        $config = $config ?: $this->manager->getSessionConfig();
+
+        return !in_array($config['driver'], [null, 'array']);
     }
 
     /**
@@ -209,39 +232,16 @@ class StartSession
     }
 
     /**
-     * Determine if a session driver has been configured.
+     * Perform any final actions for the request lifecycle.
      *
-     * @return bool
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Symfony\Component\HttpFoundation\Response $response
+     * @return void
      */
-    protected function sessionConfigured()
+    public function terminate($request, $response)
     {
-        return ! is_null(Arr::get($this->manager->getSessionConfig(), 'driver'));
-    }
-
-    /**
-     * Determine if the configured session driver is persistent.
-     *
-     * @param  array|null  $config
-     * @return bool
-     */
-    protected function sessionIsPersistent(array $config = null)
-    {
-        $config = $config ?: $this->manager->getSessionConfig();
-
-        return ! in_array($config['driver'], [null, 'array']);
-    }
-
-    /**
-     * Determine if the session is using cookie sessions.
-     *
-     * @return bool
-     */
-    protected function usingCookieSessions()
-    {
-        if (! $this->sessionConfigured()) {
-            return false;
+        if ($this->sessionHandled && $this->sessionConfigured() && !$this->usingCookieSessions()) {
+            $this->manager->driver()->save();
         }
-
-        return $this->manager->driver()->getHandler() instanceof CookieSessionHandler;
     }
 }
