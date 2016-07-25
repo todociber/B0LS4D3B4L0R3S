@@ -273,7 +273,7 @@ class UsuarioCasaCorredoraController extends Controller
     {
 
 
-        $Usuario = Usuario::ofid($id);
+        $Usuario = Usuario::find($id);
 
 
         try {
@@ -290,7 +290,7 @@ class UsuarioCasaCorredoraController extends Controller
             return redirect('/home');
         } else {
             $Usuario->delete();
-            return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se elimino exitosamente')->with('tipo', 'danger');
+            return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se desactivo exitosamente')->with('tipo', 'danger');
         }
 
     }
@@ -299,21 +299,27 @@ class UsuarioCasaCorredoraController extends Controller
     {
 
 
-        $Usuario = Usuario::ofid($id);
+        $Usuario = Usuario::withTrashed()->find($id);
 
 
         try {
             $Usuario->id;
         } catch (ErrorException $i) {
+
             return redirect('/home');
         } catch (Exception $e) {
+
             return redirect('/home');
         }
         if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
+
             return redirect('/home');
         } elseif ($id == Auth::user()->id) {
+
+
             return redirect('/home');
         } else {
+
             $Usuario->restore();
             return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se activo exitosamente')->with('tipo', 'warning');
         }

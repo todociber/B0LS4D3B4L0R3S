@@ -41,12 +41,14 @@
                                 <tbody>
                                 @foreach($Usuarios as $users)
                                     <tr>
-                                        <td>{!!link_to_route('UsuarioCasaCorredora.edit', $title = ' Editar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-primary'])!!}
+                                        <td>
                                             <br><br>
                                             @if(Auth::user()->id== $users->id)
-
+                                                {!!link_to_route('UsuarioCasaCorredora.edit', $title = ' Editar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-primary'])!!}
                                             @else
                                                 @if($users->deleted_at == null)
+                                                    {!!link_to_route('UsuarioCasaCorredora.edit', $title = ' Editar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-primary'])!!}
+                                                    <br>
                                                     {!!Form::open(['route'=>['UsuarioCasaCorredora.destroy', $users->id], 'method'=>'DELETE'])!!}
                                                     {!!Form::submit('Desactivar  Usuario ', ['class'=>'btn btn-danger'])!!}
                                                     {!!Form::close()!!}
