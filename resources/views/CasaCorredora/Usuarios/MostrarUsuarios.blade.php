@@ -6,7 +6,7 @@
 @stop
 @section('content')
 
-    {{Auth::user()->nombre}}
+
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title">Nuevo Usuario</h3>
@@ -43,13 +43,19 @@
                                     <tr>
                                         <td>{!!link_to_route('UsuarioCasaCorredora.edit', $title = ' Editar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-primary'])!!}
                                             <br><br>
-                                            @if($users->deleted_at == null)
-                                                {!!Form::open(['route'=>['UsuarioCasaCorredora.destroy', $users->id], 'method'=>'DELETE'])!!}
-                                                {!!Form::submit('Desactivar  Usuario ', ['class'=>'btn btn-danger'])!!}
-                                                {!!Form::close()!!}
+                                            @if(Auth::user()->id== $users->id)
+
                                             @else
-                                                {!!link_to_route('UsuarioCasaCorredora.restaurar', $title = 'Activar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-warning'])!!}
+                                                @if($users->deleted_at == null)
+                                                    {!!Form::open(['route'=>['UsuarioCasaCorredora.destroy', $users->id], 'method'=>'DELETE'])!!}
+                                                    {!!Form::submit('Desactivar  Usuario ', ['class'=>'btn btn-danger'])!!}
+                                                    {!!Form::close()!!}
+                                                @else
+                                                    {!!link_to_route('UsuarioCasaCorredora.restaurar', $title = 'Activar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-warning'])!!}
+                                                @endif
                                             @endif
+
+
                                         </td>
                                         <td>{{$users->nombre}}</td>
                                         <td>{{$users->apellido}}</td>

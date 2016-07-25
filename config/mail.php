@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => 'smtp.gmail.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => 'todocyber100@gmail.com', 'name' => 'Bolsa de Valores El Salvador '],
 
     /*
     |--------------------------------------------------------------------------

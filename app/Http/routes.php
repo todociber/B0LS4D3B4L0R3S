@@ -38,10 +38,18 @@ Route::get('clientes/NuevaOrden','ClientesController@NuevaOrden')->name('nuevaOr
 //-----CASA CORREDORA ROUTES----//
 
 
-Route::get('UsuarioCasaCorredora/crear', 'UsuarioCasaCorredoraController@crear')->name('UsuarioCasaCorredora.crear');
-Route::get('UsuarioCasaCorredora/{id}/editar', 'UsuarioCasaCorredoraController@editar')->name('UsuarioCasaCorredora.editar');
-Route::get('UsuarioCasaCorredora/{id}/restaurar', 'UsuarioCasaCorredoraController@restaurar')->name('UsuarioCasaCorredora.restaurar');
-Route::resource('UsuarioCasaCorredora','UsuarioCasaCorredoraController');
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => 'administrradorBolsa'], function () {
+        Route::get('UsuarioCasaCorredora/crear', 'UsuarioCasaCorredoraController@crear')->name('UsuarioCasaCorredora.crear');
+        Route::get('UsuarioCasaCorredora/{id}/editar', 'UsuarioCasaCorredoraController@editar')->name('UsuarioCasaCorredora.editar');
+        Route::get('UsuarioCasaCorredora/{id}/restaurar', 'UsuarioCasaCorredoraController@restaurar')->name('UsuarioCasaCorredora.restaurar');
+        Route::get('UsuarioCasaCorredora/{id}/resetear', 'UsuarioCasaCorredoraController@resetar')->name('UsuarioCasaCorredora.resetearpassword');
+        Route::resource('UsuarioCasaCorredora', 'UsuarioCasaCorredoraController');
+    });
+});
+
+
+
 
 
 Route::post('loginPost', 'Autenticador@loginPost');

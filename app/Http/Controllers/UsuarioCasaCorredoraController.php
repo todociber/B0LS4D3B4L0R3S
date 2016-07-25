@@ -6,9 +6,12 @@ use App\Http\Requests;
 use App\Models\Role;
 use App\Models\RolUsuario;
 use App\Models\Usuario;
+use Auth;
 use DB;
+use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Mockery\CountValidator\Exception;
 
 
 //use App\Http\Controllers\Datatable;
@@ -28,7 +31,7 @@ class UsuarioCasaCorredoraController extends Controller
     {
 
 
-        $Usuarios = Usuario::withTrashed()->get();
+        $Usuarios = Usuario::with('UsuarioRoles')->withTrashed()->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
 
 
         return view('CasaCorredora.Usuarios.MostrarUsuarios', ['Usuarios' => $Usuarios]);
@@ -58,6 +61,8 @@ class UsuarioCasaCorredoraController extends Controller
      */
     public function store(Requests\RequestUsuarioCasaCorredora $request)
     {
+
+        $correoUsuario = $request['email'];
         $caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //posibles caracteres a usar
         $numerodeletras=8; //numero de letras para generar el texto
         $cadena = ""; //variable para almacenar la cadena generada
@@ -78,6 +83,7 @@ class UsuarioCasaCorredoraController extends Controller
                 'apellido' => $request['apellido'],
                 'email' => $request['email'],
                 'password' => bcrypt($cadena),
+                'idOrganizacion' => Auth::user()->idOrganizacion,
             ]
         );
 
@@ -124,10 +130,26 @@ class UsuarioCasaCorredoraController extends Controller
 
     public function editar($id)
     {
+
+
         $usuarios = Usuario::find($id);
-        $roles = Role::orderBy('nombre', 'asc')->where('id', '!=', '5')->where('id', '!=', '1')->get();
-        $rolesSeleccionados = RolUsuario::where('idUsuario', '=', $id)->get();
-        return view('CasaCorredora.Usuarios.EditarUsuario', ['usuarios' => $usuarios, 'roles' => $roles, 'rolSeleccionados' => $rolesSeleccionados]);
+        try {
+            $usuarios->id;
+        } catch (ErrorException $i) {
+            return redirect('/home');
+        } catch (Exception $e) {
+            return redirect('/home');
+        }
+
+
+        if ($usuarios->idOrganizacion != Auth::user()->idOrganizacion) {
+            return redirect('/home');
+        } else {
+            $roles = Role::orderBy('nombre', 'asc')->where('id', '!=', '5')->where('id', '!=', '1')->get();
+            $rolesSeleccionados = RolUsuario::where('idUsuario', '=', $id)->get();
+            return view('CasaCorredora.Usuarios.EditarUsuario', ['usuarios' => $usuarios, 'roles' => $roles, 'rolSeleccionados' => $rolesSeleccionados]);
+        }
+
     }
 
     /**
@@ -157,68 +179,88 @@ class UsuarioCasaCorredoraController extends Controller
 
 
         $usuario = Usuario::find($id);
-        $usuario->fill(
-            [
-                'nombre'=>$request['nombre'],
-                'apellido'=>$request['apellido'],
-                'email' => $request['email']
-            ]
-        );
-        $usuario->save();
 
-        $rolesDisponibles = Role::all();
+        if ($usuario->idOrganizacion != Auth::user()->idOrganizacion) {
+            return redirect('/home');
+        } else {
 
-        foreach ($rolesDisponibles as $rolDisponible) {
+            $usuario->fill(
+                [
+                    'nombre' => $request['nombre'],
+                    'apellido' => $request['apellido'],
+                    'email' => $request['email'],
+                    'idOrganizacion' => Auth::user()->idOrganizacion,
+                ]
+            );
+            $usuario->save();
 
-            $existe = 0;
-            $idRolDisponible = $rolDisponible->id;
-            $NRolesActivosByUser = DB::table('rol_usuarios')
-                ->select(DB::raw('count(*) as N'))
-                ->where('idUsuario', $id)
-                ->where('idRol', $idRolDisponible)
-                ->where('deleted_at', null)
-                ->get();
-            if ($NRolesActivosByUser[0]->N > 0) {
-                $existeId = 0;
-                foreach ($request['rolUsuario'] as $role2) {
+            $rolesDisponibles = Role::all();
+
+            foreach ($rolesDisponibles as $rolDisponible) {
+
+                $existe = 0;
+                $idRolDisponible = $rolDisponible->id;
+                $NRolesActivosByUser = DB::table('rol_usuarios')
+                    ->select(DB::raw('count(*) as N'))
+                    ->where('idUsuario', $id)
+                    ->where('idRol', $idRolDisponible)
+                    ->where('deleted_at', null)
+                    ->get();
+                if ($NRolesActivosByUser[0]->N > 0) {
+                    $existeId = 0;
+                    foreach ($request['rolUsuario'] as $role2) {
 
 
-                    if ($role2 == $idRolDisponible) {
-                        $existeId = 1;
+                        if ($role2 == $idRolDisponible) {
+                            $existeId = 1;
+                        }
+
+
+
+
                     }
 
+                    if ($existeId == 0) {
+
+
+                        if (Auth::user()->id == $id && $idRolDisponible == 2) {
+
+                        } else {
+                            $RolUsuarioABorrar = RolUsuario::where('idUsuario', $id)
+                                ->where('idRol', $idRolDisponible)->first();
+
+                            $RolUsuarioABorrar->delete();
+                        }
+
+
+                    }
+
+
                 }
+            }
 
-                if ($existeId == 0) {
-                    $RolUsuarioABorrar = RolUsuario::where('idUsuario', $id)
-                        ->where('idRol', $idRolDisponible)->first();
 
-                    $RolUsuarioABorrar->delete();
+            foreach ($request['rolUsuario'] as $roles) {
+                $NRolesActivos = DB::table('rol_usuarios')
+                    ->select(DB::raw('count(*) as N'))
+                    ->where('idUsuario', $id)
+                    ->where('idRol', $roles)
+                    ->where('deleted_at', null)
+                    ->get();
+
+                if ($NRolesActivos[0]->N == 0) {
+                    $RolUsuario = new RolUsuario([
+                        'idUsuario' => $usuario->id,
+                        'idRol' => $roles,
+                    ]);
+                    $RolUsuario->save();
                 }
-
 
             }
+            return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se edito exitosamente')->with('tipo', 'success');
         }
 
 
-        foreach ($request['rolUsuario'] as $roles) {
-            $NRolesActivos = DB::table('rol_usuarios')
-                ->select(DB::raw('count(*) as N'))
-                ->where('idUsuario', $id)
-                ->where('idRol', $roles)
-                ->where('deleted_at', null)
-                ->get();
-
-            if ($NRolesActivos[0]->N == 0) {
-                $RolUsuario = new RolUsuario([
-                    'idUsuario' => $usuario->id,
-                    'idRol' => $roles,
-                ]);
-                $RolUsuario->save();
-            }
-
-        }
-        return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se edito exitosamente')->with('tipo', 'success');
     }
 
     /**
@@ -232,8 +274,25 @@ class UsuarioCasaCorredoraController extends Controller
 
 
         $Usuario = Usuario::ofid($id);
-        $Usuario->delete();
-        return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se elimino exitosamente')->with('tipo', 'danger');
+
+
+        try {
+            $Usuario->id;
+        } catch (ErrorException $i) {
+            return redirect('/home');
+        } catch (Exception $e) {
+            return redirect('/home');
+        }
+
+        if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
+            return redirect('/home');
+        } elseif ($id == Auth::user()->id) {
+            return redirect('/home');
+        } else {
+            $Usuario->delete();
+            return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se elimino exitosamente')->with('tipo', 'danger');
+        }
+
     }
 
     public function restaurar($id)
@@ -241,7 +300,56 @@ class UsuarioCasaCorredoraController extends Controller
 
 
         $Usuario = Usuario::ofid($id);
+
+
+        try {
+            $Usuario->id;
+        } catch (ErrorException $i) {
+            return redirect('/home');
+        } catch (Exception $e) {
+            return redirect('/home');
+        }
+        if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
+            return redirect('/home');
+        } elseif ($id == Auth::user()->id) {
+            return redirect('/home');
+        } else {
+            $Usuario->restore();
+            return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se activo exitosamente')->with('tipo', 'warning');
+        }
+    }
+
+    public function resetar($id)
+    {
+        $Usuario = Usuario::find($id);
+
+
         $Usuario->restore();
-        return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se activo exitosamente')->with('tipo', 'warning');
+
+
+        $caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //posibles caracteres a usar
+        $numerodeletras = 8; //numero de letras para generar el texto
+        $cadena = ""; //variable para almacenar la cadena generada
+        for ($i = 0; $i < $numerodeletras; $i++) {
+            $cadena .= substr($caracteres, rand(0, strlen($caracteres)), 1);
+        }
+
+//COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
+
+        $cadena = 'todociber';
+
+
+//COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
+        $Usuario->fill(
+            [
+                'password' => bcrypt($cadena),
+            ]
+        );
+        $Usuario->save();
+
+
+        return redirect('/UsuarioCasaCorredora')->with('message', 'Se envio una nueva contraseña al correo del usuario')->with('tipo', 'info');
+
+
     }
 }
