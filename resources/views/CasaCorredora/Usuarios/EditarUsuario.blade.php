@@ -24,6 +24,14 @@
 
                             {!!Form::submit('Guardar', ['class'=>'btn btn-primary btn-flat'])!!}
                             {!!Form::close()!!}
+                            <br>
+                            @if($usuarios->id== Auth::user()->id)
+
+                            @else
+                                {!!link_to_route('UsuarioCasaCorredora.resetearpassword', $title = 'Resetear Contraseña ', $parameters = $usuarios->id, $attributes = ['class'=>'btn btn-success'])!!}
+
+                            @endif
+
 
 
                             <br><br>

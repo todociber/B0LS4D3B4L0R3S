@@ -31,7 +31,7 @@ return [
     "different"        => ":attribute y :other deben ser diferentes.",
     "digits"           => ":attribute debe tener :digits d�gitos.",
     "digits_between"   => ":attribute debe tener entre :min y :max d�gitos.",
-    "email"            => "El correo electrónico ingresado no es un correo válido",
+    "email"            => ":attribute no es un correo v�lido",
     "exists"           => ":attribute es inv�lido.",
     "filled"           => "El campo :attribute es obligatorio.",
     "image"            => ":attribute debe ser una imagen.",

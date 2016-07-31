@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class RequestUsuarioCasaCorredora extends Request
+class RequestUsuarioCasaCorredoraUpdate extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -11,7 +11,7 @@ class RequestUsuarioCasaCorredora extends Request
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -21,10 +21,12 @@ class RequestUsuarioCasaCorredora extends Request
      */
     public function rules()
     {
+
+
         return [
-            'nombre'=>'required',
-            'apellido'=>'required',
-            'email' => 'required|email|unique:usuarios,email',
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'correo' => 'required|unique:usuarios' . $id,
             'rolUsuario' => 'required|exists:roles,id'
 
         ];

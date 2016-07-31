@@ -52,9 +52,3 @@ Route::get('clientes/NuevaOrden','ClientesController@NuevaOrden')->name('nuevaOr
 //-----CASA CORREDORA ROUTES----//
 Route::resource('UsuarioCasaCorredora','UsuarioCasaCorredoraController');
 
-
-//-----CASA CORREDORA ROUTES----//
-Route::resource('UsuarioCasaCorredora','UsuarioCasaCorredoraController');
-
-
-
