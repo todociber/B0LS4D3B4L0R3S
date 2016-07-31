@@ -57,6 +57,9 @@
 
 
                                     @if($solicituds->idEstadoSolicitud==1)
+
+                                            {!!link_to_route('SolicitudAfiliacion.procesar', $title = 'Procesar Solicitud ', $parameters = $solicituds->id, $attributes = ['class'=>'btn btn-info','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                                        @elseif($solicituds->idEstadoSolicitud==4)
                                             {!!link_to_route('SolicitudAfiliacion.aceptar', $title = 'Aceptar Solicitud ', $parameters = $solicituds->id, $attributes = ['class'=>'btn btn-info','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                         {!!Form::open(['route'=>['SolicitudAfiliacion.update', $solicituds->id], 'method'=>'PUT'])!!}
                                         <br>

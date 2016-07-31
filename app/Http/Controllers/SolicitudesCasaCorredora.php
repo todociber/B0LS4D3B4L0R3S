@@ -84,9 +84,9 @@ class SolicitudesCasaCorredora extends Controller
             return redirect('/home');
         }
 
-        if ($solicitud[0]->idOrganizacion == Auth::user()->idOrganizacion) {
+        if ($solicitud[0]->idOrganizacion == Auth::user()->idOrganizacion && $solicitud[0]->idUsuario == Auth::user()->id) {
 
-            if ($solicitud[0]->idEstadoSolicitud == 1) {
+            if ($solicitud[0]->idEstadoSolicitud == 4) {
                 $solicitudAActualizar = SolicitudRegistro::find($id);
 
                 $solicitudAActualizar->fill(
@@ -130,7 +130,16 @@ class SolicitudesCasaCorredora extends Controller
             return redirect('/home');
         }
         if ($solicitud[0]->idOrganizacion == Auth::user()->idOrganizacion) {
-            return view('CasaCorredora.SolicitudesAfiliacion.DetalleAfiliacion', compact('solicitud'));
+
+            if ($solicitud[0]->idUsuario == null) {
+                return view('CasaCorredora.SolicitudesAfiliacion.DetalleAfiliacion', compact('solicitud'));
+            } elseif ($solicitud[0]->idUsuario == Auth::user()->id) {
+                return view('CasaCorredora.SolicitudesAfiliacion.DetalleAfiliacion', compact('solicitud'));
+            } else {
+                return redirect('/SolicitudAfiliacion');
+            }
+
+
         } else {
             return redirect('/home');
         }
@@ -150,7 +159,8 @@ class SolicitudesCasaCorredora extends Controller
         }
         if ($solicitud[0]->idOrganizacion == Auth::user()->idOrganizacion) {
 
-            if ($solicitud[0]->idEstadoSolicitud == 1) {
+            if ($solicitud[0]->idEstadoSolicitud == 4 && $solicitud[0]->idUsuario == Auth::user()->id) {
+
                 $solicitudAActualizar = SolicitudRegistro::find($id);
 
                 $solicitudAActualizar->fill(
@@ -175,7 +185,61 @@ class SolicitudesCasaCorredora extends Controller
     public function Procesadas()
     {
 
-        $solicitudes = SolicitudRegistro::with('ClienteN', 'EstadoSolicitudN')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoSolicitud', '!=', '1')->get();
+        $solicitudes = SolicitudRegistro::with('ClienteN', 'EstadoSolicitudN')
+            ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->where('idEstadoSolicitud', '!=', '1')->where('idEstadoSolicitud', '!=', '4')
+            ->where('idUsuario', '=', Auth::user()->id)
+            ->get();
+        return view('CasaCorredora.SolicitudesAfiliacion.MostrarAfiliacionesProcesadas', compact('solicitudes'));
+    }
+
+    public function Procesar($id)
+    {
+
+        $solicitud = SolicitudRegistro::ofid($id)->get();
+        try {
+            $solicitud[0]->id;
+        } catch (ErrorException $i) {
+            return redirect('/home');
+        } catch (Exception $e) {
+            return redirect('/home');
+        }
+        if ($solicitud[0]->idOrganizacion == Auth::user()->idOrganizacion) {
+
+            if ($solicitud[0]->idEstadoSolicitud == 1) {
+                $solicitudAActualizar = SolicitudRegistro::find($id);
+
+                $solicitudAActualizar->fill(
+                    [
+                        'idEstadoSolicitud' => '4',
+                        'idUsuario' => Auth::user()->id
+                    ]
+                );
+
+                $solicitudAActualizar->save();
+                return redirect('/SolicitudAfiliacion')->with('message', 'Solicitud procesada')->with('tipo', 'success');
+
+            } else {
+                return redirect('/SolicitudAfiliacion')->with('message', 'Solicitud  no pudo ser aceptada')->with('tipo', 'danger');
+            }
+
+        } else {
+            return redirect('/home');
+        }
+
+
+    }
+
+
+    public function Procesando()
+    {
+
+
+        $solicitudes = SolicitudRegistro::with('ClienteN', 'EstadoSolicitudN')
+            ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->where('idEstadoSolicitud', '=', '4')
+            ->where('idUsuario', '=', Auth::user()->id)
+            ->get();
         return view('CasaCorredora.SolicitudesAfiliacion.MostrarAfiliacionesProcesadas', compact('solicitudes'));
     }
 

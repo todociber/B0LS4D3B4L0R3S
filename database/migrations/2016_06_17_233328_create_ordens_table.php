@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateOrdensTable extends Migration
 {
@@ -25,12 +25,12 @@ class CreateOrdensTable extends Migration
             $table->string('emisor');
             $table->integer('idTipoMercado')->unsigned();
             $table->integer('idCliente')->unsigned();
-            $table->integer('idCorredor')->unsigned()->nuleable();
+            $table->integer('idCorredor')->unsigned()->nullable();
             $table->integer('idTipoOrden')->unsigned();
             $table->integer('idTipoEjecucion')->unsigned();
             $table->integer('idEstadoOrden')->unsigned();
             $table->integer('idOrganizacion')->unsigned();
-            $table->integer('idOrden')->unsigned()->nuleable();
+            $table->integer('idOrden')->unsigned()->nullable();
 
             $table->foreign('idTipoMercado')
                 ->references('id')->on('tipo_mercados');

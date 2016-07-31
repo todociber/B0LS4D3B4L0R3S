@@ -284,11 +284,25 @@ class UsuarioCasaCorredoraController extends Controller
             return redirect('/home');
         }
 
+
         if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
             return redirect('/home');
         } elseif ($id == Auth::user()->id) {
             return redirect('/home');
         } else {
+
+
+            foreach ($Usuario->UsuarioAsignado as $solicitudes) {
+
+                if ($solicitudes->idEstadoSolicitud == 4) {
+                    $solicitudes->fill([
+                        'idUsuario' => NULL,
+                        'idEstadoSolicitud' => '1'
+                    ]);
+                    $solicitudes->save();
+                }
+
+            }
             $Usuario->delete();
             return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se desactivo exitosamente')->with('tipo', 'danger');
         }

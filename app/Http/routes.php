@@ -57,11 +57,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('UsuarioCasaCorredora/{id}/resetear', 'UsuarioCasaCorredoraController@resetar')->name('UsuarioCasaCorredora.resetearpassword');
         Route::resource('UsuarioCasaCorredora', 'UsuarioCasaCorredoraController');
     });
+    Route::group(['middleware' => 'OperadorCasaCorredora'], function () {
+        Route::get('SolicitudAfiliacion/{id}/detalle', 'SolicitudesCasaCorredora@detalle')->name('SolicitudAfiliacion.detalle');
+        Route::get('SolicitudAfiliacion/{id}/aceptar', 'SolicitudesCasaCorredora@aceptar')->name('SolicitudAfiliacion.aceptar');
+        Route::get('SolicitudAfiliacion/procesando', 'SolicitudesCasaCorredora@Procesando');
+        Route::get('SolicitudAfiliacion/procesadas', 'SolicitudesCasaCorredora@Procesadas');
+        Route::get('SolicitudAfiliacion/{id}/procesar', 'SolicitudesCasaCorredora@Procesar')->name('SolicitudAfiliacion.procesar');
+        Route::resource('SolicitudAfiliacion', 'SolicitudesCasaCorredora');
+    });
 
-    Route::get('SolicitudAfiliacion/{id}/detalle', 'SolicitudesCasaCorredora@detalle')->name('SolicitudAfiliacion.detalle');
-    Route::get('SolicitudAfiliacion/{id}/aceptar', 'SolicitudesCasaCorredora@aceptar')->name('SolicitudAfiliacion.aceptar');
-    Route::get('SolicitudAfiliacion/procesadas', 'SolicitudesCasaCorredora@Procesadas');
-    Route::resource('SolicitudAfiliacion', 'SolicitudesCasaCorredora');
+    Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
+
 });
 
 

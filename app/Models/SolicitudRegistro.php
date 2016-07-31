@@ -16,6 +16,7 @@ class SolicitudRegistro extends Model
         'idCliente',
         'idOrganizacion',
         'idEstadoSolicitud',
+        'idUsuario',
         'numeroDeAfiliado',
         'comentarioDeRechazo'
     ];
@@ -38,6 +39,11 @@ class SolicitudRegistro extends Model
     public function ClienteN()
     {
         return $this->belongsTo(Cliente::class, 'idCliente', 'id');
+    }
+
+    public function UsuarioAsignado()
+    {
+        return $this->belongsTo(Usuario::class, 'idUsuario', 'id');
     }
 
 

@@ -17,6 +17,7 @@ class CreateSolicitudRegistrosTable extends Migration
             $table->integer('idCliente')->unsigned();
             $table->integer('idOrganizacion')->unsigned();
             $table->integer('idEstadoSolicitud')->unsigned();
+            $table->integer('idUsuario')->nullable()->unsigned();
             $table->string('numeroDeAfiliado', 100);
             $table->string('comentarioDeRechazo', 500);
             $table->foreign('idCliente')
@@ -25,6 +26,8 @@ class CreateSolicitudRegistrosTable extends Migration
                 ->references('id')->on('organizacion');
             $table->foreign('idEstadoSolicitud')
                 ->references('id')->on('estado_solicitud');
+            $table->foreign('idUsuario')
+                ->references('id')->on('usuarios');
             $table->timestamps();
             $table->softDeletes();
         });

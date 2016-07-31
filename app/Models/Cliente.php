@@ -47,7 +47,7 @@ class Cliente extends Model
 
     public function RolUsuarioNs()
     {
-        return $this->hasMany(RolUsuario::class, 'idCliente', 'id');
+        return $this->hasOne(RolUsuario::class, 'idCliente', 'id');
     }
 
     public function DireccionesUsuario()
