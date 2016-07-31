@@ -19,7 +19,7 @@ class SolicitudesCasaCorredora extends Controller
     public function index()
     {
 
-        $solicitudes = SolicitudRegistro::with('ClienteN', 'EstadoSolicitudN')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
+        $solicitudes = SolicitudRegistro::with('ClienteN', 'EstadoSolicitudN')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoSolicitud', '=', '1')->get();
         return view('CasaCorredora.SolicitudesAfiliacion.MostrarAfiliaciones', compact('solicitudes'));
     }
 
@@ -170,6 +170,13 @@ class SolicitudesCasaCorredora extends Controller
             return redirect('/home');
         }
 
+    }
+
+    public function Procesadas()
+    {
+
+        $solicitudes = SolicitudRegistro::with('ClienteN', 'EstadoSolicitudN')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoSolicitud', '!=', '1')->get();
+        return view('CasaCorredora.SolicitudesAfiliacion.MostrarAfiliacionesProcesadas', compact('solicitudes'));
     }
 
 

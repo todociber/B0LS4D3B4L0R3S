@@ -24,7 +24,7 @@
                                     {{Session::get('message')}}
                                 </div>
                             @endif
-                            {!!link_to_route('UsuarioCasaCorredora.crear', $title = 'Crear Usuario ', $parameters = [], $attributes = ['class'=>'btn btn-success'])!!}
+                            {!!link_to_route('UsuarioCasaCorredora.crear', $title = 'Crear Usuario ', $parameters = [], $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                             <br><br>
 
                             <table id="example1" class="table table-hover">
@@ -44,16 +44,16 @@
                                         <td>
                                             <br><br>
                                             @if(Auth::user()->id== $users->id)
-                                                {!!link_to_route('UsuarioCasaCorredora.edit', $title = ' Editar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-primary'])!!}
+                                                {!!link_to_route('UsuarioCasaCorredora.edit', $title = ' Editar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-primary','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                             @else
                                                 @if($users->deleted_at == null)
-                                                    {!!link_to_route('UsuarioCasaCorredora.edit', $title = ' Editar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-primary'])!!}
+                                                    {!!link_to_route('UsuarioCasaCorredora.edit', $title = ' Editar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-primary','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                                     <br>
                                                     {!!Form::open(['route'=>['UsuarioCasaCorredora.destroy', $users->id], 'method'=>'DELETE'])!!}
-                                                    {!!Form::submit('Desactivar  Usuario ', ['class'=>'btn btn-danger'])!!}
+                                                    {!!Form::submit('Desactivar  Usuario ', ['class'=>'btn btn-danger','onclick'=>"waitingDialog.show('Desactivando Espere... ',{ progressType: 'danger'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                                     {!!Form::close()!!}
                                                 @else
-                                                    {!!link_to_route('UsuarioCasaCorredora.restaurar', $title = 'Activar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-warning'])!!}
+                                                    {!!link_to_route('UsuarioCasaCorredora.restaurar', $title = 'Activar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-warning','onclick'=>"waitingDialog.show('Activando Espere... ',{ progressType: 'warning'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                                 @endif
                                             @endif
 

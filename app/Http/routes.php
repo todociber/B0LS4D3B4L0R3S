@@ -50,7 +50,7 @@ Route::get('clientes/NuevaOrden','ClientesController@NuevaOrden')->name('nuevaOr
 
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::group(['middleware' => 'administrradorBolsa'], function () {
+    Route::group(['middleware' => 'administradorCasaCorredora'], function () {
         Route::get('UsuarioCasaCorredora/crear', 'UsuarioCasaCorredoraController@crear')->name('UsuarioCasaCorredora.crear');
         Route::get('UsuarioCasaCorredora/{id}/editar', 'UsuarioCasaCorredoraController@editar')->name('UsuarioCasaCorredora.editar');
         Route::get('UsuarioCasaCorredora/{id}/restaurar', 'UsuarioCasaCorredoraController@restaurar')->name('UsuarioCasaCorredora.restaurar');
@@ -60,12 +60,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('SolicitudAfiliacion/{id}/detalle', 'SolicitudesCasaCorredora@detalle')->name('SolicitudAfiliacion.detalle');
     Route::get('SolicitudAfiliacion/{id}/aceptar', 'SolicitudesCasaCorredora@aceptar')->name('SolicitudAfiliacion.aceptar');
-
+    Route::get('SolicitudAfiliacion/procesadas', 'SolicitudesCasaCorredora@Procesadas');
     Route::resource('SolicitudAfiliacion', 'SolicitudesCasaCorredora');
 });
 
-
-Route::post('loginPost', 'Autenticador@loginPost');
 
 Route::auth();
 Route::get('admin', 'HomeController@index');
