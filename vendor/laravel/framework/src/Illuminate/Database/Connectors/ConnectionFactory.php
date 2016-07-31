@@ -2,14 +2,14 @@
 
 namespace Illuminate\Database\Connectors;
 
-use PDO;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Database\MySqlConnection;
+use Illuminate\Database\PostgresConnection;
+use Illuminate\Database\SQLiteConnection;
+use Illuminate\Database\SqlServerConnection;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
-use Illuminate\Database\MySqlConnection;
-use Illuminate\Database\SQLiteConnection;
-use Illuminate\Database\PostgresConnection;
-use Illuminate\Database\SqlServerConnection;
-use Illuminate\Contracts\Container\Container;
+use PDO;
 
 class ConnectionFactory
 {
@@ -50,18 +50,15 @@ class ConnectionFactory
     }
 
     /**
-     * Create a single database connection instance.
+     * Parse and prepare the database configuration.
      *
-     * @param  array  $config
-     * @return \Illuminate\Database\Connection
+     * @param  array $config
+     * @param  string $name
+     * @return array
      */
-    protected function createSingleConnection(array $config)
+    protected function parseConfig(array $config, $name)
     {
-        $pdo = function () use ($config) {
-            return $this->createConnector($config)->connect($config);
-        };
-
-        return $this->createConnection($config['driver'], $pdo, $config['database'], $config['prefix'], $config);
+        return Arr::add(Arr::add($config, 'prefix', ''), 'name', $name);
     }
 
     /**
@@ -78,35 +75,82 @@ class ConnectionFactory
     }
 
     /**
-     * Create a new PDO instance for reading.
+     * Create a single database connection instance.
      *
      * @param  array  $config
-     * @return \PDO
+     * @return \Illuminate\Database\Connection
      */
-    protected function createReadPdo(array $config)
+    protected function createSingleConnection(array $config)
     {
-        $readConfig = $this->getReadConfig($config);
+        $pdo = function () use ($config) {
+            return $this->createConnector($config)->connect($config);
+        };
 
-        return $this->createConnector($readConfig)->connect($readConfig);
+        return $this->createConnection($config['driver'], $pdo, $config['database'], $config['prefix'], $config);
     }
 
     /**
-     * Get the read configuration for a read / write connection.
+     * Create a connector instance based on the configuration.
      *
      * @param  array  $config
-     * @return array
+     * @return \Illuminate\Database\Connectors\ConnectorInterface
+     *
+     * @throws \InvalidArgumentException
      */
-    protected function getReadConfig(array $config)
+    public function createConnector(array $config)
     {
-        $readConfig = $this->getReadWriteConfig($config, 'read');
-
-        if (isset($readConfig['host']) && is_array($readConfig['host'])) {
-            $readConfig['host'] = count($readConfig['host']) > 1
-                ? $readConfig['host'][array_rand($readConfig['host'])]
-                : $readConfig['host'][0];
+        if (!isset($config['driver'])) {
+            throw new InvalidArgumentException('A driver must be specified.');
         }
 
-        return $this->mergeReadWriteConfig($config, $readConfig);
+        if ($this->container->bound($key = "db.connector.{$config['driver']}")) {
+            return $this->container->make($key);
+        }
+
+        switch ($config['driver']) {
+            case 'mysql':
+                return new MySqlConnector;
+            case 'pgsql':
+                return new PostgresConnector;
+            case 'sqlite':
+                return new SQLiteConnector;
+            case 'sqlsrv':
+                return new SqlServerConnector;
+        }
+
+        throw new InvalidArgumentException("Unsupported driver [{$config['driver']}]");
+    }
+
+    /**
+     * Create a new connection instance.
+     *
+     * @param  string $driver
+     * @param  \PDO|\Closure $connection
+     * @param  string $database
+     * @param  string $prefix
+     * @param  array $config
+     * @return \Illuminate\Database\Connection
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function createConnection($driver, $connection, $database, $prefix = '', array $config = [])
+    {
+        if ($this->container->bound($key = "db.connection.{$driver}")) {
+            return $this->container->make($key, [$connection, $database, $prefix, $config]);
+        }
+
+        switch ($driver) {
+            case 'mysql':
+                return new MySqlConnection($connection, $database, $prefix, $config);
+            case 'pgsql':
+                return new PostgresConnection($connection, $database, $prefix, $config);
+            case 'sqlite':
+                return new SQLiteConnection($connection, $database, $prefix, $config);
+            case 'sqlsrv':
+                return new SqlServerConnection($connection, $database, $prefix, $config);
+        }
+
+        throw new InvalidArgumentException("Unsupported driver [$driver]");
     }
 
     /**
@@ -151,78 +195,34 @@ class ConnectionFactory
     }
 
     /**
-     * Parse and prepare the database configuration.
-     *
-     * @param  array   $config
-     * @param  string  $name
-     * @return array
-     */
-    protected function parseConfig(array $config, $name)
-    {
-        return Arr::add(Arr::add($config, 'prefix', ''), 'name', $name);
-    }
-
-    /**
-     * Create a connector instance based on the configuration.
+     * Create a new PDO instance for reading.
      *
      * @param  array  $config
-     * @return \Illuminate\Database\Connectors\ConnectorInterface
-     *
-     * @throws \InvalidArgumentException
+     * @return \PDO
      */
-    public function createConnector(array $config)
+    protected function createReadPdo(array $config)
     {
-        if (! isset($config['driver'])) {
-            throw new InvalidArgumentException('A driver must be specified.');
-        }
+        $readConfig = $this->getReadConfig($config);
 
-        if ($this->container->bound($key = "db.connector.{$config['driver']}")) {
-            return $this->container->make($key);
-        }
-
-        switch ($config['driver']) {
-            case 'mysql':
-                return new MySqlConnector;
-            case 'pgsql':
-                return new PostgresConnector;
-            case 'sqlite':
-                return new SQLiteConnector;
-            case 'sqlsrv':
-                return new SqlServerConnector;
-        }
-
-        throw new InvalidArgumentException("Unsupported driver [{$config['driver']}]");
+        return $this->createConnector($readConfig)->connect($readConfig);
     }
 
     /**
-     * Create a new connection instance.
+     * Get the read configuration for a read / write connection.
      *
-     * @param  string   $driver
-     * @param  \PDO|\Closure     $connection
-     * @param  string   $database
-     * @param  string   $prefix
-     * @param  array    $config
-     * @return \Illuminate\Database\Connection
-     *
-     * @throws \InvalidArgumentException
+     * @param  array $config
+     * @return array
      */
-    protected function createConnection($driver, $connection, $database, $prefix = '', array $config = [])
+    protected function getReadConfig(array $config)
     {
-        if ($this->container->bound($key = "db.connection.{$driver}")) {
-            return $this->container->make($key, [$connection, $database, $prefix, $config]);
+        $readConfig = $this->getReadWriteConfig($config, 'read');
+
+        if (isset($readConfig['host']) && is_array($readConfig['host'])) {
+            $readConfig['host'] = count($readConfig['host']) > 1
+                ? $readConfig['host'][array_rand($readConfig['host'])]
+                : $readConfig['host'][0];
         }
 
-        switch ($driver) {
-            case 'mysql':
-                return new MySqlConnection($connection, $database, $prefix, $config);
-            case 'pgsql':
-                return new PostgresConnection($connection, $database, $prefix, $config);
-            case 'sqlite':
-                return new SQLiteConnection($connection, $database, $prefix, $config);
-            case 'sqlsrv':
-                return new SqlServerConnection($connection, $database, $prefix, $config);
-        }
-
-        throw new InvalidArgumentException("Unsupported driver [$driver]");
+        return $this->mergeReadWriteConfig($config, $readConfig);
     }
 }

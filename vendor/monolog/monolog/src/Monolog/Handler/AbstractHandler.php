@@ -11,9 +11,9 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Logger;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
+use Monolog\Logger;
 
 /**
  * Base Handler class providing the Handler structure
@@ -60,15 +60,6 @@ abstract class AbstractHandler implements HandlerInterface
     }
 
     /**
-     * Closes the handler.
-     *
-     * This will be called automatically when the object is destroyed
-     */
-    public function close()
-    {
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function pushProcessor($callback)
@@ -96,6 +87,18 @@ abstract class AbstractHandler implements HandlerInterface
     /**
      * {@inheritdoc}
      */
+    public function getFormatter()
+    {
+        if (!$this->formatter) {
+            $this->formatter = $this->getDefaultFormatter();
+        }
+
+        return $this->formatter;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setFormatter(FormatterInterface $formatter)
     {
         $this->formatter = $formatter;
@@ -104,15 +107,23 @@ abstract class AbstractHandler implements HandlerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the default formatter.
+     *
+     * @return FormatterInterface
      */
-    public function getFormatter()
+    protected function getDefaultFormatter()
     {
-        if (!$this->formatter) {
-            $this->formatter = $this->getDefaultFormatter();
-        }
+        return new LineFormatter();
+    }
 
-        return $this->formatter;
+    /**
+     * Gets minimum logging level at which this handler will be triggered.
+     *
+     * @return int
+     */
+    public function getLevel()
+    {
+        return $this->level;
     }
 
     /**
@@ -129,13 +140,14 @@ abstract class AbstractHandler implements HandlerInterface
     }
 
     /**
-     * Gets minimum logging level at which this handler will be triggered.
+     * Gets the bubbling behavior.
      *
-     * @return int
+     * @return Boolean true means that this handler allows bubbling.
+     *                 false means that bubbling is not permitted.
      */
-    public function getLevel()
+    public function getBubble()
     {
-        return $this->level;
+        return $this->bubble;
     }
 
     /**
@@ -152,17 +164,6 @@ abstract class AbstractHandler implements HandlerInterface
         return $this;
     }
 
-    /**
-     * Gets the bubbling behavior.
-     *
-     * @return Boolean true means that this handler allows bubbling.
-     *                 false means that bubbling is not permitted.
-     */
-    public function getBubble()
-    {
-        return $this->bubble;
-    }
-
     public function __destruct()
     {
         try {
@@ -175,12 +176,11 @@ abstract class AbstractHandler implements HandlerInterface
     }
 
     /**
-     * Gets the default formatter.
+     * Closes the handler.
      *
-     * @return FormatterInterface
+     * This will be called automatically when the object is destroyed
      */
-    protected function getDefaultFormatter()
+    public function close()
     {
-        return new LineFormatter();
     }
 }

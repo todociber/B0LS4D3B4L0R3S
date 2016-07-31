@@ -2,11 +2,11 @@
 
 namespace Illuminate\Foundation\Console;
 
+use ClassPreloader\Exceptions\VisitorExceptionInterface;
 use ClassPreloader\Factory;
 use Illuminate\Console\Command;
 use Illuminate\Support\Composer;
 use Symfony\Component\Console\Input\InputOption;
-use ClassPreloader\Exceptions\VisitorExceptionInterface;
 
 class OptimizeCommand extends Command
 {

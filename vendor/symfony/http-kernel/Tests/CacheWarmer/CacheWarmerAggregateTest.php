@@ -37,6 +37,15 @@ class CacheWarmerAggregateTest extends \PHPUnit_Framework_TestCase
         $aggregate->warmUp(self::$cacheDir);
     }
 
+    protected function getCacheWarmerMock()
+    {
+        $warmer = $this->getMockBuilder('Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        return $warmer;
+    }
+
     public function testInjectWarmersUsingAdd()
     {
         $warmer = $this->getCacheWarmerMock();
@@ -87,14 +96,5 @@ class CacheWarmerAggregateTest extends \PHPUnit_Framework_TestCase
 
         $aggregate = new CacheWarmerAggregate(array($warmer));
         $aggregate->warmUp(self::$cacheDir);
-    }
-
-    protected function getCacheWarmerMock()
-    {
-        $warmer = $this->getMockBuilder('Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        return $warmer;
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Illuminate\View;
 
-use InvalidArgumentException;
 use Illuminate\Filesystem\Filesystem;
+use InvalidArgumentException;
 
 class FileViewFinder implements ViewFinderInterface
 {
@@ -77,6 +77,17 @@ class FileViewFinder implements ViewFinderInterface
         }
 
         return $this->views[$name] = $this->findInPaths($name, $this->paths);
+    }
+
+    /**
+     * Returns whether or not the view specify a hint information.
+     *
+     * @param  string $name
+     * @return bool
+     */
+    public function hasHintInformation($name)
+    {
+        return strpos($name, static::HINT_PATH_DELIMITER) > 0;
     }
 
     /**
@@ -210,17 +221,6 @@ class FileViewFinder implements ViewFinderInterface
         }
 
         array_unshift($this->extensions, $extension);
-    }
-
-    /**
-     * Returns whether or not the view specify a hint information.
-     *
-     * @param  string  $name
-     * @return bool
-     */
-    public function hasHintInformation($name)
-    {
-        return strpos($name, static::HINT_PATH_DELIMITER) > 0;
     }
 
     /**

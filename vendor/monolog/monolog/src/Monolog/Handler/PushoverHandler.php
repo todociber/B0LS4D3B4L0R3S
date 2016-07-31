@@ -93,6 +93,25 @@ class PushoverHandler extends SocketHandler
         $this->expire = $expire;
     }
 
+    public function setHighPriorityLevel($value)
+    {
+        $this->highPriorityLevel = $value;
+    }
+
+    public function setEmergencyLevel($value)
+    {
+        $this->emergencyLevel = $value;
+    }
+
+    /**
+     * Use the formatted message?
+     * @param bool $value
+     */
+    public function useFormattedMessage($value)
+    {
+        $this->useFormattedMessage = (boolean)$value;
+    }
+
     protected function generateDataStream($record)
     {
         $content = $this->buildContent($record);
@@ -162,24 +181,5 @@ class PushoverHandler extends SocketHandler
         }
 
         $this->user = null;
-    }
-
-    public function setHighPriorityLevel($value)
-    {
-        $this->highPriorityLevel = $value;
-    }
-
-    public function setEmergencyLevel($value)
-    {
-        $this->emergencyLevel = $value;
-    }
-
-    /**
-     * Use the formatted message?
-     * @param bool $value
-     */
-    public function useFormattedMessage($value)
-    {
-        $this->useFormattedMessage = (boolean) $value;
     }
 }

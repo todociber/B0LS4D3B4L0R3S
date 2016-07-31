@@ -13,13 +13,18 @@ trait ConfigAwareTrait
     protected $config;
 
     /**
-     * Set the config.
+     * Convert a config array to a Config object with the correct fallback.
      *
-     * @param Config|array|null $config
+     * @param array $config
+     *
+     * @return Config
      */
-    protected function setConfig($config)
+    protected function prepareConfig(array $config)
     {
-        $this->config = $config ? Util::ensureConfig($config) : null;
+        $config = new Config($config);
+        $config->setFallback($this->getConfig());
+
+        return $config;
     }
 
     /**
@@ -37,17 +42,12 @@ trait ConfigAwareTrait
     }
 
     /**
-     * Convert a config array to a Config object with the correct fallback.
+     * Set the config.
      *
-     * @param array $config
-     *
-     * @return Config
+     * @param Config|array|null $config
      */
-    protected function prepareConfig(array $config)
+    protected function setConfig($config)
     {
-        $config = new Config($config);
-        $config->setFallback($this->getConfig());
-
-        return $config;
+        $this->config = $config ? Util::ensureConfig($config) : null;
     }
 }

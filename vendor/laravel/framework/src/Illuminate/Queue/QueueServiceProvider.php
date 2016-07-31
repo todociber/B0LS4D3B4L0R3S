@@ -2,19 +2,19 @@
 
 namespace Illuminate\Queue;
 
-use IlluminateQueueClosure;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Queue\Console\WorkCommand;
+use Illuminate\Queue\Connectors\BeanstalkdConnector;
+use Illuminate\Queue\Connectors\DatabaseConnector;
+use Illuminate\Queue\Connectors\NullConnector;
+use Illuminate\Queue\Connectors\RedisConnector;
+use Illuminate\Queue\Connectors\SqsConnector;
+use Illuminate\Queue\Connectors\SyncConnector;
 use Illuminate\Queue\Console\ListenCommand;
 use Illuminate\Queue\Console\RestartCommand;
-use Illuminate\Queue\Connectors\SqsConnector;
-use Illuminate\Queue\Connectors\NullConnector;
-use Illuminate\Queue\Connectors\SyncConnector;
-use Illuminate\Queue\Connectors\RedisConnector;
-use Illuminate\Queue\Failed\NullFailedJobProvider;
-use Illuminate\Queue\Connectors\DatabaseConnector;
-use Illuminate\Queue\Connectors\BeanstalkdConnector;
+use Illuminate\Queue\Console\WorkCommand;
 use Illuminate\Queue\Failed\DatabaseFailedJobProvider;
+use Illuminate\Queue\Failed\NullFailedJobProvider;
+use Illuminate\Support\ServiceProvider;
+use IlluminateQueueClosure;
 
 class QueueServiceProvider extends ServiceProvider
 {
@@ -67,6 +67,19 @@ class QueueServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the connectors on the queue manager.
+     *
+     * @param  \Illuminate\Queue\QueueManager $manager
+     * @return void
+     */
+    public function registerConnectors($manager)
+    {
+        foreach (['Null', 'Sync', 'Database', 'Beanstalkd', 'Redis', 'Sqs'] as $connector) {
+            $this->{"register{$connector}Connector"}($manager);
+        }
+    }
+
+    /**
      * Register the queue worker.
      *
      * @return void
@@ -94,6 +107,20 @@ class QueueServiceProvider extends ServiceProvider
         });
 
         $this->commands('command.queue.work');
+    }
+
+    /**
+     * Register the queue restart console command.
+     *
+     * @return void
+     */
+    public function registerRestartCommand()
+    {
+        $this->app->singleton('command.queue.restart', function () {
+            return new RestartCommand;
+        });
+
+        $this->commands('command.queue.restart');
     }
 
     /**
@@ -125,30 +152,47 @@ class QueueServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the queue restart console command.
+     * Register the failed job services.
      *
      * @return void
      */
-    public function registerRestartCommand()
+    protected function registerFailedJobServices()
     {
-        $this->app->singleton('command.queue.restart', function () {
-            return new RestartCommand;
-        });
+        $this->app->singleton('queue.failer', function ($app) {
+            $config = $app['config']['queue.failed'];
 
-        $this->commands('command.queue.restart');
+            if (isset($config['table'])) {
+                return new DatabaseFailedJobProvider($app['db'], $config['database'], $config['table']);
+            } else {
+                return new NullFailedJobProvider;
+            }
+        });
     }
 
     /**
-     * Register the connectors on the queue manager.
+     * Register the Illuminate queued closure job.
      *
-     * @param  \Illuminate\Queue\QueueManager  $manager
      * @return void
      */
-    public function registerConnectors($manager)
+    protected function registerQueueClosure()
     {
-        foreach (['Null', 'Sync', 'Database', 'Beanstalkd', 'Redis', 'Sqs'] as $connector) {
-            $this->{"register{$connector}Connector"}($manager);
-        }
+        $this->app->singleton('IlluminateQueueClosure', function ($app) {
+            return new IlluminateQueueClosure($app['encrypter']);
+        });
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [
+            'queue', 'queue.worker', 'queue.listener', 'queue.failer',
+            'command.queue.work', 'command.queue.listen',
+            'command.queue.restart', 'queue.connection',
+        ];
     }
 
     /**
@@ -229,49 +273,5 @@ class QueueServiceProvider extends ServiceProvider
         $manager->addConnector('sqs', function () {
             return new SqsConnector;
         });
-    }
-
-    /**
-     * Register the failed job services.
-     *
-     * @return void
-     */
-    protected function registerFailedJobServices()
-    {
-        $this->app->singleton('queue.failer', function ($app) {
-            $config = $app['config']['queue.failed'];
-
-            if (isset($config['table'])) {
-                return new DatabaseFailedJobProvider($app['db'], $config['database'], $config['table']);
-            } else {
-                return new NullFailedJobProvider;
-            }
-        });
-    }
-
-    /**
-     * Register the Illuminate queued closure job.
-     *
-     * @return void
-     */
-    protected function registerQueueClosure()
-    {
-        $this->app->singleton('IlluminateQueueClosure', function ($app) {
-            return new IlluminateQueueClosure($app['encrypter']);
-        });
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            'queue', 'queue.worker', 'queue.listener', 'queue.failer',
-            'command.queue.work', 'command.queue.listen',
-            'command.queue.restart', 'queue.connection',
-        ];
     }
 }

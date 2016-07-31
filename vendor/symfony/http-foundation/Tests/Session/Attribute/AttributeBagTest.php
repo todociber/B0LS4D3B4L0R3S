@@ -30,33 +30,6 @@ class AttributeBagTest extends \PHPUnit_Framework_TestCase
      */
     private $bag;
 
-    protected function setUp()
-    {
-        $this->array = array(
-            'hello' => 'world',
-            'always' => 'be happy',
-            'user.login' => 'drak',
-            'csrf.token' => array(
-                'a' => '1234',
-                'b' => '4321',
-            ),
-            'category' => array(
-                'fishing' => array(
-                    'first' => 'cod',
-                    'second' => 'sole',
-                ),
-            ),
-        );
-        $this->bag = new AttributeBag('_sf2');
-        $this->bag->initialize($this->array);
-    }
-
-    protected function tearDown()
-    {
-        $this->bag = null;
-        $this->array = array();
-    }
-
     public function testInitialize()
     {
         $bag = new AttributeBag();
@@ -184,5 +157,32 @@ class AttributeBagTest extends \PHPUnit_Framework_TestCase
     public function testCount()
     {
         $this->assertEquals(count($this->array), count($this->bag));
+    }
+
+    protected function setUp()
+    {
+        $this->array = array(
+            'hello' => 'world',
+            'always' => 'be happy',
+            'user.login' => 'drak',
+            'csrf.token' => array(
+                'a' => '1234',
+                'b' => '4321',
+            ),
+            'category' => array(
+                'fishing' => array(
+                    'first' => 'cod',
+                    'second' => 'sole',
+                ),
+            ),
+        );
+        $this->bag = new AttributeBag('_sf2');
+        $this->bag->initialize($this->array);
+    }
+
+    protected function tearDown()
+    {
+        $this->bag = null;
+        $this->array = array();
     }
 }

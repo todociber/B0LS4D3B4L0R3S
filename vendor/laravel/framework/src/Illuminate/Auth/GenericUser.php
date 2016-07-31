@@ -25,16 +25,6 @@ class GenericUser implements UserContract
     }
 
     /**
-     * Get the name of the unique identifier for the user.
-     *
-     * @return string
-     */
-    public function getAuthIdentifierName()
-    {
-        return 'id';
-    }
-
-    /**
      * Get the unique identifier for the user.
      *
      * @return mixed
@@ -44,6 +34,16 @@ class GenericUser implements UserContract
         $name = $this->getAuthIdentifierName();
 
         return $this->attributes[$name];
+    }
+
+    /**
+     * Get the name of the unique identifier for the user.
+     *
+     * @return string
+     */
+    public function getAuthIdentifierName()
+    {
+        return 'id';
     }
 
     /**
@@ -67,17 +67,6 @@ class GenericUser implements UserContract
     }
 
     /**
-     * Set the "remember me" token value.
-     *
-     * @param  string  $value
-     * @return void
-     */
-    public function setRememberToken($value)
-    {
-        $this->attributes[$this->getRememberTokenName()] = $value;
-    }
-
-    /**
      * Get the column name for the "remember me" token.
      *
      * @return string
@@ -85,6 +74,17 @@ class GenericUser implements UserContract
     public function getRememberTokenName()
     {
         return 'remember_token';
+    }
+
+    /**
+     * Set the "remember me" token value.
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function setRememberToken($value)
+    {
+        $this->attributes[$this->getRememberTokenName()] = $value;
     }
 
     /**

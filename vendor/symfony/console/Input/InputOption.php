@@ -89,23 +89,13 @@ class InputOption
     }
 
     /**
-     * Returns the option shortcut.
+     * Returns true if the option can take multiple values.
      *
-     * @return string The shortcut
+     * @return bool true if mode is self::VALUE_IS_ARRAY, false otherwise
      */
-    public function getShortcut()
+    public function isArray()
     {
-        return $this->shortcut;
-    }
-
-    /**
-     * Returns the option name.
-     *
-     * @return string The name
-     */
-    public function getName()
-    {
-        return $this->name;
+        return self::VALUE_IS_ARRAY === (self::VALUE_IS_ARRAY & $this->mode);
     }
 
     /**
@@ -139,13 +129,60 @@ class InputOption
     }
 
     /**
-     * Returns true if the option can take multiple values.
+     * Returns the description text.
      *
-     * @return bool true if mode is self::VALUE_IS_ARRAY, false otherwise
+     * @return string The description text
      */
-    public function isArray()
+    public function getDescription()
     {
-        return self::VALUE_IS_ARRAY === (self::VALUE_IS_ARRAY & $this->mode);
+        return $this->description;
+    }
+
+    /**
+     * Checks whether the given option equals this one.
+     *
+     * @param InputOption $option option to compare
+     *
+     * @return bool
+     */
+    public function equals(InputOption $option)
+    {
+        return $option->getName() === $this->getName()
+        && $option->getShortcut() === $this->getShortcut()
+        && $option->getDefault() === $this->getDefault()
+        && $option->isArray() === $this->isArray()
+        && $option->isValueRequired() === $this->isValueRequired()
+        && $option->isValueOptional() === $this->isValueOptional();
+    }
+
+    /**
+     * Returns the option name.
+     *
+     * @return string The name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Returns the option shortcut.
+     *
+     * @return string The shortcut
+     */
+    public function getShortcut()
+    {
+        return $this->shortcut;
+    }
+
+    /**
+     * Returns the default value.
+     *
+     * @return mixed The default value
+     */
+    public function getDefault()
+    {
+        return $this->default;
     }
 
     /**
@@ -170,43 +207,5 @@ class InputOption
         }
 
         $this->default = $this->acceptValue() ? $default : false;
-    }
-
-    /**
-     * Returns the default value.
-     *
-     * @return mixed The default value
-     */
-    public function getDefault()
-    {
-        return $this->default;
-    }
-
-    /**
-     * Returns the description text.
-     *
-     * @return string The description text
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Checks whether the given option equals this one.
-     *
-     * @param InputOption $option option to compare
-     *
-     * @return bool
-     */
-    public function equals(InputOption $option)
-    {
-        return $option->getName() === $this->getName()
-            && $option->getShortcut() === $this->getShortcut()
-            && $option->getDefault() === $this->getDefault()
-            && $option->isArray() === $this->isArray()
-            && $option->isValueRequired() === $this->isValueRequired()
-            && $option->isValueOptional() === $this->isValueOptional()
-        ;
     }
 }

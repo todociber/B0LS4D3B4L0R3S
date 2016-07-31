@@ -22,13 +22,13 @@
                             {!!Form::model($usuarios, ['route'=>['UsuarioCasaCorredora.update', $usuarios->id], 'method'=>'PUT'])!!}
                             @include('CasaCorredora.Usuarios.formularios.formularioUsuario')
 
-                            {!!Form::submit('Guardar', ['class'=>'btn btn-primary btn-flat'])!!}
+                            {!!Form::submit('Guardar', ['class'=>'btn btn-primary btn-flat','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                             {!!Form::close()!!}
                             <br>
                             @if($usuarios->id== Auth::user()->id)
 
                             @else
-                                {!!link_to_route('UsuarioCasaCorredora.resetearpassword', $title = 'Resetear Contraseña ', $parameters = $usuarios->id, $attributes = ['class'=>'btn btn-success'])!!}
+                                {!!link_to_route('UsuarioCasaCorredora.resetearpassword', $title = 'Resetear Contraseña ', $parameters = $usuarios->id, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Actualizando Espere... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
 
                             @endif
 

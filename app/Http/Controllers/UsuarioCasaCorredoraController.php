@@ -97,8 +97,8 @@ class UsuarioCasaCorredoraController extends Controller
             $RolUsuario->save();
         }
 
-
-        return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario  se registro exitosamente la contraseña es ' . $cadena)->with('tipo', 'success');
+        flash('El usuario  se registro exitosamente', 'success');
+        return redirect('/UsuarioCasaCorredora');
     }
 
     /**
@@ -257,7 +257,8 @@ class UsuarioCasaCorredoraController extends Controller
                 }
 
             }
-            return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se edito exitosamente')->with('tipo', 'success');
+            flash('El usuario se edito exitosamente', 'success');
+            return redirect('/UsuarioCasaCorredora');
         }
 
 
@@ -273,7 +274,7 @@ class UsuarioCasaCorredoraController extends Controller
     {
 
 
-        $Usuario = Usuario::ofid($id);
+        $Usuario = Usuario::find($id);
 
 
         try {
@@ -284,13 +285,28 @@ class UsuarioCasaCorredoraController extends Controller
             return redirect('/home');
         }
 
+
         if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
             return redirect('/home');
         } elseif ($id == Auth::user()->id) {
             return redirect('/home');
         } else {
+
+
+            foreach ($Usuario->UsuarioAsignado as $solicitudes) {
+
+                if ($solicitudes->idEstadoSolicitud == 4) {
+                    $solicitudes->fill([
+                        'idUsuario' => NULL,
+                        'idEstadoSolicitud' => '1'
+                    ]);
+                    $solicitudes->save();
+                }
+
+            }
             $Usuario->delete();
-            return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se elimino exitosamente')->with('tipo', 'danger');
+            flash('El usuario se desactivo exitosamente', 'danger');
+            return redirect('/UsuarioCasaCorredora');
         }
 
     }
@@ -299,23 +315,30 @@ class UsuarioCasaCorredoraController extends Controller
     {
 
 
-        $Usuario = Usuario::ofid($id);
+        $Usuario = Usuario::withTrashed()->find($id);
 
 
         try {
             $Usuario->id;
         } catch (ErrorException $i) {
+
             return redirect('/home');
         } catch (Exception $e) {
+
             return redirect('/home');
         }
         if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
+
             return redirect('/home');
         } elseif ($id == Auth::user()->id) {
+
+
             return redirect('/home');
         } else {
+
             $Usuario->restore();
-            return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se activo exitosamente')->with('tipo', 'warning');
+            flash('El usuario se activo exitosamente', 'warning');
+            return redirect('/UsuarioCasaCorredora');
         }
     }
 
@@ -347,8 +370,8 @@ class UsuarioCasaCorredoraController extends Controller
         );
         $Usuario->save();
 
-
-        return redirect('/UsuarioCasaCorredora')->with('message', 'Se envio una nueva contraseña al correo del usuario')->with('tipo', 'info');
+        flash('Se envio una nueva contraseña al correo del usuario', 'info');
+        return redirect('/UsuarioCasaCorredora');
 
 
     }

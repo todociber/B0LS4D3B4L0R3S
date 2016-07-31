@@ -61,34 +61,14 @@ abstract class Job
     }
 
     /**
-     * Determine if the job has been deleted.
-     *
-     * @return bool
-     */
-    public function isDeleted()
-    {
-        return $this->deleted;
-    }
-
-    /**
      * Release the job back into the queue.
      *
-     * @param  int   $delay
+     * @param  int $delay
      * @return void
      */
     public function release($delay = 0)
     {
         $this->released = true;
-    }
-
-    /**
-     * Determine if the job was released back into the queue.
-     *
-     * @return bool
-     */
-    public function isReleased()
-    {
-        return $this->released;
     }
 
     /**
@@ -102,6 +82,26 @@ abstract class Job
     }
 
     /**
+     * Determine if the job has been deleted.
+     *
+     * @return bool
+     */
+    public function isDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * Determine if the job was released back into the queue.
+     *
+     * @return bool
+     */
+    public function isReleased()
+    {
+        return $this->released;
+    }
+
+    /**
      * Get the number of times the job has been attempted.
      *
      * @return int
@@ -109,26 +109,29 @@ abstract class Job
     abstract public function attempts();
 
     /**
+     * Call the failed method on the job instance.
+     *
+     * @return void
+     */
+    public function failed()
+    {
+        $payload = json_decode($this->getRawBody(), true);
+
+        list($class, $method) = $this->parseJob($payload['job']);
+
+        $this->instance = $this->resolve($class);
+
+        if (method_exists($this->instance, 'failed')) {
+            $this->instance->failed($this->resolveQueueableEntities($payload['data']));
+        }
+    }
+
+    /**
      * Get the raw body string for the job.
      *
      * @return string
      */
     abstract public function getRawBody();
-
-    /**
-     * Resolve and fire the job handler method.
-     *
-     * @param  array  $payload
-     * @return void
-     */
-    protected function resolveAndFire(array $payload)
-    {
-        list($class, $method) = $this->parseJob($payload['job']);
-
-        $this->instance = $this->resolve($class);
-
-        $this->instance->{$method}($this, $this->resolveQueueableEntities($payload['data']));
-    }
 
     /**
      * Parse the job declaration into class and method.
@@ -197,24 +200,6 @@ abstract class Job
     }
 
     /**
-     * Call the failed method on the job instance.
-     *
-     * @return void
-     */
-    public function failed()
-    {
-        $payload = json_decode($this->getRawBody(), true);
-
-        list($class, $method) = $this->parseJob($payload['job']);
-
-        $this->instance = $this->resolve($class);
-
-        if (method_exists($this->instance, 'failed')) {
-            $this->instance->failed($this->resolveQueueableEntities($payload['data']));
-        }
-    }
-
-    /**
      * Get an entity resolver instance.
      *
      * @return \Illuminate\Contracts\Queue\EntityResolver
@@ -222,41 +207,6 @@ abstract class Job
     protected function getEntityResolver()
     {
         return $this->container->make('Illuminate\Contracts\Queue\EntityResolver');
-    }
-
-    /**
-     * Calculate the number of seconds with the given delay.
-     *
-     * @param  \DateTime|int  $delay
-     * @return int
-     */
-    protected function getSeconds($delay)
-    {
-        if ($delay instanceof DateTime) {
-            return max(0, $delay->getTimestamp() - $this->getTime());
-        }
-
-        return (int) $delay;
-    }
-
-    /**
-     * Get the current system time.
-     *
-     * @return int
-     */
-    protected function getTime()
-    {
-        return time();
-    }
-
-    /**
-     * Get the name of the queued job class.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return json_decode($this->getRawBody(), true)['job'];
     }
 
     /**
@@ -275,10 +225,20 @@ abstract class Job
         }
 
         if ($name === 'Illuminate\Events\CallQueuedHandler@call') {
-            return $payload['data']['class'].'@'.$payload['data']['method'];
+            return $payload['data']['class'] . '@' . $payload['data']['method'];
         }
 
         return $name;
+    }
+
+    /**
+     * Get the name of the queued job class.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return json_decode($this->getRawBody(), true)['job'];
     }
 
     /**
@@ -289,5 +249,45 @@ abstract class Job
     public function getQueue()
     {
         return $this->queue;
+    }
+
+    /**
+     * Resolve and fire the job handler method.
+     *
+     * @param  array $payload
+     * @return void
+     */
+    protected function resolveAndFire(array $payload)
+    {
+        list($class, $method) = $this->parseJob($payload['job']);
+
+        $this->instance = $this->resolve($class);
+
+        $this->instance->{$method}($this, $this->resolveQueueableEntities($payload['data']));
+    }
+
+    /**
+     * Calculate the number of seconds with the given delay.
+     *
+     * @param  \DateTime|int $delay
+     * @return int
+     */
+    protected function getSeconds($delay)
+    {
+        if ($delay instanceof DateTime) {
+            return max(0, $delay->getTimestamp() - $this->getTime());
+        }
+
+        return (int)$delay;
+    }
+
+    /**
+     * Get the current system time.
+     *
+     * @return int
+     */
+    protected function getTime()
+    {
+        return time();
     }
 }

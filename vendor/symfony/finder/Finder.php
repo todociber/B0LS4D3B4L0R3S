@@ -39,7 +39,7 @@ class Finder implements \IteratorAggregate, \Countable
 {
     const IGNORE_VCS_FILES = 1;
     const IGNORE_DOT_FILES = 2;
-
+    private static $vcsPatterns = array('.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg');
     private $mode = 0;
     private $names = array();
     private $notNames = array();
@@ -59,8 +59,6 @@ class Finder implements \IteratorAggregate, \Countable
     private $notPaths = array();
     private $ignoreUnreadableDirs = false;
 
-    private static $vcsPatterns = array('.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg');
-
     /**
      * Constructor.
      */
@@ -77,6 +75,22 @@ class Finder implements \IteratorAggregate, \Countable
     public static function create()
     {
         return new static();
+    }
+
+    /**
+     * Adds VCS patterns.
+     *
+     * @see ignoreVCS()
+     *
+     * @param string|string[] $pattern VCS patterns to ignore
+     */
+    public static function addVCSPattern($pattern)
+    {
+        foreach ((array)$pattern as $p) {
+            self::$vcsPatterns[] = $p;
+        }
+
+        self::$vcsPatterns = array_unique(self::$vcsPatterns);
     }
 
     /**
@@ -354,22 +368,6 @@ class Finder implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Adds VCS patterns.
-     *
-     * @see ignoreVCS()
-     *
-     * @param string|string[] $pattern VCS patterns to ignore
-     */
-    public static function addVCSPattern($pattern)
-    {
-        foreach ((array) $pattern as $p) {
-            self::$vcsPatterns[] = $p;
-        }
-
-        self::$vcsPatterns = array_unique(self::$vcsPatterns);
-    }
-
-    /**
      * Sorts files and directories by an anonymous function.
      *
      * The anonymous function receives two \SplFileInfo instances to compare.
@@ -553,37 +551,6 @@ class Finder implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Returns an Iterator for the current Finder configuration.
-     *
-     * This method implements the IteratorAggregate interface.
-     *
-     * @return \Iterator|SplFileInfo[] An iterator
-     *
-     * @throws \LogicException if the in() method has not been called
-     */
-    public function getIterator()
-    {
-        if (0 === count($this->dirs) && 0 === count($this->iterators)) {
-            throw new \LogicException('You must call one of in() or append() methods before iterating over a Finder.');
-        }
-
-        if (1 === count($this->dirs) && 0 === count($this->iterators)) {
-            return $this->searchInDirectory($this->dirs[0]);
-        }
-
-        $iterator = new \AppendIterator();
-        foreach ($this->dirs as $dir) {
-            $iterator->append($this->searchInDirectory($dir));
-        }
-
-        foreach ($this->iterators as $it) {
-            $iterator->append($it);
-        }
-
-        return $iterator;
-    }
-
-    /**
      * Appends an existing set of files/directories to the finder.
      *
      * The set can be another Finder, an Iterator, an IteratorAggregate, or even a plain array.
@@ -621,6 +588,37 @@ class Finder implements \IteratorAggregate, \Countable
     public function count()
     {
         return iterator_count($this->getIterator());
+    }
+
+    /**
+     * Returns an Iterator for the current Finder configuration.
+     *
+     * This method implements the IteratorAggregate interface.
+     *
+     * @return \Iterator|SplFileInfo[] An iterator
+     *
+     * @throws \LogicException if the in() method has not been called
+     */
+    public function getIterator()
+    {
+        if (0 === count($this->dirs) && 0 === count($this->iterators)) {
+            throw new \LogicException('You must call one of in() or append() methods before iterating over a Finder.');
+        }
+
+        if (1 === count($this->dirs) && 0 === count($this->iterators)) {
+            return $this->searchInDirectory($this->dirs[0]);
+        }
+
+        $iterator = new \AppendIterator();
+        foreach ($this->dirs as $dir) {
+            $iterator->append($this->searchInDirectory($dir));
+        }
+
+        foreach ($this->iterators as $it) {
+            $iterator->append($it);
+        }
+
+        return $iterator;
     }
 
     /**

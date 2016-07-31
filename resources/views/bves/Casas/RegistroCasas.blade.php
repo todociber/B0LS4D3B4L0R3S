@@ -12,13 +12,13 @@
             var buttonLada;
             var dataError;
             $('#modal').on('hidden.bs.modal', function () {
-                if(dataError == '0'){
+                if (dataError == '0') {
 
                     window.location.href = '{!! route('listadoCasas') !!}';
                 }
             });
-           // var btn = $('.ladda-button');
-         //   var buttonLada = Ladda.create(btn);
+            // var btn = $('.ladda-button');
+            //   var buttonLada = Ladda.create(btn);
         });
 
 
@@ -33,17 +33,16 @@
             dictRemoveFile: "Quitar imagen",
 
 
-
-            init: function() {
+            init: function () {
                 var submitBtn = document.querySelector("#clickable");
                 var myDropzone = this;
 
-                submitBtn.addEventListener("click", function(e){
+                submitBtn.addEventListener("click", function (e) {
                     e.preventDefault();
                     e.stopPropagation();
                     myDropzone.processQueue();
-                    if(myDropzone.files.length > 0){
-                        waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});
+                    if (myDropzone.files.length > 0) {
+                        waitingDialog.show('Guardando Espere... ', {progressType: 'info'});
                     }
                     else {
                         $('#modalbody').text('Debe subir una imagen');
@@ -51,29 +50,28 @@
 
                     }
                 });
-                this.on("addedfile", function(file) {
-                  //  alert("file uploaded");
+                this.on("addedfile", function (file) {
+                    //  alert("file uploaded");
                 });
 
-                this.on("complete", function(file,response) {
+                this.on("complete", function (file, response) {
                     myDropzone.removeFile(file);
-                   // console.log('response ' + JSON.stringify(response));
+                    // console.log('response ' + JSON.stringify(response));
                 });
 
-                this.on("success", function(file, data) {
+                this.on("success", function (file, data) {
                     waitingDialog.hide();
                     dataError = data.error;
-                    if(data.error == '0'){
+                    if (data.error == '0') {
                         $('#modalbody').text('Datos guardados con exito');
 
 
-
                     }
-                   else if(data.error == '2'){
+                    else if (data.error == '2') {
 
                         $('#modalbody').text('Faltan datos, asegure de llenar todos los campos del formulario o de escribir una dirección de correo eléctronica correctamente');
                     }
-                    else if(data.error == '3'){
+                    else if (data.error == '3') {
 
                         $('#modalbody').text('Ya exite una casa registrada con el código ingresado');
                     }
@@ -84,7 +82,7 @@
                     }
                     $('#modal').modal('show');
                 });
-                this.on("error",function (file,error) {
+                this.on("error", function (file, error) {
                     waitingDialog.hide();
                     $('#modalbody').text('Ocurrio un problema al ingresar los datos');
                     $('#modal').modal('show');
@@ -100,7 +98,7 @@
     </script>
 
 
-<div class="row">
+    <div class="row">
     <div class="col-xs-12">
         <div class="row">
             <!-- left column -->
@@ -118,7 +116,7 @@
                                 <div class="col-md-12">
                                     @include('alertas.errores')
                                     @include('alertas.flash')
-                                   {{Form::open(['route'=>'Bolsa.store','method' =>'POST', 'id'=>'my-dropzone','class' => 'dropzone', 'files' => true])  }}
+                                    {{Form::open(['route'=>'Bolsa.store','method' =>'POST', 'id'=>'my-dropzone','class' => 'dropzone', 'files' => true])  }}
                                     @include('bves.Casas.Formulario.FormularioCasa')
 
                                 </div>
@@ -141,14 +139,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Mensaje</h4>
                 </div>
                 <div i class="modal-body">
-                <p id="modalbody"></p>
+                    <p id="modalbody"></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button"  data-dismiss="modal" class="btn btn-primary">Cerrar</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">Cerrar</button>
                 </div>
             </div>
         </div>

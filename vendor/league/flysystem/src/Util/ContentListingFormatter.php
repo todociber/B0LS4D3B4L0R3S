@@ -47,6 +47,23 @@ class ContentListingFormatter
         return $this->sortListing($listing);
     }
 
+    /**
+     * @param array $listing
+     *
+     * @return array
+     */
+    private function sortListing(array $listing)
+    {
+        usort(
+            $listing,
+            function ($a, $b) {
+                return strcasecmp($a['path'], $b['path']);
+            }
+        );
+
+        return $listing;
+    }
+
     private function addPathInfo(array $entry)
     {
         return $entry + Util::pathinfo($entry['path']);
@@ -98,22 +115,5 @@ class ContentListingFormatter
     private function isDirectChild(array $entry)
     {
         return Util::dirname($entry['path']) === $this->directory;
-    }
-
-    /**
-     * @param array $listing
-     *
-     * @return array
-     */
-    private function sortListing(array $listing)
-    {
-        usort(
-            $listing,
-            function ($a, $b) {
-                return strcasecmp($a['path'], $b['path']);
-            }
-        );
-
-        return $listing;
     }
 }

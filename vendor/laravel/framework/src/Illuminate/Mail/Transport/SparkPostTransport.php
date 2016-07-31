@@ -2,8 +2,8 @@
 
 namespace Illuminate\Mail\Transport;
 
-use Swift_Mime_Message;
 use GuzzleHttp\ClientInterface;
+use Swift_Mime_Message;
 
 class SparkPostTransport extends Transport
 {
@@ -33,7 +33,7 @@ class SparkPostTransport extends Transport
      *
      * @param  \GuzzleHttp\ClientInterface  $client
      * @param  string  $key
-     * @param  array  $options
+     * @param  array $options
      * @return void
      */
     public function __construct(ClientInterface $client, $key, $options = [])

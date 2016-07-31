@@ -23,6 +23,16 @@ class HasSource extends PageConstraint
     }
 
     /**
+     * Returns a string representation of the object.
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return "the HTML [{$this->source}]";
+    }
+
+    /**
      * Check if the source is found in the given crawler.
      *
      * @param  \Symfony\Component\DomCrawler\Crawler|string  $crawler
@@ -33,15 +43,5 @@ class HasSource extends PageConstraint
         $pattern = $this->getEscapedPattern($this->source);
 
         return preg_match("/$pattern/i", $this->html($crawler));
-    }
-
-    /**
-     * Returns a string representation of the object.
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return "the HTML [{$this->source}]";
     }
 }

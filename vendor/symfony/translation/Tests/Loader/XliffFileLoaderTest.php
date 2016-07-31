@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Translation\Tests\Loader;
 
-use Symfony\Component\Translation\Loader\XliffFileLoader;
 use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\Translation\Loader\XliffFileLoader;
 
 class XliffFileLoaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -51,7 +51,7 @@ class XliffFileLoaderTest extends \PHPUnit_Framework_TestCase
         $disableEntities = libxml_disable_entity_loader(true);
 
         $loader = new XliffFileLoader();
-        $resource = __DIR__.'/../fixtures/resources.xlf';
+        $resource = __DIR__ . '/../fixtures/resources.xlf';
         $catalogue = $loader->load($resource, 'en', 'domain1');
 
         libxml_disable_entity_loader($disableEntities);

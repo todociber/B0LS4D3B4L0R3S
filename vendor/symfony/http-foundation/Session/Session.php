@@ -11,12 +11,12 @@
 
 namespace Symfony\Component\HttpFoundation\Session;
 
-use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
+use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
 
 /**
  * Session.
@@ -46,7 +46,7 @@ class Session implements SessionInterface, \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param SessionStorageInterface $storage    A SessionStorageInterface instance
+     * @param SessionStorageInterface $storage A SessionStorageInterface instance
      * @param AttributeBagInterface   $attributes An AttributeBagInterface instance, (defaults null for default AttributeBag)
      * @param FlashBagInterface       $flashes    A FlashBagInterface instance (defaults null for default FlashBag)
      */
@@ -61,6 +61,14 @@ class Session implements SessionInterface, \IteratorAggregate, \Countable
         $flashes = $flashes ?: new FlashBag();
         $this->flashName = $flashes->getName();
         $this->registerBag($flashes);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function registerBag(SessionBagInterface $bag)
+    {
+        $this->storage->registerBag($bag);
     }
 
     /**
@@ -222,11 +230,13 @@ class Session implements SessionInterface, \IteratorAggregate, \Countable
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the flashbag interface.
+     *
+     * @return FlashBagInterface
      */
-    public function registerBag(SessionBagInterface $bag)
+    public function getFlashBag()
     {
-        $this->storage->registerBag($bag);
+        return $this->getBag($this->flashName);
     }
 
     /**
@@ -235,15 +245,5 @@ class Session implements SessionInterface, \IteratorAggregate, \Countable
     public function getBag($name)
     {
         return $this->storage->getBag($name);
-    }
-
-    /**
-     * Gets the flashbag interface.
-     *
-     * @return FlashBagInterface
-     */
-    public function getFlashBag()
-    {
-        return $this->getBag($this->flashName);
     }
 }

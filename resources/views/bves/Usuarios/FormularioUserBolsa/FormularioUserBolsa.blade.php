@@ -15,13 +15,13 @@
 <div class="form-group">
     {{ Form::label('Seleccione un estado') }}
     @if(isset($usuario))
-        <select class="form-control" id="estado"  name="Estado">
+        <select class="form-control" id="estado" name="Estado">
             @if($usuario->deleted_at == null)
                 <option selected value="1">Activo</option>
                 <option value="0">Inactivo</option>
             @else
 
-                <option  value="1">Activo</option>
+                <option value="1">Activo</option>
                 <option selected value="0">Innactivo</option>
             @endif
         </select>

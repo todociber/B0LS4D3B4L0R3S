@@ -258,6 +258,18 @@ class ResponseTest extends ResponseTestCase
         $this->assertFalse($response->isValidateable(), '->isValidateable() returns false when no validator is present');
     }
 
+    protected function createDateTimeOneHourAgo()
+    {
+        return $this->createDateTimeNow()->sub(new \DateInterval('PT1H'));
+    }
+
+    protected function createDateTimeNow()
+    {
+        $date = new \DateTime();
+
+        return $date->setTimestamp(time());
+    }
+
     public function testGetDate()
     {
         $oneHourAgo = $this->createDateTimeOneHourAgo();
@@ -302,6 +314,11 @@ class ResponseTest extends ResponseTestCase
 
         $response = new Response();
         $this->assertNull($response->getMaxAge(), '->getMaxAge() returns null if no freshness information available');
+    }
+
+    protected function createDateTimeOneHourLater()
+    {
+        return $this->createDateTimeNow()->add(new \DateInterval('PT1H'));
     }
 
     public function testSetSharedMaxAge()
@@ -859,23 +876,6 @@ class ResponseTest extends ResponseTestCase
             'array' => array(array()),
             'bool' => array(true, '1'),
         );
-    }
-
-    protected function createDateTimeOneHourAgo()
-    {
-        return $this->createDateTimeNow()->sub(new \DateInterval('PT1H'));
-    }
-
-    protected function createDateTimeOneHourLater()
-    {
-        return $this->createDateTimeNow()->add(new \DateInterval('PT1H'));
-    }
-
-    protected function createDateTimeNow()
-    {
-        $date = new \DateTime();
-
-        return $date->setTimestamp(time());
     }
 
     protected function provideResponse()

@@ -21,6 +21,7 @@ class Usuario extends Model
         'email',
         'password',
         'idOrganizacion',
+
         'remember_token'
     ];
 
@@ -43,9 +44,19 @@ class Usuario extends Model
         return $this->hasMany(RolUsuario::class, 'idUsuario', 'id');
     }
 
+    public function UsuarioAsignado()
+    {
+        return $this->hasMany(SolicitudRegistro::class, 'idUsuario', 'id');
+    }
+
     public function BitacoraUsuarios()
     {
         return $this->hasMany(BitacoraUsuario::class, 'idUsuario', 'id');
+    }
+
+    public function ClienteN()
+    {
+        return $this->hasOne(Cliente::class, 'idUsuario', 'id');
     }
 
     public function scopeOfid($query, $id)

@@ -24,12 +24,12 @@ namespace Symfony\Component\Debug;
  */
 class DebugClassLoader
 {
-    private $classLoader;
-    private $isFinder;
     private static $caseCheck;
     private static $deprecated = array();
     private static $php7Reserved = array('int', 'float', 'bool', 'string', 'true', 'false', 'null');
     private static $darwinCache = array('/' => array('/', array()));
+    private $classLoader;
+    private $isFinder;
 
     /**
      * Constructor.
@@ -63,16 +63,6 @@ class DebugClassLoader
                 self::$caseCheck = 0;
             }
         }
-    }
-
-    /**
-     * Gets the wrapped class loader.
-     *
-     * @return callable The wrapped class loader
-     */
-    public function getClassLoader()
-    {
-        return $this->classLoader;
     }
 
     /**
@@ -121,6 +111,16 @@ class DebugClassLoader
 
             spl_autoload_register($function);
         }
+    }
+
+    /**
+     * Gets the wrapped class loader.
+     *
+     * @return callable The wrapped class loader
+     */
+    public function getClassLoader()
+    {
+        return $this->classLoader;
     }
 
     /**

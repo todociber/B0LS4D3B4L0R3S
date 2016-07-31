@@ -2,9 +2,9 @@
 
 namespace Illuminate\Console\Scheduling;
 
-use LogicException;
-use InvalidArgumentException;
 use Illuminate\Contracts\Container\Container;
+use InvalidArgumentException;
+use LogicException;
 
 class CallbackEvent extends Event
 {
@@ -33,7 +33,7 @@ class CallbackEvent extends Event
      */
     public function __construct($callback, array $parameters = [])
     {
-        if (! is_string($callback) && ! is_callable($callback)) {
+        if (!is_string($callback) && !is_callable($callback)) {
             throw new InvalidArgumentException(
                 'Invalid scheduled callback event. Must be string or callable.'
             );
@@ -69,6 +69,16 @@ class CallbackEvent extends Event
     }
 
     /**
+     * Get the mutex path for the scheduled command.
+     *
+     * @return string
+     */
+    protected function mutexPath()
+    {
+        return storage_path('framework/schedule-' . sha1($this->description));
+    }
+
+    /**
      * Remove the mutex file from disk.
      *
      * @return void
@@ -98,16 +108,6 @@ class CallbackEvent extends Event
         return $this->skip(function () {
             return file_exists($this->mutexPath());
         });
-    }
-
-    /**
-     * Get the mutex path for the scheduled command.
-     *
-     * @return string
-     */
-    protected function mutexPath()
-    {
-        return storage_path('framework/schedule-'.sha1($this->description));
     }
 
     /**

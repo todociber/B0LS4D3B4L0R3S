@@ -3,9 +3,9 @@
 namespace Illuminate\Queue;
 
 use Closure;
+use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessUtils;
-use Symfony\Component\Process\PhpExecutableFinder;
 
 class Listener
 {
@@ -107,27 +107,6 @@ class Listener
     }
 
     /**
-     * Run the given process.
-     *
-     * @param  \Symfony\Component\Process\Process  $process
-     * @param  int  $memory
-     * @return void
-     */
-    public function runProcess(Process $process, $memory)
-    {
-        $process->run(function ($type, $line) {
-            $this->handleWorkerOutput($type, $line);
-        });
-
-        // Once we have run the job we'll go check if the memory limit has been
-        // exceeded for the script. If it has, we will kill this script so a
-        // process manager will restart this with a clean slate of memory.
-        if ($this->memoryExceeded($memory)) {
-            $this->stop();
-        }
-    }
-
-    /**
      * Create a new Symfony process for the worker.
      *
      * @param  string  $connection
@@ -162,6 +141,27 @@ class Listener
         );
 
         return new Process($command, $this->commandPath, null, null, $timeout);
+    }
+
+    /**
+     * Run the given process.
+     *
+     * @param  \Symfony\Component\Process\Process $process
+     * @param  int $memory
+     * @return void
+     */
+    public function runProcess(Process $process, $memory)
+    {
+        $process->run(function ($type, $line) {
+            $this->handleWorkerOutput($type, $line);
+        });
+
+        // Once we have run the job we'll go check if the memory limit has been
+        // exceeded for the script. If it has, we will kill this script so a
+        // process manager will restart this with a clean slate of memory.
+        if ($this->memoryExceeded($memory)) {
+            $this->stop();
+        }
     }
 
     /**

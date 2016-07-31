@@ -22,6 +22,7 @@ Route::get('/', function () {
 //------CASAS CRUD------//
 Route::get('bolsa/NuevaCasa','BolsaController@NuevaCasa')->name('nuevaCasa');
 Route::get('bolsa/EditarCasa/{id}','BolsaController@editarCasa')->name('editarCasa');
+Route::get('bolsa/EditarCasa/{id}', 'BolsaController@editarCasa')->name('editarCasa');
 Route::get('bolsa/ListadoCasas','BolsaController@ListadoCasas')->name('listadoCasas');
 Route::get('bolsa/EliminarCasa/{id}','BolsaController@eliminarCasa')->name('eliminarCasa');
 Route::get('bolsa/RestaurarCasa/{id}','BolsaController@RestoreCasa')->name('restaurarcasa');
@@ -37,6 +38,20 @@ Route::get('bolsa/EliminarUsuario/{id}','UsuariosBolsaController@EliminarUsuario
 Route::get('bolsa/RestaurarUsuario/{id}','UsuariosBolsaController@RestaurarUsuario')->name('restaurarusuario');
 Route::resource('UsuarioBolsa','UsuariosBolsaController');
 
+Route::get('bolsa/EliminarCasa/{id}', 'BolsaController@eliminarCasa')->name('eliminarCasa');
+Route::get('bolsa/RestaurarCasa/{id}', 'BolsaController@RestoreCasa')->name('restaurarcasa');
+Route::resource('Bolsa', 'BolsaController');
+Route::post('bolsa/Upload', 'BolsaController@Upload')->name('upload');
+
+//------USUARIOS BOLSA CRUD------//
+Route::get('bolsa/CatalogoUsuarios', 'UsuariosBolsaController@ListadoUsuario')->name('catalogoUsuarios');
+Route::get('bolsa/NuevoUsuario', 'UsuariosBolsaController@NuevoUsuario')->name('nuevoUsuario');
+Route::get('bolsa/ModificarUsuario/{id}', 'UsuariosBolsaController@ModificarUsuario')->name('modificarusuario');
+Route::get('bolsa/MiPerfil', 'UsuariosBolsaController@MiPerfil')->name('miPerfil');
+Route::get('bolsa/EliminarUsuario/{id}', 'UsuariosBolsaController@EliminarUsuario')->name('eliminarusuario');
+Route::get('bolsa/RestaurarUsuario/{id}', 'UsuariosBolsaController@RestaurarUsuario')->name('restaurarusuario');
+Route::resource('UsuarioBolsa', 'UsuariosBolsaController');
+
 //------BOLSA DE VALORES ROUTES--//
 
 
@@ -50,5 +65,30 @@ Route::get('clientes/NuevaOrden','ClientesController@NuevaOrden')->name('nuevaOr
 //------CLIENTES ROUTES----//
 
 //-----CASA CORREDORA ROUTES----//
-Route::resource('UsuarioCasaCorredora','UsuarioCasaCorredoraController');
 
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => 'administradorCasaCorredora'], function () {
+        Route::get('UsuarioCasaCorredora/crear', 'UsuarioCasaCorredoraController@crear')->name('UsuarioCasaCorredora.crear');
+        Route::get('UsuarioCasaCorredora/{id}/editar', 'UsuarioCasaCorredoraController@editar')->name('UsuarioCasaCorredora.editar');
+        Route::get('UsuarioCasaCorredora/{id}/restaurar', 'UsuarioCasaCorredoraController@restaurar')->name('UsuarioCasaCorredora.restaurar');
+        Route::get('UsuarioCasaCorredora/{id}/resetear', 'UsuarioCasaCorredoraController@resetar')->name('UsuarioCasaCorredora.resetearpassword');
+        Route::resource('UsuarioCasaCorredora', 'UsuarioCasaCorredoraController');
+    });
+    Route::group(['middleware' => 'OperadorCasaCorredora'], function () {
+        Route::get('SolicitudAfiliacion/{id}/detalle', 'SolicitudesCasaCorredora@detalle')->name('SolicitudAfiliacion.detalle');
+        Route::get('SolicitudAfiliacion/{id}/aceptar', 'SolicitudesCasaCorredora@aceptar')->name('SolicitudAfiliacion.aceptar');
+        Route::get('SolicitudAfiliacion/procesando', 'SolicitudesCasaCorredora@Procesando');
+        Route::get('SolicitudAfiliacion/procesadas', 'SolicitudesCasaCorredora@Procesadas');
+        Route::get('SolicitudAfiliacion/{id}/procesar', 'SolicitudesCasaCorredora@Procesar')->name('SolicitudAfiliacion.procesar');
+        Route::resource('SolicitudAfiliacion', 'SolicitudesCasaCorredora');
+    });
+
+    Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
+
+});
+
+
+Route::auth();
+Route::get('admin', 'HomeController@index');
+Route::get('/home', 'HomeController@index');

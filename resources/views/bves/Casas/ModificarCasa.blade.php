@@ -13,7 +13,7 @@
             var dataError;
 
             $('#modal').on('hidden.bs.modal', function () {
-                if(dataError == '0'){
+                if (dataError == '0') {
 
                     window.location.href = '{!! route('listadoCasas') !!}';
                 }
@@ -34,18 +34,17 @@
             dictRemoveFile: "Quitar imagen",
 
 
-
-            init: function() {
+            init: function () {
                 var submitBtn = document.querySelector("#clickable");
                 var myDropzone = this;
 
-                submitBtn.addEventListener("click", function(e){
+                submitBtn.addEventListener("click", function (e) {
                     e.preventDefault();
                     e.stopPropagation();
                     myDropzone.processQueue();
-                    console.log('file ' +myDropzone.files.length);
-                    if(myDropzone.files.length > 0){
-                        waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});
+                    console.log('file ' + myDropzone.files.length);
+                    if (myDropzone.files.length > 0) {
+                        waitingDialog.show('Guardando Espere... ', {progressType: 'info'});
                     }
                     else {
                         $('#modalbody').text('Debe subir una imagen');
@@ -55,31 +54,30 @@
 
 
                 });
-                this.on("addedfile", function(file) {
+                this.on("addedfile", function (file) {
 
                     //  alert("file uploaded");
                 });
 
-                this.on("complete", function(file,response) {
+                this.on("complete", function (file, response) {
                     myDropzone.removeFile(file);
                     // console.log('response ' + JSON.stringify(response));
                 });
 
-                this.on("success", function(file, data) {
+                this.on("success", function (file, data) {
                     waitingDialog.hide();
                     //  waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});
                     dataError = data.error;
-                    if(data.error == '0'){
+                    if (data.error == '0') {
                         $('#modalbody').text('Datos guardados con exito');
 
 
-
                     }
-                    else if(data.error == '2'){
+                    else if (data.error == '2') {
 
                         $('#modalbody').text('Faltan datos, asegure de llenar todos los campos del formularios');
                     }
-                    else if(data.error == '3'){
+                    else if (data.error == '3') {
 
                         $('#modalbody').text('Ya exite una casa registrada con ese código ');
                     }
@@ -90,7 +88,7 @@
                     }
                     $('#modal').modal('show');
                 });
-                this.on("error",function (file,error) {
+                this.on("error", function (file, error) {
                     waitingDialog.hide();
                     $('#modalbody').text('Ocurrio un problema al ingresar los datos');
                     $('#modal').modal('show');
@@ -132,34 +130,36 @@
                                 </div>
                             </div>
                             <br/>
+
                             <div class="box-footer">
                                 {!!Form::submit('Modificar', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'clickable','data-style'=>'expand-left'])!!}
                             </div>
 
-             {!! Form::close() !!}
-</div>
+                            {!! Form::close() !!}
+                        </div>
 
-</div><!-- /.box -->
-</div>
-</div>
-</div>
-</div>
+                    </div><!-- /.box -->
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-<h4 class="modal-title" id="myModalLabel">Mensaje</h4>
-</div>
-<div i class="modal-body">
-<p id="modalbody"></p>
-</div>
-<div class="modal-footer">
-<button type="button"  data-dismiss="modal" class="btn btn-primary">Cerrar</button>
-</div>
-</div>
-</div>
-</div>
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Mensaje</h4>
+                </div>
+                <div i class="modal-body">
+                    <p id="modalbody"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @stop

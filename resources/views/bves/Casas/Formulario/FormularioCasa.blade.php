@@ -21,13 +21,13 @@
 </div>
 
 <div class="form-group">
-    <div id="dZUpload"  class="dz-message drop-border">
-    <br/><br/>
-    @if(isset($organizacion))
+    <div id="dZUpload" class="dz-message drop-border">
+        <br/><br/>
+        @if(isset($organizacion))
 
-        {!!   Html::image(public_path().'/imgTemp/'.$organizacion->logo.'.png') !!}
-    @endif
-    Haz click para subir una imagen.
+            {!!   Html::image(public_path().'/imgTemp/'.$organizacion->logo.'.png') !!}
+        @endif
+        Haz click para subir una imagen.
     </div>
     <div class="dropzone-previews">
 
@@ -39,13 +39,13 @@
 <div class="form-group">
     {{ Form::label('Seleccione un estado') }}
     @if(isset($organizacion))
-        <select class="form-control" id="estado"  name="Estado">
+        <select class="form-control" id="estado" name="Estado">
             @if($organizacion->deleted_at == null)
                 <option selected value="1">Activo</option>
                 <option value="0">Inactivo</option>
             @else
 
-                <option  value="1">Activo</option>
+                <option value="1">Activo</option>
                 <option selected value="0">Innactivo</option>
             @endif
         </select>

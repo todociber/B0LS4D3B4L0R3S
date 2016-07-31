@@ -8,9 +8,9 @@
     Source: http://docs.oasis-open.org/xliff/xliff-core/v2.0/os/schemas/
      -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    elementFormDefault="qualified"
-    xmlns:xlf="urn:oasis:names:tc:xliff:document:2.0"
-    targetNamespace="urn:oasis:names:tc:xliff:document:2.0">
+           xmlns:xlf="urn:oasis:names:tc:xliff:document:2.0"
+           elementFormDefault="qualified"
+           targetNamespace="urn:oasis:names:tc:xliff:document:2.0">
 
   <!-- Import -->
 

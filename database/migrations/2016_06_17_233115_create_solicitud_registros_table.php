@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateSolicitudRegistrosTable extends Migration
 {
@@ -17,14 +17,17 @@ class CreateSolicitudRegistrosTable extends Migration
             $table->integer('idCliente')->unsigned();
             $table->integer('idOrganizacion')->unsigned();
             $table->integer('idEstadoSolicitud')->unsigned();
-            $table->string('numero de afiliado',100);
-            $table->string('comentario de rechazo',500);
+            $table->integer('idUsuario')->nullable()->unsigned();
+            $table->string('numeroDeAfiliado', 100);
+            $table->string('comentarioDeRechazo', 500);
             $table->foreign('idCliente')
                 ->references('id')->on('clientes');
             $table->foreign('idOrganizacion')
                 ->references('id')->on('organizacion');
             $table->foreign('idEstadoSolicitud')
                 ->references('id')->on('estado_solicitud');
+            $table->foreign('idUsuario')
+                ->references('id')->on('usuarios');
             $table->timestamps();
             $table->softDeletes();
         });
