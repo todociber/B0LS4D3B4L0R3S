@@ -27,26 +27,22 @@
                             <div class="center-block"> @include('alertas.errores')
                                 @foreach($solicitud as $solicituds)
 
-                                    <?php
 
-                                    $roles = $solicituds->ClienteN->RolUsuarioNs;
 
-                                    ?>
-
-                                    @foreach($roles as $rol)
                                         <b> {!!Form::label('Nombre del Cliente: ')!!}</b>
-                                        {{$rol->UsuarioN->nombre}} {{$rol->UsuarioN->apellido}}<br>
+                                    {{ $solicituds->ClienteNSolicitud->UsuarioNC->nombre}} {{ $solicituds->ClienteNSolicitud->UsuarioNC->apellido}}
+                                    <br>
 
                                         <b> {!!Form::label('email del cliente: ')!!}</b>
-                                        {{$rol->UsuarioN->email}}
+                                    {{ $solicituds->ClienteNSolicitud->UsuarioNC->email}}
                                         <br>
                                         <b> {!!Form::label('Numero de afiliado:')!!}</b>
                                         {{$solicituds->numeroDeAfiliado}}
                                         <br>
                                         <b> {!!Form::label('Cuentas Cedeval: ')!!}</b><br>
-                                        {{$rol->UsuarioN->CuentaCedeval}}
+
                                         <?php
-                                        $cuentas = $solicituds->ClienteN->CuentaCedeval
+                                    $cuentas = $solicituds->ClienteNSolicitud->CuentaCedeval
                                         ?>
                                         <ul>
                                             @foreach($cuentas as $cuenta)
@@ -73,7 +69,6 @@
                                         <b> {!!Form::label('Motivo de rechazo: ')!!}</b>
                                         {{$solicituds->comentarioDeRechazo}}
                                     @endif
-                                @endforeach
 
 
                             </div>

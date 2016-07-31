@@ -16,13 +16,12 @@ class CreateRolUsuariosTable extends Migration
             $table->increments('id');
             $table->integer('idUsuario')->unsigned();
             $table->integer('idRol')->unsigned();
-            $table->integer('idCliente')->unsigned()->nullable();
+
             $table->foreign('idUsuario')
                 ->references('id')->on('usuarios');
             $table->foreign('idRol')
                 ->references('id')->on('roles');
-            $table->foreign('idCliente')
-                ->references('id')->on('clientes');
+
 
             $table->timestamps();
             $table->softDeletes();

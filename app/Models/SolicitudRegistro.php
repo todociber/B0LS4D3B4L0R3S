@@ -36,7 +36,7 @@ class SolicitudRegistro extends Model
         return $this->belongsTo(Organizacion::class, 'idOrganizacion', 'id');
     }
 
-    public function ClienteN()
+    public function ClienteNSolicitud()
     {
         return $this->belongsTo(Cliente::class, 'idCliente', 'id');
     }

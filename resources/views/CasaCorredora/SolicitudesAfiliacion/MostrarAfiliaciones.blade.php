@@ -17,16 +17,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            @if(Session::has('message'))
-                                <div class="alert alert-{{Session::get('tipo')}} alert-dismissible" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                                aria-hidden="true">&times;</span></button>
-                                    {{Session::get('message')}}
-                                </div>
-                            @endif
-
+                            @include('alertas.flash')
                             <br><br>
-
                             <table id="example1" class="table table-hover">
                                 <thead>
                                 <tr>
@@ -41,11 +33,7 @@
                                 <tbody>
                                 @foreach($solicitudes as $solicitud)
 
-                                    <?php
 
-                                    $roles = $solicitud->ClienteN->RolUsuarioNs;
-
-                                    ?>
 
 
 
@@ -54,24 +42,17 @@
                                             {!!link_to_route('SolicitudAfiliacion.detalle', $title = 'Detalle Solicitud ', $parameters = $solicitud->id, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                         </td>
                                         <td>
-                                            @foreach($roles as $rol)
-                                                {{$rol->UsuarioN->nombre}}
 
-                                            @endforeach
+                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->nombre}}
+
 
 
                                         </td>
                                         <td>
-                                            @foreach($roles as $rol)
-                                                {{$rol->UsuarioN->apellido}}
-
-                                            @endforeach
+                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->apellido}}
                                         </td>
                                         <td>
-                                            @foreach($roles as $rol)
-                                                {{$rol->UsuarioN->email}}
-
-                                            @endforeach
+                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->email}}
                                         </td>
                                         <td>
                                             {{$solicitud->numeroDeAfiliado}}

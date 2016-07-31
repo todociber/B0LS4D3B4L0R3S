@@ -41,11 +41,7 @@
                                 <tbody>
                                 @foreach($solicitudes as $solicitud)
 
-                                    <?php
 
-                                    $roles = $solicitud->ClienteN->RolUsuarioNs;
-
-                                    ?>
 
 
 
@@ -54,24 +50,17 @@
                                             {!!link_to_route('SolicitudAfiliacion.detalle', $title = 'Detalle Solicitud ', $parameters = $solicitud->id, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                         </td>
                                         <td>
-                                            @foreach($roles as $rol)
-                                                {{$rol->UsuarioN->nombre}}
 
-                                            @endforeach
+                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->nombre}}
+
 
 
                                         </td>
                                         <td>
-                                            @foreach($roles as $rol)
-                                                {{$rol->UsuarioN->apellido}}
-
-                                            @endforeach
+                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->apellido}}
                                         </td>
                                         <td>
-                                            @foreach($roles as $rol)
-                                                {{$rol->UsuarioN->email}}
-
-                                            @endforeach
+                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->email}}
                                         </td>
                                         <td>
                                             {{$solicitud->numeroDeAfiliado}}

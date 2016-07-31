@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateClientesTable extends Migration
 {
@@ -17,6 +17,9 @@ class CreateClientesTable extends Migration
             $table->string('dui',10)->unique();
             $table->string('nit',17)->unique();
             $table->date('fecha de nacimiento');
+            $table->integer('idUsuario')->unsigned()->nullable();
+            $table->foreign('idUsuario')
+                ->references('id')->on('usuarios');
             $table->timestamps();
             $table->softDeletes();
         });

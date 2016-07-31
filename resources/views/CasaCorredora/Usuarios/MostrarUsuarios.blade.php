@@ -17,13 +17,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            @if(Session::has('message'))
-                                <div class="alert alert-{{Session::get('tipo')}} alert-dismissible" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                                aria-hidden="true">&times;</span></button>
-                                    {{Session::get('message')}}
-                                </div>
-                            @endif
+                            @include('alertas.flash')
                             {!!link_to_route('UsuarioCasaCorredora.crear', $title = 'Crear Usuario ', $parameters = [], $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                             <br><br>
 

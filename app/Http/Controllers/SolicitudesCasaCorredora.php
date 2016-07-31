@@ -19,7 +19,7 @@ class SolicitudesCasaCorredora extends Controller
     public function index()
     {
 
-        $solicitudes = SolicitudRegistro::with('ClienteN', 'EstadoSolicitudN')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoSolicitud', '=', '1')->get();
+        $solicitudes = SolicitudRegistro::with('ClienteNSolicitud', 'EstadoSolicitudN')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoSolicitud', '=', '1')->get();
         return view('CasaCorredora.SolicitudesAfiliacion.MostrarAfiliaciones', compact('solicitudes'));
     }
 
@@ -97,10 +97,12 @@ class SolicitudesCasaCorredora extends Controller
                 );
 
                 $solicitudAActualizar->save();
-                return redirect('/SolicitudAfiliacion')->with('message', 'Solicitud rechazada')->with('tipo', 'warning');
+                flash('Solicitud rechazada', 'warning');
+                return redirect('/SolicitudAfiliacion');
 
             } else {
-                return redirect('/SolicitudAfiliacion')->with('message', 'Solicitud no pudo ser rechazada')->with('tipo', 'danger');
+                flash('Solicitud no pudo ser rechazada', 'danger');
+                return redirect('/SolicitudAfiliacion');
             }
         } else {
             return redirect('/home');
@@ -121,7 +123,7 @@ class SolicitudesCasaCorredora extends Controller
     public function detalle($id)
     {
 
-        $solicitud = SolicitudRegistro::ofid($id)->with('ClienteN', 'EstadoSolicitudN')->get();
+        $solicitud = SolicitudRegistro::ofid($id)->with('ClienteNSolicitud', 'EstadoSolicitudN')->get();
         try {
             $solicitud[0]->id;
         } catch (ErrorException $i) {
@@ -170,10 +172,12 @@ class SolicitudesCasaCorredora extends Controller
                 );
 
                 $solicitudAActualizar->save();
-                return redirect('/SolicitudAfiliacion')->with('message', 'Solicitud aceptada')->with('tipo', 'success');
+                flash('Solicitud aceptada', 'success');
+                return redirect('/SolicitudAfiliacion');
 
             } else {
-                return redirect('/SolicitudAfiliacion')->with('message', 'Solicitud  no pudo ser aceptada')->with('tipo', 'danger');
+                flash('Solicitud no pudo ser aceptada', 'danger');
+                return redirect('/SolicitudAfiliacion');
             }
 
         } else {
@@ -217,10 +221,12 @@ class SolicitudesCasaCorredora extends Controller
                 );
 
                 $solicitudAActualizar->save();
-                return redirect('/SolicitudAfiliacion')->with('message', 'Solicitud procesada')->with('tipo', 'success');
+                flash('Solicitud procesada', 'success');
+                return redirect('/SolicitudAfiliacion');
 
             } else {
-                return redirect('/SolicitudAfiliacion')->with('message', 'Solicitud  no pudo ser aceptada')->with('tipo', 'danger');
+                flash('Solicitud no pudo ser aceptada', 'danger');
+                return redirect('/SolicitudAfiliacion');
             }
 
         } else {
@@ -235,7 +241,7 @@ class SolicitudesCasaCorredora extends Controller
     {
 
 
-        $solicitudes = SolicitudRegistro::with('ClienteN', 'EstadoSolicitudN')
+        $solicitudes = SolicitudRegistro::with('ClienteNSolicitud', 'EstadoSolicitudN')
             ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
             ->where('idEstadoSolicitud', '=', '4')
             ->where('idUsuario', '=', Auth::user()->id)
