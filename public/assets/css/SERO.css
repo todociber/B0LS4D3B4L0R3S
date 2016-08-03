@@ -1,0 +1,95 @@
+.drop-border{
+
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    height: 100px;
+}
+
+.p-red{
+    color: red;
+
+}
+.p-green{
+    color: green;
+
+}
+
+.background-pencil{
+
+    background-color: #444444;
+
+}
+
+.user-row {
+    margin-bottom: 14px;
+}
+
+.user-row:last-child {
+    margin-bottom: 0;
+}
+
+.dropdown-user {
+    margin: 13px 0;
+    padding: 5px;
+    height: 100%;
+}
+
+.dropdown-user:hover {
+    cursor: pointer;
+}
+
+.table-user-information > tbody > tr {
+    border-top: 1px solid rgb(221, 221, 221);
+}
+
+.table-user-information > tbody > tr:first-child {
+    border-top: 0;
+}
+
+
+.table-user-information > tbody > tr > td {
+    border-top: 0;
+}
+.toppad
+{
+    margin-top:20px;
+}
+
+.margin-Div{
+
+    margin-top:7px;
+    margin-right: 7px;
+}
+
+.input-pointer{
+    cursor: pointer;
+
+}
+
+.add-Active{
+
+    display: block !important;
+
+}
+.add-Innactive{
+
+    display: none !important;
+
+}
+
+.plus-button{
+     color:green;
+
+
+ }
+
+.min-button{
+    color:red;
+
+
+}
+
+.margin-TopDiv{
+
+    margin-top:30px;
+
+}
