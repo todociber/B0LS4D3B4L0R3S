@@ -12,8 +12,8 @@
 namespace Symfony\Component\Console\Tests\Input;
 
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 class ArgvInputTest extends \PHPUnit_Framework_TestCase
@@ -183,7 +183,17 @@ class ArgvInputTest extends \PHPUnit_Framework_TestCase
             array(
                 array('cli.php', 'foo', 'bar'),
                 new InputDefinition(),
-                'Too many arguments.',
+                'No arguments expected, got "foo".',
+            ),
+            array(
+                array('cli.php', 'foo', 'bar'),
+                new InputDefinition(array(new InputArgument('number'))),
+                'Too many arguments, expected arguments "number".',
+            ),
+            array(
+                array('cli.php', 'foo', 'bar', 'zzz'),
+                new InputDefinition(array(new InputArgument('number'), new InputArgument('county'))),
+                'Too many arguments, expected arguments "number" "county".',
             ),
             array(
                 array('cli.php', '--foo'),

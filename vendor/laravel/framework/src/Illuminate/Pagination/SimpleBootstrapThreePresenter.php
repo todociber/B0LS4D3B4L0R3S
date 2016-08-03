@@ -2,8 +2,8 @@
 
 namespace Illuminate\Pagination;
 
-use Illuminate\Contracts\Pagination\Paginator as PaginatorContract;
 use Illuminate\Support\HtmlString;
+use Illuminate\Contracts\Pagination\Paginator as PaginatorContract;
 
 class SimpleBootstrapThreePresenter extends BootstrapThreePresenter
 {
@@ -16,6 +16,16 @@ class SimpleBootstrapThreePresenter extends BootstrapThreePresenter
     public function __construct(PaginatorContract $paginator)
     {
         $this->paginator = $paginator;
+    }
+
+    /**
+     * Determine if the underlying paginator being presented has pages to show.
+     *
+     * @return bool
+     */
+    public function hasPages()
+    {
+        return $this->paginator->hasPages() && count($this->paginator->items()) > 0;
     }
 
     /**
@@ -34,15 +44,5 @@ class SimpleBootstrapThreePresenter extends BootstrapThreePresenter
         }
 
         return '';
-    }
-
-    /**
-     * Determine if the underlying paginator being presented has pages to show.
-     *
-     * @return bool
-     */
-    public function hasPages()
-    {
-        return $this->paginator->hasPages() && count($this->paginator->items()) > 0;
     }
 }

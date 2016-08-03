@@ -39,18 +39,6 @@ abstract class Handler
     }
 
     /**
-     * Retrieve the entree type (file|dir).
-     *
-     * @return string file or dir
-     */
-    public function getType()
-    {
-        $metadata = $this->filesystem->getMetadata($this->path);
-
-        return $metadata['type'];
-    }
-
-    /**
      * Check whether the entree is a file.
      *
      * @return bool
@@ -61,13 +49,15 @@ abstract class Handler
     }
 
     /**
-     * Retrieve the Filesystem object.
+     * Retrieve the entree type (file|dir).
      *
-     * @return FilesystemInterface
+     * @return string file or dir
      */
-    public function getFilesystem()
+    public function getType()
     {
-        return $this->filesystem;
+        $metadata = $this->filesystem->getMetadata($this->path);
+
+        return $metadata['type'];
     }
 
     /**
@@ -83,15 +73,15 @@ abstract class Handler
 
         return $this;
     }
-
+    
     /**
-     * Retrieve the entree path.
+     * Retrieve the Filesystem object.
      *
-     * @return string path
+     * @return FilesystemInterface
      */
-    public function getPath()
+    public function getFilesystem()
     {
-        return $this->path;
+        return $this->filesystem;
     }
 
     /**
@@ -106,6 +96,16 @@ abstract class Handler
         $this->path = $path;
 
         return $this;
+    }
+
+    /**
+     * Retrieve the entree path.
+     *
+     * @return string path
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 
     /**

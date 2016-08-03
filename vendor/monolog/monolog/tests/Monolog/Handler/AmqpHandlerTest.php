@@ -11,10 +11,10 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Logger;
 use Monolog\TestCase;
-use PhpAmqpLib\Connection\AMQPConnection;
+use Monolog\Logger;
 use PhpAmqpLib\Message\AMQPMessage;
+use PhpAmqpLib\Connection\AMQPConnection;
 
 /**
  * @covers Monolog\Handler\RotatingFileHandler

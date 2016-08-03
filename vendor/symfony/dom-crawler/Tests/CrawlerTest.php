@@ -54,23 +54,6 @@ class CrawlerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Foo', $crawler->filterXPath('//body')->text(), '->add() adds nodes from a string');
     }
 
-    protected function createDomDocument()
-    {
-        $dom = new \DOMDocument();
-        $dom->loadXML('<html><div class="foo"></div></html>');
-
-        return $dom;
-    }
-
-    protected function createNodeList()
-    {
-        $dom = new \DOMDocument();
-        $dom->loadXML('<html><div class="foo"></div></html>');
-        $domxpath = new \DOMXPath($dom);
-
-        return $domxpath->query('//div');
-    }
-
     /**
      * @expectedException \InvalidArgumentException
      */
@@ -88,56 +71,6 @@ class CrawlerTest extends \PHPUnit_Framework_TestCase
     {
         $crawler = $this->createTestCrawler();
         $crawler->addHtmlContent('<html><div class="foo"></html>', 'UTF-8');
-    }
-
-    public function createTestCrawler($uri = null)
-    {
-        $dom = new \DOMDocument();
-        $dom->loadHTML('
-            <html>
-                <body>
-                    <a href="foo">Foo</a>
-                    <a href="/foo">   Fabien\'s Foo   </a>
-                    <a href="/foo">Fabien"s Foo</a>
-                    <a href="/foo">\' Fabien"s Foo</a>
-
-                    <a href="/bar"><img alt="Bar"/></a>
-                    <a href="/bar"><img alt="   Fabien\'s Bar   "/></a>
-                    <a href="/bar"><img alt="Fabien&quot;s Bar"/></a>
-                    <a href="/bar"><img alt="\' Fabien&quot;s Bar"/></a>
-
-                    <a href="?get=param">GetLink</a>
-
-                    <form action="foo" id="FooFormId">
-                        <input type="text" value="TextValue" name="TextName" />
-                        <input type="submit" value="FooValue" name="FooName" id="FooId" />
-                        <input type="button" value="BarValue" name="BarName" id="BarId" />
-                        <button value="ButtonValue" name="ButtonName" id="ButtonId" />
-                    </form>
-
-                    <input type="submit" value="FooBarValue" name="FooBarName" form="FooFormId" />
-                    <input type="text" value="FooTextValue" name="FooTextName" form="FooFormId" />
-
-                    <ul class="first">
-                        <li class="first">One</li>
-                        <li>Two</li>
-                        <li>Three</li>
-                    </ul>
-                    <ul>
-                        <li>One Bis</li>
-                        <li>Two Bis</li>
-                        <li>Three Bis</li>
-                    </ul>
-                    <div id="parent">
-                        <div id="child"></div>
-                        <div id="child2" xmlns:foo="http://example.com"></div>
-                    </div>
-                    <div id="sibling"><img /></div>
-                </body>
-            </html>
-        ');
-
-        return new Crawler($dom, $uri);
     }
 
     public function testAddHtmlContent()
@@ -509,23 +442,6 @@ EOF
         $crawler = $this->createTestXmlCrawler()->filterXPath('//default:entry/default:id');
         $this->assertCount(1, $crawler, '->filterXPath() automatically registers a namespace');
         $this->assertSame('tag:youtube.com,2008:video:kgZRZmEc9j4', $crawler->text());
-    }
-
-    protected function createTestXmlCrawler($uri = null)
-    {
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>
-            <entry xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007">
-                <id>tag:youtube.com,2008:video:kgZRZmEc9j4</id>
-                <yt:accessControl action="comment" permission="allowed"/>
-                <yt:accessControl action="videoRespond" permission="moderated"/>
-                <media:group>
-                    <media:title type="plain">Chordates - CrashCourse Biology #24</media:title>
-                    <yt:aspectRatio>widescreen</yt:aspectRatio>
-                </media:group>
-                <media:category label="Music" scheme="http://gdata.youtube.com/schemas/2007/categories.cat">Music</media:category>
-            </entry>';
-
-        return new Crawler($xml, $uri);
     }
 
     public function testFilterXPathWithCustomDefaultNamespace()
@@ -1093,5 +1009,89 @@ HTML;
         $crawler = new Crawler('<html><body><ul><li>List item 1<ul><li>Sublist item 1</li><li>Sublist item 2</ul></li></ul></body></html>');
 
         $this->assertCount(1, $crawler->filter('li:contains("List item 1")'));
+    }
+
+    public function createTestCrawler($uri = null)
+    {
+        $dom = new \DOMDocument();
+        $dom->loadHTML('
+            <html>
+                <body>
+                    <a href="foo">Foo</a>
+                    <a href="/foo">   Fabien\'s Foo   </a>
+                    <a href="/foo">Fabien"s Foo</a>
+                    <a href="/foo">\' Fabien"s Foo</a>
+
+                    <a href="/bar"><img alt="Bar"/></a>
+                    <a href="/bar"><img alt="   Fabien\'s Bar   "/></a>
+                    <a href="/bar"><img alt="Fabien&quot;s Bar"/></a>
+                    <a href="/bar"><img alt="\' Fabien&quot;s Bar"/></a>
+
+                    <a href="?get=param">GetLink</a>
+
+                    <form action="foo" id="FooFormId">
+                        <input type="text" value="TextValue" name="TextName" />
+                        <input type="submit" value="FooValue" name="FooName" id="FooId" />
+                        <input type="button" value="BarValue" name="BarName" id="BarId" />
+                        <button value="ButtonValue" name="ButtonName" id="ButtonId" />
+                    </form>
+
+                    <input type="submit" value="FooBarValue" name="FooBarName" form="FooFormId" />
+                    <input type="text" value="FooTextValue" name="FooTextName" form="FooFormId" />
+
+                    <ul class="first">
+                        <li class="first">One</li>
+                        <li>Two</li>
+                        <li>Three</li>
+                    </ul>
+                    <ul>
+                        <li>One Bis</li>
+                        <li>Two Bis</li>
+                        <li>Three Bis</li>
+                    </ul>
+                    <div id="parent">
+                        <div id="child"></div>
+                        <div id="child2" xmlns:foo="http://example.com"></div>
+                    </div>
+                    <div id="sibling"><img /></div>
+                </body>
+            </html>
+        ');
+
+        return new Crawler($dom, $uri);
+    }
+
+    protected function createTestXmlCrawler($uri = null)
+    {
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>
+            <entry xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007">
+                <id>tag:youtube.com,2008:video:kgZRZmEc9j4</id>
+                <yt:accessControl action="comment" permission="allowed"/>
+                <yt:accessControl action="videoRespond" permission="moderated"/>
+                <media:group>
+                    <media:title type="plain">Chordates - CrashCourse Biology #24</media:title>
+                    <yt:aspectRatio>widescreen</yt:aspectRatio>
+                </media:group>
+                <media:category label="Music" scheme="http://gdata.youtube.com/schemas/2007/categories.cat">Music</media:category>
+            </entry>';
+
+        return new Crawler($xml, $uri);
+    }
+
+    protected function createDomDocument()
+    {
+        $dom = new \DOMDocument();
+        $dom->loadXML('<html><div class="foo"></div></html>');
+
+        return $dom;
+    }
+
+    protected function createNodeList()
+    {
+        $dom = new \DOMDocument();
+        $dom->loadXML('<html><div class="foo"></div></html>');
+        $domxpath = new \DOMXPath($dom);
+
+        return $domxpath->query('//div');
     }
 }

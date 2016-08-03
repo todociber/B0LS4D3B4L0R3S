@@ -11,9 +11,9 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Formatter\LineFormatter;
-use Monolog\Logger;
 use Monolog\TestCase;
+use Monolog\Logger;
+use Monolog\Formatter\LineFormatter;
 
 function error_log()
 {
@@ -22,6 +22,11 @@ function error_log()
 
 class ErrorLogHandlerTest extends TestCase
 {
+    protected function setUp()
+    {
+        $GLOBALS['error_log'] = array();
+    }
+
     /**
      * @covers Monolog\Handler\ErrorLogHandler::__construct
      * @expectedException InvalidArgumentException
@@ -57,10 +62,5 @@ class ErrorLogHandlerTest extends TestCase
 
         $this->assertStringMatchesFormat('Baz [] []', $GLOBALS['error_log'][3][0]);
         $this->assertSame($GLOBALS['error_log'][3][1], $type);
-    }
-
-    protected function setUp()
-    {
-        $GLOBALS['error_log'] = array();
     }
 }

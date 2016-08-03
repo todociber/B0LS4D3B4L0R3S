@@ -11,12 +11,12 @@
 
 namespace Symfony\Component\HttpKernel\Profiler;
 
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Exception\ConflictingHeadersException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Profiler.
@@ -151,21 +151,6 @@ class Profiler
         return $this->storage->find($ip, $url, $limit, $method, $this->getTimestamp($start), $this->getTimestamp($end));
     }
 
-    private function getTimestamp($value)
-    {
-        if (null === $value || '' == $value) {
-            return;
-        }
-
-        try {
-            $value = new \DateTime(is_numeric($value) ? '@' . $value : $value);
-        } catch (\Exception $e) {
-            return;
-        }
-
-        return $value->getTimestamp();
-    }
-
     /**
      * Collects data for the given Response.
      *
@@ -265,5 +250,20 @@ class Profiler
         }
 
         return $this->collectors[$name];
+    }
+
+    private function getTimestamp($value)
+    {
+        if (null === $value || '' == $value) {
+            return;
+        }
+
+        try {
+            $value = new \DateTime(is_numeric($value) ? '@'.$value : $value);
+        } catch (\Exception $e) {
+            return;
+        }
+
+        return $value->getTimestamp();
     }
 }

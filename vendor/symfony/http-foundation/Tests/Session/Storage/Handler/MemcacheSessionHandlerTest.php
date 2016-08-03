@@ -28,6 +28,27 @@ class MemcacheSessionHandlerTest extends \PHPUnit_Framework_TestCase
 
     protected $memcache;
 
+    protected function setUp()
+    {
+        if (defined('HHVM_VERSION')) {
+            $this->markTestSkipped('PHPUnit_MockObject cannot mock the Memcache class on HHVM. See https://github.com/sebastianbergmann/phpunit-mock-objects/pull/289');
+        }
+
+        parent::setUp();
+        $this->memcache = $this->getMock('Memcache');
+        $this->storage = new MemcacheSessionHandler(
+            $this->memcache,
+            array('prefix' => self::PREFIX, 'expiretime' => self::TTL)
+        );
+    }
+
+    protected function tearDown()
+    {
+        $this->memcache = null;
+        $this->storage = null;
+        parent::tearDown();
+    }
+
     public function testOpenSession()
     {
         $this->assertTrue($this->storage->open('', ''));
@@ -113,26 +134,5 @@ class MemcacheSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $method->setAccessible(true);
 
         $this->assertInstanceOf('\Memcache', $method->invoke($this->storage));
-    }
-
-    protected function setUp()
-    {
-        if (defined('HHVM_VERSION')) {
-            $this->markTestSkipped('PHPUnit_MockObject cannot mock the Memcache class on HHVM. See https://github.com/sebastianbergmann/phpunit-mock-objects/pull/289');
-        }
-
-        parent::setUp();
-        $this->memcache = $this->getMock('Memcache');
-        $this->storage = new MemcacheSessionHandler(
-            $this->memcache,
-            array('prefix' => self::PREFIX, 'expiretime' => self::TTL)
-        );
-    }
-
-    protected function tearDown()
-    {
-        $this->memcache = null;
-        $this->storage = null;
-        parent::tearDown();
     }
 }

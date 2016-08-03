@@ -12,14 +12,25 @@
 namespace Symfony\Component\Console\Tests\Helper;
 
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Helper\TableCell;
-use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Helper\TableStyle;
+use Symfony\Component\Console\Helper\TableSeparator;
+use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Output\StreamOutput;
 
 class TableTest extends \PHPUnit_Framework_TestCase
 {
     protected $stream;
+
+    protected function setUp()
+    {
+        $this->stream = fopen('php://memory', 'r+');
+    }
+
+    protected function tearDown()
+    {
+        fclose($this->stream);
+        $this->stream = null;
+    }
 
     /**
      * @dataProvider testRenderProvider
@@ -35,18 +46,6 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $table->render();
 
         $this->assertEquals($expected, $this->getOutputContent($output));
-    }
-
-    protected function getOutputStream()
-    {
-        return new StreamOutput($this->stream, StreamOutput::VERBOSITY_NORMAL, false);
-    }
-
-    protected function getOutputContent(StreamOutput $output)
-    {
-        rewind($output->getStream());
-
-        return str_replace(PHP_EOL, "\n", stream_get_contents($output->getStream()));
     }
 
     /**
@@ -632,14 +631,34 @@ TABLE;
         $this->assertEquals($expected, $this->getOutputContent($output));
     }
 
-    protected function setUp()
+    /**
+     * @expectedException Symfony\Component\Console\Exception\InvalidArgumentException
+     * @expectedExceptionMessage Style "absent" is not defined.
+     */
+    public function testIsNotDefinedStyleException()
     {
-        $this->stream = fopen('php://memory', 'r+');
+        $table = new Table($this->getOutputStream());
+        $table->setStyle('absent');
     }
 
-    protected function tearDown()
+    /**
+     * @expectedException \Symfony\Component\Console\Exception\InvalidArgumentException
+     * @expectedExceptionMessage Style "absent" is not defined.
+     */
+    public function testGetStyleDefinition()
     {
-        fclose($this->stream);
-        $this->stream = null;
+        Table::getStyleDefinition('absent');
+    }
+
+    protected function getOutputStream()
+    {
+        return new StreamOutput($this->stream, StreamOutput::VERBOSITY_NORMAL, false);
+    }
+
+    protected function getOutputContent(StreamOutput $output)
+    {
+        rewind($output->getStream());
+
+        return str_replace(PHP_EOL, "\n", stream_get_contents($output->getStream()));
     }
 }

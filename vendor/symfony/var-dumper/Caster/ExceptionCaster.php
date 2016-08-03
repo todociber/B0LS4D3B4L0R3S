@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\VarDumper\Caster;
 
-use Symfony\Component\VarDumper\Cloner\Stub;
 use Symfony\Component\VarDumper\Exception\ThrowingCasterException;
+use Symfony\Component\VarDumper\Cloner\Stub;
 
 /**
  * Casts common Exception classes to array representation.
@@ -44,31 +44,6 @@ class ExceptionCaster
     public static function castError(\Error $e, array $a, Stub $stub, $isNested, $filter = 0)
     {
         return self::filterExceptionArray($stub->class, $a, "\0Error\0", $filter);
-    }
-
-    private static function filterExceptionArray($xClass, array $a, $xPrefix, $filter)
-    {
-        if (isset($a[$xPrefix . 'trace'])) {
-            $trace = $a[$xPrefix . 'trace'];
-            unset($a[$xPrefix . 'trace']); // Ensures the trace is always last
-        } else {
-            $trace = array();
-        }
-
-        if (!($filter & Caster::EXCLUDE_VERBOSE)) {
-            array_unshift($trace, array(
-                'function' => $xClass ? 'new ' . $xClass : null,
-                'file' => $a[Caster::PREFIX_PROTECTED . 'file'],
-                'line' => $a[Caster::PREFIX_PROTECTED . 'line'],
-            ));
-            $a[$xPrefix . 'trace'] = new TraceStub($trace);
-        }
-        if (empty($a[$xPrefix . 'previous'])) {
-            unset($a[$xPrefix . 'previous']);
-        }
-        unset($a[$xPrefix . 'string'], $a[Caster::PREFIX_DYNAMIC . 'xdebug_message'], $a[Caster::PREFIX_DYNAMIC . '__destructorException']);
-
-        return $a;
     }
 
     public static function castException(\Exception $e, array $a, Stub $stub, $isNested, $filter = 0)
@@ -208,6 +183,31 @@ class ExceptionCaster
         return $a;
     }
 
+    private static function filterExceptionArray($xClass, array $a, $xPrefix, $filter)
+    {
+        if (isset($a[$xPrefix.'trace'])) {
+            $trace = $a[$xPrefix.'trace'];
+            unset($a[$xPrefix.'trace']); // Ensures the trace is always last
+        } else {
+            $trace = array();
+        }
+
+        if (!($filter & Caster::EXCLUDE_VERBOSE)) {
+            array_unshift($trace, array(
+                'function' => $xClass ? 'new '.$xClass : null,
+                'file' => $a[Caster::PREFIX_PROTECTED.'file'],
+                'line' => $a[Caster::PREFIX_PROTECTED.'line'],
+            ));
+            $a[$xPrefix.'trace'] = new TraceStub($trace, self::$traceArgs);
+        }
+        if (empty($a[$xPrefix.'previous'])) {
+            unset($a[$xPrefix.'previous']);
+        }
+        unset($a[$xPrefix.'string'], $a[Caster::PREFIX_DYNAMIC.'xdebug_message'], $a[Caster::PREFIX_DYNAMIC.'__destructorException']);
+
+        return $a;
+    }
+
     private static function extractSource(array $srcArray, $line, $srcContext)
     {
         $src = array();
@@ -217,19 +217,24 @@ class ExceptionCaster
         }
 
         $ltrim = 0;
-        while (' ' === $src[0][$ltrim] || "\t" === $src[0][$ltrim]) {
-            $i = $srcContext << 1;
-            while ($i > 0 && $src[0][$ltrim] === $src[$i][$ltrim]) {
-                --$i;
-            }
-            if ($i) {
-                break;
+        do {
+            $pad = null;
+            for ($i = $srcContext << 1; $i >= 0; --$i) {
+                if (isset($src[$i][$ltrim]) && "\r" !== ($c = $src[$i][$ltrim]) && "\n" !== $c) {
+                    if (null === $pad) {
+                        $pad = $c;
+                    }
+                    if ((' ' !== $c && "\t" !== $c) || $pad !== $c) {
+                        break;
+                    }
+                }
             }
             ++$ltrim;
-        }
-        if ($ltrim) {
+        } while (0 > $i && null !== $pad);
+
+        if (--$ltrim) {
             foreach ($src as $i => $line) {
-                $src[$i] = substr($line, $ltrim);
+                $src[$i] = isset($line[$ltrim]) && "\r" !== $line[$ltrim] ? substr($line, $ltrim) : ltrim($line, " \t");
             }
         }
 

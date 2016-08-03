@@ -18,6 +18,16 @@ class StreamOutputTest extends \PHPUnit_Framework_TestCase
 {
     protected $stream;
 
+    protected function setUp()
+    {
+        $this->stream = fopen('php://memory', 'a', false);
+    }
+
+    protected function tearDown()
+    {
+        $this->stream = null;
+    }
+
     public function testConstructor()
     {
         $output = new StreamOutput($this->stream, Output::VERBOSITY_QUIET, true);
@@ -46,15 +56,5 @@ class StreamOutputTest extends \PHPUnit_Framework_TestCase
         $output->writeln('foo');
         rewind($output->getStream());
         $this->assertEquals('foo'.PHP_EOL, stream_get_contents($output->getStream()), '->doWrite() writes to the stream');
-    }
-
-    protected function setUp()
-    {
-        $this->stream = fopen('php://memory', 'a', false);
-    }
-
-    protected function tearDown()
-    {
-        $this->stream = null;
     }
 }

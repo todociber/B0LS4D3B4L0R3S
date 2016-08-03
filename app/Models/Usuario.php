@@ -2,18 +2,29 @@
 
 namespace App\Models;
 
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 
 /**
  * Class Usuario
  */
-class Usuario extends Model
+class Usuario extends Model implements AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract
 {
+
     public $timestamps = true;
     protected $table = 'usuarios';
 
-    public $timestamps = true;
+
+    use Authenticatable, Authorizable, CanResetPassword, SoftDeletes;
+
 
     protected $fillable = [
         'nombre',
@@ -26,12 +37,14 @@ class Usuario extends Model
     ];
 
     protected $guarded = [];
-    use SoftDeletes;
+
     protected $dates = ['deleted_at'];
 
     protected $hidden = ['password', 'remember_token'];
-    public function idOrganizacion() {
-        return $this->belongsTo('App\Models\Organizacion', 'idOrganizacion');
+
+    public function Organizacion()
+    {
+        return $this->belongsTo(Organizacion::class, 'idOrganizacion', 'id');
     }
 
     public function OrdenesUsuario()
@@ -61,11 +74,15 @@ class Usuario extends Model
 
     public function scopeOfid($query, $id)
     {
+
+    }
     public function scopeOfType($query, $id){
+
         if (trim($id)!="")
         {
             $query->where('id', $id);
         }
     }
-        
+
+
 }

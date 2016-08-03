@@ -34,17 +34,6 @@ class ChromePHPFormatter implements FormatterInterface
         Logger::EMERGENCY => 'error',
     );
 
-    public function formatBatch(array $records)
-    {
-        $formatted = array();
-
-        foreach ($records as $record) {
-            $formatted[] = $this->format($record);
-        }
-
-        return $formatted;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -74,5 +63,16 @@ class ChromePHPFormatter implements FormatterInterface
             $backtrace,
             $this->logLevels[$record['level']],
         );
+    }
+
+    public function formatBatch(array $records)
+    {
+        $formatted = array();
+
+        foreach ($records as $record) {
+            $formatted[] = $this->format($record);
+        }
+
+        return $formatted;
     }
 }

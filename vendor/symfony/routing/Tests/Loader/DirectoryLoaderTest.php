@@ -11,11 +11,11 @@
 
 namespace Symfony\Component\Routing\Tests\Loader;
 
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\Config\Loader\LoaderResolver;
-use Symfony\Component\Routing\Loader\AnnotationFileLoader;
 use Symfony\Component\Routing\Loader\DirectoryLoader;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
+use Symfony\Component\Routing\Loader\AnnotationFileLoader;
+use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\RouteCollection;
 
 class DirectoryLoaderTest extends AbstractAnnotationLoaderTest
@@ -23,9 +23,30 @@ class DirectoryLoaderTest extends AbstractAnnotationLoaderTest
     private $loader;
     private $reader;
 
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $locator = new FileLocator();
+        $this->reader = $this->getReader();
+        $this->loader = new DirectoryLoader($locator);
+        $resolver = new LoaderResolver(array(
+            new YamlFileLoader($locator),
+            new AnnotationFileLoader($locator, $this->getClassLoader($this->reader)),
+            $this->loader,
+        ));
+        $this->loader->setResolver($resolver);
+    }
+
     public function testLoadDirectory()
     {
         $collection = $this->loader->load(__DIR__.'/../Fixtures/directory', 'directory');
+        $this->verifyCollection($collection);
+    }
+
+    public function testImportDirectory()
+    {
+        $collection = $this->loader->load(__DIR__.'/../Fixtures/directory_import', 'directory');
         $this->verifyCollection($collection);
     }
 
@@ -41,12 +62,6 @@ class DirectoryLoaderTest extends AbstractAnnotationLoaderTest
         }
     }
 
-    public function testImportDirectory()
-    {
-        $collection = $this->loader->load(__DIR__ . '/../Fixtures/directory_import', 'directory');
-        $this->verifyCollection($collection);
-    }
-
     public function testSupports()
     {
         $fixturesDir = __DIR__.'/../Fixtures';
@@ -55,20 +70,5 @@ class DirectoryLoaderTest extends AbstractAnnotationLoaderTest
 
         $this->assertTrue($this->loader->supports($fixturesDir, 'directory'), '->supports(*, "directory") returns true');
         $this->assertFalse($this->loader->supports($fixturesDir, 'foo'), '->supports(*, "foo") returns false');
-    }
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $locator = new FileLocator();
-        $this->reader = $this->getReader();
-        $this->loader = new DirectoryLoader($locator);
-        $resolver = new LoaderResolver(array(
-            new YamlFileLoader($locator),
-            new AnnotationFileLoader($locator, $this->getClassLoader($this->reader)),
-            $this->loader,
-        ));
-        $this->loader->setResolver($resolver);
     }
 }

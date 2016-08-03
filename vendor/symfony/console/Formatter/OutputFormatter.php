@@ -25,6 +25,26 @@ class OutputFormatter implements OutputFormatterInterface
     private $styleStack;
 
     /**
+     * Escapes "<" special char in given text.
+     *
+     * @param string $text Text to escape
+     *
+     * @return string Escaped text
+     */
+    public static function escape($text)
+    {
+        $text = preg_replace('/([^\\\\]?)</', '$1\\<', $text);
+
+        if ('\\' === substr($text, -1)) {
+            $len = strlen($text);
+            $text = rtrim($text, '\\');
+            $text .= str_repeat('<<', $len - strlen($text));
+        }
+
+        return $text;
+    }
+
+    /**
      * Initializes console output formatter.
      *
      * @param bool                            $decorated Whether this formatter should actually decorate strings
@@ -47,6 +67,26 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
+     * Sets the decorated flag.
+     *
+     * @param bool $decorated Whether to decorate the messages or not
+     */
+    public function setDecorated($decorated)
+    {
+        $this->decorated = (bool) $decorated;
+    }
+
+    /**
+     * Gets the decorated flag.
+     *
+     * @return bool true if the output will decorate messages, false otherwise
+     */
+    public function isDecorated()
+    {
+        return $this->decorated;
+    }
+
+    /**
      * Sets a new style.
      *
      * @param string                        $name  The style name
@@ -58,23 +98,15 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * Escapes "<" special char in given text.
+     * Checks if output formatter has style with specified name.
      *
-     * @param string $text Text to escape
+     * @param string $name
      *
-     * @return string Escaped text
+     * @return bool
      */
-    public static function escape($text)
+    public function hasStyle($name)
     {
-        $text = preg_replace('/([^\\\\]?)</', '$1\\<', $text);
-
-        if ('\\' === substr($text, -1)) {
-            $len = strlen($text);
-            $text = rtrim($text, '\\');
-            $text .= str_repeat('<<', $len - strlen($text));
-        }
-
-        return $text;
+        return isset($this->styles[strtolower($name)]);
     }
 
     /**
@@ -93,18 +125,6 @@ class OutputFormatter implements OutputFormatterInterface
         }
 
         return $this->styles[strtolower($name)];
-    }
-
-    /**
-     * Checks if output formatter has style with specified name.
-     *
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasStyle($name)
-    {
-        return isset($this->styles[strtolower($name)]);
     }
 
     /**
@@ -162,35 +182,11 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * Applies current style from stack to text, if must be applied.
-     *
-     * @param string $text Input text
-     *
-     * @return string Styled text
+     * @return OutputFormatterStyleStack
      */
-    private function applyCurrentStyle($text)
+    public function getStyleStack()
     {
-        return $this->isDecorated() && strlen($text) > 0 ? $this->styleStack->getCurrent()->apply($text) : $text;
-    }
-
-    /**
-     * Gets the decorated flag.
-     *
-     * @return bool true if the output will decorate messages, false otherwise
-     */
-    public function isDecorated()
-    {
-        return $this->decorated;
-    }
-
-    /**
-     * Sets the decorated flag.
-     *
-     * @param bool $decorated Whether to decorate the messages or not
-     */
-    public function setDecorated($decorated)
-    {
-        $this->decorated = (bool)$decorated;
+        return $this->styleStack;
     }
 
     /**
@@ -231,10 +227,14 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * @return OutputFormatterStyleStack
+     * Applies current style from stack to text, if must be applied.
+     *
+     * @param string $text Input text
+     *
+     * @return string Styled text
      */
-    public function getStyleStack()
+    private function applyCurrentStyle($text)
     {
-        return $this->styleStack;
+        return $this->isDecorated() && strlen($text) > 0 ? $this->styleStack->getCurrent()->apply($text) : $text;
     }
 }

@@ -6,54 +6,51 @@
     <script>
         $('#perfil').addClass('active');
     </script>
-<div class="row">
-    <div class="col-xs-12">
+
         <div class="row">
-            <!-- left column -->
-            <div class="col-md-12">
-                <!-- general form elements -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Registro de Usuario</h3>
-                    </div><!-- /.box-header -->
-                    <!-- form start -->
+            <div class="col-xs-12">
+            <div class="box">
+            <div class="box-body">
 
-                    <div class="box-body">
-                        <div class="content">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <form role="form">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Nombre</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Ingresar Nombre">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Apellido</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Ingresar Apellido">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Fecha de Registro</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Correo Institucional</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Ingresar Correo">
-                                        </div>
-                                    </form>
-                                </div>
 
+            <div class=" col-md-12 toppad" >
+                   <div class="row">
+
+                       <div class=" col-md-12 ">
+                                <table class="table table-user-information">
+                                    <tbody>
+                                    <tr>
+                                        <td>Nombre:</td>
+                                        <td>{{$user->nombre}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Apellido:</td>
+                                        <td>{{$user->apellido}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Correo</td>
+                                        <td>{{$user->email}}</td>
+                                    </tr>
+
+                                    <tr>
+                                    <tr>
+                                        <td>Fecha de registro</td>
+                                        <td>{{$user->created_at}}</td>
+                                    </tr>
+
+
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                                <!--<a href="#" class="btn btn-primary">Editar mi informacion</a>-->
+                                <a href="{{url('/logout')}}" class="btn btn-danger">Cerrar sesión</a>
                             </div>
                         </div>
-                        <div class="box-footer">
-                            <button type="submit" class="btn btn-success btn-flat">Actualizar</button>
-                            <button type="submit" class="btn btn-primary btn-flat">Cambiar contraseña</button>
-                        </div>
 
-                    </div>
-
-                </div><!-- /.box -->
             </div>
         </div>
-    </div><!-- /.col -->
-</div><!-- /.row -->
+        </div>
+        </div>
 @stop

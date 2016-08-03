@@ -86,23 +86,6 @@ class SQLiteGrammar extends Grammar
     }
 
     /**
-     * Compile a date based where clause.
-     *
-     * @param  string $type
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  array  $where
-     * @return string
-     */
-    protected function dateBasedWhere($type, Builder $query, $where)
-    {
-        $value = str_pad($where['value'], 2, '0', STR_PAD_LEFT);
-
-        $value = $this->parameter($value);
-
-        return 'strftime(\'' . $type . '\', ' . $this->wrap($where['column']) . ') ' . $where['operator'] . ' ' . $value;
-    }
-
-    /**
      * Compile a "where day" clause.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
@@ -136,5 +119,22 @@ class SQLiteGrammar extends Grammar
     protected function whereYear(Builder $query, $where)
     {
         return $this->dateBasedWhere('%Y', $query, $where);
+    }
+
+    /**
+     * Compile a date based where clause.
+     *
+     * @param  string  $type
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  array  $where
+     * @return string
+     */
+    protected function dateBasedWhere($type, Builder $query, $where)
+    {
+        $value = str_pad($where['value'], 2, '0', STR_PAD_LEFT);
+
+        $value = $this->parameter($value);
+
+        return 'strftime(\''.$type.'\', '.$this->wrap($where['column']).') '.$where['operator'].' '.$value;
     }
 }

@@ -6,11 +6,16 @@ use App\Http\Requests;
 use App\Models\Organizacion;
 use App\Models\RolUsuario;
 use App\Models\Usuario;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 use Carbon\Carbon;
 use DB;
 use Flash;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Mockery\CountValidator\Exception;
 use Validator;
 

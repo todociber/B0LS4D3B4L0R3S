@@ -44,6 +44,14 @@ class PhpFileLoader extends FileLoader
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function supports($resource, $type = null)
+    {
+        return is_string($resource) && 'php' === pathinfo($resource, PATHINFO_EXTENSION) && (!$type || 'php' === $type);
+    }
+
+    /**
      * Safe include. Used for scope isolation.
      *
      * @param string        $file   File to include
@@ -54,13 +62,5 @@ class PhpFileLoader extends FileLoader
     private static function includeFile($file, PhpFileLoader $loader)
     {
         return include $file;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supports($resource, $type = null)
-    {
-        return is_string($resource) && 'php' === pathinfo($resource, PATHINFO_EXTENSION) && (!$type || 'php' === $type);
     }
 }

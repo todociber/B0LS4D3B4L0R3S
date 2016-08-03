@@ -11,8 +11,8 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Formatter\LineFormatter;
 use Monolog\Logger;
+use Monolog\Formatter\LineFormatter;
 
 /**
  * SwiftMailerHandler uses Swift_Mailer to send the emails
@@ -39,17 +39,11 @@ class SwiftMailerHandler extends MailHandler
     }
 
     /**
-     * BC getter, to be removed in 2.0
+     * {@inheritdoc}
      */
-    public function __get($name)
+    protected function send($content, array $records)
     {
-        if ($name === 'message') {
-            trigger_error('SwiftMailerHandler->message is deprecated, use ->buildMessage() instead to retrieve the message', E_USER_DEPRECATED);
-
-            return $this->buildMessage(null, array());
-        }
-
-        throw new \InvalidArgumentException('Invalid property ' . $name);
+        $this->mailer->send($this->buildMessage($content, $records));
     }
 
     /**
@@ -85,10 +79,16 @@ class SwiftMailerHandler extends MailHandler
     }
 
     /**
-     * {@inheritdoc}
+     * BC getter, to be removed in 2.0
      */
-    protected function send($content, array $records)
+    public function __get($name)
     {
-        $this->mailer->send($this->buildMessage($content, $records));
+        if ($name === 'message') {
+            trigger_error('SwiftMailerHandler->message is deprecated, use ->buildMessage() instead to retrieve the message', E_USER_DEPRECATED);
+
+            return $this->buildMessage(null, array());
+        }
+
+        throw new \InvalidArgumentException('Invalid property '.$name);
     }
 }

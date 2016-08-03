@@ -11,8 +11,8 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Logger;
 use Monolog\TestCase;
+use Monolog\Logger;
 
 /**
  * @covers Monolog\Handler\NullHandler::handle

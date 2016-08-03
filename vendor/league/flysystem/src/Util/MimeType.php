@@ -29,18 +29,6 @@ class MimeType
     }
 
     /**
-     * @param string $filename
-     *
-     * @return string
-     */
-    public static function detectByFilename($filename)
-    {
-        $extension = pathinfo($filename, PATHINFO_EXTENSION);
-
-        return empty($extension) ? 'text/plain' : static::detectByFileExtension($extension);
-    }
-
-    /**
      * Detects MIME Type based on file extension.
      *
      * @param string $extension
@@ -60,6 +48,18 @@ class MimeType
         }
 
         return 'text/plain';
+    }
+
+    /**
+     * @param string $filename
+     *
+     * @return string
+     */
+    public static function detectByFilename($filename)
+    {
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+
+        return empty($extension) ? 'text/plain' : static::detectByFileExtension($extension);
     }
 
     /**

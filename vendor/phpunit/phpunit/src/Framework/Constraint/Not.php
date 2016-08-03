@@ -35,6 +35,42 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
     }
 
     /**
+     * @param string $string
+     *
+     * @return string
+     */
+    public static function negate($string)
+    {
+        return str_replace(
+            array(
+            'contains ',
+            'exists',
+            'has ',
+            'is ',
+            'are ',
+            'matches ',
+            'starts with ',
+            'ends with ',
+            'reference ',
+            'not not '
+            ),
+            array(
+            'does not contain ',
+            'does not exist',
+            'does not have ',
+            'is not ',
+            'are not ',
+            'does not match ',
+            'starts not with ',
+            'ends not with ',
+            'don\'t reference ',
+            'not '
+            ),
+            $string
+        );
+    }
+
+    /**
      * Evaluates the constraint for parameter $other
      *
      * If $returnResult is set to false (the default), an exception is thrown
@@ -66,74 +102,6 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
     }
 
     /**
-     * Returns a string representation of the constraint.
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        switch (get_class($this->constraint)) {
-            case 'PHPUnit_Framework_Constraint_And':
-            case 'PHPUnit_Framework_Constraint_Not':
-            case 'PHPUnit_Framework_Constraint_Or':
-                return 'not( ' . $this->constraint->toString() . ' )';
-
-            default:
-                return self::negate(
-                    $this->constraint->toString()
-                );
-        }
-    }
-
-    /**
-     * @param string $string
-     *
-     * @return string
-     */
-    public static function negate($string)
-    {
-        return str_replace(
-            array(
-                'contains ',
-                'exists',
-                'has ',
-                'is ',
-                'are ',
-                'matches ',
-                'starts with ',
-                'ends with ',
-                'reference ',
-                'not not '
-            ),
-            array(
-                'does not contain ',
-                'does not exist',
-                'does not have ',
-                'is not ',
-                'are not ',
-                'does not match ',
-                'starts not with ',
-                'ends not with ',
-                'don\'t reference ',
-                'not '
-            ),
-            $string
-        );
-    }
-
-    /**
-     * Counts the number of constraint elements.
-     *
-     * @return int
-     *
-     * @since  Method available since Release 3.4.0
-     */
-    public function count()
-    {
-        return count($this->constraint);
-    }
-
-    /**
      * Returns the description of the failure
      *
      * The beginning of failure messages is "Failed asserting that" in most
@@ -156,5 +124,37 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
                     $this->constraint->failureDescription($other)
                 );
         }
+    }
+
+    /**
+     * Returns a string representation of the constraint.
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        switch (get_class($this->constraint)) {
+            case 'PHPUnit_Framework_Constraint_And':
+            case 'PHPUnit_Framework_Constraint_Not':
+            case 'PHPUnit_Framework_Constraint_Or':
+                return 'not( ' . $this->constraint->toString() . ' )';
+
+            default:
+                return self::negate(
+                    $this->constraint->toString()
+                );
+        }
+    }
+
+    /**
+     * Counts the number of constraint elements.
+     *
+     * @return int
+     *
+     * @since  Method available since Release 3.4.0
+     */
+    public function count()
+    {
+        return count($this->constraint);
     }
 }

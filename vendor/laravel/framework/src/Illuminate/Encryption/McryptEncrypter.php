@@ -3,10 +3,10 @@
 namespace Illuminate\Encryption;
 
 use Exception;
-use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
-use Illuminate\Contracts\Encryption\EncryptException;
 use RuntimeException;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Contracts\Encryption\EncryptException;
+use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
 
 /**
  * @deprecated since version 5.1. Use Illuminate\Encryption\Encrypter.
@@ -91,36 +91,6 @@ class McryptEncrypter extends BaseEncrypter implements EncrypterContract
     }
 
     /**
-     * Get the IV size for the cipher.
-     *
-     * @return int
-     */
-    protected function getIvSize()
-    {
-        return mcrypt_get_iv_size($this->cipher, MCRYPT_MODE_CBC);
-    }
-
-    /**
-     * Get the random data source available for the OS.
-     *
-     * @return int
-     */
-    protected function getRandomizer()
-    {
-        if (defined('MCRYPT_DEV_URANDOM')) {
-            return MCRYPT_DEV_URANDOM;
-        }
-
-        if (defined('MCRYPT_DEV_RANDOM')) {
-            return MCRYPT_DEV_RANDOM;
-        }
-
-        mt_srand();
-
-        return MCRYPT_RAND;
-    }
-
-    /**
      * Pad and use mcrypt on the given value and input vector.
      *
      * @param  string  $value
@@ -135,22 +105,9 @@ class McryptEncrypter extends BaseEncrypter implements EncrypterContract
     }
 
     /**
-     * Add PKCS7 padding to a given value.
-     *
-     * @param  string  $value
-     * @return string
-     */
-    protected function addPadding($value)
-    {
-        $pad = $this->block - (strlen($value) % $this->block);
-
-        return $value.str_repeat(chr($pad), $pad);
-    }
-
-    /**
      * Decrypt the given value.
      *
-     * @param  string $payload
+     * @param  string  $payload
      * @return string
      */
     public function decrypt($payload)
@@ -165,6 +122,37 @@ class McryptEncrypter extends BaseEncrypter implements EncrypterContract
         $iv = base64_decode($payload['iv']);
 
         return unserialize($this->stripPadding($this->mcryptDecrypt($value, $iv)));
+    }
+
+    /**
+     * Run the mcrypt decryption routine for the value.
+     *
+     * @param  string  $value
+     * @param  string  $iv
+     * @return string
+     *
+     * @throws \Illuminate\Contracts\Encryption\DecryptException
+     */
+    protected function mcryptDecrypt($value, $iv)
+    {
+        try {
+            return mcrypt_decrypt($this->cipher, $this->key, $value, MCRYPT_MODE_CBC, $iv);
+        } catch (Exception $e) {
+            throw new DecryptException($e->getMessage());
+        }
+    }
+
+    /**
+     * Add PKCS7 padding to a given value.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    protected function addPadding($value)
+    {
+        $pad = $this->block - (strlen($value) % $this->block);
+
+        return $value.str_repeat(chr($pad), $pad);
     }
 
     /**
@@ -195,20 +183,32 @@ class McryptEncrypter extends BaseEncrypter implements EncrypterContract
     }
 
     /**
-     * Run the mcrypt decryption routine for the value.
+     * Get the IV size for the cipher.
      *
-     * @param  string $value
-     * @param  string $iv
-     * @return string
-     *
-     * @throws \Illuminate\Contracts\Encryption\DecryptException
+     * @return int
      */
-    protected function mcryptDecrypt($value, $iv)
+    protected function getIvSize()
     {
-        try {
-            return mcrypt_decrypt($this->cipher, $this->key, $value, MCRYPT_MODE_CBC, $iv);
-        } catch (Exception $e) {
-            throw new DecryptException($e->getMessage());
+        return mcrypt_get_iv_size($this->cipher, MCRYPT_MODE_CBC);
+    }
+
+    /**
+     * Get the random data source available for the OS.
+     *
+     * @return int
+     */
+    protected function getRandomizer()
+    {
+        if (defined('MCRYPT_DEV_URANDOM')) {
+            return MCRYPT_DEV_URANDOM;
         }
+
+        if (defined('MCRYPT_DEV_RANDOM')) {
+            return MCRYPT_DEV_RANDOM;
+        }
+
+        mt_srand();
+
+        return MCRYPT_RAND;
     }
 }

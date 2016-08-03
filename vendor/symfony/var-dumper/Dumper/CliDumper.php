@@ -22,15 +22,7 @@ class CliDumper extends AbstractDumper
 {
     public static $defaultColors;
     public static $defaultOutput = 'php://stdout';
-    protected static $controlCharsRx = '/[\x00-\x1F\x7F]+/';
-    protected static $controlCharsMap = array(
-        "\t" => '\t',
-        "\n" => '\n',
-        "\v" => '\v',
-        "\f" => '\f',
-        "\r" => '\r',
-        "\033" => '\e',
-    );
+
     protected $colors;
     protected $maxStringWidth = 0;
     protected $styles = array(
@@ -47,6 +39,16 @@ class CliDumper extends AbstractDumper
         'meta' => '38;5;170',
         'key' => '38;5;113',
         'index' => '38;5;38',
+    );
+
+    protected static $controlCharsRx = '/[\x00-\x1F\x7F]+/';
+    protected static $controlCharsMap = array(
+        "\t" => '\t',
+        "\n" => '\n',
+        "\v" => '\v',
+        "\f" => '\f',
+        "\r" => '\r',
+        "\033" => '\e',
     );
 
     /**
@@ -73,16 +75,6 @@ class CliDumper extends AbstractDumper
     }
 
     /**
-     * Configures styles.
-     *
-     * @param array $styles A map of style names to style definitions
-     */
-    public function setStyles(array $styles)
-    {
-        $this->styles = $styles + $this->styles;
-    }
-
-    /**
      * Enables/disables colored output.
      *
      * @param bool $colors
@@ -100,6 +92,16 @@ class CliDumper extends AbstractDumper
     public function setMaxStringWidth($maxStringWidth)
     {
         $this->maxStringWidth = (int) $maxStringWidth;
+    }
+
+    /**
+     * Configures styles.
+     *
+     * @param array $styles A map of style names to style definitions
+     */
+    public function setStyles(array $styles)
+    {
+        $this->styles = $styles + $this->styles;
     }
 
     /**
@@ -150,6 +152,149 @@ class CliDumper extends AbstractDumper
         $this->line .= $this->style($style, $value, $attr);
 
         $this->dumpLine($cursor->depth, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function dumpString(Cursor $cursor, $str, $bin, $cut)
+    {
+        $this->dumpKey($cursor);
+
+        if ($bin) {
+            $str = $this->utf8Encode($str);
+        }
+        if ('' === $str) {
+            $this->line .= '""';
+            $this->dumpLine($cursor->depth, true);
+        } else {
+            $attr = array(
+                'length' => 0 <= $cut ? mb_strlen($str, 'UTF-8') + $cut : 0,
+                'binary' => $bin,
+            );
+            $str = explode("\n", $str);
+            if (isset($str[1]) && !isset($str[2]) && !isset($str[1][0])) {
+                unset($str[1]);
+                $str[0] .= "\n";
+            }
+            $m = count($str) - 1;
+            $i = $lineCut = 0;
+
+            if ($bin) {
+                $this->line .= 'b';
+            }
+
+            if ($m) {
+                $this->line .= '"""';
+                $this->dumpLine($cursor->depth);
+            } else {
+                $this->line .= '"';
+            }
+
+            foreach ($str as $str) {
+                if ($i < $m) {
+                    $str .= "\n";
+                }
+                if (0 < $this->maxStringWidth && $this->maxStringWidth < $len = mb_strlen($str, 'UTF-8')) {
+                    $str = mb_substr($str, 0, $this->maxStringWidth, 'UTF-8');
+                    $lineCut = $len - $this->maxStringWidth;
+                }
+                if ($m && 0 < $cursor->depth) {
+                    $this->line .= $this->indentPad;
+                }
+                if ('' !== $str) {
+                    $this->line .= $this->style('str', $str, $attr);
+                }
+                if ($i++ == $m) {
+                    if ($m) {
+                        if ('' !== $str) {
+                            $this->dumpLine($cursor->depth);
+                            if (0 < $cursor->depth) {
+                                $this->line .= $this->indentPad;
+                            }
+                        }
+                        $this->line .= '"""';
+                    } else {
+                        $this->line .= '"';
+                    }
+                    if ($cut < 0) {
+                        $this->line .= '…';
+                        $lineCut = 0;
+                    } elseif ($cut) {
+                        $lineCut += $cut;
+                    }
+                }
+                if ($lineCut) {
+                    $this->line .= '…'.$lineCut;
+                    $lineCut = 0;
+                }
+
+                $this->dumpLine($cursor->depth, $i > $m);
+            }
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function enterHash(Cursor $cursor, $type, $class, $hasChild)
+    {
+        $this->dumpKey($cursor);
+
+        if (!preg_match('//u', $class)) {
+            $class = $this->utf8Encode($class);
+        }
+        if (Cursor::HASH_OBJECT === $type) {
+            $prefix = $class && 'stdClass' !== $class ? $this->style('note', $class).' {' : '{';
+        } elseif (Cursor::HASH_RESOURCE === $type) {
+            $prefix = $this->style('note', $class.' resource').($hasChild ? ' {' : ' ');
+        } else {
+            $prefix = $class ? $this->style('note', 'array:'.$class).' [' : '[';
+        }
+
+        if ($cursor->softRefCount || 0 < $cursor->softRefHandle) {
+            $prefix .= $this->style('ref', (Cursor::HASH_RESOURCE === $type ? '@' : '#').(0 < $cursor->softRefHandle ? $cursor->softRefHandle : $cursor->softRefTo), array('count' => $cursor->softRefCount));
+        } elseif ($cursor->hardRefTo && !$cursor->refIndex && $class) {
+            $prefix .= $this->style('ref', '&'.$cursor->hardRefTo, array('count' => $cursor->hardRefCount));
+        } elseif (!$hasChild && Cursor::HASH_RESOURCE === $type) {
+            $prefix = substr($prefix, 0, -1);
+        }
+
+        $this->line .= $prefix;
+
+        if ($hasChild) {
+            $this->dumpLine($cursor->depth);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function leaveHash(Cursor $cursor, $type, $class, $hasChild, $cut)
+    {
+        $this->dumpEllipsis($cursor, $hasChild, $cut);
+        $this->line .= Cursor::HASH_OBJECT === $type ? '}' : (Cursor::HASH_RESOURCE !== $type ? ']' : ($hasChild ? '}' : ''));
+        $this->dumpLine($cursor->depth, true);
+    }
+
+    /**
+     * Dumps an ellipsis for cut children.
+     *
+     * @param Cursor $cursor   The Cursor position in the dump
+     * @param bool   $hasChild When the dump of the hash has child item
+     * @param int    $cut      The number of items the hash has been cut by
+     */
+    protected function dumpEllipsis(Cursor $cursor, $hasChild, $cut)
+    {
+        if ($cut) {
+            $this->line .= ' …';
+            if (0 < $cut) {
+                $this->line .= $cut;
+            }
+            if ($hasChild) {
+                $this->dumpLine($cursor->depth + 1);
+            }
+        }
     }
 
     /**
@@ -225,7 +370,7 @@ class CliDumper extends AbstractDumper
      *
      * @param string $style The type of style being applied
      * @param string $value The value being styled
-     * @param array $attr Optional context information
+     * @param array  $attr  Optional context information
      *
      * @return string The value with style decoration
      */
@@ -327,148 +472,5 @@ class CliDumper extends AbstractDumper
             $this->line = sprintf("\033[%sm%s\033[m", $this->styles['default'], $this->line);
         }
         parent::dumpLine($depth);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function dumpString(Cursor $cursor, $str, $bin, $cut)
-    {
-        $this->dumpKey($cursor);
-
-        if ($bin) {
-            $str = $this->utf8Encode($str);
-        }
-        if ('' === $str) {
-            $this->line .= '""';
-            $this->dumpLine($cursor->depth, true);
-        } else {
-            $attr = array(
-                'length' => 0 <= $cut ? mb_strlen($str, 'UTF-8') + $cut : 0,
-                'binary' => $bin,
-            );
-            $str = explode("\n", $str);
-            if (isset($str[1]) && !isset($str[2]) && !isset($str[1][0])) {
-                unset($str[1]);
-                $str[0] .= "\n";
-            }
-            $m = count($str) - 1;
-            $i = $lineCut = 0;
-
-            if ($bin) {
-                $this->line .= 'b';
-            }
-
-            if ($m) {
-                $this->line .= '"""';
-                $this->dumpLine($cursor->depth);
-            } else {
-                $this->line .= '"';
-            }
-
-            foreach ($str as $str) {
-                if ($i < $m) {
-                    $str .= "\n";
-                }
-                if (0 < $this->maxStringWidth && $this->maxStringWidth < $len = mb_strlen($str, 'UTF-8')) {
-                    $str = mb_substr($str, 0, $this->maxStringWidth, 'UTF-8');
-                    $lineCut = $len - $this->maxStringWidth;
-                }
-                if ($m && 0 < $cursor->depth) {
-                    $this->line .= $this->indentPad;
-                }
-                if ('' !== $str) {
-                    $this->line .= $this->style('str', $str, $attr);
-                }
-                if ($i++ == $m) {
-                    if ($m) {
-                        if ('' !== $str) {
-                            $this->dumpLine($cursor->depth);
-                            if (0 < $cursor->depth) {
-                                $this->line .= $this->indentPad;
-                            }
-                        }
-                        $this->line .= '"""';
-                    } else {
-                        $this->line .= '"';
-                    }
-                    if ($cut < 0) {
-                        $this->line .= '…';
-                        $lineCut = 0;
-                    } elseif ($cut) {
-                        $lineCut += $cut;
-                    }
-                }
-                if ($lineCut) {
-                    $this->line .= '…' . $lineCut;
-                    $lineCut = 0;
-                }
-
-                $this->dumpLine($cursor->depth, $i > $m);
-            }
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function enterHash(Cursor $cursor, $type, $class, $hasChild)
-    {
-        $this->dumpKey($cursor);
-
-        if (!preg_match('//u', $class)) {
-            $class = $this->utf8Encode($class);
-        }
-        if (Cursor::HASH_OBJECT === $type) {
-            $prefix = $class && 'stdClass' !== $class ? $this->style('note', $class) . ' {' : '{';
-        } elseif (Cursor::HASH_RESOURCE === $type) {
-            $prefix = $this->style('note', $class . ' resource') . ($hasChild ? ' {' : ' ');
-        } else {
-            $prefix = $class ? $this->style('note', 'array:' . $class) . ' [' : '[';
-        }
-
-        if ($cursor->softRefCount || 0 < $cursor->softRefHandle) {
-            $prefix .= $this->style('ref', (Cursor::HASH_RESOURCE === $type ? '@' : '#') . (0 < $cursor->softRefHandle ? $cursor->softRefHandle : $cursor->softRefTo), array('count' => $cursor->softRefCount));
-        } elseif ($cursor->hardRefTo && !$cursor->refIndex && $class) {
-            $prefix .= $this->style('ref', '&' . $cursor->hardRefTo, array('count' => $cursor->hardRefCount));
-        } elseif (!$hasChild && Cursor::HASH_RESOURCE === $type) {
-            $prefix = substr($prefix, 0, -1);
-        }
-
-        $this->line .= $prefix;
-
-        if ($hasChild) {
-            $this->dumpLine($cursor->depth);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function leaveHash(Cursor $cursor, $type, $class, $hasChild, $cut)
-    {
-        $this->dumpEllipsis($cursor, $hasChild, $cut);
-        $this->line .= Cursor::HASH_OBJECT === $type ? '}' : (Cursor::HASH_RESOURCE !== $type ? ']' : ($hasChild ? '}' : ''));
-        $this->dumpLine($cursor->depth, true);
-    }
-
-    /**
-     * Dumps an ellipsis for cut children.
-     *
-     * @param Cursor $cursor The Cursor position in the dump
-     * @param bool $hasChild When the dump of the hash has child item
-     * @param int $cut The number of items the hash has been cut by
-     */
-    protected function dumpEllipsis(Cursor $cursor, $hasChild, $cut)
-    {
-        if ($cut) {
-            $this->line .= ' …';
-            if (0 < $cut) {
-                $this->line .= $cut;
-            }
-            if ($hasChild) {
-                $this->dumpLine($cursor->depth + 1);
-            }
-        }
     }
 }

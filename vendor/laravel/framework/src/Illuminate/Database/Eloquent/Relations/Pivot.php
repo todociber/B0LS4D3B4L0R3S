@@ -2,8 +2,8 @@
 
 namespace Illuminate\Database\Eloquent\Relations;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Pivot extends Model
 {
@@ -70,26 +70,6 @@ class Pivot extends Model
     }
 
     /**
-     * Determine if the pivot model has timestamp attributes.
-     *
-     * @return bool
-     */
-    public function hasTimestampAttributes()
-    {
-        return array_key_exists($this->getCreatedAtColumn(), $this->attributes);
-    }
-
-    /**
-     * Get the name of the "created at" column.
-     *
-     * @return string
-     */
-    public function getCreatedAtColumn()
-    {
-        return $this->parent->getCreatedAtColumn();
-    }
-
-    /**
      * Create a new pivot model from raw values returned from a query.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $parent
@@ -105,6 +85,19 @@ class Pivot extends Model
         $instance->setRawAttributes($attributes, true);
 
         return $instance;
+    }
+
+    /**
+     * Set the keys for a save update query.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function setKeysForSaveQuery(Builder $query)
+    {
+        $query->where($this->foreignKey, $this->getAttribute($this->foreignKey));
+
+        return $query->where($this->otherKey, $this->getAttribute($this->otherKey));
     }
 
     /**
@@ -168,6 +161,26 @@ class Pivot extends Model
     }
 
     /**
+     * Determine if the pivot model has timestamp attributes.
+     *
+     * @return bool
+     */
+    public function hasTimestampAttributes()
+    {
+        return array_key_exists($this->getCreatedAtColumn(), $this->attributes);
+    }
+
+    /**
+     * Get the name of the "created at" column.
+     *
+     * @return string
+     */
+    public function getCreatedAtColumn()
+    {
+        return $this->parent->getCreatedAtColumn();
+    }
+
+    /**
      * Get the name of the "updated at" column.
      *
      * @return string
@@ -175,18 +188,5 @@ class Pivot extends Model
     public function getUpdatedAtColumn()
     {
         return $this->parent->getUpdatedAtColumn();
-    }
-
-    /**
-     * Set the keys for a save update query.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    protected function setKeysForSaveQuery(Builder $query)
-    {
-        $query->where($this->foreignKey, $this->getAttribute($this->foreignKey));
-
-        return $query->where($this->otherKey, $this->getAttribute($this->otherKey));
     }
 }

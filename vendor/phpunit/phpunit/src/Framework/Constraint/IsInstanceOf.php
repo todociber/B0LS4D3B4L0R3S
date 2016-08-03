@@ -33,33 +33,6 @@ class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constr
     }
 
     /**
-     * Returns a string representation of the constraint.
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return sprintf(
-            'is instance of %s "%s"',
-            $this->getType(),
-            $this->className
-        );
-    }
-
-    private function getType()
-    {
-        try {
-            $reflection = new ReflectionClass($this->className);
-            if ($reflection->isInterface()) {
-                return 'interface';
-            }
-        } catch (ReflectionException $e) {
-        }
-
-        return 'class';
-    }
-
-    /**
      * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
      *
@@ -90,5 +63,32 @@ class PHPUnit_Framework_Constraint_IsInstanceOf extends PHPUnit_Framework_Constr
             $this->getType(),
             $this->className
         );
+    }
+
+    /**
+     * Returns a string representation of the constraint.
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return sprintf(
+            'is instance of %s "%s"',
+            $this->getType(),
+            $this->className
+        );
+    }
+
+    private function getType()
+    {
+        try {
+            $reflection = new ReflectionClass($this->className);
+            if ($reflection->isInterface()) {
+                return 'interface';
+            }
+        } catch (ReflectionException $e) {
+        }
+
+        return 'class';
     }
 }

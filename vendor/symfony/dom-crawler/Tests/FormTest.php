@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\DomCrawler\Tests;
 
-use Symfony\Component\DomCrawler\Field;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\DomCrawler\FormFieldRegistry;
 
@@ -100,32 +99,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(5, $form->all());
     }
 
-    protected function createTestMultipleForm()
-    {
-        $dom = new \DOMDocument();
-        $dom->loadHTML('
-        <html>
-            <h1>Hello form</h1>
-            <form action="" method="POST">
-                <div><input type="checkbox" name="apples[]" value="1" checked /></div>
-                <input type="checkbox" name="oranges[]" value="1" checked />
-                <div><label></label><input type="hidden" name="form_name" value="form-1" /></div>
-                <input type="submit" name="button_1" value="Capture fields" />
-                <button type="submit" name="button_2">Submit form_2</button>
-            </form>
-            <form action="" method="POST">
-                <div><div><input type="checkbox" name="oranges[]" value="2" checked />
-                <input type="checkbox" name="oranges[]" value="3" checked /></div></div>
-                <input type="hidden" name="form_name" value="form_2" />
-                <input type="hidden" name="outer_field" value="success" />
-                <button type="submit" name="button_3">Submit from outside the form</button>
-            </form>
-            <button />
-        </html>');
-
-        return $dom;
-    }
-
     public function testConstructorHandlesFormAttribute()
     {
         $dom = $this->createTestHtml5Form();
@@ -142,43 +115,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $form2 = new Form($buttonElements->item(0), 'http://example.com');
         $this->assertSame($dom->getElementsByTagName('form')->item(1), $form2->getFormNode(), 'HTML5-compliant form attribute handled incorrectly');
-    }
-
-    protected function createTestHtml5Form()
-    {
-        $dom = new \DOMDocument();
-        $dom->loadHTML('
-        <html>
-            <h1>Hello form</h1>
-            <form id="form-1" action="" method="POST">
-                <div><input type="checkbox" name="apples[]" value="1" checked /></div>
-                <input form="form_2" type="checkbox" name="oranges[]" value="1" checked />
-                <div><label></label><input form="form-1" type="hidden" name="form_name" value="form-1" /></div>
-                <input form="form-1" type="submit" name="button_1" value="Capture fields" />
-                <button form="form_2" type="submit" name="button_2">Submit form_2</button>
-            </form>
-            <input form="form-1" type="checkbox" name="apples[]" value="2" checked />
-            <form id="form_2" action="" method="POST">
-                <div><div><input type="checkbox" name="oranges[]" value="2" checked />
-                <input type="checkbox" name="oranges[]" value="3" checked /></div></div>
-                <input form="form_2" type="hidden" name="form_name" value="form_2" />
-                <input form="form-1" type="hidden" name="outer_field" value="success" />
-                <button form="form-1" type="submit" name="button_3">Submit from outside the form</button>
-                <div>
-                    <label for="app_frontend_form_type_contact_form_type_contactType">Message subject</label>
-                    <div>
-                        <select name="app_frontend_form_type_contact_form_type[contactType]" id="app_frontend_form_type_contact_form_type_contactType"><option selected="selected" value="">Please select subject</option><option id="1">Test type</option></select>
-                    </div>
-                </div>
-                <div>
-                    <label for="app_frontend_form_type_contact_form_type_firstName">Firstname</label>
-                    <input type="text" name="app_frontend_form_type_contact_form_type[firstName]" value="John" id="app_frontend_form_type_contact_form_type_firstName"/>
-                </div>
-            </form>
-            <button />
-        </html>');
-
-        return $dom;
     }
 
     public function testConstructorHandlesFormValues()
@@ -242,21 +178,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($form->get('bar[foo][0]')->getValue(), 'bar');
         $this->assertEquals($form->get('bar[foo][foobar]')->getValue(), 'foobar');
-    }
-
-    protected function createForm($form, $method = null, $currentUri = null)
-    {
-        $dom = new \DOMDocument();
-        $dom->loadHTML('<html>' . $form . '</html>');
-
-        $xPath = new \DOMXPath($dom);
-        $nodes = $xPath->query('//input | //button');
-
-        if (null === $currentUri) {
-            $currentUri = 'http://example.com/';
-        }
-
-        return new Form($nodes->item($nodes->length - 1), $currentUri, $method);
     }
 
     /**
@@ -762,27 +683,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $registry->remove('[t:dbt%3adate;]data_daterange_enddate_value');
     }
 
-    protected function getFormFieldMock($name, $value = null)
-    {
-        $field = $this
-            ->getMockBuilder('Symfony\\Component\\DomCrawler\\Field\\FormField')
-            ->setMethods(array('getName', 'getValue', 'setValue', 'initialize'))
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $field
-            ->expects($this->any())
-            ->method('getName')
-            ->will($this->returnValue($name));
-
-        $field
-            ->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnValue($value));
-
-        return $field;
-    }
-
     /**
      * @expectedException \InvalidArgumentException
      */
@@ -917,6 +817,108 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $form = new Form($dom->getElementsByTagName('form')->item(0), 'http://example.com');
 
         $this->assertInstanceOf('Symfony\Component\DomCrawler\Field\ChoiceFormField', $form->get('option'));
+    }
+
+    protected function getFormFieldMock($name, $value = null)
+    {
+        $field = $this
+            ->getMockBuilder('Symfony\\Component\\DomCrawler\\Field\\FormField')
+            ->setMethods(array('getName', 'getValue', 'setValue', 'initialize'))
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $field
+            ->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue($name))
+        ;
+
+        $field
+            ->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValue($value))
+        ;
+
+        return $field;
+    }
+
+    protected function createForm($form, $method = null, $currentUri = null)
+    {
+        $dom = new \DOMDocument();
+        $dom->loadHTML('<html>'.$form.'</html>');
+
+        $xPath = new \DOMXPath($dom);
+        $nodes = $xPath->query('//input | //button');
+
+        if (null === $currentUri) {
+            $currentUri = 'http://example.com/';
+        }
+
+        return new Form($nodes->item($nodes->length - 1), $currentUri, $method);
+    }
+
+    protected function createTestHtml5Form()
+    {
+        $dom = new \DOMDocument();
+        $dom->loadHTML('
+        <html>
+            <h1>Hello form</h1>
+            <form id="form-1" action="" method="POST">
+                <div><input type="checkbox" name="apples[]" value="1" checked /></div>
+                <input form="form_2" type="checkbox" name="oranges[]" value="1" checked />
+                <div><label></label><input form="form-1" type="hidden" name="form_name" value="form-1" /></div>
+                <input form="form-1" type="submit" name="button_1" value="Capture fields" />
+                <button form="form_2" type="submit" name="button_2">Submit form_2</button>
+            </form>
+            <input form="form-1" type="checkbox" name="apples[]" value="2" checked />
+            <form id="form_2" action="" method="POST">
+                <div><div><input type="checkbox" name="oranges[]" value="2" checked />
+                <input type="checkbox" name="oranges[]" value="3" checked /></div></div>
+                <input form="form_2" type="hidden" name="form_name" value="form_2" />
+                <input form="form-1" type="hidden" name="outer_field" value="success" />
+                <button form="form-1" type="submit" name="button_3">Submit from outside the form</button>
+                <div>
+                    <label for="app_frontend_form_type_contact_form_type_contactType">Message subject</label>
+                    <div>
+                        <select name="app_frontend_form_type_contact_form_type[contactType]" id="app_frontend_form_type_contact_form_type_contactType"><option selected="selected" value="">Please select subject</option><option id="1">Test type</option></select>
+                    </div>
+                </div>
+                <div>
+                    <label for="app_frontend_form_type_contact_form_type_firstName">Firstname</label>
+                    <input type="text" name="app_frontend_form_type_contact_form_type[firstName]" value="John" id="app_frontend_form_type_contact_form_type_firstName"/>
+                </div>
+            </form>
+            <button />
+        </html>');
+
+        return $dom;
+    }
+
+    protected function createTestMultipleForm()
+    {
+        $dom = new \DOMDocument();
+        $dom->loadHTML('
+        <html>
+            <h1>Hello form</h1>
+            <form action="" method="POST">
+                <div><input type="checkbox" name="apples[]" value="1" checked /></div>
+                <input type="checkbox" name="oranges[]" value="1" checked />
+                <div><label></label><input type="hidden" name="form_name" value="form-1" /></div>
+                <input type="submit" name="button_1" value="Capture fields" />
+                <button type="submit" name="button_2">Submit form_2</button>
+            </form>
+            <form action="" method="POST">
+                <div><div><input type="checkbox" name="oranges[]" value="2" checked />
+                <input type="checkbox" name="oranges[]" value="3" checked /></div></div>
+                <input type="hidden" name="form_name" value="form_2" />
+                <input type="hidden" name="outer_field" value="success" />
+                <button type="submit" name="button_3">Submit from outside the form</button>
+            </form>
+            <button />
+        </html>');
+
+        return $dom;
     }
 
     public function testgetPhpValuesWithEmptyTextarea()

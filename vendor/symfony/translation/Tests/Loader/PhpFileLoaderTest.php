@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Translation\Tests\Loader;
 
-use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Translation\Loader\PhpFileLoader;
+use Symfony\Component\Config\Resource\FileResource;
 
 class PhpFileLoaderTest extends \PHPUnit_Framework_TestCase
 {

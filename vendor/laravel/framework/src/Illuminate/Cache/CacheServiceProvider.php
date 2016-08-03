@@ -2,8 +2,8 @@
 
 namespace Illuminate\Cache;
 
-use Illuminate\Cache\Console\ClearCommand;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Cache\Console\ClearCommand;
 
 class CacheServiceProvider extends ServiceProvider
 {

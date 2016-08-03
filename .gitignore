@@ -9,4 +9,9 @@ Homestead.json
 composer.phar
 composer.lock
 /.idea
+
 /app/Http/routes.php
+
+.env.example
+.idea
+

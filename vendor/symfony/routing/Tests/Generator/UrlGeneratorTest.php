@@ -11,11 +11,11 @@
 
 namespace Symfony\Component\Routing\Tests\Generator;
 
+use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
 
 class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,25 +25,6 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
         $url = $this->getGenerator($routes)->generate('test', array(), UrlGeneratorInterface::ABSOLUTE_URL);
 
         $this->assertEquals('http://localhost/app.php/testing', $url);
-    }
-
-    protected function getRoutes($name, Route $route)
-    {
-        $routes = new RouteCollection();
-        $routes->add($name, $route);
-
-        return $routes;
-    }
-
-    protected function getGenerator(RouteCollection $routes, array $parameters = array(), $logger = null)
-    {
-        $context = new RequestContext('/app.php');
-        foreach ($parameters as $key => $value) {
-            $method = 'set' . $key;
-            $context->$method($value);
-        }
-
-        return new UrlGenerator($routes, $context, $logger);
     }
 
     public function testAbsoluteSecureUrlWithPort443()
@@ -651,5 +632,24 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
                 './:subdir/',
             ),
         );
+    }
+
+    protected function getGenerator(RouteCollection $routes, array $parameters = array(), $logger = null)
+    {
+        $context = new RequestContext('/app.php');
+        foreach ($parameters as $key => $value) {
+            $method = 'set'.$key;
+            $context->$method($value);
+        }
+
+        return new UrlGenerator($routes, $context, $logger);
+    }
+
+    protected function getRoutes($name, Route $route)
+    {
+        $routes = new RouteCollection();
+        $routes->add($name, $route);
+
+        return $routes;
     }
 }

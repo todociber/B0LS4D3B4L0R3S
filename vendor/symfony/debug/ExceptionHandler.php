@@ -176,29 +176,20 @@ class ExceptionHandler
         echo $this->decorate($this->getContent($exception), $this->getStylesheet($exception));
     }
 
-    private function decorate($content, $css)
+    /**
+     * Gets the full HTML content associated with the given exception.
+     *
+     * @param \Exception|FlattenException $exception An \Exception or FlattenException instance
+     *
+     * @return string The HTML content as a string
+     */
+    public function getHtml($exception)
     {
-        return <<<EOF
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="{$this->charset}" />
-        <meta name="robots" content="noindex,nofollow" />
-        <style>
-            /* Copyright (c) 2010, Yahoo! Inc. All rights reserved. Code licensed under the BSD License: http://developer.yahoo.com/yui/license.html */
-            html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,select{*font-size:100%;}legend{color:#000;}
+        if (!$exception instanceof FlattenException) {
+            $exception = FlattenException::create($exception);
+        }
 
-            html { background: #eee; padding: 10px }
-            img { border: 0; }
-            #sf-resetcontent { width:970px; margin:0 auto; }
-            $css
-        </style>
-    </head>
-    <body>
-        $content
-    </body>
-</html>
-EOF;
+        return $this->decorate($this->getContent($exception), $this->getStylesheet($exception));
     }
 
     /**
@@ -269,68 +260,6 @@ EOF
 EOF;
     }
 
-    private function formatClass($class)
-    {
-        $parts = explode('\\', $class);
-
-        return sprintf('<abbr title="%s">%s</abbr>', $class, array_pop($parts));
-    }
-
-    /**
-     * HTML-encodes a string.
-     */
-    private function escapeHtml($str)
-    {
-        return htmlspecialchars($str, ENT_QUOTES | ENT_SUBSTITUTE, $this->charset);
-    }
-
-    private function formatPath($path, $line)
-    {
-        $path = $this->escapeHtml($path);
-        $file = preg_match('#[^/\\\\]*$#', $path, $file) ? $file[0] : $path;
-
-        if ($linkFormat = $this->fileLinkFormat) {
-            $link = strtr($this->escapeHtml($linkFormat), array('%f' => $path, '%l' => (int)$line));
-
-            return sprintf(' in <a href="%s" title="Go to source">%s line %d</a>', $link, $file, $line);
-        }
-
-        return sprintf(' in <a title="%s line %3$d" ondblclick="var f=this.innerHTML;this.innerHTML=this.title;this.title=f;">%s line %d</a>', $path, $file, $line);
-    }
-
-    /**
-     * Formats an array as a string.
-     *
-     * @param array $args The argument array
-     *
-     * @return string
-     */
-    private function formatArgs(array $args)
-    {
-        $result = array();
-        foreach ($args as $key => $item) {
-            if ('object' === $item[0]) {
-                $formattedValue = sprintf('<em>object</em>(%s)', $this->formatClass($item[1]));
-            } elseif ('array' === $item[0]) {
-                $formattedValue = sprintf('<em>array</em>(%s)', is_array($item[1]) ? $this->formatArgs($item[1]) : $item[1]);
-            } elseif ('string' === $item[0]) {
-                $formattedValue = sprintf("'%s'", $this->escapeHtml($item[1]));
-            } elseif ('null' === $item[0]) {
-                $formattedValue = '<em>null</em>';
-            } elseif ('boolean' === $item[0]) {
-                $formattedValue = '<em>' . strtolower(var_export($item[1], true)) . '</em>';
-            } elseif ('resource' === $item[0]) {
-                $formattedValue = '<em>resource</em>';
-            } else {
-                $formattedValue = str_replace("\n", '', var_export($this->escapeHtml((string)$item[1]), true));
-            }
-
-            $result[] = is_int($key) ? $formattedValue : sprintf("'%s' => %s", $key, $formattedValue);
-        }
-
-        return implode(', ', $result);
-    }
-
     /**
      * Gets the stylesheet associated with the given exception.
      *
@@ -396,19 +325,90 @@ EOF;
 EOF;
     }
 
-    /**
-     * Gets the full HTML content associated with the given exception.
-     *
-     * @param \Exception|FlattenException $exception An \Exception or FlattenException instance
-     *
-     * @return string The HTML content as a string
-     */
-    public function getHtml($exception)
+    private function decorate($content, $css)
     {
-        if (!$exception instanceof FlattenException) {
-            $exception = FlattenException::create($exception);
+        return <<<EOF
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="{$this->charset}" />
+        <meta name="robots" content="noindex,nofollow" />
+        <style>
+            /* Copyright (c) 2010, Yahoo! Inc. All rights reserved. Code licensed under the BSD License: http://developer.yahoo.com/yui/license.html */
+            html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,select{*font-size:100%;}legend{color:#000;}
+
+            html { background: #eee; padding: 10px }
+            img { border: 0; }
+            #sf-resetcontent { width:970px; margin:0 auto; }
+            $css
+        </style>
+    </head>
+    <body>
+        $content
+    </body>
+</html>
+EOF;
+    }
+
+    private function formatClass($class)
+    {
+        $parts = explode('\\', $class);
+
+        return sprintf('<abbr title="%s">%s</abbr>', $class, array_pop($parts));
+    }
+
+    private function formatPath($path, $line)
+    {
+        $path = $this->escapeHtml($path);
+        $file = preg_match('#[^/\\\\]*$#', $path, $file) ? $file[0] : $path;
+
+        if ($linkFormat = $this->fileLinkFormat) {
+            $link = strtr($this->escapeHtml($linkFormat), array('%f' => $path, '%l' => (int) $line));
+
+            return sprintf(' in <a href="%s" title="Go to source">%s line %d</a>', $link, $file, $line);
         }
 
-        return $this->decorate($this->getContent($exception), $this->getStylesheet($exception));
+        return sprintf(' in <a title="%s line %3$d" ondblclick="var f=this.innerHTML;this.innerHTML=this.title;this.title=f;">%s line %d</a>', $path, $file, $line);
+    }
+
+    /**
+     * Formats an array as a string.
+     *
+     * @param array $args The argument array
+     *
+     * @return string
+     */
+    private function formatArgs(array $args)
+    {
+        $result = array();
+        foreach ($args as $key => $item) {
+            if ('object' === $item[0]) {
+                $formattedValue = sprintf('<em>object</em>(%s)', $this->formatClass($item[1]));
+            } elseif ('array' === $item[0]) {
+                $formattedValue = sprintf('<em>array</em>(%s)', is_array($item[1]) ? $this->formatArgs($item[1]) : $item[1]);
+            } elseif ('string' === $item[0]) {
+                $formattedValue = sprintf("'%s'", $this->escapeHtml($item[1]));
+            } elseif ('null' === $item[0]) {
+                $formattedValue = '<em>null</em>';
+            } elseif ('boolean' === $item[0]) {
+                $formattedValue = '<em>'.strtolower(var_export($item[1], true)).'</em>';
+            } elseif ('resource' === $item[0]) {
+                $formattedValue = '<em>resource</em>';
+            } else {
+                $formattedValue = str_replace("\n", '', var_export($this->escapeHtml((string) $item[1]), true));
+            }
+
+            $result[] = is_int($key) ? $formattedValue : sprintf("'%s' => %s", $key, $formattedValue);
+        }
+
+        return implode(', ', $result);
+    }
+
+    /**
+     * HTML-encodes a string.
+     */
+    private function escapeHtml($str)
+    {
+        return htmlspecialchars($str, ENT_QUOTES | ENT_SUBSTITUTE, $this->charset);
     }
 }

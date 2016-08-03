@@ -128,6 +128,45 @@ EOTXT
         );
     }
 
+    public function testJsonCast()
+    {
+        $var = (array) json_decode('{"0":{},"1":null}');
+        foreach ($var as &$v) {
+        }
+        $var[] = &$v;
+        $var[''] = 2;
+
+        $this->assertDumpMatchesFormat(
+            <<<EOTXT
+array:4 [
+  "0" => {}
+  "1" => &1 null
+  0 => &1 null
+  "" => 2
+]
+EOTXT
+            ,
+            $var
+        );
+    }
+
+    public function testObjectCast()
+    {
+        $var = (object) array(1 => 1);
+        $var->{1} = 2;
+
+        $this->assertDumpMatchesFormat(
+            <<<EOTXT
+{
+  +1: 1
+  +"1": 2
+}
+EOTXT
+            ,
+            $var
+        );
+    }
+
     public function testClosedResource()
     {
         if (defined('HHVM_VERSION') && HHVM_VERSION_ID < 30600) {
@@ -195,7 +234,7 @@ EOTXT
             $twig = <<<EOTXT
           foo.twig:2: """
             foo bar\\n
-                twig source\\n
+              twig source\\n
             \\n
             """
 
@@ -332,24 +371,6 @@ EOTXT
         );
     }
 
-    private function getSpecialVars()
-    {
-        foreach (array_keys($GLOBALS) as $var) {
-            if ('GLOBALS' !== $var) {
-                unset($GLOBALS[$var]);
-            }
-        }
-
-        $var = function &() {
-            $var = array();
-            $var[] = &$var;
-
-            return $var;
-        };
-
-        return array($var(), $GLOBALS, &$GLOBALS);
-    }
-
     /**
      * @runInSeparateProcess
      * @preserveGlobalState disabled
@@ -431,5 +452,23 @@ EOTXT
             ,
             $out
         );
+    }
+
+    private function getSpecialVars()
+    {
+        foreach (array_keys($GLOBALS) as $var) {
+            if ('GLOBALS' !== $var) {
+                unset($GLOBALS[$var]);
+            }
+        }
+
+        $var = function &() {
+            $var = array();
+            $var[] = &$var;
+
+            return $var;
+        };
+
+        return array($var(), $GLOBALS, &$GLOBALS);
     }
 }

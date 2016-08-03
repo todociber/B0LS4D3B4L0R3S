@@ -37,29 +37,13 @@ class Filesystem implements FilesystemInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function write($path, $contents, array $config = [])
-    {
-        $path = Util::normalizePath($path);
-        $this->assertAbsent($path);
-        $config = $this->prepareConfig($config);
-
-        return (bool)$this->getAdapter()->write($path, $contents, $config);
-    }
-
-    /**
-     * Assert a file is absent.
+     * Get the Adapter.
      *
-     * @param string $path path to file
-     *
-     * @throws FileExistsException
+     * @return AdapterInterface adapter
      */
-    public function assertAbsent($path)
+    public function getAdapter()
     {
-        if ($this->has($path)) {
-            throw new FileExistsException($path);
-        }
+        return $this->adapter;
     }
 
     /**
@@ -73,13 +57,15 @@ class Filesystem implements FilesystemInterface
     }
 
     /**
-     * Get the Adapter.
-     *
-     * @return AdapterInterface adapter
+     * @inheritdoc
      */
-    public function getAdapter()
+    public function write($path, $contents, array $config = [])
     {
-        return $this->adapter;
+        $path = Util::normalizePath($path);
+        $this->assertAbsent($path);
+        $config = $this->prepareConfig($config);
+
+        return (bool) $this->getAdapter()->write($path, $contents, $config);
     }
 
     /**
@@ -154,46 +140,6 @@ class Filesystem implements FilesystemInterface
     }
 
     /**
-     * Assert a file is present.
-     *
-     * @param string $path path to file
-     *
-     * @throws FileNotFoundException
-     */
-    public function assertPresent($path)
-    {
-        if (!$this->has($path)) {
-            throw new FileNotFoundException($path);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function read($path)
-    {
-        $path = Util::normalizePath($path);
-        $this->assertPresent($path);
-
-        if (!($object = $this->getAdapter()->read($path))) {
-            return false;
-        }
-
-        return $object['contents'];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function delete($path)
-    {
-        $path = Util::normalizePath($path);
-        $this->assertPresent($path);
-
-        return $this->getAdapter()->delete($path);
-    }
-
-    /**
      * @inheritdoc
      */
     public function update($path, $contents, array $config = [])
@@ -221,6 +167,21 @@ class Filesystem implements FilesystemInterface
         Util::rewindStream($resource);
 
         return (bool) $this->getAdapter()->updateStream($path, $resource, $config);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function read($path)
+    {
+        $path = Util::normalizePath($path);
+        $this->assertPresent($path);
+
+        if ( ! ($object = $this->getAdapter()->read($path))) {
+            return false;
+        }
+
+        return $object['contents'];
     }
 
     /**
@@ -262,6 +223,17 @@ class Filesystem implements FilesystemInterface
         $this->assertAbsent($newpath);
 
         return $this->getAdapter()->copy($path, $newpath);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function delete($path)
+    {
+        $path = Util::normalizePath($path);
+        $this->assertPresent($path);
+
+        return $this->getAdapter()->delete($path);
     }
 
     /**
@@ -372,6 +344,17 @@ class Filesystem implements FilesystemInterface
     /**
      * @inheritdoc
      */
+    public function getMetadata($path)
+    {
+        $path = Util::normalizePath($path);
+        $this->assertPresent($path);
+
+        return $this->getAdapter()->getMetadata($path);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function get($path, Handler $handler = null)
     {
         $path = Util::normalizePath($path);
@@ -388,13 +371,30 @@ class Filesystem implements FilesystemInterface
     }
 
     /**
-     * @inheritdoc
+     * Assert a file is present.
+     *
+     * @param string $path path to file
+     *
+     * @throws FileNotFoundException
      */
-    public function getMetadata($path)
+    public function assertPresent($path)
     {
-        $path = Util::normalizePath($path);
-        $this->assertPresent($path);
+        if ( ! $this->has($path)) {
+            throw new FileNotFoundException($path);
+        }
+    }
 
-        return $this->getAdapter()->getMetadata($path);
+    /**
+     * Assert a file is absent.
+     *
+     * @param string $path path to file
+     *
+     * @throws FileExistsException
+     */
+    public function assertAbsent($path)
+    {
+        if ($this->has($path)) {
+            throw new FileExistsException($path);
+        }
     }
 }

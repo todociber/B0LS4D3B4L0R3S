@@ -51,20 +51,20 @@ class JsonExpression extends Expression
     /**
      * Get the value of the expression.
      *
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string)$this->getValue();
-    }
-
-    /**
-     * Get the value of the expression.
-     *
      * @return mixed
      */
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Get the value of the expression.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getValue();
     }
 }

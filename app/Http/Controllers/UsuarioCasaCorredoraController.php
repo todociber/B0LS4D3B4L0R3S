@@ -216,8 +216,6 @@ class UsuarioCasaCorredoraController extends Controller
                         }
 
 
-
-
                     }
 
                     if ($existeId == 0) {

@@ -3,12 +3,12 @@
 namespace Illuminate\Auth\Passwords;
 
 use Closure;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
-use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Support\Arr;
 use UnexpectedValueException;
+use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Contracts\Mail\Mailer as MailerContract;
+use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class PasswordBroker implements PasswordBrokerContract
 {
@@ -96,27 +96,6 @@ class PasswordBroker implements PasswordBrokerContract
     }
 
     /**
-     * Get the user for the given credentials.
-     *
-     * @param  array $credentials
-     * @return \Illuminate\Contracts\Auth\CanResetPassword
-     *
-     * @throws \UnexpectedValueException
-     */
-    public function getUser(array $credentials)
-    {
-        $credentials = Arr::except($credentials, ['token']);
-
-        $user = $this->users->retrieveByCredentials($credentials);
-
-        if ($user && !$user instanceof CanResetPasswordContract) {
-            throw new UnexpectedValueException('User must implement CanResetPassword interface.');
-        }
-
-        return $user;
-    }
-
-    /**
      * Send the password reset link via e-mail.
      *
      * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
@@ -194,6 +173,17 @@ class PasswordBroker implements PasswordBrokerContract
     }
 
     /**
+     * Set a custom password validator.
+     *
+     * @param  \Closure  $callback
+     * @return void
+     */
+    public function validator(Closure $callback)
+    {
+        $this->passwordValidator = $callback;
+    }
+
+    /**
      * Determine if the passwords match for the request.
      *
      * @param  array  $credentials
@@ -231,14 +221,24 @@ class PasswordBroker implements PasswordBrokerContract
     }
 
     /**
-     * Set a custom password validator.
+     * Get the user for the given credentials.
      *
-     * @param  \Closure $callback
-     * @return void
+     * @param  array  $credentials
+     * @return \Illuminate\Contracts\Auth\CanResetPassword
+     *
+     * @throws \UnexpectedValueException
      */
-    public function validator(Closure $callback)
+    public function getUser(array $credentials)
     {
-        $this->passwordValidator = $callback;
+        $credentials = Arr::except($credentials, ['token']);
+
+        $user = $this->users->retrieveByCredentials($credentials);
+
+        if ($user && ! $user instanceof CanResetPasswordContract) {
+            throw new UnexpectedValueException('User must implement CanResetPassword interface.');
+        }
+
+        return $user;
     }
 
     /**

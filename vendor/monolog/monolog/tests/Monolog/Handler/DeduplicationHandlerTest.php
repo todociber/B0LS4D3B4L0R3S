@@ -11,16 +11,11 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Logger;
 use Monolog\TestCase;
+use Monolog\Logger;
 
 class DeduplicationHandlerTest extends TestCase
 {
-    public static function tearDownAfterClass()
-    {
-        @unlink(sys_get_temp_dir() . '/monolog_dedup.log');
-    }
-
     /**
      * @covers Monolog\Handler\DeduplicationHandler::flush
      */
@@ -161,5 +156,10 @@ class DeduplicationHandlerTest extends TestCase
         $this->assertTrue($test->hasErrorRecords());
         $this->assertTrue($test->hasCriticalRecords());
         $this->assertFalse($test->hasWarningRecords());
+    }
+
+    public static function tearDownAfterClass()
+    {
+        @unlink(sys_get_temp_dir().'/monolog_dedup.log');
     }
 }

@@ -58,7 +58,89 @@ class ReflectionCaster
         }
 
         $prefix = Caster::PREFIX_DYNAMIC;
-        unset($a['name'], $a[$prefix.'0'], $a[$prefix.'this'], $a[$prefix.'parameter'], $a[Caster::PREFIX_VIRTUAL.'extra']);
+        unset($a['name'], $a[$prefix.'this'], $a[$prefix.'parameter'], $a[Caster::PREFIX_VIRTUAL.'extra']);
+
+        return $a;
+    }
+
+    public static function castGenerator(\Generator $c, array $a, Stub $stub, $isNested)
+    {
+        return class_exists('ReflectionGenerator', false) ? self::castReflectionGenerator(new \ReflectionGenerator($c), $a, $stub, $isNested) : $a;
+    }
+
+    public static function castType(\ReflectionType $c, array $a, Stub $stub, $isNested)
+    {
+        $prefix = Caster::PREFIX_VIRTUAL;
+
+        $a += array(
+            $prefix.'type' => $c->__toString(),
+            $prefix.'allowsNull' => $c->allowsNull(),
+            $prefix.'isBuiltin' => $c->isBuiltin(),
+        );
+
+        return $a;
+    }
+
+    public static function castReflectionGenerator(\ReflectionGenerator $c, array $a, Stub $stub, $isNested)
+    {
+        $prefix = Caster::PREFIX_VIRTUAL;
+
+        if ($c->getThis()) {
+            $a[$prefix.'this'] = new CutStub($c->getThis());
+        }
+        $x = $c->getFunction();
+        $frame = array(
+            'class' => isset($x->class) ? $x->class : null,
+            'type' => isset($x->class) ? ($x->isStatic() ? '::' : '->') : null,
+            'function' => $x->name,
+            'file' => $c->getExecutingFile(),
+            'line' => $c->getExecutingLine(),
+        );
+        if ($trace = $c->getTrace(DEBUG_BACKTRACE_IGNORE_ARGS)) {
+            $x = new \ReflectionGenerator($c->getExecutingGenerator());
+            array_unshift($trace, array(
+                'function' => 'yield',
+                'file' => $x->getExecutingFile(),
+                'line' => $x->getExecutingLine() - 1,
+            ));
+            $trace[] = $frame;
+            $a[$prefix.'trace'] = new TraceStub($trace, false, 0, -1, -1);
+        } else {
+            $x = new FrameStub($frame, false, true);
+            $x = ExceptionCaster::castFrameStub($x, array(), $x, true);
+            $a[$prefix.'executing'] = new EnumStub(array(
+                $frame['class'].$frame['type'].$frame['function'].'()' => $x[$prefix.'src'],
+            ));
+        }
+
+        return $a;
+    }
+
+    public static function castClass(\ReflectionClass $c, array $a, Stub $stub, $isNested, $filter = 0)
+    {
+        $prefix = Caster::PREFIX_VIRTUAL;
+
+        if ($n = \Reflection::getModifierNames($c->getModifiers())) {
+            $a[$prefix.'modifiers'] = implode(' ', $n);
+        }
+
+        self::addMap($a, $c, array(
+            'extends' => 'getParentClass',
+            'implements' => 'getInterfaceNames',
+            'constants' => 'getConstants',
+        ));
+
+        foreach ($c->getProperties() as $n) {
+            $a[$prefix.'properties'][$n->name] = $n;
+        }
+
+        foreach ($c->getMethods() as $n) {
+            $a[$prefix.'methods'][$n->name] = $n;
+        }
+
+        if (!($filter & Caster::EXCLUDE_VERBOSE) && !$isNested) {
+            self::addExtra($a, $c);
+        }
 
         return $a;
     }
@@ -113,29 +195,11 @@ class ReflectionCaster
         return $a;
     }
 
-    private static function addMap(&$a, \Reflector $c, $map, $prefix = Caster::PREFIX_VIRTUAL)
+    public static function castMethod(\ReflectionMethod $c, array $a, Stub $stub, $isNested)
     {
-        foreach ($map as $k => $m) {
-            if (method_exists($c, $m) && false !== ($m = $c->$m()) && null !== $m) {
-                $a[$prefix . $k] = $m instanceof \Reflector ? $m->name : $m;
-            }
-        }
-    }
+        $a[Caster::PREFIX_VIRTUAL.'modifiers'] = implode(' ', \Reflection::getModifierNames($c->getModifiers()));
 
-    private static function addExtra(&$a, \Reflector $c)
-    {
-        $x = isset($a[Caster::PREFIX_VIRTUAL . 'extra']) ? $a[Caster::PREFIX_VIRTUAL . 'extra']->value : array();
-
-        if (method_exists($c, 'getFileName') && $m = $c->getFileName()) {
-            $x['file'] = $m;
-            $x['line'] = $c->getStartLine() . ' to ' . $c->getEndLine();
-        }
-
-        self::addMap($x, $c, self::$extraMap, '');
-
-        if ($x) {
-            $a[Caster::PREFIX_VIRTUAL . 'extra'] = new EnumStub($x);
-        }
+        return $a;
     }
 
     public static function castParameter(\ReflectionParameter $c, array $a, Stub $stub, $isNested)
@@ -182,95 +246,6 @@ class ReflectionCaster
         return $a;
     }
 
-    public static function castGenerator(\Generator $c, array $a, Stub $stub, $isNested)
-    {
-        return class_exists('ReflectionGenerator', false) ? self::castReflectionGenerator(new \ReflectionGenerator($c), $a, $stub, $isNested) : $a;
-    }
-
-    public static function castReflectionGenerator(\ReflectionGenerator $c, array $a, Stub $stub, $isNested)
-    {
-        $prefix = Caster::PREFIX_VIRTUAL;
-
-        if ($c->getThis()) {
-            $a[$prefix . 'this'] = new CutStub($c->getThis());
-        }
-        $x = $c->getFunction();
-        $frame = array(
-            'class' => isset($x->class) ? $x->class : null,
-            'type' => isset($x->class) ? ($x->isStatic() ? '::' : '->') : null,
-            'function' => $x->name,
-            'file' => $c->getExecutingFile(),
-            'line' => $c->getExecutingLine(),
-        );
-        if ($trace = $c->getTrace(DEBUG_BACKTRACE_IGNORE_ARGS)) {
-            $x = new \ReflectionGenerator($c->getExecutingGenerator());
-            array_unshift($trace, array(
-                'function' => 'yield',
-                'file' => $x->getExecutingFile(),
-                'line' => $x->getExecutingLine() - 1,
-            ));
-            $trace[] = $frame;
-            $a[$prefix . 'trace'] = new TraceStub($trace, false, 0, -1, -1);
-        } else {
-            $x = new FrameStub($frame, false, true);
-            $x = ExceptionCaster::castFrameStub($x, array(), $x, true);
-            $a[$prefix . 'executing'] = new EnumStub(array(
-                $frame['class'] . $frame['type'] . $frame['function'] . '()' => $x[$prefix . 'src'],
-            ));
-        }
-
-        return $a;
-    }
-
-    public static function castType(\ReflectionType $c, array $a, Stub $stub, $isNested)
-    {
-        $prefix = Caster::PREFIX_VIRTUAL;
-
-        $a += array(
-            $prefix . 'type' => $c->__toString(),
-            $prefix . 'allowsNull' => $c->allowsNull(),
-            $prefix . 'isBuiltin' => $c->isBuiltin(),
-        );
-
-        return $a;
-    }
-
-    public static function castClass(\ReflectionClass $c, array $a, Stub $stub, $isNested, $filter = 0)
-    {
-        $prefix = Caster::PREFIX_VIRTUAL;
-
-        if ($n = \Reflection::getModifierNames($c->getModifiers())) {
-            $a[$prefix . 'modifiers'] = implode(' ', $n);
-        }
-
-        self::addMap($a, $c, array(
-            'extends' => 'getParentClass',
-            'implements' => 'getInterfaceNames',
-            'constants' => 'getConstants',
-        ));
-
-        foreach ($c->getProperties() as $n) {
-            $a[$prefix . 'properties'][$n->name] = $n;
-        }
-
-        foreach ($c->getMethods() as $n) {
-            $a[$prefix . 'methods'][$n->name] = $n;
-        }
-
-        if (!($filter & Caster::EXCLUDE_VERBOSE) && !$isNested) {
-            self::addExtra($a, $c);
-        }
-
-        return $a;
-    }
-
-    public static function castMethod(\ReflectionMethod $c, array $a, Stub $stub, $isNested)
-    {
-        $a[Caster::PREFIX_VIRTUAL . 'modifiers'] = implode(' ', \Reflection::getModifierNames($c->getModifiers()));
-
-        return $a;
-    }
-
     public static function castProperty(\ReflectionProperty $c, array $a, Stub $stub, $isNested)
     {
         $a[Caster::PREFIX_VIRTUAL.'modifiers'] = implode(' ', \Reflection::getModifierNames($c->getModifiers()));
@@ -305,5 +280,30 @@ class ReflectionCaster
         ));
 
         return $a;
+    }
+
+    private static function addExtra(&$a, \Reflector $c)
+    {
+        $x = isset($a[Caster::PREFIX_VIRTUAL.'extra']) ? $a[Caster::PREFIX_VIRTUAL.'extra']->value : array();
+
+        if (method_exists($c, 'getFileName') && $m = $c->getFileName()) {
+            $x['file'] = $m;
+            $x['line'] = $c->getStartLine().' to '.$c->getEndLine();
+        }
+
+        self::addMap($x, $c, self::$extraMap, '');
+
+        if ($x) {
+            $a[Caster::PREFIX_VIRTUAL.'extra'] = new EnumStub($x);
+        }
+    }
+
+    private static function addMap(&$a, \Reflector $c, $map, $prefix = Caster::PREFIX_VIRTUAL)
+    {
+        foreach ($map as $k => $m) {
+            if (method_exists($c, $m) && false !== ($m = $c->$m()) && null !== $m) {
+                $a[$prefix.$k] = $m instanceof \Reflector ? $m->name : $m;
+            }
+        }
     }
 }

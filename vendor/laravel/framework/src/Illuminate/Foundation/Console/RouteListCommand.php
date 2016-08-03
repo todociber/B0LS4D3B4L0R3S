@@ -2,12 +2,12 @@
 
 namespace Illuminate\Foundation\Console;
 
-use Illuminate\Console\Command;
-use Illuminate\Routing\Controller;
-use Illuminate\Routing\Route;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Routing\Route;
+use Illuminate\Routing\Router;
+use Illuminate\Console\Command;
+use Illuminate\Routing\Controller;
 use Symfony\Component\Console\Input\InputOption;
 
 class RouteListCommand extends Command
@@ -76,17 +76,6 @@ class RouteListCommand extends Command
     }
 
     /**
-     * Display the route information on the console.
-     *
-     * @param  array $routes
-     * @return void
-     */
-    protected function displayRoutes(array $routes)
-    {
-        $this->table($this->headers, $routes);
-    }
-
-    /**
      * Compile the routes into a displayable format.
      *
      * @return array
@@ -131,21 +120,14 @@ class RouteListCommand extends Command
     }
 
     /**
-     * Filter the route by URI and / or name.
+     * Display the route information on the console.
      *
-     * @param  array $route
-     * @return array|null
+     * @param  array  $routes
+     * @return void
      */
-    protected function filterRoute(array $route)
+    protected function displayRoutes(array $routes)
     {
-        if (($this->option('name') && !Str::contains($route['name'], $this->option('name'))) ||
-            $this->option('path') && !Str::contains($route['uri'], $this->option('path')) ||
-            $this->option('method') && !Str::contains($route['method'], $this->option('method'))
-        ) {
-            return;
-        }
-
-        return $route;
+        $this->table($this->headers, $routes);
     }
 
     /**
@@ -217,6 +199,23 @@ class RouteListCommand extends Command
     {
         return (! empty($options['only']) && ! in_array($method, (array) $options['only'])) ||
             (! empty($options['except']) && in_array($method, (array) $options['except']));
+    }
+
+    /**
+     * Filter the route by URI and / or name.
+     *
+     * @param  array  $route
+     * @return array|null
+     */
+    protected function filterRoute(array $route)
+    {
+        if (($this->option('name') && ! Str::contains($route['name'], $this->option('name'))) ||
+             $this->option('path') && ! Str::contains($route['uri'], $this->option('path')) ||
+             $this->option('method') && ! Str::contains($route['method'], $this->option('method'))) {
+            return;
+        }
+
+        return $route;
     }
 
     /**

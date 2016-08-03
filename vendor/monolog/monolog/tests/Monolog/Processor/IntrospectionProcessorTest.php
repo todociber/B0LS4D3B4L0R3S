@@ -26,12 +26,21 @@ function tester($handler, $record)
 
 namespace Monolog\Processor;
 
-use Monolog\Handler\TestHandler;
 use Monolog\Logger;
 use Monolog\TestCase;
+use Monolog\Handler\TestHandler;
 
 class IntrospectionProcessorTest extends TestCase
 {
+    public function getHandler()
+    {
+        $processor = new IntrospectionProcessor();
+        $handler = new TestHandler();
+        $handler->pushProcessor($processor);
+
+        return $handler;
+    }
+
     public function testProcessorFromClass()
     {
         $handler = $this->getHandler();
@@ -42,15 +51,6 @@ class IntrospectionProcessorTest extends TestCase
         $this->assertEquals(18, $record['extra']['line']);
         $this->assertEquals('Acme\Tester', $record['extra']['class']);
         $this->assertEquals('test', $record['extra']['function']);
-    }
-
-    public function getHandler()
-    {
-        $processor = new IntrospectionProcessor();
-        $handler = new TestHandler();
-        $handler->pushProcessor($processor);
-
-        return $handler;
     }
 
     public function testProcessorFromFunc()

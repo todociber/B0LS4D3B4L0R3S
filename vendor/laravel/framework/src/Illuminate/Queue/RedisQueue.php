@@ -2,11 +2,11 @@
 
 namespace Illuminate\Queue;
 
-use Illuminate\Contracts\Queue\Queue as QueueContract;
-use Illuminate\Queue\Jobs\RedisJob;
-use Illuminate\Redis\Database;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Redis\Database;
+use Illuminate\Queue\Jobs\RedisJob;
+use Illuminate\Contracts\Queue\Queue as QueueContract;
 
 class RedisQueue extends Queue implements QueueContract
 {
@@ -82,54 +82,6 @@ class RedisQueue extends Queue implements QueueContract
     }
 
     /**
-     * Get the connection for the queue.
-     *
-     * @return \Predis\ClientInterface
-     */
-    protected function getConnection()
-    {
-        return $this->redis->connection($this->connection);
-    }
-
-    /**
-     * Get the queue or return the default.
-     *
-     * @param  string|null $queue
-     * @return string
-     */
-    protected function getQueue($queue)
-    {
-        return 'queues:' . ($queue ?: $this->default);
-    }
-
-    /**
-     * Create a payload string from the given job and data.
-     *
-     * @param  string $job
-     * @param  mixed $data
-     * @param  string $queue
-     * @return string
-     */
-    protected function createPayload($job, $data = '', $queue = null)
-    {
-        $payload = parent::createPayload($job, $data);
-
-        $payload = $this->setMeta($payload, 'id', $this->getRandomId());
-
-        return $this->setMeta($payload, 'attempts', 1);
-    }
-
-    /**
-     * Get a random ID string.
-     *
-     * @return string
-     */
-    protected function getRandomId()
-    {
-        return Str::random(32);
-    }
-
-    /**
      * Push a new job onto the queue after a delay.
      *
      * @param  \DateTime|int  $delay
@@ -188,6 +140,18 @@ class RedisQueue extends Queue implements QueueContract
 
             return new RedisJob($this->container, $this, $job, $original);
         }
+    }
+
+    /**
+     * Delete a reserved job from the queue.
+     *
+     * @param  string  $queue
+     * @param  string  $job
+     * @return void
+     */
+    public function deleteReserved($queue, $job)
+    {
+        $this->getConnection()->zrem($this->getQueue($queue).':reserved', $job);
     }
 
     /**
@@ -275,15 +239,51 @@ class RedisQueue extends Queue implements QueueContract
     }
 
     /**
-     * Delete a reserved job from the queue.
+     * Create a payload string from the given job and data.
      *
+     * @param  string  $job
+     * @param  mixed   $data
      * @param  string  $queue
-     * @param  string $job
-     * @return void
+     * @return string
      */
-    public function deleteReserved($queue, $job)
+    protected function createPayload($job, $data = '', $queue = null)
     {
-        $this->getConnection()->zrem($this->getQueue($queue) . ':reserved', $job);
+        $payload = parent::createPayload($job, $data);
+
+        $payload = $this->setMeta($payload, 'id', $this->getRandomId());
+
+        return $this->setMeta($payload, 'attempts', 1);
+    }
+
+    /**
+     * Get a random ID string.
+     *
+     * @return string
+     */
+    protected function getRandomId()
+    {
+        return Str::random(32);
+    }
+
+    /**
+     * Get the queue or return the default.
+     *
+     * @param  string|null  $queue
+     * @return string
+     */
+    protected function getQueue($queue)
+    {
+        return 'queues:'.($queue ?: $this->default);
+    }
+
+    /**
+     * Get the connection for the queue.
+     *
+     * @return \Predis\ClientInterface
+     */
+    protected function getConnection()
+    {
+        return $this->redis->connection($this->connection);
     }
 
     /**

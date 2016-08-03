@@ -13,6 +13,12 @@ class __TwigTemplate_VarDumperFixture_u75a09 extends Twig_Template
         );
     }
 
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 2
+        throw new \Exception('Foobar');
+    }
+
     public function getTemplateName()
     {
         return 'foo.twig';
@@ -22,13 +28,7 @@ class __TwigTemplate_VarDumperFixture_u75a09 extends Twig_Template
     {
         return array (19 => 2);
     }
-
-    protected function doDisplay(array $context, array $blocks = array())
-    {
-        // line 2
-        throw new \Exception('Foobar');
-    }
 }
-/* foo bar*/
+/*   foo bar*/
 /*     twig source*/
 /* */

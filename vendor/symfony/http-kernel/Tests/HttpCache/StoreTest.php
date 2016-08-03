@@ -19,26 +19,34 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 {
     protected $request;
     protected $response;
+
+    /**
+     * @var Store
+     */
     protected $store;
+
+    protected function setUp()
+    {
+        $this->request = Request::create('/');
+        $this->response = new Response('hello world', 200, array());
+
+        HttpCacheTestCase::clearDirectory(sys_get_temp_dir().'/http_cache');
+
+        $this->store = new Store(sys_get_temp_dir().'/http_cache');
+    }
+
+    protected function tearDown()
+    {
+        $this->store = null;
+        $this->request = null;
+        $this->response = null;
+
+        HttpCacheTestCase::clearDirectory(sys_get_temp_dir().'/http_cache');
+    }
 
     public function testReadsAnEmptyArrayWithReadWhenNothingCachedAtKey()
     {
         $this->assertEmpty($this->getStoreMetadata('/nothing'));
-    }
-
-    protected function getStoreMetadata($key)
-    {
-        $r = new \ReflectionObject($this->store);
-        $m = $r->getMethod('getMetadata');
-        $m->setAccessible(true);
-
-        if ($key instanceof Request) {
-            $m1 = $r->getMethod('getCacheKey');
-            $m1->setAccessible(true);
-            $key = $m1->invoke($this->store, $key);
-        }
-
-        return $m->invoke($this->store, $key);
     }
 
     public function testUnlockFileThatDoesExist()
@@ -47,18 +55,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->store->lock($this->request);
 
         $this->assertTrue($this->store->unlock($this->request));
-    }
-
-    protected function storeSimpleEntry($path = null, $headers = array())
-    {
-        if (null === $path) {
-            $path = '/test';
-        }
-
-        $this->request = Request::create($path, 'get', array(), array(), array(), $headers);
-        $this->response = new Response('test', 200, array('Cache-Control' => 'max-age=420'));
-
-        return $this->store->write($this->request, $this->response);
     }
 
     public function testUnlockFileThatDoesNotExist()
@@ -133,15 +129,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $path = $this->getStorePath($this->response->headers->get('X-Content-Digest'));
         @unlink($path);
         $this->assertNull($this->store->lookup($this->request));
-    }
-
-    protected function getStorePath($key)
-    {
-        $r = new \ReflectionObject($this->store);
-        $m = $r->getMethod('getPath');
-        $m->setAccessible(true);
-
-        return $m->invoke($this->store, $key);
     }
 
     public function testRestoresResponseHeadersProperlyWithLookup()
@@ -248,22 +235,39 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->store->isLocked($req));
     }
 
-    protected function setUp()
+    protected function storeSimpleEntry($path = null, $headers = array())
     {
-        $this->request = Request::create('/');
-        $this->response = new Response('hello world', 200, array());
+        if (null === $path) {
+            $path = '/test';
+        }
 
-        HttpCacheTestCase::clearDirectory(sys_get_temp_dir() . '/http_cache');
+        $this->request = Request::create($path, 'get', array(), array(), array(), $headers);
+        $this->response = new Response('test', 200, array('Cache-Control' => 'max-age=420'));
 
-        $this->store = new Store(sys_get_temp_dir() . '/http_cache');
+        return $this->store->write($this->request, $this->response);
     }
 
-    protected function tearDown()
+    protected function getStoreMetadata($key)
     {
-        $this->store = null;
-        $this->request = null;
-        $this->response = null;
+        $r = new \ReflectionObject($this->store);
+        $m = $r->getMethod('getMetadata');
+        $m->setAccessible(true);
 
-        HttpCacheTestCase::clearDirectory(sys_get_temp_dir() . '/http_cache');
+        if ($key instanceof Request) {
+            $m1 = $r->getMethod('getCacheKey');
+            $m1->setAccessible(true);
+            $key = $m1->invoke($this->store, $key);
+        }
+
+        return $m->invoke($this->store, $key);
+    }
+
+    protected function getStorePath($key)
+    {
+        $r = new \ReflectionObject($this->store);
+        $m = $r->getMethod('getPath');
+        $m->setAccessible(true);
+
+        return $m->invoke($this->store, $key);
     }
 }

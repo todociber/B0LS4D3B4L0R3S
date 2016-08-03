@@ -11,9 +11,9 @@
 
 namespace Symfony\Component\HttpKernel\Tests\HttpCache;
 
+use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
@@ -179,6 +179,31 @@ class HttpCacheTest extends HttpCacheTestCase
         $this->request('GET', '/', array('HTTP_IF_NONE_MATCH' => '12345', 'HTTP_IF_MODIFIED_SINCE' => $time->format(DATE_RFC2822)));
         $this->assertHttpKernelIsCalled();
         $this->assertEquals(304, $this->response->getStatusCode());
+    }
+
+    public function testIncrementsMaxAgeWhenNoDateIsSpecifiedEventWhenUsingETag()
+    {
+        $this->setNextResponse(
+            200,
+            array(
+                'ETag' => '1234',
+                'Cache-Control' => 'public, s-maxage=60',
+            )
+        );
+
+        $this->request('GET', '/');
+        $this->assertHttpKernelIsCalled();
+        $this->assertEquals(200, $this->response->getStatusCode());
+        $this->assertTraceContains('miss');
+        $this->assertTraceContains('store');
+
+        sleep(2);
+
+        $this->request('GET', '/');
+        $this->assertHttpKernelIsNotCalled();
+        $this->assertEquals(200, $this->response->getStatusCode());
+        $this->assertTraceContains('fresh');
+        $this->assertEquals(2, $this->response->headers->get('Age'));
     }
 
     public function testValidatesPrivateResponsesCachedOnTheClient()
