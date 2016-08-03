@@ -230,30 +230,6 @@ class Response
     }
 
     /**
-     * Cleans or flushes output buffers up to target level.
-     *
-     * Resulting level can be greater than target level if a non-removable buffer has been encountered.
-     *
-     * @param int $targetLevel The target output buffering level
-     * @param bool $flush Whether to flush or clean the buffers
-     */
-    public static function closeOutputBuffers($targetLevel, $flush)
-    {
-        $status = ob_get_status(true);
-        $level = count($status);
-        // PHP_OUTPUT_HANDLER_* are not defined on HHVM 3.3
-        $flags = defined('PHP_OUTPUT_HANDLER_REMOVABLE') ? PHP_OUTPUT_HANDLER_REMOVABLE | ($flush ? PHP_OUTPUT_HANDLER_FLUSHABLE : PHP_OUTPUT_HANDLER_CLEANABLE) : -1;
-
-        while ($level-- > $targetLevel && ($s = $status[$level]) && (!isset($s['del']) ? !isset($s['flags']) || $flags === ($s['flags'] & $flags) : $s['del'])) {
-            if ($flush) {
-                ob_end_flush();
-            } else {
-                ob_end_clean();
-            }
-        }
-    }
-
-    /**
      * Returns the Response as an HTTP string.
      *
      * The string representation of the Response is the same as the
@@ -434,6 +410,12 @@ class Response
         $this->sendHeaders();
         $this->sendContent();
 
+        if (function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request();
+        } elseif ('cli' !== PHP_SAPI) {
+            static::closeOutputBuffers(0, true);
+        }
+
         return $this;
     }
 
@@ -496,6 +478,30 @@ class Response
         echo $this->content;
 
         return $this;
+    }
+
+    /**
+     * Cleans or flushes output buffers up to target level.
+     *
+     * Resulting level can be greater than target level if a non-removable buffer has been encountered.
+     *
+     * @param int $targetLevel The target output buffering level
+     * @param bool $flush Whether to flush or clean the buffers
+     */
+    public static function closeOutputBuffers($targetLevel, $flush)
+    {
+        $status = ob_get_status(true);
+        $level = count($status);
+        // PHP_OUTPUT_HANDLER_* are not defined on HHVM 3.3
+        $flags = defined('PHP_OUTPUT_HANDLER_REMOVABLE') ? PHP_OUTPUT_HANDLER_REMOVABLE | ($flush ? PHP_OUTPUT_HANDLER_FLUSHABLE : PHP_OUTPUT_HANDLER_CLEANABLE) : -1;
+
+        while ($level-- > $targetLevel && ($s = $status[$level]) && (!isset($s['del']) ? !isset($s['flags']) || $flags === ($s['flags'] & $flags) : $s['del'])) {
+            if ($flush) {
+                ob_end_flush();
+            } else {
+                ob_end_clean();
+            }
+        }
     }
 
     /**

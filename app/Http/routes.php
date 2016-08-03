@@ -65,11 +65,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('SolicitudAfiliacion/{id}/procesar', 'SolicitudesCasaCorredora@Procesar')->name('SolicitudAfiliacion.procesar');
         Route::resource('SolicitudAfiliacion', 'SolicitudesCasaCorredora');
     });
-
+    Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
+    Route::put('Ordenes/{id}/aceptar', 'OrdenesCasaCorredoraAutorizador@aceptar')->name('Ordenes.aceptar');
+    Route::get('Ordenes.{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
     Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
 
 });
-
 
 Route::auth();
 Route::get('admin', 'HomeController@index');

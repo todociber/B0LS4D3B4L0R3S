@@ -44,11 +44,11 @@ use Symfony\Component\HttpKernel\DependencyInjection\MergeExtensionConfiguration
  */
 abstract class Kernel implements KernelInterface, TerminableInterface
 {
-    const VERSION = '3.0.8';
-    const VERSION_ID = 30008;
+    const VERSION = '3.0.9';
+    const VERSION_ID = 30009;
     const MAJOR_VERSION = 3;
     const MINOR_VERSION = 0;
-    const RELEASE_VERSION = 8;
+    const RELEASE_VERSION = 9;
     const EXTRA_VERSION = '';
     const END_OF_MAINTENANCE = '07/2016';
     const END_OF_LIFE = '01/2017';
@@ -149,14 +149,6 @@ abstract class Kernel implements KernelInterface, TerminableInterface
         }
 
         if ($this->getHttpKernel() instanceof TerminableInterface) {
-            if (!$this->debug) {
-                if (function_exists('fastcgi_finish_request')) {
-                    fastcgi_finish_request();
-                } elseif ('cli' !== PHP_SAPI) {
-                    Response::closeOutputBuffers(0, true);
-                }
-            }
-
             $this->getHttpKernel()->terminate($request, $response);
         }
     }

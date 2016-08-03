@@ -40,11 +40,6 @@ class Cliente extends Model
     }
 
 
-    public function Ordenes_Cliente()
-    {
-        return $this->hasMany(Ordene::class, 'idCliente', 'id');
-    }
-
     public function UsuarioNC()
     {
         return $this->belongsTo(Usuario::class, 'idUsuario', 'id');

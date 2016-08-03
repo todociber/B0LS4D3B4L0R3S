@@ -32,6 +32,7 @@ class ErrorHandler
     private $uncaughtExceptionLevel;
     private $previousErrorHandler;
     private $errorLevelMap;
+    private $handleOnlyReportedErrors;
     private $hasFatalErrorHandler;
     private $fatalLevel;
     private $reservedMemory;
@@ -68,13 +69,15 @@ class ErrorHandler
         return $handler;
     }
 
-    public function registerErrorHandler(array $levelMap = array(), $callPrevious = true, $errorTypes = -1)
+    public function registerErrorHandler(array $levelMap = array(), $callPrevious = true, $errorTypes = -1, $handleOnlyReportedErrors = true)
     {
         $prev = set_error_handler(array($this, 'handleError'), $errorTypes);
         $this->errorLevelMap = array_replace($this->defaultErrorLevelMap(), $levelMap);
         if ($callPrevious) {
             $this->previousErrorHandler = $prev ?: true;
         }
+
+        $this->handleOnlyReportedErrors = $handleOnlyReportedErrors;
     }
 
     protected function defaultErrorLevelMap()
@@ -139,14 +142,14 @@ class ErrorHandler
      */
     public function handleError($code, $message, $file = '', $line = 0, $context = array())
     {
-        if (!(error_reporting() & $code)) {
+        if ($this->handleOnlyReportedErrors && !(error_reporting() & $code)) {
             return;
         }
 
         // fatal error codes are ignored if a fatal error handler is present as well to avoid duplicate log entries
         if (!$this->hasFatalErrorHandler || !in_array($code, self::$fatalErrors, true)) {
             $level = isset($this->errorLevelMap[$code]) ? $this->errorLevelMap[$code] : LogLevel::CRITICAL;
-            $this->logger->log($level, self::codeToString($code) . ': ' . $message, array('code' => $code, 'message' => $message, 'file' => $file, 'line' => $line, 'context' => $context));
+            $this->logger->log($level, self::codeToString($code) . ': ' . $message, array('code' => $code, 'message' => $message, 'file' => $file, 'line' => $line));
         }
 
         if ($this->previousErrorHandler === true) {

@@ -29,6 +29,6 @@ class __TwigTemplate_VarDumperFixture_u75a09 extends Twig_Template
         throw new \Exception('Foobar');
     }
 }
-/* foo bar*/
+/*   foo bar*/
 /*     twig source*/
 /* */

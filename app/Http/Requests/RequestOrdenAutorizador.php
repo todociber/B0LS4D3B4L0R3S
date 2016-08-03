@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class RequestUsuarioCasaCorredora extends Request
+class RequestOrdenAutorizador extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,8 @@ class RequestUsuarioCasaCorredora extends Request
     public function rules()
     {
         return [
-            'nombre'=>'required',
-            'apellido'=>'required',
-            'email' => 'required|email|unique:usuarios,email',
-            'rolUsuario' => 'required|array|exists:roles,id'
-
+            'agentes' => 'required|exists:usuarios,id',
+            'Comision' => 'required|min:0'
         ];
     }
 }

@@ -17,13 +17,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            @if(Session::has('message'))
-                                <div class="alert alert-{{Session::get('tipo')}} alert-dismissible" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                                aria-hidden="true">&times;</span></button>
-                                    {{Session::get('message')}}
-                                </div>
-                            @endif
+                            @include('alertas.flash')
+                            @include('alertas.errores')
 
                             <br><br>
 
@@ -44,11 +39,10 @@
                                     <tr>
                                         <td>
 
-                                            botones
-
+                                            {!!link_to_route('Ordenes.asignar', $title = 'Detalles', $parameters = $orden->id, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
 
                                         </td>
-                                        <td>{{$orden->ClientesN->RolUsuarioNs->UsuarioN->nombre}}  {{$orden->ClientesN->RolUsuarioNs->UsuarioN->apellido}}</td>
+                                        <td>{{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->nombre}}  {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->apellido}}</td>
                                         <td>{{$orden->monto}}</td>
                                         <td>{{$orden->TipoMercadoN->nombre}}</td>
 

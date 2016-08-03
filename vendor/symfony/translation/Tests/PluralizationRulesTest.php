@@ -37,11 +37,11 @@ class PluralizationRulesTest extends \PHPUnit_Framework_TestCase
      */
     public function testFailedLangcodes($nplural, $langCodes)
     {
-        $matrix = $this->generateTestData($nplural, $langCodes);
+        $matrix = $this->generateTestData($langCodes);
         $this->validateMatrix($nplural, $matrix, false);
     }
 
-    protected function generateTestData($plural, $langCodes)
+    protected function generateTestData($langCodes)
     {
         $matrix = array();
         foreach ($langCodes as $langCode) {
@@ -78,7 +78,7 @@ class PluralizationRulesTest extends \PHPUnit_Framework_TestCase
      */
     public function testLangcodes($nplural, $langCodes)
     {
-        $matrix = $this->generateTestData($nplural, $langCodes);
+        $matrix = $this->generateTestData($langCodes);
         $this->validateMatrix($nplural, $matrix);
     }
 

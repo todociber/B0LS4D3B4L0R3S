@@ -10,6 +10,7 @@
     {!! Html::style('assets/css/bootstrap.css') !!}
             <!-- Font Awesome -->
     {!! Html::style('assets/css/font-awesome.css') !!}
+    {!! Html::style('dist/css/select2.css') !!}
             <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.css">
     <!-- DataTables -->
@@ -23,6 +24,8 @@
 
             <!-- jQuery 2.1.4 -->
     {!! Html::script('assets/plugins/jQuery/jQuery-2.1.4.min.js') !!}
+
+    {!! Html::script('dist/js/select2.js') !!}
             <!-- Bootstrap 3.3.5 -->
     {!! Html::script('assets/js/bootstrap.min.js') !!}
             <!-- DataTables -->
@@ -43,6 +46,8 @@
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <![endif]-->
+
+
 </head>
 <body class="hold-transition skin-black-light sidebar-mini">
 <div class="wrapper">
