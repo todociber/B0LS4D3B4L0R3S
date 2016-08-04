@@ -22,7 +22,7 @@ Route::resource('Login','LoginController');
 
 //------CLIENTES ROUTES----//
 
-Route::get('clientes/NuevaOrden','ClientesController@NuevaOrden')->name('nuevaOrden');
+
 
 //-----CASA CORREDORA ROUTES----//
 
@@ -62,6 +62,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('UsuarioBolsa', 'UsuariosBolsaController');
 
 //------BOLSA DE VALORES ROUTES--//
+
+//------CLIENTES ROUTES--//
+
+    Route::get('clientes/NuevaOrden','ClientesController@NuevaOrden')->name('nuevaOrden');
+    Route::get('Cliente/ListadoOrdenesV', 'ClientesController@ListadoOrdenesVigentes')->name('listadoordenesclienteV');
+    Route::resource('Clientes', 'ClientesController');
+    //------CLIENTES ROUTES--//
 
 
 

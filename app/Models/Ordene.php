@@ -22,7 +22,6 @@ class Ordene extends Model
         'monto',
         'tasa de interes',
         'emisor',
-        'idTipoMercado',
         'idCliente',
         'idCorredor',
         'idTipoOrden',
@@ -52,12 +51,6 @@ class Ordene extends Model
     public function Operaiones_ordenes()
     {
         return $this->hasMany(OperacionBolsa::class, 'idOden', 'id');
-    }
-
-
-    public function TipoMercadoN()
-    {
-        return $this->belongsTo(TipoMercado::class, 'idTipoMercado', 'id');
     }
 
 

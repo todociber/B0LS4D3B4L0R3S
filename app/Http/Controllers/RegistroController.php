@@ -79,108 +79,114 @@ class RegistroController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-        $this->validate($request, [
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'dui' => 'required|unique:clientes,dui|numeric',
-            'nit' => 'required|unique:clientes,nit|numeric',
-            'nacimiento' => 'required|date',
-            'numeroCasa' => 'required|numeric',
-            'numeroCelular' => 'required|numeric',
-            'departamento' => 'required',
-            'municipio' => 'required',
-            'direccion' => 'required',
-            'cedeval.*.cuenta' => 'required|numeric|unique:cedevals,cuenta',
-            'casaCorredora' => 'required',
-            'numeroafiliacion' => 'required|numeric',
-            'password' => 'required',
-            'password2' => 'required',
-            'email' => 'required|email|unique:usuarios,email',
-        ]);
-
-        $usuario = new Usuario();
-
-        if ($request['password'] != $request['password2']) {
-            flash('Las contraseñas ingresadas no coinciden.', 'info');
-            return redirect()->route('Registro.index');
-        } else {
-
-            $usuario->fill(
-                [
-                    'idOrganizacion' => 17,
-                    'nombre' => $request['nombre'],
-                    'apellido' => $request['apellido'],
-                    'email' => $request['email'],
-                    'password' => Hash::make($request['password2']),
-                ]
-            );
-            $usuario->save();
-
-            $rolUsuario = new RolUsuario();
-            $rolUsuario->fill(
-                [
-                    'idUsuario' => $usuario->id,
-                    'idRol' => 5,
-
-
-                ]
-            );
-            $rolUsuario->save();
-
-
-            $clientes = new Cliente();
-
-            $clientes->fill(
-                [
-                    'idUsuario' =>  $usuario->id,
-                    'dui' => $request['dui'],
-                    'nit' => $request['nit'],
-                    'fecha de nacimiento' => Carbon::parse( $request['nacimiento'])->format('Y-m-d'),
-
-                ]
-            );
-            $clientes->save();
-
-             $direccion = new Direccione();
-            $direccion->fill(
-                [
-                    'idMunicipio' => $request['municipio'],
-                    'idCliente' => $clientes->id,
-                    'detalle' => $request['direccion'],
-
-                ]
-            );
-            $direccion->save();
-           // var_dump($request['cedeval']);
-            /*$key => $value*/
-            foreach ($request['cedeval'] as $cede) {
-                $cedeval = new Cedeval([
-                    'idCliente' => $clientes->id,
-                    'cuenta' => $cede['cuenta'],
-                ]);
-                $cedeval->save();
-            }
-            $solicitud = new SolicitudRegistro();
-            $solicitud->fill([
-                'idCliente' => $clientes->id,
-                'idOrganizacion' => $request['casaCorredora'],
-                'numeroDeAfiliado' => $request['numeroafiliacion'],
+        try {
+            $this->validate($request, [
+                'nombre' => 'required',
+                'apellido' => 'required',
+                'dui' => 'required|unique:clientes,dui|numeric',
+                'nit' => 'required|unique:clientes,nit|numeric',
+                'nacimiento' => 'required|date',
+                'numeroCasa' => 'required|numeric',
+                'numeroCelular' => 'required|numeric',
+                'departamento' => 'required',
+                'municipio' => 'required',
+                'direccion' => 'required',
+                'cedeval.*.cuenta' => 'required|numeric|unique:cedevals,cuenta',
+                'casaCorredora' => 'required',
+                'numeroafiliacion' => 'required|numeric',
+                'password' => 'required',
+                'password2' => 'required',
+                'email' => 'required|email|unique:usuarios,email',
             ]);
-            $solicitud->save();
 
-            flash('Datos ingresados con exito', 'success');
-            return redirect()->route('Registro.index');
+            $usuario = new Usuario();
 
-        }
+            if ($request['password'] != $request['password2']) {
+                flash('Las contraseñas ingresadas no coinciden.', 'info');
+                return redirect()->route('Registro.index');
+            } else if (!$this->verifyCedeval($request['cedeval'])) {
+                flash('Ha ingresado cuentas cedevales repetidas', 'info');
+                return redirect()->route('Registro.index');
+            } else {
 
-    } catch (Exception $e){
+                $usuario->fill(
+                    [
+                        'idOrganizacion' => 17,
+                        'nombre' => $request['nombre'],
+                        'apellido' => $request['apellido'],
+                        'email' => $request['email'],
+                        'password' => Hash::make($request['password2']),
+                    ]
+                );
+                $usuario->save();
+
+                $rolUsuario = new RolUsuario();
+                $rolUsuario->fill(
+                    [
+                        'idUsuario' => $usuario->id,
+                        'idRol' => 5,
+
+
+                    ]
+                );
+                $rolUsuario->save();
+
+
+                $clientes = new Cliente();
+
+                $clientes->fill(
+                    [
+                        'idUsuario' => $usuario->id,
+                        'dui' => $request['dui'],
+                        'nit' => $request['nit'],
+                        'fecha de nacimiento' => Carbon::parse($request['nacimiento'])->format('Y-m-d'),
+
+                    ]
+                );
+                $clientes->save();
+
+                $direccion = new Direccione();
+                $direccion->fill(
+                    [
+                        'idMunicipio' => $request['municipio'],
+                        'idCliente' => $clientes->id,
+                        'detalle' => $request['direccion'],
+
+                    ]
+                );
+                $direccion->save();
+                // var_dump($request['cedeval']);
+                /*$key => $value*/
+
+
+                foreach ($request['cedeval'] as $cede) {
+                    $cedeval = new Cedeval([
+                        'idCliente' => $clientes->id,
+                        'cuenta' => $cede['cuenta'],
+                    ]);
+                    $cedeval->save();
+                }
+                $solicitud = new SolicitudRegistro();
+                $solicitud->fill([
+                    'idCliente' => $clientes->id,
+                    'idOrganizacion' => $request['casaCorredora'],
+                    'numeroDeAfiliado' => $request['numeroafiliacion'],
+                ]);
+                $solicitud->save();
+
+                flash('Datos ingresados con exito', 'success');
+                return redirect()->route('Registro.index');
+
+            }
+
+        } catch (Exception $e) {
 
             flash('Ocurrio un problema al ingresar la información', 'danger');
             return redirect()->route('Registro.index');
         }
 
-}
+    }
+
     /**
      * Display the specified resource.
      *
@@ -225,4 +231,35 @@ class RegistroController extends Controller
     {
         //
     }
+
+
+//PARA VERIFICAR SI EL USUARIO HA INGRESADO CUENTAS CEDEVALS REPETIDAS
+    public function verifyCedeval($cedevals)
+    {
+        $CopyCede = $cedevals;
+        $BandFirst = true;
+        $BandTwo = true;
+        $i = 0;
+        $y = 0;
+        while ($BandFirst && $i < count($cedevals)) {
+            $cede1 = $cedevals[$i];
+            while ($BandTwo && $y < count($CopyCede)) {
+                $cede2 = $CopyCede[$y];
+                if ($i != $y) {
+                    if ($cede1['cuenta'] == $cede2['cuenta']) {
+                        $BandFirst = false;
+                        $BandTwo = false;
+
+                    }
+                }
+                $y++;
+            }
+
+            $i++;
+        }
+
+        return $BandFirst;
+    }
+
 }
+

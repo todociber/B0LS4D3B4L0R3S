@@ -37,7 +37,14 @@
             <!-- AdminLTE for demo purposes -->
     {!! Html::script('assets/dist/js/demo.js') !!}
 
+    {!! Html::script('assets/plugins/datepicker/bootstrap-datepicker.js') !!}
+
+    {!! Html::script('assets/plugins/timepicker/bootstrap-timepicker.min.js') !!}
+    {!! Html::script('assets/plugins/datepicker/locales/bootstrap-datepicker.es.js') !!}
+
+    {!! Html::style('assets/plugins/datepicker/datepicker3.css') !!}
     {!! Html::script('assets/js/loading.js') !!}
+    {!! Html::style('assets/css/SERO.css') !!}
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -114,17 +121,17 @@
 
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li class="header">MENU</li>
+                <li class="header">Menu</li>
                 <li id="ordenes" class=" treeview">
                     <a href="#">
                         <i class="fa fa-archive"></i> <span>Ordenes</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li  id="listadoOrdenes" ><a href="ordenes_list.html"><i class="fa fa-circle-o"></i> Listado general de ordenes</a></li>
-                        <li id="nuevaOrden"><a href="ordenes_form.html"><i class="fa fa-circle-o"></i> Nueva orden</a></li>
+                        <li  id="listadoOrdenes" ><a href="{{route('listadoordenesclienteV')}}"><i class="fa fa-circle-o"></i>Ordenes Vigentes</a></li>
+                        <li id="nuevaOrden"><a href="{{route('nuevaOrden')}}"><i class="fa fa-circle-o"></i> Nueva orden</a></li>
                     </ul>
                 </li>
-                <li class="active">
+                <li>
                     <a href="#">
                         <i class="fa fa-home"></i>
                         <span>Afiliación</span>
@@ -133,7 +140,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="Solicitudes_Afiliacion.html"><i class="fa fa-circle-o"></i>Solicitudes de afiliación</a></li>
-                        <li class="active"><a href="afiliacion_form.html"><i class="fa fa-circle-o"></i> Afiliarse a una casa</a></li>
+                        <li><a href="afiliacion_form.html"><i class="fa fa-circle-o"></i> Afiliarse a una casa</a></li>
                         <li ><a href="#"><i class="fa fa-circle-o"></i> Listado de casas afiliado
                             </a></li>
                     </ul>

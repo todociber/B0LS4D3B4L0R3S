@@ -87,6 +87,8 @@ class AuthController extends Controller
         }
         else {
             //CLIENTE
+            return redirect()->route('listadoordenesclienteV');
+
 
         }
 
