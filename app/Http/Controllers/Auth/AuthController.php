@@ -29,7 +29,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/UsuarioCasaCorredora';
+    // protected $redirectTo = '/UsuarioCasaCorredora';
 
     /**
      * Create a new authentication controller instance.
@@ -55,6 +55,47 @@ class AuthController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
     }
+
+    protected function authenticated($request, $usuario)
+    {
+
+        /*
+         * 1- ADMNISTRADOR BOLSA DE VALORES
+         * 2-ADMNISTRADOR CASA CORREDORA
+         * 3-OPERADOR
+         * 4-AGENTE CORREDOR
+         * 5-CLIENTE
+         * */
+      //  var_dump($usuario->UsuarioRoles->RolN->id);
+
+
+        $userType=$usuario->UsuarioRoles[0]->RolN->id;
+
+        
+        if ($userType == 1) {
+
+            return redirect()->route('catalogoUsuarios');
+            //listadoCasas
+
+        } else if ($userType == 2 || $userType == 3 || $userType == 4) {
+            /*SE DEBE ENVIAR A UNA PANTALLA DONDE EL ELIJA EN CUAL MODULO DESEA ENTRAR
+                ESTA PANTALLA DEBE CARGAR DINAMICAMENTE LOS BOTONES SEGUN LOS PERMISO QUE TENGA.
+            */
+
+            return redirect()->route('UsuarioCasaCorredora.index');
+            //UsuarioCasaCorredora
+        }
+        else {
+            //CLIENTE
+            return redirect()->route('listadoordenesclienteV');
+
+
+        }
+
+
+        //return redirect()->route('listadoCasas'); //redirect to standard user homepage
+    }
+
 
     /**
      * Create a new user instance after a valid registration.

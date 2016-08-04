@@ -15,7 +15,8 @@ class Cliente extends Model
     protected $fillable = [
         'dui',
         'nit',
-        'fecha de nacimiento'
+        'fecha de nacimiento',
+        'idUsuario'
     ];
 
     protected $guarded = [];
@@ -28,9 +29,9 @@ class Cliente extends Model
         return $this->hasMany(Cedeval::class, 'idCliente', 'id');
     }
 
-    public function ClienteOrganizacionR()
+    public function Ordenes_Cliente()
     {
-        return $this->hasMany(ClienteOrganizacion::class, 'idCliente', 'id');
+        return $this->hasMany(Ordene::class, 'idCliente', 'id');
     }
 
     public function ClienteSolicitud()
@@ -39,16 +40,11 @@ class Cliente extends Model
     }
 
 
-    public function Ordenes_Cliente()
+    public function UsuarioNC()
     {
-        return $this->hasMany(Ordene::class, 'idCliente', 'id');
+        return $this->belongsTo(Usuario::class, 'idUsuario', 'id');
     }
 
-
-    public function RolUsuarioNs()
-    {
-        return $this->hasMany(RolUsuario::class, 'idCliente', 'id');
-    }
 
     public function DireccionesUsuario()
     {

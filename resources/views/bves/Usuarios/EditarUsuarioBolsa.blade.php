@@ -37,6 +37,8 @@
                             </div>
                             <div class="box-footer">
                                 {!!Form::submit('Modificar Usuario', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit', 'onclick'=>"waitingDialog.show('Procesando... ',{ progressType: 'info'})"])!!}
+                                <button type="button" onclick="window.location.href='{!! route('restaurarpassword',['id'=>$usuario->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'}); " class="btn btn-warning btn-flat">Restaurar la contraseña</button>
+
                             </div>
                             {{ Form::close() }}
 

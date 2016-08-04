@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateRolUsuariosTable extends Migration
 {
@@ -16,13 +16,12 @@ class CreateRolUsuariosTable extends Migration
             $table->increments('id');
             $table->integer('idUsuario')->unsigned();
             $table->integer('idRol')->unsigned();
-            $table->integer('idCliente')->unsigned()->nuleable();
+
             $table->foreign('idUsuario')
                 ->references('id')->on('usuarios');
             $table->foreign('idRol')
                 ->references('id')->on('roles');
-            $table->foreign('idCliente')
-                ->references('id')->on('clientes');
+
 
             $table->timestamps();
             $table->softDeletes();

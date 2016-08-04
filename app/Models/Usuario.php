@@ -19,13 +19,13 @@ class Usuario extends Model implements AuthenticatableContract,
     CanResetPasswordContract
 {
 
+    public $timestamps = true;
+    protected $table = 'usuarios';
+
 
     use Authenticatable, Authorizable, CanResetPassword, SoftDeletes;
 
 
-
-    public $timestamps = true;
-    protected $table = 'usuarios';
     protected $fillable = [
         'nombre',
         'apellido',
@@ -56,13 +56,32 @@ class Usuario extends Model implements AuthenticatableContract,
         return $this->hasMany(RolUsuario::class, 'idUsuario', 'id');
     }
 
+    public function UsuarioAsignado()
+    {
+        return $this->hasMany(SolicitudRegistro::class, 'idUsuario', 'id');
+    }
+
     public function BitacoraUsuarios()
     {
         return $this->hasMany(BitacoraUsuario::class, 'idUsuario', 'id');
     }
 
+    public function MensajesUsuarios()
+    {
+        return $this->hasMany(Mensaje::class, 'idUsuario', 'id');
+    }
+
+    public function ClienteN()
+    {
+        return $this->hasOne(Cliente::class, 'idUsuario', 'id');
+    }
+
     public function scopeOfid($query, $id)
     {
+
+    }
+    public function scopeOfType($query, $id){
+
         if (trim($id)!="")
         {
             $query->where('id', $id);

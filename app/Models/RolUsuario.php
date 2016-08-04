@@ -15,7 +15,7 @@ class RolUsuario extends Model
     protected $fillable = [
         'idUsuario',
         'idRol',
-        'idCliente'
+
     ];
 
     protected $guarded = [];
@@ -33,12 +33,6 @@ class RolUsuario extends Model
     {
         return $this->belongsTo(Role::class, 'idRol', 'id');
     }
-
-    public function ClienteN()
-    {
-        return $this->belongsTo(Cliente::class, 'idCliente', 'id');
-    }
-
 
 
     public function scopeOfid($query, $id)

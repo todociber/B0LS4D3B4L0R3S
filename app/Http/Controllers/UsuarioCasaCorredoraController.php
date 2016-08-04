@@ -12,6 +12,7 @@ use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Mockery\CountValidator\Exception;
+use Redirect;
 
 
 //use App\Http\Controllers\Datatable;
@@ -62,6 +63,15 @@ class UsuarioCasaCorredoraController extends Controller
     public function store(Requests\RequestUsuarioCasaCorredora $request)
     {
 
+        foreach ($request['rolUsuario'] as $roles) {
+            if ($roles > 1 && $roles < 5) {
+
+            } else {
+                return Redirect::back()->withInput()->withErrors(['Error en roles']);
+            }
+        }
+
+
         $correoUsuario = $request['email'];
         $caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //posibles caracteres a usar
         $numerodeletras=8; //numero de letras para generar el texto
@@ -97,8 +107,8 @@ class UsuarioCasaCorredoraController extends Controller
             $RolUsuario->save();
         }
 
-
-        return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario  se registro exitosamente la contraseña es ' . $cadena)->with('tipo', 'success');
+        flash('El usuario  se registro exitosamente', 'success');
+        return redirect('/UsuarioCasaCorredora');
     }
 
     /**
@@ -176,6 +186,13 @@ class UsuarioCasaCorredoraController extends Controller
                 ->withErrors($error->errors())
                 ->withInput($request->all());
         }
+        foreach ($request['rolUsuario'] as $roles) {
+            if ($roles > 1 && $roles < 5) {
+
+            } else {
+                return Redirect::back()->withInput()->withErrors(['Error en roles']);
+            }
+        }
 
 
         $usuario = Usuario::find($id);
@@ -214,8 +231,6 @@ class UsuarioCasaCorredoraController extends Controller
                         if ($role2 == $idRolDisponible) {
                             $existeId = 1;
                         }
-
-
 
 
                     }
@@ -257,7 +272,8 @@ class UsuarioCasaCorredoraController extends Controller
                 }
 
             }
-            return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se edito exitosamente')->with('tipo', 'success');
+            flash('El usuario se edito exitosamente', 'success');
+            return redirect('/UsuarioCasaCorredora');
         }
 
 
@@ -273,7 +289,7 @@ class UsuarioCasaCorredoraController extends Controller
     {
 
 
-        $Usuario = Usuario::ofid($id);
+        $Usuario = Usuario::find($id);
 
 
         try {
@@ -284,13 +300,28 @@ class UsuarioCasaCorredoraController extends Controller
             return redirect('/home');
         }
 
+
         if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
             return redirect('/home');
         } elseif ($id == Auth::user()->id) {
             return redirect('/home');
         } else {
+
+
+            foreach ($Usuario->UsuarioAsignado as $solicitudes) {
+
+                if ($solicitudes->idEstadoSolicitud == 4) {
+                    $solicitudes->fill([
+                        'idUsuario' => NULL,
+                        'idEstadoSolicitud' => '1'
+                    ]);
+                    $solicitudes->save();
+                }
+
+            }
             $Usuario->delete();
-            return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se elimino exitosamente')->with('tipo', 'danger');
+            flash('El usuario se desactivo exitosamente', 'danger');
+            return redirect('/UsuarioCasaCorredora');
         }
 
     }
@@ -299,23 +330,30 @@ class UsuarioCasaCorredoraController extends Controller
     {
 
 
-        $Usuario = Usuario::ofid($id);
+        $Usuario = Usuario::withTrashed()->find($id);
 
 
         try {
             $Usuario->id;
         } catch (ErrorException $i) {
+
             return redirect('/home');
         } catch (Exception $e) {
+
             return redirect('/home');
         }
         if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
+
             return redirect('/home');
         } elseif ($id == Auth::user()->id) {
+
+
             return redirect('/home');
         } else {
+
             $Usuario->restore();
-            return redirect('/UsuarioCasaCorredora')->with('message', 'El usuario se activo exitosamente')->with('tipo', 'warning');
+            flash('El usuario se activo exitosamente', 'warning');
+            return redirect('/UsuarioCasaCorredora');
         }
     }
 
@@ -347,8 +385,8 @@ class UsuarioCasaCorredoraController extends Controller
         );
         $Usuario->save();
 
-
-        return redirect('/UsuarioCasaCorredora')->with('message', 'Se envio una nueva contraseña al correo del usuario')->with('tipo', 'info');
+        flash('Se envio una nueva contraseña al correo del usuario', 'info');
+        return redirect('/UsuarioCasaCorredora');
 
 
     }

@@ -20,7 +20,7 @@
          folder instead of downloading all of them to reduce the load. -->
     {!! Html::style('assets/dist/css/skins/_all-skins.css') !!}
 
-      <!--  DROPZONE CSS -->
+            <!--  DROPZONE CSS -->
     {!! Html::style('assets/css/dropzone.css') !!}
             <!--  LADDA CSS -->
     {!! Html::style('assets/css/ladda-themeless.min.css') !!}
@@ -75,40 +75,12 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="hidden-xs">Nombre Usuario</span>
+                        <div class="margin-Div">
+                        <a href="{{url('/logout')}}" class="btn btn-danger">
+                           Cerrar Sesión
                         </a>
-                        <ul class="dropdown-menu">
-                            <!-- User image -->
-                            <li class="user-header">
-                                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                                <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2012</small>
-                                </p>
-                            </li>
-                            <!-- Menu Body -->
-                            <li class="user-body">
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Followers</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Sales</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Friends</a>
-                                </div>
-                            </li>
-                            <!-- Menu Footer-->
-                            <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                                </div>
-                            </li>
-                        </ul>
+                        </div>
+
                     </li>
                     <!-- Control Sidebar Toggle Button -->
 

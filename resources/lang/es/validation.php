@@ -31,7 +31,7 @@ return [
     "different"        => ":attribute y :other deben ser diferentes.",
     "digits"           => ":attribute debe tener :digits d�gitos.",
     "digits_between"   => ":attribute debe tener entre :min y :max d�gitos.",
-    "email"            => ":attribute no es un correo v�lido",
+    "email" => ":attribute no es un correo v�lido",
     "exists"           => ":attribute es inv�lido.",
     "filled"           => "El campo :attribute es obligatorio.",
     "image"            => ":attribute debe ser una imagen.",
@@ -53,7 +53,7 @@ return [
         "array"   => ":attribute debe tener al menos :min elementos.",
     ],
     "not_in"           => ":attribute es inv�lido.",
-    "numeric"          => ":attribute debe ser num�rico.",
+    "numeric"          => ":attribute debe ser numérico.",
     "regex"            => "El formato de :attribute es inv�lido.",
     "required"         => "El campo :attribute es obligatorio.",
     "required_if"      => "El campo :attribute es obligatorio cuando :other es :value.",
@@ -83,9 +83,79 @@ return [
     |
     */
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'email' => [
+            'required' => 'El correo electrónico es requerido',
+            'email' => 'Debe escribir un correo electrónico valido',
+            'unique'=>'El correo electrónico ingresado ya se encuentra registrado'
         ],
+        'password2' => [
+            'required' => 'Debe escribir una contraseña',
+
+        ],
+        'password' => [
+            'required' => 'Debe escribir una contraseña',
+
+        ],
+        'numeroafiliacion' => [
+            'required' => 'El código de afiliación es requerido',
+            'numeric' => 'Debe ingrear solo números para el codigod e afiliación',
+
+        ],
+        'casaCorredora' => [
+            'required' => 'Debe ingresar la casa corredora a la que desea afiliarse',
+
+        ],
+        'cedeval.*.cuenta' => [
+            'required' => 'Debe ingresar al menos una cuenta cedeval',
+            'numeric' => 'La cuenta cedeval solo debe llevar números',
+            'unique' => 'Una o varias de las cuentas cedeval ingresadas ya se encuentran registradas',
+
+        ],
+        'direccion' => [
+            'required' => 'Debe ingresar la dirección',
+        ],
+        'municipio' => [
+            'required' => 'Debe elejir un municipio',
+        ],
+        'departamento' => [
+            'required' => 'Debe elejir un departamento',
+        ],
+        'numeroCelular' => [
+            'required' => 'Debe escribir un número celular',
+            'numeric' => 'Debe escribir un número de celular valido',
+            'max' => ['numeric'=>'Numero celular no debe exceder de 8 digitos'],
+            'min' => ['numeric'=>'Numero celular no debe ser menor a 8 digitos'],
+        ],
+        'numeroCasa' => [
+            'required' => 'Debe escribir un número casa',
+            'numeric' => 'Debe escribir un número de casa valido',
+            'max' => ['numeric'=>'Numero de casa no debe exceder de 8 digitos'],
+            'min' =>  ['numeric'=>'Numero de casa no debe ser menor a 8 digitos'],
+        ],
+        'nacimiento' => [
+            'required' => 'Debe seleccionar una fecha de nacimiento',
+            'date' => 'Debe escribir una fecha de nacimiento valida',
+        ],
+        'nit' => [
+            'required' => 'Debe escribir un número de NIT',
+            'unique' => 'El número de nit ingresado, ya se encuentra registrado',
+        ],
+        'dui' => [
+            'required' => 'Debe escribir un número de DUI',
+            'unique' => 'El número de DUI ingresado, ya se encuentra registrado',
+            'numeric' => 'Debe escribir un número de DUI valido',
+            'max' => ['numeric'=>'Número de DUI no debe exceder los 9 digitos'],
+            'min' => ['numeric'=>'Número de DUI  no debe ser menor a 9 digitos'],
+        ],
+        'nombre' => [
+            'required' => 'Debe escribir un nombre',
+        ],
+        'apellido' => [
+            'required' => 'Debe escribir un apellido',
+        ],
+
+
+
     ],
     /*
     |--------------------------------------------------------------------------

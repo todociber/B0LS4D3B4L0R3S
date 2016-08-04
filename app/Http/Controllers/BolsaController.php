@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests;
 use App\Models\Organizacion;
 use App\Models\RolUsuario;
 use App\Models\Usuario;
+
 use Illuminate\Http\Request;
-use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Carbon\Carbon;
-use Log;
 use DB;
+use Flash;
 use Mockery\CountValidator\Exception;
 use Validator;
-use Flash;
+
 class BolsaController extends Controller
 {
 
@@ -75,7 +77,7 @@ class BolsaController extends Controller
 
                         }
 
-                      $this->makeUser($request['codigo'],$organizacion,$request['correo']);
+                        $this->makeUser($request['codigo'], $organizacion, $request['correo']);
 
                         //errir 0 todo bien, error 1, no se guardo la imagen, error 3 ya existe una casa con ese codigo
                         return response()->json(['error' => '0']);
@@ -102,28 +104,76 @@ class BolsaController extends Controller
         }
     }
 
-    public function eliminarCasa($id)
+    public function Upload($request)
     {
-    try{
-        Organizacion::destroy($id);
-        flash('Estado cambiado con éxito', 'success');
+
+        try {
+            //upload an image to the /img/tmp directory and return the filepath.
+            $date = Carbon::now();
+            $file = $request->file('file');
+            $tmpFilePath = '/imgTemp/';
+            $tmpFileName = $date->timestamp;
+            $file = $file->move(public_path() . $tmpFilePath, $tmpFileName . '.png');
+            $path = $tmpFileName;
+            return $path;
+        } catch (Exception $e) {
+
+            return 'error';
+
+        }
     }
-    catch (Exception $e){
-        flash('Ocurrio un problema para cambiar el estado', 'danger');
+
+    public function makeUser($codigo, $organizacion, $correo)
+    {
+        $date = Carbon::now();
+        $usuario = new Usuario();
+
+        $hash = Hash::make($date->timestamp . $codigo);
+        $pass = str_limit($hash, 5);
+        //MAKING USER
+        $usuario->fill(
+            [
+                'nombre' => 'admin',
+                'apellido' => 'admin',
+                'email' => $correo,
+                'idOrganizacion' => $organizacion->id,
+                'password' => Hash::make($pass),
+            ]
+        );
+        $usuario->save();
+        //MAKING ROLE
+        $rolUsuario = new RolUsuario();
+        $rolUsuario->fill(
+            [
+                'idUsuario' => $usuario->id,
+                'idRol' => 2,
+
+            ]
+        );
+        $rolUsuario->save();
 
     }
-    return redirect()->route('listadoCasas');
+
+    public function eliminarCasa($id)
+    {
+        try {
+            Organizacion::destroy($id);
+            flash('Estado cambiado con éxito', 'success');
+        } catch (Exception $e) {
+            flash('Ocurrio un problema para cambiar el estado', 'danger');
+
+        }
+        return redirect()->route('listadoCasas');
 
     }
 
     public function RestoreCasa($id)
     {
-        try{
-           $organizacion = Organizacion::withTrashed()->where('id','=',$id)->first();
+        try {
+            $organizacion = Organizacion::withTrashed()->where('id', '=', $id)->first();
             $organizacion->restore();
             flash('Estado cambiado con éxito', 'success');
-        }
-        catch (Exception $e){
+        } catch (Exception $e) {
             flash('Ocurrio un problema para cambiar el estado', 'danger');
 
         }
@@ -142,6 +192,11 @@ class BolsaController extends Controller
 
     }
 
+    //-------CONTROL DE CASAS CORREDORAS-----//
+
+
+    //UPLOAD IMAGE
+
     public function update(Request $request, $id)
     {
 
@@ -156,10 +211,10 @@ class BolsaController extends Controller
                 'file' => 'required',
             ]);
             if (!$validator->fails()) {
-                $codCasa = DB::table('organizacion')->where('organizacion.codigo', '=', $request['codigo'])->where('organizacion.id','!=',$id)->count();
+                $codCasa = DB::table('organizacion')->where('organizacion.codigo', '=', $request['codigo'])->where('organizacion.id', '!=', $id)->count();
 
                 if ($codCasa == 0) {
-                     $organizacion = Organizacion::withTrashed()->where('id',$id)->first();
+                    $organizacion = Organizacion::withTrashed()->where('id', $id)->first();
                     $path = $this->Upload($request);
                     if ($path != 'error') {
                         $date = Carbon::now();
@@ -182,7 +237,7 @@ class BolsaController extends Controller
                             $organizacion->restore();
 
                         }
-                       // $this->makeUser($request['codigo'],$organizacion,$request['correo']);
+                        // $this->makeUser($request['codigo'],$organizacion,$request['correo']);
                         return response()->json(['error' => '0']);
                     } else {
 
@@ -206,68 +261,14 @@ class BolsaController extends Controller
     }
 
 
+    //MAKEUSER
+
     public function ListadoCasas()
     {
         $organizaciones = Organizacion::withTrashed()->get();
 
 
         return View('bves.Casas.ListaCasas', ['organizaciones' => $organizaciones]);
-    }
-
-    //-------CONTROL DE CASAS CORREDORAS-----//
-
-
-
-    //UPLOAD IMAGE
-    public function Upload($request)
-    {
-
-        try {
-            //upload an image to the /img/tmp directory and return the filepath.
-            $date = Carbon::now();
-            $file = $request->file('file');
-            $tmpFilePath = '/imgTemp/';
-            $tmpFileName = $date->timestamp;
-            $file = $file->move(public_path() . $tmpFilePath, $tmpFileName . '.png');
-            $path = $tmpFileName;
-            return $path;
-        } catch (Exception $e) {
-
-            return 'error';
-
-        }
-    }
-
-
-    //MAKEUSER
-    public function makeUser($codigo,$organizacion,$correo){
-        $date = Carbon::now();
-        $usuario = new Usuario();
-
-        $hash = Hash::make($date->timestamp.$codigo);
-        $pass = str_limit($hash,5);
-        //MAKING USER
-        $usuario->fill(
-            [
-                'nombre' => 'admin',
-                'apellido' => 'admin',
-                'email' => $correo,
-                'idOrganizacion' => $organizacion->id,
-                'password' => Hash::make($pass),
-            ]
-        );
-        $usuario->save();
-        //MAKING ROLE
-        $rolUsuario = new RolUsuario();
-        $rolUsuario->fill(
-            [
-                'idUsuario' => $usuario->id,
-                'idRol' => 2,
-
-            ]
-        );
-        $rolUsuario->save();
-
     }
 
 }

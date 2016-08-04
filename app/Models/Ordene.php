@@ -14,22 +14,22 @@ class Ordene extends Model
     protected $table = 'ordenes';
     protected $fillable = [
         'correlativo',
-        'Fecha de vigencia',
+        'FechaDeVigencia',
         'titulo',
-        'cantidad de valores',
-        'valor minimo',
-        'valor maximo',
+        'cantidadDeValores',
+        'valorMinimo',
+        'valorMaximo',
         'monto',
-        'tasa de interes',
+        'tasaDeInteres',
         'emisor',
-        'idTipoMercado',
         'idCliente',
         'idCorredor',
         'idTipoOrden',
         'idTipoEjecucion',
         'idEstadoOrden',
         'idOrganizacion',
-        'idOrden'
+        'idOrden',
+        'idCuentaCedeval'
     ];
 
     protected $guarded = [];
@@ -52,12 +52,6 @@ class Ordene extends Model
     public function Operaiones_ordenes()
     {
         return $this->hasMany(OperacionBolsa::class, 'idOden', 'id');
-    }
-
-
-    public function TipoMercadoN()
-    {
-        return $this->belongsTo(TipoMercado::class, 'idTipoMercado', 'id');
     }
 
 
@@ -89,6 +83,12 @@ class Ordene extends Model
     public function OrganizacionOrdenN()
     {
         return $this->belongsTo(Organizacion::class, 'idOrganizacion', 'id');
+    }
+
+
+    public function CuentaCedeval()
+    {
+        return $this->belongsTo(Cedeval::class, 'idCuentaCedeval', 'id');
     }
 
     public function OrdenPadre()
