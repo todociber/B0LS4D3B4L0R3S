@@ -1,14 +1,10 @@
 @extends('layouts.bolsavalores')
 @section('title')
-    <title>Modificar usuario</title>
+    <title>Mi Perfil</title>
 @stop
-
-
 @section('content')
     <script>
-        $('#usuarios').addClass('active');
-        $('#nuevoUsuario').addClass('active');
-
+        $('#perfil').addClass('active');
     </script>
     <div class="row">
         <div class="col-xs-12">
@@ -18,7 +14,7 @@
                     <!-- general form elements -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Modificar de Usuario</h3>
+                            <h3 class="box-title">Registro de Usuario</h3>
                         </div><!-- /.box-header -->
                         <!-- form start -->
 
@@ -26,21 +22,24 @@
                             <div class="content">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        @include('alertas.errores')
-                                        @include('alertas.flash')
                                         {{Form::model($usuario,['route'=>['UsuarioBolsa.update', $usuario->id],'method' =>'PUT', 'id'=>'form','role' => 'form'])  }}
-                                        @include('bves.Usuarios.FormularioUserBolsa.FormularioUserBolsa')
+                                            <div class="form-group">
+                                                {!!   Form::label('Nombre')!!}
+                                                {!!   Form::text('nombre',null,['class'=>'form-control','placeholder'=>'Ingresa tu nombre']) !!}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ Form::label('Apellido') }}
+                                                {{ Form::text('apellido',null,['class'=>'form-control','placeholder'=>'Ingresa tu apellido']) }}
+                                            </div>
+                                            {!!Form::submit('Modificar información', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit', 'onclick'=>"waitingDialog.show('Procesando... ',{ progressType: 'info'})"])!!}
+                                            {{ Form::close() }}
 
+
+                                        </form>
                                     </div>
 
                                 </div>
                             </div>
-                            <div class="box-footer">
-                                {!!Form::submit('Modificar Usuario', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit', 'onclick'=>"waitingDialog.show('Procesando... ',{ progressType: 'info'})"])!!}
-                                <button type="button" onclick="window.location.href='{!! route('restaurarpassword',['id'=>$usuario->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'}); " class="btn btn-warning btn-flat">Restaurar la contraseña</button>
-
-                            </div>
-                            {{ Form::close() }}
 
                         </div>
 

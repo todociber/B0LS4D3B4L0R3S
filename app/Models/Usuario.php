@@ -19,13 +19,13 @@ class Usuario extends Model implements AuthenticatableContract,
     CanResetPasswordContract
 {
 
+    public $timestamps = true;
+    protected $table = 'usuarios';
+
 
     use Authenticatable, Authorizable, CanResetPassword, SoftDeletes;
 
 
-
-    public $timestamps = true;
-    protected $table = 'usuarios';
     protected $fillable = [
         'nombre',
         'apellido',
@@ -78,6 +78,10 @@ class Usuario extends Model implements AuthenticatableContract,
 
     public function scopeOfid($query, $id)
     {
+
+    }
+    public function scopeOfType($query, $id){
+
         if (trim($id)!="")
         {
             $query->where('id', $id);

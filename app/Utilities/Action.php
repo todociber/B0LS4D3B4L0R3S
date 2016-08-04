@@ -13,10 +13,15 @@ class Action
     {
 
         $date = Carbon::now();
+
         $hash = Hash::make($date->timestamp . $data);
         $pass = str_limit($hash, 5);
 
-        return $pass;
+        $hash = Hash::make($date->timestamp.$data);//Hash::make($date->timestamp.$data);
+        $pass = str_limit($hash,5);
+
+
+        return '12345';
 
     }
 
