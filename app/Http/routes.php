@@ -73,20 +73,35 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-    Route::group(['middleware' => 'administrradorBolsa'], function () {
+
+});
+
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => 'administradorCasaCorredora'], function () {
         Route::get('UsuarioCasaCorredora/crear', 'UsuarioCasaCorredoraController@crear')->name('UsuarioCasaCorredora.crear');
         Route::get('UsuarioCasaCorredora/{id}/editar', 'UsuarioCasaCorredoraController@editar')->name('UsuarioCasaCorredora.editar');
         Route::get('UsuarioCasaCorredora/{id}/restaurar', 'UsuarioCasaCorredoraController@restaurar')->name('UsuarioCasaCorredora.restaurar');
         Route::get('UsuarioCasaCorredora/{id}/resetear', 'UsuarioCasaCorredoraController@resetar')->name('UsuarioCasaCorredora.resetearpassword');
         Route::resource('UsuarioCasaCorredora', 'UsuarioCasaCorredoraController');
     });
+    Route::group(['middleware' => 'OperadorCasaCorredora'], function () {
+        Route::get('SolicitudAfiliacion/{id}/detalle', 'SolicitudesCasaCorredora@detalle')->name('SolicitudAfiliacion.detalle');
+        Route::get('SolicitudAfiliacion/{id}/aceptar', 'SolicitudesCasaCorredora@aceptar')->name('SolicitudAfiliacion.aceptar');
+        Route::get('SolicitudAfiliacion/procesando', 'SolicitudesCasaCorredora@Procesando');
+        Route::get('SolicitudAfiliacion/procesadas', 'SolicitudesCasaCorredora@Procesadas');
+        Route::get('SolicitudAfiliacion/{id}/procesar', 'SolicitudesCasaCorredora@Procesar')->name('SolicitudAfiliacion.procesar');
+        Route::get('Afiliados', 'SolicitudesCasaCorredora@afiliados');
+        Route::get('Afiliados/{id}/eliminar', 'SolicitudesCasaCorredora@eliminar')->name('Afiliado.eliminar');
+
+        Route::resource('SolicitudAfiliacion', 'SolicitudesCasaCorredora');
+    });
+    Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
+    Route::put('Ordenes/{id}/aceptar', 'OrdenesCasaCorredoraAutorizador@aceptar')->name('Ordenes.aceptar');
+    Route::get('Ordenes.{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
+    Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
+
 });
-
-
-Route::resource('SolicitudeAfiliacion', 'SolicitudesCasaCorredora');
-
-
-Route::post('loginPost', 'Autenticador@loginPost');
 
 Route::auth();
 Route::get('admin', 'HomeController@index');
