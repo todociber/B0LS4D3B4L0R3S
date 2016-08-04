@@ -27,6 +27,10 @@ class Cedeval extends Model
         return $this->belongsTo(Cliente::class, 'idCliente', 'id');
     }
 
+    public function OrdenesCedeval()
+    {
+        return $this->hasMany(Ordene::class, 'idCuentaCedeval', 'id');
+    }
     public function scopeOfid($query, $id)
     {
         if (trim($id) != "") {

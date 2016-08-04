@@ -33,10 +33,6 @@ class Organizacion extends Model
         return $this->belongsTo(TipoOrganizacion::class, 'idTipoOrganizacion', 'id');
     }
 
-    public function ClienteOrganizacion()
-    {
-        return $this->hasMany(ClienteOrganizacion::class, 'idOrganizacion', 'id');
-    }
 
     public function SolicitudOrganizacion()
     {

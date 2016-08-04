@@ -32,7 +32,6 @@ class Usuario extends Model implements AuthenticatableContract,
         'email',
         'password',
         'idOrganizacion',
-
         'remember_token'
     ];
 
@@ -65,6 +64,11 @@ class Usuario extends Model implements AuthenticatableContract,
     public function BitacoraUsuarios()
     {
         return $this->hasMany(BitacoraUsuario::class, 'idUsuario', 'id');
+    }
+
+    public function MensajesUsuarios()
+    {
+        return $this->hasMany(Mensaje::class, 'idUsuario', 'id');
     }
 
     public function ClienteN()

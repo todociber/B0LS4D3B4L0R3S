@@ -12,6 +12,7 @@ use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Mockery\CountValidator\Exception;
+use Redirect;
 
 
 //use App\Http\Controllers\Datatable;
@@ -61,6 +62,15 @@ class UsuarioCasaCorredoraController extends Controller
      */
     public function store(Requests\RequestUsuarioCasaCorredora $request)
     {
+
+        foreach ($request['rolUsuario'] as $roles) {
+            if ($roles > 1 && $roles < 5) {
+
+            } else {
+                return Redirect::back()->withInput()->withErrors(['Error en roles']);
+            }
+        }
+
 
         $correoUsuario = $request['email'];
         $caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //posibles caracteres a usar
@@ -175,6 +185,13 @@ class UsuarioCasaCorredoraController extends Controller
             return redirect()->back()
                 ->withErrors($error->errors())
                 ->withInput($request->all());
+        }
+        foreach ($request['rolUsuario'] as $roles) {
+            if ($roles > 1 && $roles < 5) {
+
+            } else {
+                return Redirect::back()->withInput()->withErrors(['Error en roles']);
+            }
         }
 
 

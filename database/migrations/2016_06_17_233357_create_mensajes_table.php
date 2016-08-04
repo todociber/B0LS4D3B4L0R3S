@@ -17,10 +17,10 @@ class CreateMensajesTable extends Migration
             $table->string('contenido',500);
             $table->integer('idTipoMensaje')->unsigned();
             $table->foreign('idTipoMensaje')->references('id')->on('tipo_mensajes');
-
             $table->integer('idOrden')->unsigned();
             $table->foreign('idOrden')->references('id')->on('ordenes');
-            $table->integer('emisor');
+            $table->integer('idUsuario')->unsigned();
+            $table->foreign('idUsuario')->references('id')->on('usuarios');
             $table->timestamps();
             $table->softDeletes();
         });
