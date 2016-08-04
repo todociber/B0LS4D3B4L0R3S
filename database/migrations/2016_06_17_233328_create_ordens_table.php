@@ -24,7 +24,7 @@ class CreateOrdensTable extends Migration
             $table->decimal('tasaDeInteres');
             $table->string('emisor');
             $table->integer('idTipoMercado')->unsigned();
-
+            $table->integer('idCliente')->unsigned();
             $table->integer('idCorredor')->unsigned()->nullable();
             $table->integer('idTipoOrden')->unsigned();
             $table->integer('idTipoEjecucion')->unsigned();
@@ -34,9 +34,10 @@ class CreateOrdensTable extends Migration
             $table->integer('idCuentaCedeval')->unsigned();
             $table->foreign('idTipoMercado')
                 ->references('id')->on('tipo_mercados');
-
             $table->foreign('idCorredor')
                 ->references('id')->on('usuarios');
+            $table->foreign('idCliente')
+                ->references('id')->on('clientes');
             $table->foreign('idTipoOrden')
                 ->references('id')->on('tipo_orden');
             $table->foreign('idTipoEjecucion')
