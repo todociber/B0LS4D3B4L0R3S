@@ -46,6 +46,7 @@ Route::resource('Login','LoginController');
 
 Route::get('clientes/NuevaOrden','ClientesController@NuevaOrden')->name('nuevaOrden');
 
+
 //-----CASA CORREDORA ROUTES----//
 
 
