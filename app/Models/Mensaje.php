@@ -16,7 +16,7 @@ class Mensaje extends Model
         'contenido',
         'idTipoMensaje',
         'idOrden',
-        'emisor'
+        'idUsuario'
     ];
 
     protected $guarded = [];
@@ -27,6 +27,12 @@ class Mensaje extends Model
     public function TipoMensajeN()
     {
         return $this->belongsTo(TipoMensaje::class, 'idTipoMensaje', 'id');
+    }
+
+
+    public function UsuarioMensaje()
+    {
+        return $this->belongsTo(Usuario::class, 'idUsuario', 'id');
     }
 
 

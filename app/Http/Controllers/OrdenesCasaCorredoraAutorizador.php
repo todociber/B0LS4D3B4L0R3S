@@ -55,9 +55,14 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                 ->where('rol_usuarios.idRol', '=', '4')
                 ->whereNull('rol_usuarios.deleted_at')
                 ->lists(DB::raw(' concat_ws("",nombre," ",apellido) as name'), 'usuarios.id');
-
+            $usuariosAgentes = DB::table('usuarios')
+                ->join('rol_usuarios', 'usuarios.id', '=', 'rol_usuarios.idUsuario')
+                ->where('usuarios.idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('rol_usuarios.idRol', '=', '4')
+                ->whereNull('rol_usuarios.deleted_at')
+                ->select('usuarios.*')->get();
             $orden = Ordene::find($id);
-            return view('CasaCorredora.OrdenesAutorizador.asignarAgenteCorredor', compact('orden', 'agentes'));
+            return view('CasaCorredora.OrdenesAutorizador.asignarAgenteCorredor', compact('orden', 'agentes', 'usuariosAgentes'));
         }
 
 

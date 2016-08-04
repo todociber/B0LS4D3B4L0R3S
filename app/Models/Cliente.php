@@ -29,9 +29,9 @@ class Cliente extends Model
         return $this->hasMany(Cedeval::class, 'idCliente', 'id');
     }
 
-    public function ClienteOrganizacionR()
+    public function Ordenes_Cliente()
     {
-        return $this->hasMany(ClienteOrganizacion::class, 'idCliente', 'id');
+        return $this->hasMany(Ordene::class, 'idCliente', 'id');
     }
 
     public function ClienteSolicitud()

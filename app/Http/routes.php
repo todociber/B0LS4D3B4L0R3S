@@ -63,6 +63,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('SolicitudAfiliacion/procesando', 'SolicitudesCasaCorredora@Procesando');
         Route::get('SolicitudAfiliacion/procesadas', 'SolicitudesCasaCorredora@Procesadas');
         Route::get('SolicitudAfiliacion/{id}/procesar', 'SolicitudesCasaCorredora@Procesar')->name('SolicitudAfiliacion.procesar');
+        Route::get('Afiliados', 'SolicitudesCasaCorredora@afiliados');
+        Route::get('Afiliados/{id}/eliminar', 'SolicitudesCasaCorredora@eliminar')->name('Afiliado.eliminar');
+
         Route::resource('SolicitudAfiliacion', 'SolicitudesCasaCorredora');
     });
     Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');

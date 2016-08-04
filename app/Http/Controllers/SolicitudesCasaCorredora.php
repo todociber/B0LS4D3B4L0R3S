@@ -189,7 +189,7 @@ class SolicitudesCasaCorredora extends Controller
     public function Procesadas()
     {
 
-        $solicitudes = SolicitudRegistro::with('ClienteN', 'EstadoSolicitudN')
+        $solicitudes = SolicitudRegistro::with('ClienteNSolicitud', 'EstadoSolicitudN')
             ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
             ->where('idEstadoSolicitud', '!=', '1')->where('idEstadoSolicitud', '!=', '4')
             ->where('idUsuario', '=', Auth::user()->id)
@@ -247,6 +247,47 @@ class SolicitudesCasaCorredora extends Controller
             ->where('idUsuario', '=', Auth::user()->id)
             ->get();
         return view('CasaCorredora.SolicitudesAfiliacion.MostrarAfiliacionesProcesadas', compact('solicitudes'));
+    }
+
+    public function afiliados()
+    {
+        $solicitudes = SolicitudRegistro::with('ClienteNSolicitud', 'EstadoSolicitudN')
+            ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->where('idEstadoSolicitud', '=', '2')
+            ->get();
+        return view('CasaCorredora.SolicitudesAfiliacion.MostrarAfiliados', compact('solicitudes'));
+
+    }
+
+
+    public function eliminar($id)
+    {
+        $solicitud = SolicitudRegistro::ofid($id)->get();
+        try {
+            $solicitud[0]->id;
+        } catch (ErrorException $i) {
+            return redirect('/home');
+        } catch (Exception $e) {
+            return redirect('/home');
+        }
+        if ($solicitud[0]->idOrganizacion == Auth::user()->idOrganizacion) {
+
+            if ($solicitud[0]->idEstadoSolicitud == 2) {
+                $solicitudAActualizar = SolicitudRegistro::find($id);
+
+                $solicitudAActualizar->delete();
+                flash('Afiliado Eliminado ', 'success');
+                return redirect('/Afiliados');
+
+            } else {
+                flash('Solicitud no pudo ser aceptada', 'danger');
+                return redirect('/SolicitudAfiliacion');
+            }
+
+        } else {
+            return redirect('/home');
+        }
+
     }
 
 

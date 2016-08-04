@@ -15,6 +15,68 @@
 
     @include('alertas.flash')
     @include('alertas.errores')
+
+
+            <!-- PRUEBAS BVOOTSTRAP MODAL -->
+    <div class="bs-example bs-example-padded-bottom">
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#SeleccionAgente"> Launch
+            demo modal
+        </button>
+    </div>
+    <div class="modal fade" role="dialog" id="SeleccionAgente" tabindex="-1" aria-labelledby="gridModalLabel"
+         style="display: none;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="gridModalLabel">Modal title</h4>
+                </div>
+                <table id="example1" class="table table-hover">
+                    <thead>
+                    <tr>
+
+                        <th><p class="text-center">Nombre</p></th>
+                        <th><p class="text-center">email</p></th>
+                        <th><p class="text-center">Numero de Ordenes</p></th>
+                        <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($usuariosAgentes as $usuarioA)
+
+                        <tr>
+
+                            <td>{{$usuarioA->nombre}}  {{$usuarioA->apellido}}</td>
+                            <td>{{$usuarioA->email}}</td>
+                            <td></td>
+
+
+                            <td>
+                                Botones
+                            </td>
+                        </tr>
+
+                    @endforeach
+                    </tbody>
+                </table>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- PRUEBAS BVOOTSTRAP MODAL -->
+
+
     <br><br>
     <section class="content">
         <div class="row">
@@ -194,6 +256,12 @@
         </div>
 
     </section>
+
+
+
+
+
+
 
 
 
