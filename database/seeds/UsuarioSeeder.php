@@ -12,12 +12,22 @@ class UsuarioSeeder extends Seeder
     public function run()
     {
 
-        DB::table('organizacion')->insert(array(
+        DB::table('usuarios')->insert(array(
             'idOrganizacion'=>1,
             'nombre'=>'admin',
             'apellido' =>'admin',
             'email' =>'admin@bves.com',
-            'password' =>Hash::make('12345'),
+            'password' =>bcrypt('12345'),
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime
+        ));
+
+        DB::table('usuarios')->insert(array(
+            'idOrganizacion'=>2,
+            'nombre'=>'Alexander ',
+            'apellido' =>'Dominguez',
+            'email' =>'alexlaley10@gmail.com',
+            'password' =>bcrypt('todociber'),
             'created_at' => new DateTime,
             'updated_at' => new DateTime
         ));
