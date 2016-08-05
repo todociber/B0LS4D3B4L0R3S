@@ -38,13 +38,17 @@
                                 @foreach($ordenes as $orden)
                                     <tr>
                                         <td>
+                                            @if($orden->idEstadoOrden==1)
+                                                {!!link_to_route('Ordenes.asignar', $title = 'Asignar', $parameters = $orden->id, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                                            @else
+                                                {!!link_to_route('Ordenes.detalles', $title = 'Detalles', $parameters = $orden->id, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                                            @endif
 
-                                            {!!link_to_route('Ordenes.asignar', $title = 'Detalles', $parameters = $orden->id, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
 
                                         </td>
-                                        <td>{{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->nombre}}  {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->apellido}}</td>
+                                        <td> {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->apellido}}</td>
                                         <td>{{$orden->monto}}</td>
-                                        <td>{{$orden->TipoMercadoN->nombre}}</td>
+                                        <td>{{$orden->TipoMercado}}</td>
 
 
                                         <td>

@@ -97,8 +97,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('SolicitudAfiliacion', 'SolicitudesCasaCorredora');
     });
     Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
+    Route::get('Ordenes/{id}/detalles', 'OrdenesCasaCorredoraAutorizador@detalles')->name('Ordenes.detalles');
     Route::put('Ordenes/{id}/aceptar', 'OrdenesCasaCorredoraAutorizador@aceptar')->name('Ordenes.aceptar');
-    Route::get('Ordenes.{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
+    Route::get('Ordenes/{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
     Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
 
 });

@@ -1,9 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 class ExampleTest extends TestCase
 {
     /**
@@ -13,7 +9,15 @@ class ExampleTest extends TestCase
      */
     public function testBasicExample()
     {
-        $this->visit('/')
-             ->see('Laravel 5');
+        $this->visit('/login');
+
+        $this->type('alexlaley10@gmail.com', 'email');
+        $this->type('todociber', 'password');
+        $this->check('remember');
+        $this->press('Login');
+        $this->visit('/SolicitudAfiliacion');
+        $this->visit('/SolicitudAfiliacion/1/detalle');
+        $this->visit('/SolicitudAfiliacion');
+
     }
 }

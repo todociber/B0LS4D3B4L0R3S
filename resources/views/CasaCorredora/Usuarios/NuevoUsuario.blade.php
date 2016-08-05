@@ -22,7 +22,7 @@
                             {!!Form::open(['route'=>'UsuarioCasaCorredora.store', 'method'=>'POST'])!!}
                             @include('CasaCorredora.Usuarios.formularios.formularioUsuario')
 
-                            {!!Form::submit('Registrar Usuario', ['class'=>'btn btn-primary btn-flat', 'onclick'=>"waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                            {!!Form::submit('Registrar Usuario', ['class'=>'btn btn-primary btn-flat','name'=>'btnCrearUsuario', 'onclick'=>"waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                             {!!Form::close()!!}
 
 

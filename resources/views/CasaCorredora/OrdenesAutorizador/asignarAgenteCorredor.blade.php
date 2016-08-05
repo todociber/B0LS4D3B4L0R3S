@@ -11,6 +11,26 @@
             $('#agentes').select2();
         });
     </script>
+    <script>
+
+
+        function clikLog(boton) {
+            var idAgenteCorredor = boton.name;
+            var NombreAgenteCorredor = boton.id;
+            console.log(idAgenteCorredor);
+            document.getElementById("AgenteCorredor").value = idAgenteCorredor;
+            document.getElementById("AgenteSeleccionado").innerHTML = NombreAgenteCorredor;
+        }
+
+
+    </script>
+
+    <?php use Carbon\Carbon;?>
+
+
+
+
+
 
 
     @include('alertas.flash')
@@ -18,12 +38,9 @@
 
 
             <!-- PRUEBAS BVOOTSTRAP MODAL -->
-    <div class="bs-example bs-example-padded-bottom">
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#SeleccionAgente"> Launch
-            demo modal
-        </button>
-    </div>
-    <div class="modal fade" role="dialog" id="SeleccionAgente" tabindex="-1" aria-labelledby="gridModalLabel"
+
+    <div class="modal fade" role="dialog" id="SeleccionAgente" data-backdrop="static" data-keyboard="false"
+         tabindex="-1" aria-labelledby="gridModalLabel"
          style="display: none;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -31,7 +48,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
-                    <h4 class="modal-title" id="gridModalLabel">Modal title</h4>
+                    <h4 class="modal-title" id="gridModalLabel">Seleccion Agente Corredor</h4>
                 </div>
                 <table id="example1" class="table table-hover">
                     <thead>
@@ -50,20 +67,43 @@
 
                             <td>{{$usuarioA->nombre}}  {{$usuarioA->apellido}}</td>
                             <td>{{$usuarioA->email}}</td>
-                            <td></td>
+                            <td>
+                                <?php
+                                $existenordenes = 0;
+
+                                for ($i = 0; $i < count($agentesCorredores); $i++) {
+
+                                    if ($agentesCorredores[$i]->id == $usuarioA->id) {
+                                        $existenordenes = 1;
+                                        echo $agentesCorredores[0]->N;
+                                    }
+
+                                }
+
+                                if ($existenordenes == 0) {
+                                    echo '0';
+                                }
+
+
+                                ?> ordenes asignadas
+                            </td>
 
 
                             <td>
-                                Botones
+                                <input type="button" data-dismiss="modal" class="btn btn-primary"
+                                       onclick="clikLog(this)" id="{{$usuarioA->nombre}} {{$usuarioA->apellido}}"
+                                       name="{{$usuarioA->id}}" value="Asignar orden"/>
                             </td>
                         </tr>
 
                     @endforeach
+
+
                     </tbody>
                 </table>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+
                 </div>
             </div>
         </div>
@@ -73,10 +113,9 @@
 
 
 
-
     <!-- PRUEBAS BVOOTSTRAP MODAL -->
 
-
+    @foreach($ordenes as $orden)
     <br><br>
     <section class="content">
         <div class="row">
@@ -86,7 +125,7 @@
                         <i class="fa fa-file-text-o"></i> Orden #{{$orden->correlativo}} <br/><br/>
                         Cliente: {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->nombre}} {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->apellido}}
                         <small class="pull-right"><strong>Fecha de
-                                Registro:</strong> <?php use Carbon\Carbon;$fecha = $orden->created_at;$fecha = $fecha->format('Y-m-d');?>{{$fecha}}
+                                Registro:</strong> <?php $fecha = $orden->created_at;$fecha = $fecha->format('Y-m-d');?>{{$fecha}}
                         </small>
                         <br>
                         <small class="pull-right"><strong>Fecha de
@@ -100,7 +139,7 @@
 
 
                             <b>Casa corredora: </b> {{$orden->OrganizacionOrdenN->nombre}}<br>
-                            <b>Tipo de mercado: </b>{{$orden->TipoMercadoN->nombre}}<br>
+                            <b>Tipo de mercado: </b>{{$orden->TipoMercado}}<br>
                             <b>Tipo de orden: </b> {{$orden->TipoOrdenN->nombre}} <br>
                             <b>Titulo: </b>{{$orden->titulo}}<br>
                             <b>Cuenta cedeval: </b>{{$orden->CuentaCedeval->cuenta}} <br>
@@ -123,6 +162,7 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             @if($orden->idEstadoOrden==1)
+
                                 @include('CasaCorredora.OrdenesAutorizador.formularios.AsignarAgenteCorredorForm')
                                 <div>
                                     <br>
@@ -147,6 +187,7 @@
                 </div><!-- /.row -->
 
     </section>
+    @endforeach
     <section class="content">
 
         <div class="row">

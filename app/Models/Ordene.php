@@ -22,6 +22,7 @@ class Ordene extends Model
         'monto',
         'tasaDeInteres',
         'emisor',
+        'TipoMercado',
         'idCliente',
         'idCorredor',
         'idTipoOrden',

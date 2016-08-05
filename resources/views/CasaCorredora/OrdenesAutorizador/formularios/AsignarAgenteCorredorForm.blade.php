@@ -1,6 +1,13 @@
 {!!Form::model($agentes, ['route'=>['Ordenes.aceptar', $orden->id], 'method'=>'PUT'])!!}
-{!!Form::label('Asgnar Agente Corredor ')!!}<br>
-{!! Form::select('agentes', $agentes, null, ['class' => 'form-control','id'=>'agentes']) !!}<br>
+<label>Agente Corredor: </label>
+<label id="AgenteSeleccionado" value="Sin Seleccionar">Sin Seleccionar </label>
+<div class="bs-example bs-example-padded-bottom">
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#SeleccionAgente">
+        Seleccionar Agente Corredor
+    </button>
+</div>
+<input name="AgenteCorredor" id="AgenteCorredor" value="" size="40" style="display:none">
+<br>
 {!!Form::label('Comision')!!}
 {!!Form::number('Comision',null, ['class'=>'form-control', 'placeholder'=>'Ingrese la Comision  a cobrar ','min'=>'0','step'=>'any'])!!}
 <br>

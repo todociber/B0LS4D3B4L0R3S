@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateCedevalsTable extends Migration
 {
@@ -14,7 +14,7 @@ class CreateCedevalsTable extends Migration
     {
         Schema::create('cedevals', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('cuenta',50);
+            $table->string('cuenta', 50)->unique();
             $table->integer('idCliente')->unsigned();
             $table->foreign('idCliente')
                 ->references('id')->on('clientes');
