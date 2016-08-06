@@ -64,8 +64,8 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                 ->orderBy('usuarios.id')
                 ->select('usuarios.*')->get();
             $agentesCorredores = DB::select('select COUNT(orden.id) as N, usuario.id, usuario.nombre, usuario.apellido,usuario.email from usuarios as usuario JOIN ordenes as orden ON usuario.id = orden.idCorredor JOIN rol_usuarios as roleU ON usuario.id = roleU.idUsuario where usuario.idOrganizacion=' . Auth::user()->idOrganizacion . ' and roleU.idRol =4 and (orden.idEstadoOrden= 2  or orden.idEstadoOrden=5) and  roleU.deleted_at IS NULL  and usuario.deleted_at IS NULL group by usuario.id, roleU.id order by usuario.id');
-            $orden = Ordene::find($id);
-            return view('CasaCorredora.OrdenesAutorizador.asignarAgenteCorredor', compact('orden', 'agentes', 'usuariosAgentes', 'agentesCorredores'));
+            $ordenes = Ordene::ofid($id)->get();
+            return view('CasaCorredora.OrdenesAutorizador.asignarAgenteCorredor', compact('ordenes', 'agentes', 'usuariosAgentes', 'agentesCorredores'));
         }
 
 

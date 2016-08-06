@@ -198,8 +198,19 @@ class UsuarioCasaCorredoraController extends Controller
         $usuario = Usuario::find($id);
 
         if ($usuario->idOrganizacion != Auth::user()->idOrganizacion) {
-            return redirect('/home');
+            flash('Error en la consulta', 'danger');
+            return redirect('/UsuarioCasaCorredora');
         } else {
+            $ordenesVigentes = 0;
+            foreach ($usuario->OrdenesUsuario as $ordenes) {
+                if ($ordenes->idEstadoOrden == 2) {
+                    $ordenesVigentes = 1;
+                } elseif ($ordenes->idEstadoOrden == 5) {
+                    $ordenesVigentes = 1;
+                }
+            }
+
+
 
             $usuario->fill(
                 [
@@ -244,7 +255,19 @@ class UsuarioCasaCorredoraController extends Controller
                             $RolUsuarioABorrar = RolUsuario::where('idUsuario', $id)
                                 ->where('idRol', $idRolDisponible)->first();
 
-                            $RolUsuarioABorrar->delete();
+
+                            if ($ordenesVigentes == 1) {
+                                if ($RolUsuarioABorrar->idRol == 3) {
+                                    //no eliminar
+
+                                } else {
+                                    $RolUsuarioABorrar->delete();
+                                }
+                            } else {
+
+                                $RolUsuarioABorrar->delete();
+                            }
+
                         }
 
 
@@ -299,30 +322,46 @@ class UsuarioCasaCorredoraController extends Controller
         } catch (Exception $e) {
             return redirect('/home');
         }
+        $ordenesVigentes = 0;
+        foreach ($Usuario->OrdenesUsuario as $ordenes) {
+            if ($ordenes->idEstadoOrden == 2) {
+                $ordenesVigentes = 1;
+            } elseif ($ordenes->idEstadoOrden == 5) {
+                $ordenesVigentes = 1;
+            }
+        }
 
 
-        if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
-            return redirect('/home');
-        } elseif ($id == Auth::user()->id) {
-            return redirect('/home');
+        if ($ordenesVigentes == 0) {
+            if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
+                flash('Error en consulta', 'danger');
+                return redirect('/UsuarioCasaCorredora');
+            } elseif ($id == Auth::user()->id) {
+                flash('Error en consulta', 'danger');
+                return redirect('/UsuarioCasaCorredora');
+            } else {
+
+                foreach ($Usuario->UsuarioAsignado as $solicitudes) {
+
+                    if ($solicitudes->idEstadoSolicitud == 4) {
+                        $solicitudes->fill([
+                            'idUsuario' => NULL,
+                            'idEstadoSolicitud' => '1'
+                        ]);
+                        $solicitudes->save();
+                    }
+
+                }
+                $Usuario->delete();
+                flash('El usuario se desactivo exitosamente', 'danger');
+                return redirect('/UsuarioCasaCorredora');
+            }
         } else {
 
-
-            foreach ($Usuario->UsuarioAsignado as $solicitudes) {
-
-                if ($solicitudes->idEstadoSolicitud == 4) {
-                    $solicitudes->fill([
-                        'idUsuario' => NULL,
-                        'idEstadoSolicitud' => '1'
-                    ]);
-                    $solicitudes->save();
-                }
-
-            }
-            $Usuario->delete();
-            flash('El usuario se desactivo exitosamente', 'danger');
+            flash('El usuario tiene Ordenes Vigentes', 'danger');
             return redirect('/UsuarioCasaCorredora');
         }
+
 
     }
 
