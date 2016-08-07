@@ -113,3 +113,5 @@ Route::group(['middleware' => 'auth'], function () {
 Route::auth();
 Route::get('admin', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
+
+
