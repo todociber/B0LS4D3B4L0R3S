@@ -259,7 +259,14 @@ class UsuarioCasaCorredoraController extends Controller
 
                             if ($ordenesVigentes == 1) {
                                 if ($RolUsuarioABorrar->idRol == 3) {
-                                    //no eliminar
+                                    $usuario = Usuario::ofid($id)->get();
+                                    $ordenes = Ordene::where('idCorredor', '=', $id)
+                                        ->where('idEstadoOrden', '=', 2)
+                                        ->orWhere('idEstadoOrden', '=', 5)
+                                        ->get();
+                                    \Session::set('UsuarioEliminar', $id);
+                                    flash('Usuario tiene ordenes pendientes', 'danger');
+                                    return view('CasaCorredora.OrdenesAutorizador.ReAsignarOrdenes', compact('ordenes', 'usuario'));
 
                                 } else {
                                     $RolUsuarioABorrar->delete();
@@ -354,12 +361,18 @@ class UsuarioCasaCorredoraController extends Controller
 
                 }
                 $Usuario->delete();
+                if (\Session::has('UsuarioEliminar')) {
+                    \Session::remove('UsuarioEliminar');
+                }
                 flash('El usuario se desactivo exitosamente', 'danger');
                 return redirect('/UsuarioCasaCorredora');
             }
         } else {
             $usuario = Usuario::ofid($id)->get();
-            $ordenes = Ordene::where('idCorredor', '=', $id)->get();
+            $ordenes = Ordene::where('idCorredor', '=', $id)
+                ->where('idEstadoOrden', '=', 2)
+                ->orWhere('idEstadoOrden', '=', 5)
+                ->get();
             \Session::set('UsuarioEliminar', $id);
             return view('CasaCorredora.OrdenesAutorizador.ReAsignarOrdenes', compact('ordenes', 'usuario'));
         }
