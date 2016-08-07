@@ -104,10 +104,21 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
     Route::get('Ordenes/{id}/detalles', 'OrdenesCasaCorredoraAutorizador@detalles')->name('Ordenes.detalles');
+    Route::get('Ordenes/{id}/detallesEliminar/', 'OrdenesCasaCorredoraAutorizador@detallesEliminar')->name('Ordenes.detallesEliminar');
     Route::put('Ordenes/{id}/aceptar', 'OrdenesCasaCorredoraAutorizador@aceptar')->name('Ordenes.aceptar');
+    Route::put('Ordenes/{id}/ReAceptar', 'OrdenesCasaCorredoraAutorizador@ReAceptar')->name('Ordenes.ReAceptar');
     Route::get('Ordenes/{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
     Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
 
+
+    //Latch inicio
+    Route::get('LatchSolicitud', function () {
+        return view('auth.latch');
+    });
+    Route::post('Parear', 'LatchController@pair')->name('Latch.parear');
+    Route::get('Desenparejar', 'LatchController@unpair')->name('Latch.desenparejar');
+
+    //fin latch
 });
 
 Route::auth();

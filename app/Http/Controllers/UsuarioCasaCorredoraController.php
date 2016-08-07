@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Ordene;
 use App\Models\Role;
 use App\Models\RolUsuario;
 use App\Models\Usuario;
@@ -357,9 +358,10 @@ class UsuarioCasaCorredoraController extends Controller
                 return redirect('/UsuarioCasaCorredora');
             }
         } else {
-
-            flash('El usuario tiene Ordenes Vigentes', 'danger');
-            return redirect('/UsuarioCasaCorredora');
+            $usuario = Usuario::ofid($id)->get();
+            $ordenes = Ordene::where('idCorredor', '=', $id)->get();
+            \Session::set('UsuarioEliminar', $id);
+            return view('CasaCorredora.OrdenesAutorizador.ReAsignarOrdenes', compact('ordenes', 'usuario'));
         }
 
 

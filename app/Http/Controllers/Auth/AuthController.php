@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\LatchModel;
 use App\Models\Usuario;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Support\Facades\Auth;
+use Latch;
 use Validator;
 
 class AuthController extends Controller
@@ -67,6 +70,23 @@ class AuthController extends Controller
          * 5-CLIENTE
          * */
       //  var_dump($usuario->UsuarioRoles->RolN->id);
+
+
+        $LatchTokenExiste = LatchModel::where('idUsuario', '=', Auth::user()->id)->count();
+
+        if ($LatchTokenExiste > 0) {
+            $userIDLatch = LatchModel::where('idUsuario', '=', Auth::user()->id)->first();
+            $accountId = $userIDLatch->tokenLatch;
+            $locked = true;
+            if (Latch::unlocked($accountId)) {
+                $locked = false;
+            }
+            if ($locked) {
+                Auth::logout();
+            }
+        }
+
+
 
 
         $userType=$usuario->UsuarioRoles[0]->RolN->id;
