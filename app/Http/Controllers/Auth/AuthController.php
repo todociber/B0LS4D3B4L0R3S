@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\LatchModel;
 use App\Models\Usuario;
 use App\User;
+use ErrorException;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Support\Facades\Auth;
 use Latch;
+use Mockery\CountValidator\Exception;
 use Validator;
 
 class AuthController extends Controller
@@ -75,15 +77,27 @@ class AuthController extends Controller
         $LatchTokenExiste = LatchModel::where('idUsuario', '=', Auth::user()->id)->count();
 
         if ($LatchTokenExiste > 0) {
-            $userIDLatch = LatchModel::where('idUsuario', '=', Auth::user()->id)->first();
-            $accountId = $userIDLatch->tokenLatch;
-            $locked = true;
-            if (Latch::unlocked($accountId)) {
+
+            try {
+                $userIDLatch = LatchModel::where('idUsuario', '=', Auth::user()->id)->first();
+                $accountId = $userIDLatch->tokenLatch;
                 $locked = false;
+
+                if (Latch::locked($accountId)) {
+                    $locked = true;
+                }
+
+
+                if ($locked) {
+
+                    Auth::logout();
+                }
+            } catch (ErrorException $i) {
+
+            } catch (Exception $e) {
+
             }
-            if ($locked) {
-                Auth::logout();
-            }
+
         }
 
 
