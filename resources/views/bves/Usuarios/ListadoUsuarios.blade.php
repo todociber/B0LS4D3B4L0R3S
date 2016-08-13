@@ -29,44 +29,25 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($usuarios as $usuario)
-                            <tr>
-                                <td>{{$usuario->id}}</td>
-                                <td>{{$usuario->nombre}}</td>
-                                <td>{{$usuario->email}}</td>
-                                <td>{{$usuario->created_at}}</td>
-                                <td>@if($usuario->deleted_at == null)
-                                        <p class="p-green">
-                                            Activo
-                                        </p>
-                                    @else
-                                        <p class="p-red">
-                                            Innactivo
-                                        </p>
-                                    @endif
-                                </td>
+                        <tr>
+                            <td>1</td>
+                            <td>admin</td>
+                            <td>admin@bves.com</td>
+                            <td>2016-08-04 13:16:48</td>
+                            <td>                                        <p class="p-green">
+                                    Activo
+                                </p>
+                            </td>
 
-                                <td><a class="btn btn-primary background-pencil"
-                                       href="{!! route('modificarusuario',['id'=>$usuario->id])!!}"><em
-                                                class="fa fa-pencil"></em></a>
-                                    @if($usuario->deleted_at == null)
+                            <td><a class="btn btn-primary background-pencil" href="http://localhost:8000/bolsa/ModificarUsuario/1"><em class="fa fa-pencil"></em></a>
 
-                                        <button onclick="window.location.href='{!! route('eliminarusuario',['id'=>$usuario->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'});">
-                                            <span class="glyphicon glyphicon-remove p-red"></span></button>
+                                <button onclick="window.location.href='http://localhost:8000/bolsa/EliminarUsuario/1';  waitingDialog.show('Procesando... ',{ progressType: 'info'});">
+                                    <span class="glyphicon glyphicon-remove p-red"></span></button>
 
-                                    @else
-
-                                        <button onclick="window.location.href='{!! route('restaurarusuario',['id'=>$usuario->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'}); ">
-                                            <span class="glyphicon glyphicon-ok p-green"></span></button>
-
-
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
+                            </td>
+                        </tr>
 
                         </tbody>
-
                     </table>
                 </div><!-- /.box-body -->
             </div><!-- /.box -->

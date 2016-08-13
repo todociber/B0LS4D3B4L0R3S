@@ -275,8 +275,8 @@ class UsuariosBolsaController extends Controller
     public function ListadoUsuario()
     {
 
-        $usuarios = Usuario::withTrashed()->where('idOrganizacion',17)->where('id','!=', Auth::user()->id)->get();
-        return View('bves.Usuarios.ListadoUsuarios',['usuarios'=>$usuarios]);
+
+        return View('bves.Usuarios.ListadoUsuarios');
     }
 
     public function NuevoUsuario()
