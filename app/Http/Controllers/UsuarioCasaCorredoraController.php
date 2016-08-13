@@ -50,8 +50,8 @@ class UsuarioCasaCorredoraController extends Controller
 
     public function crear()
     {
-        $roles = Role::orderBy('nombre', 'asc')->where('id', '!=', '5')->where('id', '!=', '1')->get();
-        return view('CasaCorredora.Usuarios.NuevoUsuario',compact('roles'));
+
+        return view('CasaCorredora.Usuarios.NuevoUsuario');
     }
 
     /**
