@@ -19,18 +19,54 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             @include('alertas.errores')
-                            {!!Form::model($usuarios, ['route'=>['UsuarioCasaCorredora.update', $usuarios->id], 'method'=>'PUT'])!!}
-                            @include('CasaCorredora.Usuarios.formularios.formularioUsuario')
+                            <form  accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input name="_token" type="hidden" value="WQn7EZGaEK7xG4JVrnd5ZuYtmYhsAxuLYoi7riHO">
+                                <label for="Nombre">Nombre</label>
+                                <input class="form-control" placeholder="Ingrese el  Nombre del Usuario" name="nombre" type="text" value="Alexander ">
+                                <label for="Apellido">Apellido</label>
+                                <input class="form-control" placeholder="Ingrese el  Apellido del Usuario" name="apellido" type="text" value="Dominguez">
+                                <label for="Correo">Correo</label>
+                                <input class="form-control" placeholder="Ingrese el  correo del Usuario" name="email" type="email" value="alexlaley10@gmail.com">
 
-                            {!!Form::submit('Guardar', ['class'=>'btn btn-primary btn-flat','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
-                            {!!Form::close()!!}
+                                <label for="Rol del usuario">Rol Del Usuario</label>
+
+
+
+
+
+
+                                <br>
+                                <input checked="checked" name="rolUsuario[]" type="checkbox" value="2">
+
+
+                                <label for="Administrador Casa Corredora">Administrador Casa Corredora</label>
+                                <br>
+
+
+
+                                <br>
+                                <input name="rolUsuario[]" type="checkbox" value="4">
+
+
+                                <label for="Agente Corredor">Agente Corredor</label>
+                                <br>
+
+
+
+                                <br>
+                                <input name="rolUsuario[]" type="checkbox" value="3">
+
+
+                                <label for="Operador">Operador</label>
+                                <br>
+                                <br>
+
+
+
+
+                                <input class="btn btn-primary btn-flat" onclick="waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);" type="submit" value="Guardar">
+                            </form>
                             <br>
-                            @if($usuarios->id== Auth::user()->id)
 
-                            @else
-                                {!!link_to_route('UsuarioCasaCorredora.resetearpassword', $title = 'Resetear Contraseña ', $parameters = $usuarios->id, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Actualizando Espere... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
-
-                            @endif
 
 
 
@@ -44,6 +80,6 @@
             </div>
         </div>
 
-
+</div>
 
 @stop
