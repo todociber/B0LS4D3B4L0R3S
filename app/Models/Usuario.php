@@ -14,18 +14,20 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 /**
  * Class Usuario
  */
+// automatico
 class Usuario extends Model implements AuthenticatableContract,
     AuthorizableContract,
     CanResetPasswordContract
 {
 
     public $timestamps = true;
+
     protected $table = 'usuarios';
-
-
+//automatico
+// son propiedades que sirmven para le modelo que se encargar de autentificar
     use Authenticatable, Authorizable, CanResetPassword, SoftDeletes;
 
-
+// portect file se le especifica que campos de la base de datos deben ir llenos
     protected $fillable = [
         'nombre',
         'apellido',
@@ -36,13 +38,18 @@ class Usuario extends Model implements AuthenticatableContract,
     ];
 
     protected $guarded = [];
-
+//dates: es para permitir el soft delete se le debe agregar y es de tipo fecha
     protected $dates = ['deleted_at'];
-
+//hiden se encarga a la hora de devolver un web service no mestra los campos definidos
     protected $hidden = ['password', 'remember_token'];
 
+//definicion de relaciones en la base de datos
     public function Organizacion()
     {
+        //se le coloca un return this
+        //belongsTo sigmifica que usuarios pertnense a tabla relacionar
+        // se e debera pasar al campo que relacionas las tablas
+        //modelo a relacionar (campo foraneo,campo prinicipal primario)
         return $this->belongsTo(Organizacion::class, 'idOrganizacion', 'id');
     }
 

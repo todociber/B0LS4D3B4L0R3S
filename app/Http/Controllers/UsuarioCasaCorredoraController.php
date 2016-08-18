@@ -31,7 +31,8 @@ class UsuarioCasaCorredoraController extends Controller
     public function index()
     {
 
-
+//with se utiliza ara cargar las relaciones de la tabla a recorrrer
+        //with trashed se utliza pra traer los datos aunque esten borrados
         $Usuarios = Usuario::with('UsuarioRoles')->withTrashed()->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
 
 
@@ -106,7 +107,7 @@ class UsuarioCasaCorredoraController extends Controller
             ]);
             $RolUsuario->save();
         }
-
+//flash se utiliza para enviar mensajes y se debe psar mensaje y color a mostrarse
         flash('El usuario  se registro exitosamente', 'success');
         return redirect('/UsuarioCasaCorredora');
     }

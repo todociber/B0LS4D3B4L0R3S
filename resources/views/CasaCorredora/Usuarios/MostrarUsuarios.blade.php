@@ -1,5 +1,5 @@
 @extends('layouts.ClientesLayout')
-
+//se divide en secciones stop es para decirle hasta aqui
 @section('title')
     <title>Usuarios Casa Corredora</title>
 
@@ -17,6 +17,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
+                            //se manda a llamr el archivo flash para las notificaciones
                             @include('alertas.flash')
                             {!!link_to_route('UsuarioCasaCorredora.crear', $title = 'Crear Usuario ', $parameters = [], $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                             <br><br>
@@ -37,9 +38,11 @@
                                     <tr>
                                         <td>
                                             <br><br>
+                                            //objeto auth se crea cuando alguien se loguea
                                             @if(Auth::user()->id== $users->id)
                                                 {!!link_to_route('UsuarioCasaCorredora.edit', $title = ' Editar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-primary','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                             @else
+                                                //para saber si no esta eliminado y mostra el boton eliminar
                                                 @if($users->deleted_at == null)
                                                     {!!link_to_route('UsuarioCasaCorredora.edit', $title = ' Editar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-primary','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                                     <br>
@@ -47,6 +50,7 @@
                                                     {!!Form::submit('Desactivar  Usuario ', ['class'=>'btn btn-danger','onclick'=>"waitingDialog.show('Desactivando Espere... ',{ progressType: 'danger'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                                     {!!Form::close()!!}
                                                 @else
+                                                    //si esta eliminado mostrar el boton restaurar
                                                     {!!link_to_route('UsuarioCasaCorredora.restaurar', $title = 'Activar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-warning','onclick'=>"waitingDialog.show('Activando Espere... ',{ progressType: 'warning'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                                 @endif
                                             @endif
@@ -57,6 +61,8 @@
                                         <td>{{$users->apellido}}</td>
                                         <td>{{$users->email}}</td>
                                         <?php $roles = $users->UsuarioRoles ?>
+                                        //forech minstra la primer variable tenga datos ba seguir llenado la segunda y
+                                        cada dato lo llena con datos diferentes
                                         <td>@foreach($roles as $rolUsuario)
                                                 {{$rolUsuario->RolN->nombre}}<br>
                                             @endforeach

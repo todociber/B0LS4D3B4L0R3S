@@ -106,3 +106,21 @@ Route::group(['middleware' => 'auth'], function () {
 Route::auth();
 Route::get('admin', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
+
+//web service de laravel
+//ruta del web service
+Route::get('listado', function () {
+    //consulta a la base de datos
+    $hola = \App\Models\Usuario::all();
+    // retorno de variable en formato json en bes de adios es return
+    $adios = $hola->toJson();
+    //decodic¿ficando el objeto json
+    $jas = json_decode($hola);
+    //sacando el dato el 2 es la referencial al array de jason el "nombre es la propiedad de la tbala"
+    $tabla = $jas[2]->nombre;
+    echo $jas[2]->email;
+    //imprimir el jason
+    echo $hola;
+
+
+});

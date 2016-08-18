@@ -32,7 +32,13 @@ class Organizacion extends Model
     {
         return $this->belongsTo(TipoOrganizacion::class, 'idTipoOrganizacion', 'id');
     }
+    //se hace la relacion la inversa con hasmany
+    //belongsTo=pertnece a,hasmany = tiene muchos
 
+    public function OrganizacionUsuario()
+    {
+        return $this->hasMany(Usuario::class, 'idOrganizacion', 'id');
+    }
 
     public function SolicitudOrganizacion()
     {
