@@ -18,7 +18,10 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             @include('alertas.flash')
+                            @include('alertas.errores')
+
                             <br><br>
+
                             <table id="example1" class="table table-hover">
                                 <thead>
                                 <tr>
@@ -31,35 +34,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+
+
                                 <tr role="row" class="odd">
                                     <td class="sorting_1">
-                                        <a href="../SolicitudAfiliacion/2/detalle" class="btn btn-success"
-                                           onclick="waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);">Detalle
-                                            Solicitud </a>
-                                    </td>
-                                    <td>
-
-                                        Alejando
-
-
-                                    </td>
-                                    <td>
-                                        Dueñas
-                                    </td>
-                                    <td>
-                                        Alejando159@outllok.com
-                                    </td>
-                                    <td>
-                                        24553454557
-                                    </td>
-                                    <td>
-                                        Pendiente
-                                    </td>
-
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1">
-                                        <a href="../SolicitudAfiliacion/2/detalle" class="btn btn-success"
+                                        <a href="../SolicitudAfiliacion/3/detalle" class="btn btn-success"
                                            onclick="waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);">Detalle
                                             Solicitud </a>
                                     </td>
@@ -79,12 +58,11 @@
                                         54455465454
                                     </td>
                                     <td>
-                                        Pendiente
+                                        Procesando
                                     </td>
 
                                 </tr>
                                 </tbody>
-
                             </table>
 
                         </div>

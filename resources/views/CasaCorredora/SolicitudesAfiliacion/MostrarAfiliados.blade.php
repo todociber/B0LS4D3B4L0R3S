@@ -33,37 +33,34 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($solicitudes as $solicitud)
 
 
+                                <tr role="row" class="odd">
+                                    <td class="sorting_1">
+                                        <a href="#" class="btn btn-danger"
+                                           onclick="waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);">Eliminar
+                                            Afiliacion </a>
+                                    </td>
+                                    <td>
+
+                                        Roberto
 
 
+                                    </td>
+                                    <td>
+                                        Espinoza
+                                    </td>
+                                    <td>
+                                        Roberto123@hotmail.es
+                                    </td>
+                                    <td>
+                                        54455465454
+                                    </td>
+                                    <td>
+                                        Aceptada
+                                    </td>
 
-                                    <tr>
-                                        <td>
-                                            {!!link_to_route('Afiliado.eliminar', $title = 'Eliminar Afiliacion ', $parameters = $solicitud->id, $attributes = ['class'=>'btn btn-danger','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
-                                        </td>
-                                        <td>
-
-                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->nombre}}
-
-
-                                        </td>
-                                        <td>
-                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->apellido}}
-                                        </td>
-                                        <td>
-                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->email}}
-                                        </td>
-                                        <td>
-                                            {{$solicitud->numeroDeAfiliado}}
-                                        </td>
-                                        <td>
-                                            {{$solicitud->EstadoSolicitudN->nombre}}
-                                        </td>
-
-                                    </tr>
-                                @endforeach
+                                </tr>
                                 </tbody>
                             </table>
 
