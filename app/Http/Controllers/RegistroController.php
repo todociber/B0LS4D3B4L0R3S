@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests;
 use App\Models\Cedeval;
 use App\Models\Cliente;
 use App\Models\Departamento;
@@ -10,12 +11,11 @@ use App\Models\Municipio;
 use App\Models\Organizacion;
 use App\Models\RolUsuario;
 use App\Models\SolicitudRegistro;
-use Illuminate\Http\Request;
 use App\Models\Usuario;
-use App\Http\Requests;
-use Mockery\CountValidator\Exception;
-use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Mockery\CountValidator\Exception;
 
 class RegistroController extends Controller
 {
@@ -70,6 +70,7 @@ class RegistroController extends Controller
     {
         //
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -187,6 +188,33 @@ class RegistroController extends Controller
 
     }
 
+    public function verifyCedeval($cedevals)
+    {
+        $CopyCede = $cedevals;
+        $BandFirst = true;
+        $BandTwo = true;
+        $i = 0;
+        $y = 0;
+        while ($BandFirst && $i < count($cedevals)) {
+            $cede1 = $cedevals[$i];
+            while ($BandTwo && $y < count($CopyCede)) {
+                $cede2 = $CopyCede[$y];
+                if ($i != $y) {
+                    if ($cede1['cuenta'] == $cede2['cuenta']) {
+                        $BandFirst = false;
+                        $BandTwo = false;
+
+                    }
+                }
+                $y++;
+            }
+
+            $i++;
+        }
+
+        return $BandFirst;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -221,6 +249,9 @@ class RegistroController extends Controller
         //
     }
 
+
+//PARA VERIFICAR SI EL USUARIO HA INGRESADO CUENTAS CEDEVALS REPETIDAS
+
     /**
      * Remove the specified resource from storage.
      *
@@ -230,35 +261,6 @@ class RegistroController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-
-//PARA VERIFICAR SI EL USUARIO HA INGRESADO CUENTAS CEDEVALS REPETIDAS
-    public function verifyCedeval($cedevals)
-    {
-        $CopyCede = $cedevals;
-        $BandFirst = true;
-        $BandTwo = true;
-        $i = 0;
-        $y = 0;
-        while ($BandFirst && $i < count($cedevals)) {
-            $cede1 = $cedevals[$i];
-            while ($BandTwo && $y < count($CopyCede)) {
-                $cede2 = $CopyCede[$y];
-                if ($i != $y) {
-                    if ($cede1['cuenta'] == $cede2['cuenta']) {
-                        $BandFirst = false;
-                        $BandTwo = false;
-
-                    }
-                }
-                $y++;
-            }
-
-            $i++;
-        }
-
-        return $BandFirst;
     }
 
 }
