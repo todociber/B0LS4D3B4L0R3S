@@ -38,31 +38,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UsuarioCasaCorredoraController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="104" column="9" selection-start-line="97" selection-start-column="7" selection-end-line="113" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClientesController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientesController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-561">
-              <caret line="51" column="82" selection-start-line="47" selection-start-column="7" selection-end-line="51" selection-end-column="82" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SolicitudesCasaCorredora.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="22" column="76" selection-start-line="22" selection-start-column="57" selection-end-line="22" selection-end-column="76" />
+            <state relative-caret-position="272">
+              <caret line="257" column="73" selection-start-line="257" selection-start-column="57" selection-end-line="257" selection-end-column="73" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MostrarAfiliacionesProcesadas.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliacionesProcesadas.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -71,14 +61,14 @@
       <file leaf-file-name="MostrarAfiliaciones.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliaciones.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
+            <state relative-caret-position="1190">
               <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DetalleAfiliacion.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DetalleAfiliacion.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/DetalleAfiliacion.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="425">
@@ -88,11 +78,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MostrarAfiliados.blade.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MostrarAfiliados.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliados.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="25" selection-start-line="19" selection-start-column="25" selection-end-line="20" selection-end-column="55" />
+            <state relative-caret-position="252">
+              <caret line="44" column="72" selection-start-line="44" selection-start-column="72" selection-end-line="44" selection-end-column="72" />
               <folding />
             </state>
           </provider>
@@ -113,16 +103,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
               <caret line="6" column="18" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="21" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="asignarAgenteCorredor.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/asignarAgenteCorredor.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -199,8 +179,6 @@
         <option value="$PROJECT_DIR$/app/Models/Organizacion.php" />
         <option value="$PROJECT_DIR$/app/Models/Usuario.php" />
         <option value="$PROJECT_DIR$/app/Models/Cliente.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliados.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliacionesProcesadas.blade.php" />
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/NuevoUsuario.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/EditarUsuario.blade.php" />
@@ -210,6 +188,8 @@
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliaciones.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/DetalleAfiliacion.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliacionesProcesadas.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliados.blade.php" />
       </list>
     </option>
   </component>
@@ -320,10 +300,6 @@
               <option name="myItemId" value="CasaCorredora" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Usuarios" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -348,32 +324,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="SolicitudesAfiliacion" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="B0LS4D3B4L0R3S" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="B0LS4D3B4L0R3S" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CasaCorredora" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OrdenesAutorizador" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -605,7 +555,7 @@
       <workItem from="1466476932063" duration="2165000" />
       <workItem from="1466906867655" duration="2699000" />
       <workItem from="1471107763075" duration="3185000" />
-      <workItem from="1472313594005" duration="4710000" />
+      <workItem from="1472313594005" duration="6776000" />
     </task>
     <task id="LOCAL-00001" summary="Crear y editar Usuario&#10;">
       <created>1467422376103</created>
@@ -751,11 +701,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27456000" />
+    <option name="totallyTimeSpent" value="29522000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28550512" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1078,13 +1028,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliacionesProcesadas.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="20" column="55" selection-start-line="20" selection-start-column="55" selection-end-line="20" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/MostrarUsuarios.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
@@ -1128,14 +1071,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="104" column="9" selection-start-line="97" selection-start-column="7" selection-end-line="113" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
@@ -1152,6 +1087,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/DetalleAfiliacion.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="104" column="9" selection-start-line="97" selection-start-column="7" selection-end-line="113" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientesController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-561">
@@ -1160,34 +1111,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliaciones.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1190">
+          <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliacionesProcesadas.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="22" column="76" selection-start-line="22" selection-start-column="57" selection-end-line="22" selection-end-column="76" />
+        <state relative-caret-position="272">
+          <caret line="257" column="73" selection-start-line="257" selection-start-column="57" selection-end-line="257" selection-end-column="73" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliados.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="25" selection-start-line="19" selection-start-column="25" selection-end-line="20" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliaciones.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/DetalleAfiliacion.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+        <state relative-caret-position="252">
+          <caret line="44" column="72" selection-start-line="44" selection-start-column="72" selection-end-line="44" selection-end-column="72" />
           <folding />
         </state>
       </provider>
