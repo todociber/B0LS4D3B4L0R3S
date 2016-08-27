@@ -31,38 +31,37 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($solicitudes as $solicitud)
 
 
 
 
 
-                                    <tr>
-                                        <td>
-                                            {!!link_to_route('SolicitudAfiliacion.detalle', $title = 'Detalle Solicitud ', $parameters = $solicitud->id, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
-                                        </td>
-                                        <td>
 
-                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->nombre}}
+                                <tr role="row" class="odd">
+                                    <td class="sorting_1">
+                                        <a href="../SolicitudAfiliacion/1/detalle" class="btn btn-success" onclick="waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);">Detalle Solicitud </a>
+                                    </td>
+                                    <td>
+
+                                        Gustavo
 
 
 
-                                        </td>
-                                        <td>
-                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->apellido}}
-                                        </td>
-                                        <td>
-                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->email}}
-                                        </td>
-                                        <td>
-                                            {{$solicitud->numeroDeAfiliado}}
-                                        </td>
-                                        <td>
-                                            {{$solicitud->EstadoSolicitudN->nombre}}
-                                        </td>
+                                    </td>
+                                    <td>
+                                        Campos
+                                    </td>
+                                    <td>
+                                        guseducampos@gmail.com
+                                    </td>
+                                    <td>
+                                        12345678
+                                    </td>
+                                    <td>
+                                        Pendiente
+                                    </td>
 
-                                    </tr>
-                                @endforeach
+                                </tr>
                                 </tbody>
                             </table>
 

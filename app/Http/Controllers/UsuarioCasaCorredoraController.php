@@ -32,10 +32,9 @@ class UsuarioCasaCorredoraController extends Controller
     {
 
 
-        $Usuarios = Usuario::with('UsuarioRoles')->withTrashed()->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
 
 
-        return view('CasaCorredora.Usuarios.MostrarUsuarios', ['Usuarios' => $Usuarios]);
+        return view('CasaCorredora.Usuarios.MostrarUsuarios');
     }
 
     /**
@@ -62,52 +61,7 @@ class UsuarioCasaCorredoraController extends Controller
     public function store(Requests\RequestUsuarioCasaCorredora $request)
     {
 
-        foreach ($request['rolUsuario'] as $roles) {
-            if ($roles > 1 && $roles < 5) {
 
-            } else {
-                return Redirect::back()->withInput()->withErrors(['Error en roles']);
-            }
-        }
-
-
-        $correoUsuario = $request['email'];
-        $caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //posibles caracteres a usar
-        $numerodeletras=8; //numero de letras para generar el texto
-        $cadena = ""; //variable para almacenar la cadena generada
-        for($i=0;$i<$numerodeletras;$i++)
-        {
-            $cadena .= substr($caracteres,rand(0,strlen($caracteres)),1);
-        }
-
-//COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
-
-        $cadena = 'todociber';
-
-
-//COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
-        $Usuario = new Usuario(
-            [
-                'nombre' => $request['nombre'],
-                'apellido' => $request['apellido'],
-                'email' => $request['email'],
-                'password' => bcrypt($cadena),
-                'idOrganizacion' => Auth::user()->idOrganizacion,
-            ]
-        );
-
-        $Usuario->save();
-
-        foreach ($request['rolUsuario'] as $roles) {
-            $RolUsuario = new RolUsuario([
-                'idUsuario' => $Usuario->id,
-                'idRol' => $roles,
-            ]);
-            $RolUsuario->save();
-        }
-
-        flash('El usuario  se registro exitosamente', 'success');
-        return redirect('/UsuarioCasaCorredora');
     }
 
     /**
