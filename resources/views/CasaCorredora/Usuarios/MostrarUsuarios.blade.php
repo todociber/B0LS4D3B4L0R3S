@@ -33,43 +33,41 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($Usuarios as $users)
-                                    <tr>
-                                        <td>
-                                            <br><br>
-                                            @if(Auth::user()->id== $users->id)
-                                                {!!link_to_route('UsuarioCasaCorredora.edit', $title = ' Editar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-primary','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
-                                            @else
-                                                @if($users->deleted_at == null)
-                                                    {!!link_to_route('UsuarioCasaCorredora.edit', $title = ' Editar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-primary','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
-                                                    <br>
-                                                    {!!Form::open(['route'=>['UsuarioCasaCorredora.destroy', $users->id], 'method'=>'DELETE'])!!}
-                                                    {!!Form::submit('Desactivar  Usuario ', ['class'=>'btn btn-danger','onclick'=>"waitingDialog.show('Desactivando Espere... ',{ progressType: 'danger'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
-                                                    {!!Form::close()!!}
-                                                @else
-                                                    {!!link_to_route('UsuarioCasaCorredora.restaurar', $title = 'Activar Usuario ', $parameters = $users->id, $attributes = ['class'=>'btn btn-warning','onclick'=>"waitingDialog.show('Activando Espere... ',{ progressType: 'warning'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
-                                                @endif
-                                            @endif
+
+                                <tr role="row" class="odd">
+                                    <td class="sorting_1">
+                                        <br><br>
+                                        <a href="../UsuarioCasaCorredora/4/edit" class="btn btn-primary" onclick="waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"> Editar Usuario </a>
+                                        <br>
+                                        <form accept-charset="UTF-8"><input name="_method" type="hidden" value="DELETE"><input name="_token" type="hidden" value="dnOde4e152SIel3uVccUHHAOWdy6Tdp42Zxz3l1M">
+                                            <input class="btn btn-danger" onclick="waitingDialog.show('Desactivando Espere... ',{ progressType: 'danger'});setTimeout(function () {waitingDialog.hide();}, 3000);" type="submit" value="Desactivar  Usuario ">
+                                        </form>
+
+                                    </td>
+                                    <td>Gustavo</td>
+                                    <td>Campos</td>
+                                    <td>gustavo@casa.com</td>
+                                    <td>                                                Operador<br>
+                                    </td>
+                                    <td>
+                                        Activo
+                                    </td>
+                                </tr><tr role="row" class="even">
+                                    <td class="sorting_1">
+                                        <br><br>
+                                        <a href="../UsuarioCasaCorredora/2/edit" class="btn btn-primary" onclick="waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"> Editar Usuario </a>
 
 
-                                        </td>
-                                        <td>{{$users->nombre}}</td>
-                                        <td>{{$users->apellido}}</td>
-                                        <td>{{$users->email}}</td>
-                                        <?php $roles = $users->UsuarioRoles ?>
-                                        <td>@foreach($roles as $rolUsuario)
-                                                {{$rolUsuario->RolN->nombre}}<br>
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            @if($users->deleted_at == null)
-                                                Activo
-                                            @else
-                                                Inactivo
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                    </td>
+                                    <td>Alexander </td>
+                                    <td>Dominguez</td>
+                                    <td>alexlaley10@gmail.com</td>
+                                    <td>                                                Administrador Casa Corredora<br>
+                                    </td>
+                                    <td>
+                                        Activo
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
 
