@@ -3,3 +3,7 @@
  */
 
 
+function animatedLoading() {
+
+    waitingDialog.show('Procesando... ', {progressType: 'info'});
+}

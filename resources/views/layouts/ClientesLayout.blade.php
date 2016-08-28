@@ -47,6 +47,7 @@
 
     {!! Html::style('assets/plugins/datepicker/datepicker3.css') !!}
     {!! Html::script('assets/js/loading.js') !!}
+    {!! Html::script('assets/js/SERO.js') !!}
     {!! Html::style('assets/css/SERO.css') !!}
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -77,37 +78,15 @@
 
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <!-- Messages: style can be found in dropdown.less-->
-                    <!-- Tasks: style can be found in dropdown.less -->
-                    <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <div class="margin-Div">
+                            <a href="{{url('/logout')}}" class="btn btn-danger">
+                                Cerrar Sesión
+                            </a>
+                        </div>
 
-                            <span class="hidden-xs">Nombre del cliente</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <!-- User image -->
-                            <li class="user-header">
-
-                                <p>
-                                    Cliente casa Corredora
-                                    <small>Cliente</small>
-                                </p>
-                            </li>
-                            <!-- Menu Body -->
-
-                            <!-- Menu Footer-->
-                            <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Perfil</a>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Cerrar Sesión</a>
-                                </div>
-                            </li>
-                        </ul>
                     </li>
-                    <!-- Control Sidebar Toggle a -->
+                    <!-- Control Sidebar Toggle Button -->
 
                 </ul>
             </div>
@@ -132,7 +111,8 @@
                         <i class="fa fa-archive"></i> <span>Ordenes</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li  id="listadoOrdenes" ><a href="{{route('listadoordenesclienteV')}}"><i class="fa fa-circle-o"></i>Ordenes Vigentes</a></li>
+                        <li id="listadoOrdenes"><a href="{{route('listadoordenesclienteV')}}"><i
+                                        class="fa fa-circle-o"></i>Ordenes</a></li>
                         <li id="nuevaOrden"><a href="{{route('nuevaOrden')}}"><i class="fa fa-circle-o"></i> Nueva orden</a></li>
                     </ul>
                 </li>
@@ -183,6 +163,9 @@
         <!-- Main content -->
         <section class="content">
             @yield('content')
+        </section>
+        <section class="content">
+            @yield('content2')
         </section>
 
     </div><!-- /.content-wrapper -->
