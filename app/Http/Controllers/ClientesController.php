@@ -3,12 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Models\Cedeval;
-use App\Models\Ordene;
-use App\Models\Organizacion;
-use App\Models\TipoOrden;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ClientesController extends Controller
 {
@@ -28,44 +23,62 @@ class ClientesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    //RETORNA VISTA DE ORDEN
     public function NuevaOrden()
     {
-        $idCliente = Auth::user()->ClienteN->id;
-        $cedeval = Cedeval::where('idCliente',Auth::user()->ClienteN->id)->lists('cuenta','id');
-        $casas   = Organizacion::whereHas('ClienteOrganizacion', function($query) use ($idCliente){
-            $query->where('idCliente',$idCliente);
-        })->lists('nombre','id');
-        $tipoOrden = TipoOrden::lists('nombre','id');
 
-        return View('Clientes.Ordenes.NuevaOrden',['cedeval'=>$cedeval, 'casas'=>$casas,'Tipoorden'=>$tipoOrden]);
 
+        return View('Clientes.Ordenes.NuevaOrden');
+
+    }
+
+    //LISTADO DE ORDENES SIN IMPORTAR ESTADO
+    public function ListadoOrdenesVigentes()
+    {
+
+
+        return View('Clientes.Ordenes.ListaOrdenesCliente');
+    }
+
+
+    //DETALLE DE ORDEN POR ID
+    public function OrdenesByID($id)
+    {
 
 
     }
 
-    public function ListadoOrdenesVigentes(){
+    public function ordenesbyEstado(Request $request)
+    {
 
-        $idCliente = Auth::user()->ClienteN->id;
 
-        $ordenes = Ordene::where('idCliente',$idCliente)->where('idEstadoOrden',2)->get();
+    }
 
-        return View('Clientes.Ordenes.ListaOrdenesCliente',['ordenes'=>$ordenes]);
+
+    //GUARDAR MENSAJES
+    function storeMensajes(Request $request)
+    {
+
     }
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
+    //GUARDANDO ORDENES
     public function store(Request $request)
     {
-        //
+        
+
     }
+
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -76,7 +89,7 @@ class ClientesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -87,8 +100,8 @@ class ClientesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -99,7 +112,7 @@ class ClientesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
