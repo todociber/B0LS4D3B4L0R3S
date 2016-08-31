@@ -71,7 +71,6 @@ class RegistroController extends Controller
         //
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -262,7 +261,6 @@ class RegistroController extends Controller
     {
         //
     }
-
 
 }
 

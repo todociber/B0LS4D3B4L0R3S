@@ -205,7 +205,7 @@
         </div>
         <div class="form-group">
             {{ Form::label('Email') }}
-            {{ Form::text('email',null,['class'=>'form-control','placeholder'=>'Ingresa tu correo electrónico']) }}
+            {{ Form::text('email',null,['class'=>'form-control','placeholder'=>'Ingresa número de NIT']) }}
         </div>
 
 

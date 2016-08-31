@@ -31,60 +31,38 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">
-                                        <a href="../SolicitudAfiliacion/2/detalle" class="btn btn-success"
-                                           onclick="waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);">Detalle
-                                            Solicitud </a>
-                                    </td>
-                                    <td>
-
-                                        Alejando
+                                @foreach($solicitudes as $solicitud)
 
 
-                                    </td>
-                                    <td>
-                                        Dueñas
-                                    </td>
-                                    <td>
-                                        Alejando159@outllok.com
-                                    </td>
-                                    <td>
-                                        24553454557
-                                    </td>
-                                    <td>
-                                        Pendiente
-                                    </td>
-
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1">
-                                        <a href="../SolicitudAfiliacion/2/detalle" class="btn btn-success"
-                                           onclick="waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);">Detalle
-                                            Solicitud </a>
-                                    </td>
-                                    <td>
-
-                                        Roberto
 
 
-                                    </td>
-                                    <td>
-                                        Espinoza
-                                    </td>
-                                    <td>
-                                        Roberto123@hotmail.es
-                                    </td>
-                                    <td>
-                                        54455465454
-                                    </td>
-                                    <td>
-                                        Pendiente
-                                    </td>
 
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            {!!link_to_route('SolicitudAfiliacion.detalle', $title = 'Detalle Solicitud ', $parameters = $solicitud->id, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                                        </td>
+                                        <td>
+
+                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->nombre}}
+
+
+                                        </td>
+                                        <td>
+                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->apellido}}
+                                        </td>
+                                        <td>
+                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->email}}
+                                        </td>
+                                        <td>
+                                            {{$solicitud->numeroDeAfiliado}}
+                                        </td>
+                                        <td>
+                                            {{$solicitud->EstadoSolicitudN->nombre}}
+                                        </td>
+
+                                    </tr>
+                                @endforeach
                                 </tbody>
-
                             </table>
 
                         </div>

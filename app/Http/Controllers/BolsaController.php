@@ -12,6 +12,7 @@ use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Mockery\CountValidator\Exception;
+use Validator;
 
 class BolsaController extends Controller
 {
@@ -40,8 +41,62 @@ class BolsaController extends Controller
     public function store(Request $request)
     {
 
+        try {
+            $validator = Validator::make($request->all(), [
+                'nombre' => 'required',
+                'correo' => 'required|email',
+                'direccion' => 'required',
+                'telefono' => 'required',
+                'codigo' => 'required',
+                'file' => 'required',
+            ]);
+            if (!$validator->fails()) {
+                $codCasa = DB::table('organizacion')->where('organizacion.codigo', '=', $request['codigo'])->count();
+                if ($codCasa == 0) {
+                    $path = $this->Upload($request);
+                    if ($path != 'error') {
+                        $date = Carbon::now();
+                        $activo = ($request['estado'] == 0) ? $date : null;
+                        $organizacion = new Organizacion();
+                        $organizacion->nombre = $request->input('nombre');
+                        $organizacion->logo = $path;
+                        $organizacion->correo = $request->input('correo');
+                        $organizacion->direccion = $request->input('direccion');
+                        $organizacion->telefono = $request->input('telefono');
+                        $organizacion->codigo = $request->input('codigo');
+                        $organizacion->idTipoOrganizacion = 1;
+                        $organizacion->save();
+
+                        if ($activo != null) {
+                            $organizacion->delete();
+
+                        }
+
+                        $this->makeUser($request['codigo'], $organizacion, $request['correo']);
+
+                        //errir 0 todo bien, error 1, no se guardo la imagen, error 3 ya existe una casa con ese codigo
+                        return response()->json(['error' => '0']);
+                    } else {
+
+                        return response()->json(['error' => '1']);
+
+                    }
+                } else {
+
+                    return response()->json(['error' => '3']);
+                }
+            } else {
+
+                return response()->json(['error' => '2']);
+            }
+            // Flash::success('Casa registrada con éxito');
+
+        } catch (Exception $e) {
+
+            return response()->json(['error' => '1', 'error' => $e]);
 
 
+        }
     }
 
     public function Upload($request)
@@ -96,13 +151,28 @@ class BolsaController extends Controller
 
     public function eliminarCasa($id)
     {
+        try {
+            Organizacion::destroy($id);
+            flash('Estado cambiado con éxito', 'success');
+        } catch (Exception $e) {
+            flash('Ocurrio un problema para cambiar el estado', 'danger');
 
+        }
+        return redirect()->route('listadoCasas');
 
     }
 
     public function RestoreCasa($id)
     {
+        try {
+            $organizacion = Organizacion::withTrashed()->where('id', '=', $id)->first();
+            $organizacion->restore();
+            flash('Estado cambiado con éxito', 'success');
+        } catch (Exception $e) {
+            flash('Ocurrio un problema para cambiar el estado', 'danger');
 
+        }
+        return redirect()->route('listadoCasas');
 
     }
 
@@ -125,7 +195,64 @@ class BolsaController extends Controller
     public function update(Request $request, $id)
     {
 
+        try {
 
+            $validator = Validator::make($request->all(), [
+                'nombre' => 'required',
+                'correo' => 'required|email',
+                'direccion' => 'required',
+                'telefono' => 'required',
+                'codigo' => 'required',
+                'file' => 'required',
+            ]);
+            if (!$validator->fails()) {
+                $codCasa = DB::table('organizacion')->where('organizacion.codigo', '=', $request['codigo'])->where('organizacion.id', '!=', $id)->count();
+
+                if ($codCasa == 0) {
+                    $organizacion = Organizacion::withTrashed()->where('id', $id)->first();
+                    $path = $this->Upload($request);
+                    if ($path != 'error') {
+                        $date = Carbon::now();
+                        $activo = ($request['Estado'] == 0) ? $date : null;
+                        $organizacion->fill(
+                            [
+                                'nombre' => $request['nombre'],
+                                'logo' => $path,
+                                'correo' => $request['correo'],
+                                'direccion' => $request['direccion'],
+                                'telefono' => $request['telefono'],
+                                'codigo' => $request['codigo'],
+                            ]
+                        );
+                        $organizacion->save();
+                        if ($activo != null) {
+                            $organizacion->delete();
+
+                        } else {
+                            $organizacion->restore();
+
+                        }
+                        // $this->makeUser($request['codigo'],$organizacion,$request['correo']);
+                        return response()->json(['error' => '0']);
+                    } else {
+
+                        return response()->json(['error' => '1']);
+
+                    }
+                } else {
+
+                    return response()->json(['error' => '3']);
+                }
+
+            } else {
+
+                return response()->json(['error' => '2']);
+            }
+        } catch (Exception $e) {
+
+            return response()->json(['error' => '1', 'error' => $e]);
+
+        }
     }
 
 
@@ -133,9 +260,10 @@ class BolsaController extends Controller
 
     public function ListadoCasas()
     {
+        $organizaciones = Organizacion::withTrashed()->get();
 
 
-        return View('bves.Casas.ListaCasas');
+        return View('bves.Casas.ListaCasas', ['organizaciones' => $organizaciones]);
     }
 
 }

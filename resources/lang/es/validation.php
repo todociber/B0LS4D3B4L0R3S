@@ -83,7 +83,6 @@ return [
     |
     */
     'custom' => [
-        //FOR REGISTER
         'email' => [
             'required' => 'El correo electrónico es requerido',
             'email' => 'Debe escribir un correo electrónico valido',
@@ -137,11 +136,9 @@ return [
             'required' => 'Debe seleccionar una fecha de nacimiento',
             'date' => 'Debe escribir una fecha de nacimiento valida',
         ],
-
         'nit' => [
             'required' => 'Debe escribir un número de NIT',
             'unique' => 'El número de nit ingresado, ya se encuentra registrado',
-
         ],
         'dui' => [
             'required' => 'Debe escribir un número de DUI',
@@ -157,23 +154,6 @@ return [
             'required' => 'Debe escribir un apellido',
         ],
 
-        //FOR ORDEN
-        'valorMaximo' => [
-            'required' => 'Debe escribir el valor máximo el cual desea pagar por el titulo',
-            'numeric' => 'Debe escribir un valor máximo valido.',
-        ],
-        'valorMinimo' => [
-            'required' => 'Debe escribir el valor máximo el cual desea pagar por el titulo',
-            'numeric' => 'Debe escribir un valor máximo valido.',
-        ],
-        'monto' => [
-            'required' => 'Debe escribir el monto de la inversión',
-            'numeric' => 'Debe escribir un monto de inversión valido.',
-        ],
-        'FechaDeVigencia' => [
-            'required' => 'Debe seleccionar una fecha de vencimiento para su orden',
-            'date' => 'Debe escribir una fecha de vencimiento valida',
-        ],
 
 
     ],

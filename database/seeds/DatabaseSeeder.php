@@ -12,7 +12,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(departamentos::class);
-<<<<<<< HEAD
          $this->call(SeederRoles::class);
          $this->call(SeederEstadoSolicitud::class);
          $this->call(EstadoOrdenSeeder::class);
@@ -23,16 +22,5 @@ class DatabaseSeeder extends Seeder
          $this->call(rolUsuario::class);
          $this->call(SedderTipoEjecucionOrden::class);
         $this->call(TriggerProtegerRoles::class);
-=======
-        $this->call(SeederRoles::class);
-        $this->call(SeederEstadoSolicitud::class);
-        $this->call(EstadoOrdenSeeder::class);
-        $this->call(TipoOrdenSeeder::class);
-        $this->call(TipoOrganizacionSeeder::class);
-        $this->call(OrganizacionSeeder::class);
-        $this->call(UsuarioSeeder::class);
-        $this->call(rolUsuarioSeeder::class);
-
->>>>>>> origin/Gustavo
     }
 }

@@ -35,55 +35,29 @@
                                 </thead>
                                 <tbody>
 
-
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">
-                                        <a href="../Ordenes/1/asignar" class="btn btn-success"
-                                           onclick="waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);">Asignar</a>
-
-
-                                    </td>
-                                    <td>Karla Melgar</td>
-                                    <td>100000.00</td>
-                                    <td>PRIVADO</td>
+                                @foreach($ordenes as $orden)
+                                    <tr>
+                                        <td>
+                                            @if($orden->idEstadoOrden==1)
+                                                {!!link_to_route('Ordenes.asignar', $title = 'Asignar', $parameters = $orden->id, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                                            @else
+                                                {!!link_to_route('Ordenes.detalles', $title = 'Detalles', $parameters = $orden->id, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                                            @endif
 
 
-                                    <td>
-                                        Pre-Vigente
-                                    </td>
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1">
-                                        <a href="../Ordenes/1/asignar" class="btn btn-success"
-                                           onclick="waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);">Asignar</a>
+                                        </td>
+                                        <td> {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->apellido}}</td>
+                                        <td>{{$orden->monto}}</td>
+                                        <td>{{$orden->TipoMercado}}</td>
 
 
-                                    </td>
-                                    <td>Roberto Espinoza</td>
-                                    <td>50000.00</td>
-                                    <td>PUBLICO</td>
+                                        <td>
+                                            {{$orden->EstadoOrden->estado}}
+                                        </td>
+                                    </tr>
 
+                                @endforeach
 
-                                    <td>
-                                        Pre-Vigente
-                                    </td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">
-                                        <a href="../Ordenes/1/asignar" class="btn btn-success"
-                                           onclick="waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);">Asignar</a>
-
-
-                                    </td>
-                                    <td>Alejando Dueñas</td>
-                                    <td>50000.00</td>
-                                    <td>PUBLICO</td>
-
-
-                                    <td>
-                                        Pre-Vigente
-                                    </td>
-                                </tr>
                                 </tbody>
                             </table>
 

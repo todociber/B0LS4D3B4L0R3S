@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Cedeval;
+use App\Models\Ordene;
+use App\Models\Organizacion;
+use App\Models\TipoOrden;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientesController extends Controller
 {
@@ -23,43 +28,29 @@ class ClientesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-    //RETORNA VISTA DE ORDEN
     public function NuevaOrden()
     {
+        $idCliente = Auth::user()->ClienteN->id;
+        $cedeval = Cedeval::where('idCliente', Auth::user()->ClienteN->id)->lists('cuenta', 'id');
+        $casas = Organizacion::whereHas('ClienteOrganizacion', function ($query) use ($idCliente) {
+            $query->where('idCliente', $idCliente);
+        })->lists('nombre', 'id');
+        $tipoOrden = TipoOrden::lists('nombre', 'id');
+
+        return View('Clientes.Ordenes.NuevaOrden', ['cedeval' => $cedeval, 'casas' => $casas, 'Tipoorden' => $tipoOrden]);
 
 
-        return View('Clientes.Ordenes.NuevaOrden');
 
     }
 
-    //LISTADO DE ORDENES SIN IMPORTAR ESTADO
     public function ListadoOrdenesVigentes()
     {
 
+        $idCliente = Auth::user()->ClienteN->id;
 
-        return View('Clientes.Ordenes.ListaOrdenesCliente');
-    }
+        $ordenes = Ordene::where('idCliente', $idCliente)->where('idEstadoOrden', 2)->get();
 
-
-    //DETALLE DE ORDEN POR ID
-    public function OrdenesByID($id)
-    {
-
-
-    }
-
-    public function ordenesbyEstado(Request $request)
-    {
-
-
-    }
-
-
-    //GUARDAR MENSAJES
-    function storeMensajes(Request $request)
-    {
-
+        return View('Clientes.Ordenes.ListaOrdenesCliente', ['ordenes' => $ordenes]);
     }
     /**
      * Store a newly created resource in storage.
@@ -67,13 +58,10 @@ class ClientesController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    //GUARDANDO ORDENES
     public function store(Request $request)
     {
-        
-
+        //
     }
-
 
     /**
      * Display the specified resource.
