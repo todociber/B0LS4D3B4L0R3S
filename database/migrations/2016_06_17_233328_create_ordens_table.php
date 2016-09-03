@@ -22,6 +22,7 @@ class CreateOrdensTable extends Migration
             $table->decimal('valorMaximo');
             $table->decimal('monto');
             $table->decimal('tasaDeInteres');
+            $table->decimal('comision');
             $table->string('emisor');
             $table->string('TipoMercado');
             $table->integer('idCliente')->unsigned();

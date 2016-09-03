@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Mensaje;
 use App\Models\Ordene;
 use Auth;
 use DB;
@@ -140,12 +141,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
         } else {
-            $agentes = DB::table('usuarios')
-                ->join('rol_usuarios', 'usuarios.id', '=', 'rol_usuarios.idUsuario')
-                ->where('usuarios.idOrganizacion', '=', Auth::user()->idOrganizacion)
-                ->where('rol_usuarios.idRol', '=', '4')
-                ->whereNull('rol_usuarios.deleted_at')
-                ->lists(DB::raw(' concat_ws("",nombre," ",apellido) as name'), 'usuarios.id');
+
             $usuariosAgentes = DB::table('usuarios')
                 ->join('rol_usuarios', 'usuarios.id', '=', 'rol_usuarios.idUsuario')
                 ->where('usuarios.idOrganizacion', '=', Auth::user()->idOrganizacion)
@@ -162,8 +158,9 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                     $query->withTrashed();
                 }])->get();
 
-
-            return view('CasaCorredora.OrdenesAutorizador.asignarAgenteCorredor', compact('ordenes', 'agentes', 'usuariosAgentes', 'agentesCorredores'));
+            $nMensajes = Mensaje::where('idOrden', '=', $id)->count();
+            $mensajes = Mensaje::where('idOrden', '=', $id)->get();
+            return view('CasaCorredora.OrdenesAutorizador.DetalleOrden', compact('ordenes', 'usuariosAgentes', 'agentesCorredores', 'mensajes', 'nMensajes'));
         }
 
 
@@ -266,7 +263,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                 $orden = Ordene::find($id);
                 $orden->fill([
                     'idCorredor' => $request['AgenteCorredor'],
-                    'tasaDeInteres' => $request['Comision'],
+                    'comision' => $request['Comision'],
                     'idEstadoOrden' => '2'
                 ]);
                 $orden->save();

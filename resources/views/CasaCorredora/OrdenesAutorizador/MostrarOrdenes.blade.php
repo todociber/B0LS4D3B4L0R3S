@@ -46,7 +46,7 @@
 
 
                                         </td>
-                                        <td> {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->apellido}}</td>
+                                        <td> {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->nombre}}  {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->apellido}}</td>
                                         <td>{{$orden->monto}}</td>
                                         <td>{{$orden->TipoMercado}}</td>
 

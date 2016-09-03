@@ -32,83 +32,7 @@
     @include('alertas.errores')
 
 
-            <!-- PRUEBAS BVOOTSTRAP MODAL -->
 
-    <div class="modal fade" role="dialog" id="SeleccionAgente" data-backdrop="static" data-keyboard="false"
-         tabindex="-1" aria-labelledby="gridModalLabel"
-         style="display: none;">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                    <h4 class="modal-title" id="gridModalLabel">Seleccion Agente Corredor</h4>
-                </div>
-                <table id="example1" class="table table-hover">
-                    <thead>
-                    <tr>
-
-                        <th><p class="text-center">Nombre</p></th>
-                        <th><p class="text-center">email</p></th>
-                        <th><p class="text-center">Numero de Ordenes</p></th>
-                        <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($usuariosAgentes as $usuarioA)
-
-                        <tr>
-
-                            <td>{{$usuarioA->nombre}}  {{$usuarioA->apellido}}</td>
-                            <td>{{$usuarioA->email}}</td>
-                            <td>
-                                <?php
-                                $existenordenes = 0;
-
-                                for ($i = 0; $i < count($agentesCorredores); $i++) {
-
-                                    if ($agentesCorredores[$i]->id == $usuarioA->id) {
-                                        $existenordenes = 1;
-                                        echo $agentesCorredores[0]->N;
-                                    }
-
-                                }
-
-                                if ($existenordenes == 0) {
-                                    echo '0';
-                                }
-
-
-                                ?> ordenes asignadas
-                            </td>
-
-
-                            <td>
-                                <input type="button" data-dismiss="modal" class="btn btn-primary"
-                                       onclick="clikLog(this)" id="{{$usuarioA->nombre}} {{$usuarioA->apellido}}"
-                                       name="{{$usuarioA->id}}" value="Asignar orden"/>
-                            </td>
-                        </tr>
-
-                    @endforeach
-
-
-                    </tbody>
-                </table>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-    <!-- PRUEBAS BVOOTSTRAP MODAL -->
 
     @foreach($ordenes as $orden)
         <br><br>
@@ -161,10 +85,10 @@
                                 @if($orden->idEstadoOrden==1)
 
                                     @include('CasaCorredora.OrdenesAutorizador.formularios.AsignarAgenteCorredorForm')
-                                <div>
-                                    <br>
-                                    {!!link_to_route('Ordenes.rechazar', $title = 'Rechazar', $parameters = $orden->id, $attributes = ['class'=>'btn btn-danger','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'danger'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
-                                </div>
+                                    <div>
+                                        <br>
+                                        {!!link_to_route('Ordenes.rechazar', $title = 'Rechazar', $parameters = $orden->id, $attributes = ['class'=>'btn btn-danger','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'danger'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                                    </div>
 
                                 @else
                                     {!!Form::label('Agente Corredor: ')!!} {{$orden->Corredor_UsuarioN->nombre}} {{$orden->Corredor_UsuarioN->apellido}}
@@ -175,7 +99,7 @@
                                     <div class="col-md-12 text-right">
 
 
-                                </div>
+                                    </div>
                                 </div>
                             </div><!-- /.box -->
 
@@ -188,6 +112,79 @@
 
 
 
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="invoice">
+
+                    <div class="invoice-info">
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="page-header">
+                                        <h3>
+                                            <small class="pull-right">{{$nMensajes}} comentarios</small>
+                                            Comentarios
+                                        </h3>
+                                    </div>
+                                    <div class="comments-list">
+
+
+                                        @foreach($mensajes as $mensaje)
+                                            <div class="media">
+                                                <p class="pull-right">
+                                                    <small>{{$mensaje->created_at}}</small>
+                                                </p>
+                                                <a class="media-left" href="#">
+
+                                                </a>
+
+                                                <div class="media-body">
+                                                    @if ($mensaje->UsuarioMensaje->idOrganizacion==null)
+
+                                                        <h4 class="media-heading user_name">
+                                                            Cliente: {{$mensaje->UsuarioMensaje->nombre}} {{$mensaje->UsuarioMensaje->apellido}}</h4>
+                                                    @else
+                                                        <h4 class="media-heading user_name">Casa Corredora enviado
+                                                            por: {{$mensaje->UsuarioMensaje->nombre}} {{$mensaje->UsuarioMensaje->apellido}} </h4>
+
+                                                    @endif
+
+
+                                                    {{$mensaje->contenido}}
+
+
+                                                </div>
+                                            </div>
+
+                                        @endforeach
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="widget-area no-padding blank">
+                    <div class="status-upload">
+                        @include('CasaCorredora.OrdenesAutorizador.formularios.EnviarComentarios')
+                    </div><!-- Status Upload  -->
+                </div><!-- Widget Area -->
+            </div>
+
+        </div>
+
+    </section>
 
 
 

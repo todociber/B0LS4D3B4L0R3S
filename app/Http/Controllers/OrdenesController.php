@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Http\Requests;
+use App\Models\Mensaje;
+use App\Models\Ordene;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Redirect;
 
 class OrdenesController extends Controller
 {
@@ -82,5 +85,30 @@ class OrdenesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function Comentar(Requests\RequestComenatiosCasaCorredora $request, $id)
+    {
+        $orden = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->where('id', '=', $id)->count();
+        if ($orden > 0) {
+            $mensaje = new Mensaje([
+                'contenido' => $request['comentario'],
+                'idTipoMensaje' => '1',
+                'idOrden' => $id,
+                'idUsuario' => Auth::user()->id
+            ]);
+            flash('Comentario enviado exitosamente', 'success');
+            $mensaje->save();
+
+        } else {
+            flash('Error al enviar Comentario', 'danger');
+
+        }
+
+        return Redirect::back();
+
+
     }
 }

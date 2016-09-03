@@ -19,6 +19,7 @@ class Ordene extends Model
         'cantidadDeValores',
         'valorMinimo',
         'valorMaximo',
+        'comision',
         'monto',
         'tasaDeInteres',
         'emisor',
