@@ -215,4 +215,17 @@ class OrdenesController extends Controller
 
 
     }
+
+    public function Operaciones($id)
+    {
+        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->get();
+        if ($ordenes->count() > 0) {
+
+            return view('CasaCorredora.Ordenes.OperacionesDeBolsa', compact('ordenes'));
+
+        } else {
+            flash('Error en consulta', 'danger');
+            return redirect('/Ordenes');
+        }
+    }
 }

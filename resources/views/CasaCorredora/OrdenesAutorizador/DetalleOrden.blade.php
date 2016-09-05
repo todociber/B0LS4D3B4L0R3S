@@ -80,6 +80,16 @@
                                 @if ($orden->idOrden !=null )
                                     {!!link_to_route('Ordenes.historial', $title = 'Historial ', $parameters = $orden->id, $attributes = ['class'=>'btn btn-info','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                 @endif
+
+                                <br><br>
+                                @if($orden->idEstadoOrden==5)
+                                    @if(Auth::user()->id == $orden->idCorredor)
+
+                                        {!!link_to_route('Ordenes.operaciones', $title = 'Operaciones de Bolsa', $parameters = $orden->id, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'success'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+
+                                    @endif
+
+                                @endif
                             </div>
                             <div class="col-sm-4 invoice-col">
 
