@@ -1,22 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Seeder Municipios Completo">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/OrdenesEditar.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/formularios/EditarComision.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/formularios/EditarOrdenCompleta.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/HistorialOrden.blade.php" />
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Ordenes editar y reasignar, funcionando &#10;">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.lock" afterPath="$PROJECT_DIR$/composer.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_06_17_233328_create_ordens_table.php" afterPath="$PROJECT_DIR$/database/migrations/2016_06_17_233328_create_ordens_table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/ReAsignarAgenteCorredor.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/ReAsignarAgenteCorredor.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/formularios/EnviarComentarios.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/formularios/EnviarComentarios.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/ClientesLayout.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/ClientesLayout.blade.php" />
     </list>
     <ignored path="SERO.iws" />
@@ -59,11 +45,12 @@
       <file leaf-file-name="OrdenesController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.961538">
-              <caret line="196" column="60" selection-start-line="196" selection-start-column="60" selection-end-line="196" selection-end-column="60" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="197" column="60" selection-start-line="197" selection-start-column="60" selection-end-line="197" selection-end-column="60" />
               <folding>
-                <marker date="1473031224954" expanded="true" signature="40:223" placeholder="..." />
-                <marker date="1473031224954" expanded="true" signature="4267:4745" placeholder="select COUNT..usuarios..." />
+                <marker date="1473035454271" expanded="false" signature="40:197" placeholder="..." />
+                <marker date="1473035454271" expanded="true" signature="40:199" placeholder="..." />
+                <marker date="1473035454271" expanded="true" signature="4272:4750" placeholder="select COUNT..usuarios..." />
               </folding>
             </state>
           </provider>
@@ -72,7 +59,7 @@
       <file leaf-file-name="UsuarioCasaCorredoraController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.807693">
+            <state vertical-scroll-proportion="0.0">
               <caret line="197" column="38" selection-start-line="197" selection-start-column="7" selection-end-line="197" selection-end-column="38" />
               <folding />
             </state>
@@ -82,7 +69,7 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.038462">
+            <state vertical-scroll-proportion="0.0">
               <caret line="107" column="14" selection-start-line="107" selection-start-column="14" selection-end-line="107" selection-end-column="14" />
               <folding />
             </state>
@@ -92,13 +79,13 @@
       <file leaf-file-name="MostrarOrdenes.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.4">
+            <state vertical-scroll-proportion="0.0">
               <caret line="32" column="80" selection-start-line="32" selection-start-column="80" selection-end-line="32" selection-end-column="80" />
               <folding>
-                <marker date="1473034665396" expanded="true" signature="1735:1986" placeholder="..." />
-                <marker date="1473034665396" expanded="true" signature="1749:1985" placeholder="..." />
-                <marker date="1473034665396" expanded="true" signature="4616:4867" placeholder="..." />
-                <marker date="1473034665396" expanded="true" signature="4630:4866" placeholder="..." />
+                <marker date="1473035454321" expanded="true" signature="1735:1986" placeholder="..." />
+                <marker date="1473035454321" expanded="true" signature="1749:1985" placeholder="..." />
+                <marker date="1473035454321" expanded="true" signature="4619:4870" placeholder="..." />
+                <marker date="1473035454321" expanded="true" signature="4633:4869" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -107,8 +94,8 @@
       <file leaf-file-name="ClientesLayout.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/layouts/ClientesLayout.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5645757">
-              <caret line="250" column="36" selection-start-line="250" selection-start-column="36" selection-end-line="250" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.27552277">
+              <caret line="249" column="41" selection-start-line="249" selection-start-column="41" selection-end-line="249" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -117,7 +104,7 @@
       <file leaf-file-name="Usuario.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Models/Usuario.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.23077">
+            <state vertical-scroll-proportion="0.0">
               <caret line="53" column="32" selection-start-line="53" selection-start-column="20" selection-end-line="53" selection-end-column="32" />
               <folding />
             </state>
@@ -127,15 +114,9 @@
       <file leaf-file-name="OrdenesEditar.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/OrdenesEditar.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.2545455">
-              <caret line="58" column="45" selection-start-line="58" selection-start-column="30" selection-end-line="58" selection-end-column="45" />
-              <folding>
-                <element signature="e#962#984#0#HTML" expanded="true" />
-                <element signature="e#5802#5825#0#HTML" expanded="true" />
-                <marker date="1473028835760" expanded="true" signature="2383:2675" placeholder="..." />
-                <marker date="1473028835760" expanded="true" signature="2471:2640" placeholder="..." />
-                <marker date="1473028835760" expanded="true" signature="2737:2816" placeholder="..." />
-              </folding>
+            <state vertical-scroll-proportion="0.0">
+              <caret line="58" column="49" selection-start-line="58" selection-start-column="34" selection-end-line="58" selection-end-column="49" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -143,7 +124,7 @@
       <file leaf-file-name="AsignarAgenteCorredorForm.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/formularios/AsignarAgenteCorredorForm.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.153846">
+            <state vertical-scroll-proportion="0.0">
               <caret line="14" column="14" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
               <folding />
             </state>
@@ -153,13 +134,13 @@
       <file leaf-file-name="OrdenesCasaCorredoraAutorizador.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.615385">
-              <caret line="198" column="61" selection-start-line="198" selection-start-column="20" selection-end-line="198" selection-end-column="61" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="194" column="61" selection-start-line="194" selection-start-column="20" selection-end-line="194" selection-end-column="61" />
               <folding>
-                <marker date="1472951457335" expanded="true" signature="40:191" placeholder="..." />
-                <marker date="1472951457335" expanded="true" signature="2503:2981" placeholder="select COUNT..usuarios..." />
-                <marker date="1472951457335" expanded="true" signature="5163:5641" placeholder="select COUNT..usuarios..." />
-                <marker date="1472951457335" expanded="true" signature="6963:7441" placeholder="select COUNT..usuarios..." />
+                <marker date="1473035454328" expanded="false" signature="40:167" placeholder="..." />
+                <marker date="1473035454328" expanded="true" signature="2483:2961" placeholder="select COUNT..usuarios..." />
+                <marker date="1473035454328" expanded="true" signature="5137:5615" placeholder="select COUNT..usuarios..." />
+                <marker date="1473035454328" expanded="true" signature="6937:7415" placeholder="select COUNT..usuarios..." />
               </folding>
             </state>
           </provider>
@@ -168,10 +149,9 @@
       <file leaf-file-name="EditarOrdenCompleta.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/formularios/EditarOrdenCompleta.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.230769">
+            <state vertical-scroll-proportion="0.0">
               <caret line="8" column="27" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="27" />
               <folding>
-                <element signature="e#479#499#0#HTML" expanded="true" />
                 <marker date="1473029099950" expanded="true" signature="681:878" placeholder="..." />
               </folding>
             </state>
@@ -301,7 +281,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -496,6 +475,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -775,7 +755,13 @@
       <option name="project" value="LOCAL" />
       <updated>1472940716203</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Ordenes editar y reasignar, funcionando &#10;">
+      <created>1473035485284</created>
+      <option name="number" value="00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1473035485284</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -786,7 +772,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35679612" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36245954" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298731" sideWeight="0.50323623" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928804" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -844,7 +830,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Crear y editar Usuario&#10;" />
     <MESSAGE value="data en cadena algunos modelos y loading boostrap" />
     <MESSAGE value="arreglo migracion Mensajes" />
     <MESSAGE value="Todos los Modelos Relacionados" />
@@ -869,7 +854,8 @@
     <MESSAGE value="PUSH FUNCIONAL" />
     <MESSAGE value="Comentarios en ordenes funcionando" />
     <MESSAGE value="Seeder Municipios Completo" />
-    <option name="LAST_COMMIT_MESSAGE" value="Seeder Municipios Completo" />
+    <MESSAGE value="Ordenes editar y reasignar, funcionando &#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ordenes editar y reasignar, funcionando &#10;" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1025,7 +1011,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-12.423077">
           <caret line="32" column="34" selection-start-line="32" selection-start-column="20" selection-end-line="32" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1117,9 +1102,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.5165355">
           <caret line="95" column="30" selection-start-line="95" selection-start-column="20" selection-end-line="95" selection-end-column="30" />
-          <folding>
-            <marker date="1472949995718" expanded="false" signature="30:115" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1134,14 +1116,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="35" column="4" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
-          <folding>
-            <marker date="1473009984777" expanded="true" signature="732:991" placeholder="..." />
-            <marker date="1473009984777" expanded="true" signature="746:990" placeholder="..." />
-            <marker date="1473009984777" expanded="true" signature="3842:4094" placeholder="..." />
-            <marker date="1473009984777" expanded="true" signature="3856:4093" placeholder="..." />
-            <marker date="1473009984777" expanded="true" signature="7811:8063" placeholder="..." />
-            <marker date="1473009984777" expanded="true" signature="7825:8062" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1149,7 +1123,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6251969">
           <caret line="181" column="2" selection-start-line="181" selection-start-column="2" selection-end-line="181" selection-end-column="2" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1157,14 +1130,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="118" selection-end-column="15" />
-          <folding>
-            <marker date="1473025409637" expanded="true" signature="3069:3318" placeholder="..." />
-            <marker date="1473025409637" expanded="true" signature="3083:3317" placeholder="..." />
-            <marker date="1473025409637" expanded="true" signature="3466:3717" placeholder="..." />
-            <marker date="1473025409637" expanded="true" signature="3480:3716" placeholder="..." />
-            <marker date="1473025409637" expanded="true" signature="4365:4617" placeholder="..." />
-            <marker date="1473025409637" expanded="true" signature="4379:4616" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1172,10 +1137,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
           <caret line="0" column="74" selection-start-line="0" selection-start-column="74" selection-end-line="0" selection-end-column="74" />
-          <folding>
-            <marker date="1472947175577" expanded="true" signature="242:461" placeholder="..." />
-            <marker date="1472947175577" expanded="true" signature="255:460" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1183,9 +1144,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="65" selection-start-line="0" selection-start-column="65" selection-end-line="0" selection-end-column="65" />
-          <folding>
-            <marker date="1473028125494" expanded="true" signature="275:472" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1193,16 +1151,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.576923">
           <caret line="7" column="2" selection-start-line="7" selection-start-column="2" selection-end-line="110" selection-end-column="37" />
-          <folding>
-            <marker date="1472924358183" expanded="true" signature="6433:6685" placeholder="..." />
-            <marker date="1472924358183" expanded="true" signature="6447:6684" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/formularios/AsignarAgenteCorredorForm.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.153846">
+        <state vertical-scroll-proportion="0.0">
           <caret line="14" column="14" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
           <folding />
         </state>
@@ -1210,21 +1164,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/OrdenesEditar.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.2545455">
-          <caret line="58" column="45" selection-start-line="58" selection-start-column="30" selection-end-line="58" selection-end-column="45" />
-          <folding>
-            <element signature="e#962#984#0#HTML" expanded="true" />
-            <element signature="e#5802#5825#0#HTML" expanded="true" />
-            <marker date="1473028835760" expanded="true" signature="2383:2675" placeholder="..." />
-            <marker date="1473028835760" expanded="true" signature="2471:2640" placeholder="..." />
-            <marker date="1473028835760" expanded="true" signature="2737:2816" placeholder="..." />
-          </folding>
+        <state vertical-scroll-proportion="0.0">
+          <caret line="58" column="49" selection-start-line="58" selection-start-column="34" selection-end-line="58" selection-end-column="49" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Models/Usuario.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.23077">
+        <state vertical-scroll-proportion="0.0">
           <caret line="53" column="32" selection-start-line="53" selection-start-column="20" selection-end-line="53" selection-end-column="32" />
           <folding />
         </state>
@@ -1232,7 +1180,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.038462">
+        <state vertical-scroll-proportion="0.0">
           <caret line="107" column="14" selection-start-line="107" selection-start-column="14" selection-end-line="107" selection-end-column="14" />
           <folding />
         </state>
@@ -1240,23 +1188,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.615385">
-          <caret line="198" column="61" selection-start-line="198" selection-start-column="20" selection-end-line="198" selection-end-column="61" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="194" column="61" selection-start-line="194" selection-start-column="20" selection-end-line="194" selection-end-column="61" />
           <folding>
-            <marker date="1472951457335" expanded="true" signature="40:191" placeholder="..." />
-            <marker date="1472951457335" expanded="true" signature="2503:2981" placeholder="select COUNT..usuarios..." />
-            <marker date="1472951457335" expanded="true" signature="5163:5641" placeholder="select COUNT..usuarios..." />
-            <marker date="1472951457335" expanded="true" signature="6963:7441" placeholder="select COUNT..usuarios..." />
+            <marker date="1473035454328" expanded="false" signature="40:167" placeholder="..." />
+            <marker date="1473035454328" expanded="true" signature="2483:2961" placeholder="select COUNT..usuarios..." />
+            <marker date="1473035454328" expanded="true" signature="5137:5615" placeholder="select COUNT..usuarios..." />
+            <marker date="1473035454328" expanded="true" signature="6937:7415" placeholder="select COUNT..usuarios..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/formularios/EditarOrdenCompleta.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.230769">
+        <state vertical-scroll-proportion="0.0">
           <caret line="8" column="27" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="27" />
           <folding>
-            <element signature="e#479#499#0#HTML" expanded="true" />
             <marker date="1473029099950" expanded="true" signature="681:878" placeholder="..." />
           </folding>
         </state>
@@ -1264,7 +1211,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.807693">
+        <state vertical-scroll-proportion="0.0">
           <caret line="197" column="38" selection-start-line="197" selection-start-column="7" selection-end-line="197" selection-end-column="38" />
           <folding />
         </state>
@@ -1272,32 +1219,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.961538">
-          <caret line="196" column="60" selection-start-line="196" selection-start-column="60" selection-end-line="196" selection-end-column="60" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="197" column="60" selection-start-line="197" selection-start-column="60" selection-end-line="197" selection-end-column="60" />
           <folding>
-            <marker date="1473031224954" expanded="true" signature="40:223" placeholder="..." />
-            <marker date="1473031224954" expanded="true" signature="4267:4745" placeholder="select COUNT..usuarios..." />
+            <marker date="1473035454271" expanded="false" signature="40:197" placeholder="..." />
+            <marker date="1473035454271" expanded="true" signature="40:199" placeholder="..." />
+            <marker date="1473035454271" expanded="true" signature="4272:4750" placeholder="select COUNT..usuarios..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.4">
+        <state vertical-scroll-proportion="0.0">
           <caret line="32" column="80" selection-start-line="32" selection-start-column="80" selection-end-line="32" selection-end-column="80" />
           <folding>
-            <marker date="1473034665396" expanded="true" signature="1735:1986" placeholder="..." />
-            <marker date="1473034665396" expanded="true" signature="1749:1985" placeholder="..." />
-            <marker date="1473034665396" expanded="true" signature="4616:4867" placeholder="..." />
-            <marker date="1473034665396" expanded="true" signature="4630:4866" placeholder="..." />
+            <marker date="1473035454321" expanded="true" signature="1735:1986" placeholder="..." />
+            <marker date="1473035454321" expanded="true" signature="1749:1985" placeholder="..." />
+            <marker date="1473035454321" expanded="true" signature="4619:4870" placeholder="..." />
+            <marker date="1473035454321" expanded="true" signature="4633:4869" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/layouts/ClientesLayout.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5645757">
-          <caret line="250" column="36" selection-start-line="250" selection-start-column="36" selection-end-line="250" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.27552277">
+          <caret line="249" column="41" selection-start-line="249" selection-start-column="41" selection-end-line="249" selection-end-column="41" />
           <folding />
         </state>
       </provider>

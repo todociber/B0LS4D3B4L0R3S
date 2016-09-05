@@ -207,8 +207,8 @@
                     "ordering": true,
                     "info": true,
                     "autoWidth": true,
-                    "order": [[3, 'des']],
-                    stateSave: true,
+                    "order": [[3, 'asc'], [2, 'asc']],
+
                     "language": {
 
 
@@ -246,8 +246,8 @@
             "ordering": true,
             "info": true,
             "autoWidth": true,
-            stateSave: true,
-            "order": [[3, 'des']],
+
+            "order": [[3, 'asc'], [2, 'desc']],
             "language": {
 
 
