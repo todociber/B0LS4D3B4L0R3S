@@ -33,85 +33,88 @@
 
 
             <!-- PRUEBAS BVOOTSTRAP MODAL -->
-
-    <div class="modal fade" role="dialog" id="SeleccionAgente" data-backdrop="static" data-keyboard="false"
-         tabindex="-1" aria-labelledby="gridModalLabel"
-         style="display: none;">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                    <h4 class="modal-title" id="gridModalLabel">Seleccion Agente Corredor</h4>
-                </div>
-                <table id="example1" class="table table-hover">
-                    <thead>
-                    <tr>
-
-                        <th><p class="text-center">Nombre</p></th>
-                        <th><p class="text-center">email</p></th>
-                        <th><p class="text-center">Numero de Ordenes</p></th>
-                        <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($usuariosAgentes as $usuarioA)
-
+    @if($Autorizador)
+        <div class="modal fade" role="dialog" id="SeleccionAgente" data-backdrop="static" data-keyboard="false"
+             tabindex="-1" aria-labelledby="gridModalLabel"
+             style="display: none;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="gridModalLabel">Seleccion Agente Corredor</h4>
+                    </div>
+                    <table id="example1" class="table table-hover">
+                        <thead>
                         <tr>
 
-                            <td>{{$usuarioA->nombre}}  {{$usuarioA->apellido}}</td>
-                            <td>{{$usuarioA->email}}</td>
-                            <td>
-                                <?php
-                                $existenordenes = 0;
+                            <th><p class="text-center">Nombre</p></th>
+                            <th><p class="text-center">email</p></th>
+                            <th><p class="text-center">Numero de Ordenes</p></th>
+                            <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($usuariosAgentes as $usuarioA)
 
-                                for ($i = 0; $i < count($agentesCorredores); $i++) {
+                            <tr>
 
-                                    if ($agentesCorredores[$i]->id == $usuarioA->id) {
-                                        $existenordenes = 1;
-                                        echo $agentesCorredores[0]->N;
+                                <td>{{$usuarioA->nombre}}  {{$usuarioA->apellido}}</td>
+                                <td>{{$usuarioA->email}}</td>
+                                <td>
+                                    <?php
+                                    $existenordenes = 0;
+
+                                    for ($i = 0; $i < count($agentesCorredores); $i++) {
+
+                                        if ($agentesCorredores[$i]->id == $usuarioA->id) {
+                                            $existenordenes = 1;
+                                            echo $agentesCorredores[0]->N;
+                                        }
+
                                     }
 
-                                }
-
-                                if ($existenordenes == 0) {
-                                    echo '0';
-                                }
+                                    if ($existenordenes == 0) {
+                                        echo '0';
+                                    }
 
 
-                                ?> ordenes asignadas
-                            </td>
+                                    ?> ordenes asignadas
+                                </td>
 
 
-                            <td>
-                                <input type="button" data-dismiss="modal" class="btn btn-primary"
-                                       onclick="clikLog(this)" id="{{$usuarioA->nombre}} {{$usuarioA->apellido}}"
-                                       name="{{$usuarioA->id}}" value="Asignar orden"/>
-                            </td>
-                        </tr>
+                                <td>
+                                    <input type="button" data-dismiss="modal" class="btn btn-primary"
+                                           onclick="clikLog(this)" id="{{$usuarioA->nombre}} {{$usuarioA->apellido}}"
+                                           name="{{$usuarioA->id}}" value="Asignar orden"/>
+                                </td>
+                            </tr>
 
-                    @endforeach
+                        @endforeach
 
 
-                    </tbody>
-                </table>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        </tbody>
+                    </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
 
 
 
-    <!-- PRUEBAS BVOOTSTRAP MODAL -->
+        <!-- PRUEBAS BVOOTSTRAP MODAL -->
 
+    @endif
     @foreach($ordenes as $orden)
         <br><br>
+
+
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
@@ -158,11 +161,16 @@
                             <div class="form-group col-md-6">
 
 
-                                @include('CasaCorredora.OrdenesAutorizador.formularios.ReAsignarAgenteCorredorForm')
-                                <div>
-                                    <br>
+                                {!!Form::label('Agente Corredor: ')!!} {{$orden->Corredor_UsuarioN->nombre}} {{$orden->Corredor_UsuarioN->apellido}}
+                                <br>{!! Form::label('Comision') !!} {{$orden->comision}}%
 
-                                </div>
+                                @if($Autorizador)
+                                    @include('CasaCorredora.Ordenes.formularios.EditarOrdenCompleta')
+                                @else
+
+                                    No es agente correor
+                                    @include('CasaCorredora.Ordenes.formularios.EditarComision')
+                                @endif
 
 
                                 <div class="row">
@@ -179,12 +187,5 @@
 
         </section>
     @endforeach
-
-
-
-
-
-
-
 
 @stop

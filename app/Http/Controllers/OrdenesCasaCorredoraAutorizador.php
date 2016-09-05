@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Models\Mensaje;
 use App\Models\Ordene;
 use Auth;
 use DB;
@@ -21,7 +20,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
     public function index()
     {
 
-        $ordenes = Ordene::all();
+        $ordenes = Ordene::where('idEstadoOrden', '!=', '4')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
         return view('CasaCorredora.OrdenesAutorizador.MostrarOrdenes', compact('ordenes'));
     }
 
@@ -100,6 +99,9 @@ class OrdenesCasaCorredoraAutorizador extends Controller
         if ($ordenes[0]->idOrganizacion != Auth::user()->idOrganizacion) {
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
+        } elseif ($ordenes[0]->idEstadoOrden != 1) {
+            flash('Error en consulta', 'danger');
+            return redirect('/Ordenes');
         } else {
             $agentes = DB::table('usuarios')
                 ->join('rol_usuarios', 'usuarios.id', '=', 'rol_usuarios.idUsuario')
@@ -154,13 +156,16 @@ class OrdenesCasaCorredoraAutorizador extends Controller
 
 
             $ordenes = Ordene::ofid($id)
-                ->with(['Corredor_UsuarioN' => function ($query) {
+                ->with(['MensajesN_Orden', 'Corredor_UsuarioN' => function ($query) {
                     $query->withTrashed();
                 }])->get();
 
-            $nMensajes = Mensaje::where('idOrden', '=', $id)->count();
-            $mensajes = Mensaje::where('idOrden', '=', $id)->get();
-            return view('CasaCorredora.OrdenesAutorizador.DetalleOrden', compact('ordenes', 'usuariosAgentes', 'agentesCorredores', 'mensajes', 'nMensajes'));
+
+            return view('CasaCorredora.OrdenesAutorizador.DetalleOrden', compact('ordenes', 'usuariosAgentes', 'agentesCorredores'));
+
+
+
+
         }
 
 

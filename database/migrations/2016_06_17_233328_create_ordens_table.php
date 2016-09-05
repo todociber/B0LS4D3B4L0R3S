@@ -18,11 +18,11 @@ class CreateOrdensTable extends Migration
             $table->date('FechaDeVigencia');
             $table->string('titulo',100);
             $table->integer('cantidadDeValores');
-            $table->decimal('valorMinimo');
-            $table->decimal('valorMaximo');
-            $table->decimal('monto');
-            $table->decimal('tasaDeInteres');
-            $table->decimal('comision');
+            $table->decimal('valorMinimo', 65, 2);
+            $table->decimal('valorMaximo', 65, 2);
+            $table->decimal('monto', 65, 2);
+            $table->decimal('tasaDeInteres', 65, 2);
+            $table->decimal('comision', 65, 2);
             $table->string('emisor');
             $table->string('TipoMercado');
             $table->integer('idCliente')->unsigned();
