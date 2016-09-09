@@ -63,16 +63,22 @@
                             <div class="form-group col-md-6">
 
 
+
                                 {!!Form::label('Agente Corredor: ')!!} {{$orden->Corredor_UsuarioN->nombre}} {{$orden->Corredor_UsuarioN->apellido}}
                                 <br>{!! Form::label('Comision') !!} {{$orden->comision}}%
 
-
+                                <br> <b>Operaciones Realizadas</b>
+                                @foreach($orden->Operaiones_ordenes as $operaciones)
+                                    <li><b>Monto: </b> {{$operaciones->monto}}<br></li>
+                                @endforeach
                                 <div class="row">
+
                                     <div class="col-md-12 text-right">
 
 
                                     </div>
                                 </div>
+                                @include('CasaCorredora.Ordenes.formularios.NuevaOperacionVolsa')
                             </div><!-- /.box -->
 
 

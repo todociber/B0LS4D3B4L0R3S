@@ -53,7 +53,7 @@ class Ordene extends Model
 
     public function Operaiones_ordenes()
     {
-        return $this->hasMany(OperacionBolsa::class, 'idOden', 'id');
+        return $this->hasMany(OperacionBolsa::class, 'idOrden', 'id');
     }
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Mensaje;
+use App\Models\OperacionBolsa;
 use App\Models\Ordene;
 use DB;
 use Illuminate\Http\Request;
@@ -221,7 +222,60 @@ class OrdenesController extends Controller
         $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->get();
         if ($ordenes->count() > 0) {
 
-            return view('CasaCorredora.Ordenes.OperacionesDeBolsa', compact('ordenes'));
+            return view('CasaCorredora.Ordenes.OperacionesDeVolsa', compact('ordenes'));
+
+        } else {
+            flash('Error en consulta', 'danger');
+            return redirect('/Ordenes');
+        }
+    }
+
+    public function OperacionesGuardar(Requests\RequestOperacionBolsa $request, $id)
+    {
+        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->where('idCorredor', '=', Auth::user()->id)->get();
+        if ($ordenes->count() > 0) {
+            if ($ordenes[0]->idTipoEjecucion != 2) {
+                $montoEjecutado = 0;
+                $OperacionesRealizadas = $ordenes[0]->Operaiones_ordenes;
+                foreach ($OperacionesRealizadas as $operacion) {
+                    $montoEjecutado = $montoEjecutado + $operacion->monto;
+                }
+                $montoGuardar = $request['Monto'];
+
+                if ($montoEjecutado < $ordenes[0]->monto && $montoEjecutado + $montoGuardar <= $ordenes[0]->monto) {
+
+                    if ($montoGuardar == $ordenes[0]->monto) {
+                        $orden = Ordene::find($id);
+
+                        $orden->fill([
+                            'idTipoEjecucion' => 2
+                        ]);
+                    } else {
+                        $orden = Ordene::find($id);
+
+                        $orden->fill([
+                            'idTipoEjecucion' => 1
+                        ]);
+                    }
+                    $operacion = new OperacionBolsa();
+                    $operacion->fill([
+                        'monto' => $request['Monto'],
+                        'idOrden' => $id
+                    ]);
+                    $operacion->save();
+                    $orden->save();
+                    flash('Operacion registrada exitosamente', 'success');
+                    return redirect()->back();
+
+
+                } else {
+                    return redirect()->back()->withErrors('Monto superior al autorizado por el cliente');
+                }
+            } else {
+
+                return redirect()->back()->withErrors('Orden ejecutada completamente');
+            }
+
 
         } else {
             flash('Error en consulta', 'danger');
