@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\LatchModel;
 use App\Models\Usuario;
 use App\User;
+use App\Utilities\RolIdentificador;
 use ErrorException;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -44,6 +45,7 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+
     }
 
     /**
@@ -63,7 +65,7 @@ class AuthController extends Controller
 
     protected function authenticated($request, $usuario)
     {
-
+        $rolIdentificador = new RolIdentificador();
         /*
          * 1- ADMNISTRADOR BOLSA DE VALORES
          * 2-ADMNISTRADOR CASA CORREDORA
@@ -105,18 +107,22 @@ class AuthController extends Controller
 
         $userType=$usuario->UsuarioRoles[0]->RolN->id;
 
-        
+
         if ($userType == 1) {
 
             return redirect()->route('catalogoUsuarios');
             //listadoCasas
 
         } else if ($userType == 2 || $userType == 3 || $userType == 4) {
-            /*SE DEBE ENVIAR A UNA PANTALLA DONDE EL ELIJA EN CUAL MODULO DESEA ENTRAR
-                ESTA PANTALLA DEBE CARGAR DINAMICAMENTE LOS BOTONES SEGUN LOS PERMISO QUE TENGA.
-            */
+            if ($rolIdentificador->Administrador($usuario)) {
+                return redirect()->route('UsuarioCasaCorredora.index');
+            } else if ($rolIdentificador->Autorizador($usuario)) {
+                return redirect()->route('SolicitudAfiliacion.index');
+            } else if ($rolIdentificador->AgenteCorredor($usuario)) {
+                return redirect()->route('Ordenes.index');
+            }
 
-            return redirect()->route('UsuarioCasaCorredora.index');
+
             //UsuarioCasaCorredora
         }
         else {

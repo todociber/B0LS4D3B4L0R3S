@@ -236,27 +236,19 @@ class UsuarioCasaCorredoraController extends Controller
                 if ($NRolesActivosByUser[0]->N > 0) {
                     $existeId = 0;
                     foreach ($request['rolUsuario'] as $role2) {
-
-
                         if ($role2 == $idRolDisponible) {
                             $existeId = 1;
                         }
-
-
                     }
-
                     if ($existeId == 0) {
-
-
                         if (Auth::user()->id == $id && $idRolDisponible == 2) {
-
                         } else {
                             $RolUsuarioABorrar = RolUsuario::where('idUsuario', $id)
                                 ->where('idRol', $idRolDisponible)->first();
 
 
                             if ($ordenesVigentes == 1) {
-                                if ($RolUsuarioABorrar->idRol == 3) {
+                                if ($RolUsuarioABorrar->idRol == 4) {
                                     $usuario = Usuario::ofid($id)->get();
                                     $ordenes = Ordene::where('idCorredor', '=', $id)
                                         ->where('idEstadoOrden', '=', 2)

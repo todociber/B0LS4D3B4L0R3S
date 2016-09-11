@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Ordene;
+use App\Utilities\RolIdentificador;
 use Auth;
 use DB;
 use ErrorException;
@@ -19,9 +20,19 @@ class OrdenesCasaCorredoraAutorizador extends Controller
      */
     public function index()
     {
+        $rolIdentificador = new RolIdentificador;
 
-        $ordenes = Ordene::where('idEstadoOrden', '!=', '4')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
-        return view('CasaCorredora.OrdenesAutorizador.MostrarOrdenes', compact('ordenes'));
+        if ($rolIdentificador->Autorizador(Auth::user())) {
+            $ordenes = Ordene::where('idEstadoOrden', '!=', '4')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
+            return view('CasaCorredora.OrdenesAutorizador.MostrarOrdenes', compact('ordenes'));
+        } elseif ($rolIdentificador->Administrador(Auth::user())) {
+            $ordenes = Ordene::where('idEstadoOrden', '!=', '4')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
+            return view('CasaCorredora.OrdenesAutorizador.MostrarOrdenes', compact('ordenes'));
+        } else {
+            $ordenes = Ordene::where('idEstadoOrden', '!=', '4')->where('idCorredor', '=', Auth::user()->id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
+            return view('CasaCorredora.OrdenesAutorizador.MostrarOrdenes', compact('ordenes'));
+        }
+
     }
 
     /**
