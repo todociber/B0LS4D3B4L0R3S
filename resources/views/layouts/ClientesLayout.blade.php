@@ -64,11 +64,11 @@
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
             <!-- Logo -->
-            <a href="#" class="logo">
+            <a class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>A</b>LT</span>
+                <span class="logo-mini"><b>B</b>V</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>CLIENTES</b></span>
+                <span class="logo-lg"><b>Bolsa De Valores</b></span>
             </a>
             <!-- Sidebar toggle a-->
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="a">
@@ -83,16 +83,20 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
-                            <span class="hidden-xs">Nombre del cliente</span>
+                            <span class="hidden-xs">{{Auth::user()->nombre}} {{Auth::user()->apellido}}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
 
                                 <p>
-                                    Cliente casa Corredora
-                                    <small>Cliente</small>
+                                    {{Auth::user()->Organizacion->nombre}}<br>
+                                    Roles del usuario
+                                    @foreach(Auth::user()->UsuarioRoles as $roles)
+                                        <small>{{$roles->RolN->nombre}}</small>
+                                    @endforeach
                                 </p>
+
                             </li>
                             <!-- Menu Body -->
 
@@ -102,7 +106,7 @@
                                     <a href="#" class="btn btn-default btn-flat">Perfil</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Cerrar Sesión</a>
+                                    <a href="{{url('/logout')}}" class="btn btn-default btn-flat">Cerrar Sesión</a>
                                 </div>
                             </li>
                         </ul>
@@ -119,8 +123,8 @@
         <section class="sidebar">
             <div class="user-panel">
                 <div class="pull-left info">
-                    <p>Rigoberto Gómez</p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    <p>{{Auth::user()->nombre}} {{Auth::user()->apellido}}</p>
+
                 </div>
             </div>
 
@@ -132,39 +136,37 @@
                         <i class="fa fa-archive"></i> <span>Ordenes</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li id="listadoOrdenes"><a href="{{route('listadoordenesclienteV')}}"><i
+                        <li id="listadoOrdenes"><a href="{{route('Ordenes.index')}}"><i
                                         class="fa fa-circle-o"></i>Ordenes Vigentes</a></li>
-                        <li id="nuevaOrden"><a href="{{route('nuevaOrden')}}"><i class="fa fa-circle-o"></i> Nueva orden</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-home"></i>
-                        <span>Afiliación</span>
-                        <i class="fa fa-angle-left pull-right"></i>
 
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="Solicitudes_Afiliacion.html"><i class="fa fa-circle-o"></i>Solicitudes de afiliación</a></li>
-                        <li><a href="afiliacion_form.html"><i class="fa fa-circle-o"></i> Afiliarse a una casa</a></li>
-                        <li ><a href="#"><i class="fa fa-circle-o"></i> Listado de casas afiliado
-                            </a></li>
                     </ul>
                 </li>
-                <li class="treeview">
+                <li id="ordenes" class=" treeview">
                     <a href="#">
-                        <i class="fa fa-th-list"></i>
-                        <span>Mi perfil</span>
+                        <i class="fa fa-archive"></i> <span>Afiliaciones</span> <i
+                                class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Modificar información</a></li>
-                        <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Cambio de contraseña</a></li>
+                        <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.index')}}"><i
+                                        class="fa fa-circle-o"></i>Solicitudes de Afiliacion</a></li>
+                        <li id="listadoOrdenes"><a href="{{route('Afiliados.index')}}"><i
+                                        class="fa fa-circle-o"></i>Afiliados</a></li>
+
                     </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href={{route('UsuarioCasaCorredora.index')}}>
+                        <i class="fa fa-th-list"></i>
+                        <span>Usuarios Casa Corredora</span>
+                    </a>
+
                 </li>
                 <li class="header">OTRAS OPCIONES</li>
-                <!--<li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-                <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>-->
+                <li><a href={{route('Latch.index')}}><i class="fa fa-circle-o text-red"></i> <span>Vincular Latch</span></a>
+                </li>
+                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Perfil</span></a></li>
+
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -174,7 +176,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Solicitud de afiliación
+                @yield('NombrePantalla')
 
             </h1>
 
@@ -207,6 +209,7 @@
                     "ordering": true,
                     "info": true,
                     "autoWidth": true,
+                    responsive: true,
                     "order": [[3, 'asc'], [2, 'asc']],
 
                     "language": {
@@ -245,6 +248,7 @@
             "searching": true,
             "ordering": true,
             "info": true,
+            responsive: true,
             "autoWidth": true,
 
             "order": [[3, 'asc'], [2, 'desc']],

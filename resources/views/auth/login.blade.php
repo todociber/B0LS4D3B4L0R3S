@@ -1,4 +1,4 @@
-@extends('layouts.ClientesLayout')
+@extends('layouts.bolsavalores')
 
 @section('content')
     <div class="container">

@@ -20,9 +20,18 @@
                             @include('alertas.flash')
                             @include('alertas.errores')
 
-                            <br><br>{!!Form::open(['route'=>['UsuarioCasaCorredora.destroy', $usuario[0]->id], 'method'=>'DELETE'])!!}
-                            {!!Form::submit('Desactivar  Usuario ', ['class'=>'btn btn-danger','onclick'=>"waitingDialog.show('Desactivando Espere... ',{ progressType: 'danger'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
-                            {!!Form::close()!!}
+                            @if (Session::has('EditarUsuario'))
+
+                            @else
+
+                                <br>
+                                <br>{!!Form::open(['route'=>['UsuarioCasaCorredora.destroy', $usuario[0]->id], 'method'=>'DELETE'])!!}
+                                {!!Form::submit('Desactivar  Usuario ', ['class'=>'btn btn-danger','onclick'=>"waitingDialog.show('Desactivando Espere... ',{ progressType: 'danger'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                                {!!Form::close()!!}
+
+                            @endif
+
+
                             <br><br>
                             <table id="example1" class="table table-hover">
                                 <thead>

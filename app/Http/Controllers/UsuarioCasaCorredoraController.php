@@ -255,6 +255,9 @@ class UsuarioCasaCorredoraController extends Controller
                                         ->orWhere('idEstadoOrden', '=', 5)
                                         ->get();
                                     \Session::set('UsuarioEliminar', $id);
+                                    \Session::set('EditarUsuario', $id);
+
+
                                     flash('Usuario tiene ordenes pendientes', 'danger');
                                     return view('CasaCorredora.OrdenesAutorizador.ReAsignarOrdenes', compact('ordenes', 'usuario'));
 
@@ -262,7 +265,7 @@ class UsuarioCasaCorredoraController extends Controller
                                     $RolUsuarioABorrar->delete();
                                 }
                             } else {
-
+                                \Session::remove('EditarUsuario');
                                 $RolUsuarioABorrar->delete();
                             }
 

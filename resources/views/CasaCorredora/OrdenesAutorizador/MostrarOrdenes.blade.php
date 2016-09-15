@@ -24,7 +24,10 @@
 
                             <br><br>
 
-                            <table id="example1" class="table table-hover">
+                            <div style="width: 100%; padding-left: -10px; border: 0px;">
+                                <div class="table-responsive">
+                                    <table id="example1" class="table table-hover dt-responsive display nowrap"
+                                           cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
@@ -63,6 +66,8 @@
 
                                 </tbody>
                             </table>
+                                </div>
+                            </div>
 
                         </div>
                     </div><!--row-->
@@ -89,7 +94,10 @@
 
                             <br><br>
 
-                            <table id="example2" class="table table-hover">
+                            <div style="width: 100%; padding-left: -10px; border: 0px;">
+                                <div class="table-responsive">
+                                    <table id="example2" class="table table-hover dt-responsive display nowrap"
+                                           cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
@@ -128,7 +136,8 @@
 
                                 </tbody>
                             </table>
-
+                                </div>
+                            </div>
                         </div>
                     </div><!--row-->
 

@@ -91,7 +91,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('SolicitudAfiliacion/procesando', 'SolicitudesCasaCorredora@Procesando');
     Route::get('SolicitudAfiliacion/procesadas', 'SolicitudesCasaCorredora@Procesadas');
     Route::get('SolicitudAfiliacion/{id}/procesar', 'SolicitudesCasaCorredora@Procesar')->name('SolicitudAfiliacion.procesar');
-    Route::get('Afiliados', 'SolicitudesCasaCorredora@afiliados');
+    Route::get('Afiliados', 'SolicitudesCasaCorredora@afiliados')->name('Afiliados.index');
     Route::get('Afiliados/{id}/eliminar', 'SolicitudesCasaCorredora@eliminar')->name('Afiliado.eliminar');
 
     Route::resource('SolicitudAfiliacion', 'SolicitudesCasaCorredora');
@@ -116,12 +116,13 @@ Route::group(['middleware' => 'auth'], function () {
     //Latch inicio
     Route::get('LatchSolicitud', function () {
         return view('auth.latch');
-    });
+    })->name('Latch.index');
     Route::post('Parear', 'LatchController@pair')->name('Latch.parear');
     Route::get('Desenparejar', 'LatchController@unpair')->name('Latch.desenparejar');
 
     //fin latch
 });
+
 
 Route::auth();
 Route::get('admin', 'HomeController@index');
