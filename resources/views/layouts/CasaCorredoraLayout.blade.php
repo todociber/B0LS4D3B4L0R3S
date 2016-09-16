@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html>
+
+<?php
+use App\Utilities\RolIdentificador;
+
+$rol = new RolIdentificador();
+$administrador = $rol->Administrador(Auth::user());
+$autorizador = $rol->Autorizador(Auth::user());
+$agenteCorredor = $rol->AgenteCorredor(Auth::user());
+?>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -131,6 +140,8 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">Menu</li>
+                @if($autorizador || $agenteCorredor)
+
                 <li id="ordenes" class=" treeview">
                     <a href="#">
                         <i class="fa fa-archive"></i> <span>Ordenes</span> <i class="fa fa-angle-left pull-right"></i>
@@ -141,6 +152,8 @@
 
                     </ul>
                 </li>
+                @endif
+                @if($autorizador)
                 <li id="Afiliaciones" class=" treeview">
                     <a href="#">
                         <i class="fa fa-archive"></i> <span>Afiliaciones</span> <i
@@ -154,6 +167,8 @@
 
                     </ul>
                 </li>
+                @endif
+                @if($administrador)
 
                 <li class="treeview">
                     <a href={{route('UsuarioCasaCorredora.index')}}>
@@ -162,9 +177,12 @@
                     </a>
 
                 </li>
+                @endif
                 <li class="header">OTRAS OPCIONES</li>
+                @if($administrador)
                 <li><a href={{route('Latch.index')}}><i class="fa fa-circle-o text-red"></i> <span>Vincular Latch</span></a>
                 </li>
+                @endif
                 <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Perfil</span></a></li>
 
             </ul>

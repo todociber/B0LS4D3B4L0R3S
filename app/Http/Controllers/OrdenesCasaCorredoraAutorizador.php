@@ -209,6 +209,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                 $orden = Ordene::find($id);
                 $orden->fill([
                     'idCorredor' => $request['AgenteCorredor'],
+                    'comision' => $request['Comision'],
                     'idEstadoOrden' => '2'
                 ]);
                 $orden->save();

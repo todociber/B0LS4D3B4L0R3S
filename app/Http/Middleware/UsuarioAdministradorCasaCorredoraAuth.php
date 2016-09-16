@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Utilities\RolIdentificador;
 use Auth;
 use Closure;
 
@@ -17,24 +18,8 @@ class UsuarioAdministradorCasaCorredoraAuth
     public function handle($request, Closure $next)
     {
 
-        $RolesUsuarioAutenticado = Auth::user()->UsuarioRoles;
-        $AdministradorCasa = 0;
-        foreach ($RolesUsuarioAutenticado as $rol) {
-
-            if ($rol->idRol == 2) {
-                $AdministradorCasa = 1;
-            }
-
-        }
-
-        if (Auth::user()->idOrganizacion == null) {
-            $AdministradorCasa = 0;
-        }
-        if (Auth::user()->idOrganizacion == 1) {
-            $AdministradorCasa = 0;
-        }
-
-        if ($AdministradorCasa == 0) {
+        $rol = new RolIdentificador();
+        if (!$rol->Administrador(Auth::user())) {
             return redirect('/login');
         }
         return $next($request);
