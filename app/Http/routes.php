@@ -113,7 +113,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
     });
 
-    Route::group(['middleware' => 'OperadorCasaCorredora'], function () {
+    Route::group(['middleware' => 'AgenteCorredor'], function () {
         Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
         Route::get('Ordenes/{id}/detalles', 'OrdenesCasaCorredoraAutorizador@detalles')->name('Ordenes.detalles');
         Route::get('Ordenes/{id}/detalles/Historial', 'OrdenesController@Historial')->name('Ordenes.historial');

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Permisos miiddleware y otros cambios">
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Permisos miiddleware y otros cambios bug con login de agente corredor NO solucionado &#10;">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Middleware/UsuarioAdministradorCasaCorredoraAuth.php" afterPath="$PROJECT_DIR$/app/Http/Middleware/UsuarioAdministradorCasaCorredoraAuth.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Middleware/UsuarioOperadorCasaCorredora.php" afterPath="$PROJECT_DIR$/app/Http/Middleware/UsuarioOperadorCasaCorredora.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,11 +42,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="10.818182">
-              <caret line="82" column="45" selection-start-line="82" selection-start-column="25" selection-end-line="82" selection-end-column="45" />
+            <state vertical-scroll-proportion="0.43762377">
+              <caret line="115" column="49" selection-start-line="115" selection-start-column="49" selection-end-line="115" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -58,8 +55,8 @@
       <file leaf-file-name="Kernel.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.884615">
-              <caret line="53" column="30" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="30" />
+            <state vertical-scroll-proportion="-13.538462">
+              <caret line="54" column="23" selection-start-line="54" selection-start-column="9" selection-end-line="54" selection-end-column="23" />
               <folding>
                 <marker date="1474009037557" expanded="true" signature="28:130" placeholder="..." />
               </folding>
@@ -82,8 +79,8 @@
       <file leaf-file-name="AuthController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.230769">
-              <caret line="116" column="43" selection-start-line="116" selection-start-column="43" selection-end-line="116" selection-end-column="43" />
+            <state vertical-scroll-proportion="-9.807693">
+              <caret line="121" column="49" selection-start-line="121" selection-start-column="42" selection-end-line="121" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -92,7 +89,7 @@
       <file leaf-file-name="RolIdentificador.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Utilities/RolIdentificador.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.4615383">
+            <state vertical-scroll-proportion="0.0">
               <caret line="23" column="20" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
               <folding>
                 <marker date="1473576242089" expanded="true" signature="59:945" placeholder="..." />
@@ -104,11 +101,10 @@
       <file leaf-file-name="UsuarioAdministradorCasaCorredoraAuth.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Middleware/UsuarioAdministradorCasaCorredoraAuth.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.923077">
+            <state vertical-scroll-proportion="0.0">
               <caret line="21" column="45" selection-start-line="21" selection-start-column="45" selection-end-line="21" selection-end-column="45" />
               <folding>
-                <element signature="e#39#74#0#PHP" expanded="true" />
-                <marker date="1474009628929" expanded="false" signature="75:97" placeholder="..." />
+                <marker date="1474009628929" expanded="true" signature="39:97" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -117,23 +113,24 @@
       <file leaf-file-name="CasaCorredoraLayout.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.576923">
+            <state vertical-scroll-proportion="0.0">
               <caret line="142" column="51" selection-start-line="142" selection-start-column="51" selection-end-line="142" selection-end-column="51" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OrdenesCasaCorredoraAutorizador.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="OrdenesCasaCorredoraAutorizador.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.938614">
-              <caret line="211" column="54" selection-start-line="211" selection-start-column="54" selection-end-line="211" selection-end-column="54" />
+            <state vertical-scroll-proportion="-0.65384614">
+              <caret line="218" column="53" selection-start-line="218" selection-start-column="53" selection-end-line="218" selection-end-column="53" />
               <folding>
-                <marker date="1474010409843" expanded="false" signature="40:203" placeholder="..." />
-                <marker date="1474010409843" expanded="true" signature="3235:3713" placeholder="select COUNT..usuarios..." />
-                <marker date="1474010409843" expanded="true" signature="5889:6367" placeholder="select COUNT..usuarios..." />
-                <marker date="1474010409843" expanded="true" signature="8110:8588" placeholder="select COUNT..usuarios..." />
+                <element signature="e#40#62#0#PHP" expanded="true" />
+                <marker date="1474010447172" expanded="false" signature="40:203" placeholder="..." />
+                <marker date="1474010447172" expanded="true" signature="3235:3713" placeholder="select COUNT..usuarios..." />
+                <marker date="1474010447172" expanded="true" signature="5889:6367" placeholder="select COUNT..usuarios..." />
+                <marker date="1474010447172" expanded="true" signature="8110:8588" placeholder="select COUNT..usuarios..." />
               </folding>
             </state>
           </provider>
@@ -142,7 +139,7 @@
       <file leaf-file-name="RequestOrdenAutorizador.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Requests/RequestOrdenAutorizador.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.346153">
+            <state vertical-scroll-proportion="0.0">
               <caret line="25" column="21" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="21" />
               <folding />
             </state>
@@ -152,11 +149,10 @@
       <file leaf-file-name="UsuarioOperadorCasaCorredora.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Middleware/UsuarioOperadorCasaCorredora.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.230769">
+            <state vertical-scroll-proportion="0.0">
               <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
               <folding>
-                <element signature="e#39#74#0#PHP" expanded="true" />
-                <marker date="1474009635255" expanded="false" signature="75:97" placeholder="..." />
+                <marker date="1474009635255" expanded="true" signature="39:97" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -228,12 +224,12 @@
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/formularios/EditarComision.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Kernel.php" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/AgenteCorredorMiddleware.php" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/UsuarioAdministradorCasaCorredoraAuth.php" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/UsuarioOperadorCasaCorredora.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
       </list>
     </option>
   </component>
@@ -284,8 +280,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -606,6 +600,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -933,7 +929,13 @@
       <option name="project" value="LOCAL" />
       <updated>1474009044473</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Permisos miiddleware y otros cambios bug con login de agente corredor NO solucionado &#10;">
+      <created>1474010449163</created>
+      <option name="number" value="00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1474010449163</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -944,7 +946,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36407766" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37702265" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298731" sideWeight="0.50323623" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928804" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1002,7 +1004,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Merge branch Gustavo con TodociberLocal2 funcional" />
     <MESSAGE value="Solicitudes de Afiliacion Funcional" />
     <MESSAGE value="correcciones Usuario Casa Corredora, desctivar y activar usuario" />
     <MESSAGE value="correccion migraciones nuleable, Validacion Afiliacion y comienzo Ordenes Autorizador" />
@@ -1027,7 +1028,8 @@
     <MESSAGE value="Correcciones y logica de logueo completa" />
     <MESSAGE value="Cambios en Plantillas y correcciones de datatable responsive" />
     <MESSAGE value="Permisos miiddleware y otros cambios" />
-    <option name="LAST_COMMIT_MESSAGE" value="Permisos miiddleware y otros cambios" />
+    <MESSAGE value="Permisos miiddleware y otros cambios bug con login de agente corredor NO solucionado &#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Permisos miiddleware y otros cambios bug con login de agente corredor NO solucionado &#10;" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1043,7 +1045,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.8461537">
           <caret line="13" column="18" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1317,9 +1318,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
           <caret line="0" column="37" selection-start-line="0" selection-start-column="37" selection-end-line="0" selection-end-column="55" />
-          <folding>
-            <marker date="1473029099950" expanded="true" signature="681:878" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1327,12 +1325,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
-          <folding>
-            <marker date="1474009037533" expanded="true" signature="2098:2349" placeholder="..." />
-            <marker date="1474009037533" expanded="true" signature="2112:2348" placeholder="..." />
-            <marker date="1474009037533" expanded="true" signature="5206:5457" placeholder="..." />
-            <marker date="1474009037533" expanded="true" signature="5220:5456" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1346,65 +1338,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.884615">
-          <caret line="53" column="30" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="30" />
-          <folding>
-            <marker date="1474009037557" expanded="true" signature="28:130" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Middleware/UsuarioAdministradorCasaCorredoraAuth.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.923077">
+        <state vertical-scroll-proportion="0.0">
           <caret line="21" column="45" selection-start-line="21" selection-start-column="45" selection-end-line="21" selection-end-column="45" />
           <folding>
-            <element signature="e#39#74#0#PHP" expanded="true" />
-            <marker date="1474009628929" expanded="false" signature="75:97" placeholder="..." />
+            <marker date="1474009628929" expanded="true" signature="39:97" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Middleware/UsuarioOperadorCasaCorredora.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.230769">
+        <state vertical-scroll-proportion="0.0">
           <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
           <folding>
-            <element signature="e#39#74#0#PHP" expanded="true" />
-            <marker date="1474009635255" expanded="false" signature="75:97" placeholder="..." />
+            <marker date="1474009635255" expanded="true" signature="39:97" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="10.818182">
-          <caret line="82" column="45" selection-start-line="82" selection-start-column="25" selection-end-line="82" selection-end-column="45" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.576923">
+        <state vertical-scroll-proportion="0.0">
           <caret line="142" column="51" selection-start-line="142" selection-start-column="51" selection-end-line="142" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.230769">
-          <caret line="116" column="43" selection-start-line="116" selection-start-column="43" selection-end-line="116" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Utilities/RolIdentificador.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.4615383">
+        <state vertical-scroll-proportion="0.0">
           <caret line="23" column="20" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
           <folding>
             <marker date="1473576242089" expanded="true" signature="59:945" placeholder="..." />
@@ -1414,7 +1378,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Requests/RequestOrdenAutorizador.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.346153">
+        <state vertical-scroll-proportion="0.0">
           <caret line="25" column="21" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="21" />
           <folding />
         </state>
@@ -1422,14 +1386,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.938614">
-          <caret line="211" column="54" selection-start-line="211" selection-start-column="54" selection-end-line="211" selection-end-column="54" />
+        <state vertical-scroll-proportion="-0.65384614">
+          <caret line="218" column="53" selection-start-line="218" selection-start-column="53" selection-end-line="218" selection-end-column="53" />
           <folding>
-            <marker date="1474010409843" expanded="false" signature="40:203" placeholder="..." />
-            <marker date="1474010409843" expanded="true" signature="3235:3713" placeholder="select COUNT..usuarios..." />
-            <marker date="1474010409843" expanded="true" signature="5889:6367" placeholder="select COUNT..usuarios..." />
-            <marker date="1474010409843" expanded="true" signature="8110:8588" placeholder="select COUNT..usuarios..." />
+            <element signature="e#40#62#0#PHP" expanded="true" />
+            <marker date="1474010447172" expanded="false" signature="40:203" placeholder="..." />
+            <marker date="1474010447172" expanded="true" signature="3235:3713" placeholder="select COUNT..usuarios..." />
+            <marker date="1474010447172" expanded="true" signature="5889:6367" placeholder="select COUNT..usuarios..." />
+            <marker date="1474010447172" expanded="true" signature="8110:8588" placeholder="select COUNT..usuarios..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.807693">
+          <caret line="121" column="49" selection-start-line="121" selection-start-column="42" selection-end-line="121" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.538462">
+          <caret line="54" column="23" selection-start-line="54" selection-start-column="9" selection-end-line="54" selection-end-column="23" />
+          <folding>
+            <marker date="1474009037557" expanded="true" signature="28:130" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.43762377">
+          <caret line="115" column="49" selection-start-line="115" selection-start-column="49" selection-end-line="115" selection-end-column="49" />
+          <folding />
         </state>
       </provider>
     </entry>
