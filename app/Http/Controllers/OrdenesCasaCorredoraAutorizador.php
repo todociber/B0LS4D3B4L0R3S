@@ -154,7 +154,12 @@ class OrdenesCasaCorredoraAutorizador extends Controller
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
         } else {
-
+            $agentes = DB::table('usuarios')
+                ->join('rol_usuarios', 'usuarios.id', '=', 'rol_usuarios.idUsuario')
+                ->where('usuarios.idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('rol_usuarios.idRol', '=', '4')
+                ->whereNull('rol_usuarios.deleted_at')
+                ->lists(DB::raw(' concat_ws("",nombre," ",apellido) as name'), 'usuarios.id');
             $usuariosAgentes = DB::table('usuarios')
                 ->join('rol_usuarios', 'usuarios.id', '=', 'rol_usuarios.idUsuario')
                 ->where('usuarios.idOrganizacion', '=', Auth::user()->idOrganizacion)
@@ -172,7 +177,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                 }])->get();
 
 
-            return view('CasaCorredora.OrdenesAutorizador.DetalleOrden', compact('ordenes', 'usuariosAgentes', 'agentesCorredores'));
+            return view('CasaCorredora.OrdenesAutorizador.DetalleOrden', compact('ordenes', 'usuariosAgentes', 'agentesCorredores', 'agentes'));
 
 
 

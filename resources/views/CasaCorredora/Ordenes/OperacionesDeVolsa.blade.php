@@ -1,8 +1,12 @@
-@extends('layouts.ClientesLayout')
+@extends('layouts.CasaCorredoraLayout')
 
 @section('title')
-    <title>Usuarios Casa Corredora</title>
+    <title>Operaciones de bolsa</title>
 
+@stop
+
+@section('NombrePantalla')
+    Operaciones de Bolsa
 @stop
 @section('content')
 

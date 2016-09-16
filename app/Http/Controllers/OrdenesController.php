@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Models\Mensaje;
 use App\Models\OperacionBolsa;
 use App\Models\Ordene;
+use App\Utilities\RolIdentificador;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -134,19 +135,13 @@ class OrdenesController extends Controller
     {
 
 
-        $Autorizador = false;
-        $roles = Auth::user()->UsuarioRoles;
-        foreach ($roles as $rol) {
-            if ($rol->idRol == 4) {
-                $Autorizador = true;
-            }
-        }
+        $Autorizador = new RolIdentificador();
 
 
         $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoorden', '=', '2')->get();
 
         if ($ordenes->count() > 0) {
-            if ($Autorizador) {
+            if ($Autorizador->Autorizador(Auth::user())) {
                 $agentes = DB::table('usuarios')
                     ->join('rol_usuarios', 'usuarios.id', '=', 'rol_usuarios.idUsuario')
                     ->where('usuarios.idOrganizacion', '=', Auth::user()->idOrganizacion)
@@ -164,10 +159,11 @@ class OrdenesController extends Controller
                     ->whereNull('rol_usuarios.deleted_at')
                     ->orderBy('usuarios.id')
                     ->select('usuarios.*')->get();
-
+                $Autorizador = true;
                 $agentesCorredores = DB::select('select COUNT(orden.id) as N, usuario.id, usuario.nombre, usuario.apellido,usuario.email from usuarios as usuario JOIN ordenes as orden ON usuario.id = orden.idCorredor JOIN rol_usuarios as roleU ON usuario.id = roleU.idUsuario where usuario.idOrganizacion=' . Auth::user()->idOrganizacion . ' and roleU.idRol =4 and (orden.idEstadoOrden= 2  or orden.idEstadoOrden=5) and  roleU.deleted_at IS NULL  and usuario.deleted_at IS NULL group by usuario.id, roleU.id order by usuario.id');
                 return view('CasaCorredora.Ordenes.OrdenesEditar', compact('ordenes', 'agentesCorredores', 'agentes', 'usuariosAgentes', 'Autorizador'));
             } else {
+                $Autorizador = false;
                 return view('CasaCorredora.Ordenes.OrdenesEditar', compact('ordenes', 'Autorizador'));
             }
 

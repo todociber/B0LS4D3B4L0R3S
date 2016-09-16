@@ -1,15 +1,18 @@
-@extends('layouts.ClientesLayout')
+@extends('layouts.CasaCorredoraLayout')
 
 @section('title')
-    <title>Usuarios Casa Corredora</title>
+    <title>Reasignar Ordenes</title>
 
+@stop
+@section('NombrePantalla')
+    Reasignar Ordenes
 @stop
 @section('content')
 
 
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Nuevo Usuario</h3>
+            <h3 class="box-title">Reasignar ordenes</h3>
         </div><!-- /.box-header -->
         <!-- form start -->
         <div class="box-body">

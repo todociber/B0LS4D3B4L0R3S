@@ -1,8 +1,12 @@
-@extends('layouts.ClientesLayout')
+@extends('layouts.CasaCorredoraLayout')
 
 @section('title')
-    <title>Usuarios Casa Corredora</title>
+    <title>Detalle Orden</title>
 
+@stop
+
+@section('NombrePantalla')
+    Detalle de la Orden
 @stop
 @section('content')
     <script>
@@ -30,13 +34,88 @@
 
     @include('alertas.flash')
     @include('alertas.errores')
+            <!-- PRUEBAS BVOOTSTRAP MODAL -->
 
+    <div class="modal fade" role="dialog" id="SeleccionAgente" data-backdrop="static" data-keyboard="false"
+         tabindex="-1" aria-labelledby="gridModalLabel"
+         style="display: none;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="gridModalLabel">Seleccion Agente Corredor</h4>
+                </div>
+                <table id="example1" class="table table-hover">
+                    <thead>
+                    <tr>
+
+                        <th><p class="text-center">Nombre</p></th>
+                        <th><p class="text-center">email</p></th>
+                        <th><p class="text-center">Numero de Ordenes</p></th>
+                        <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($usuariosAgentes as $usuarioA)
+
+                        <tr>
+
+                            <td>{{$usuarioA->nombre}}  {{$usuarioA->apellido}}</td>
+                            <td>{{$usuarioA->email}}</td>
+                            <td>
+                                <?php
+                                $existenordenes = 0;
+
+                                for ($i = 0; $i < count($agentesCorredores); $i++) {
+
+                                    if ($agentesCorredores[$i]->id == $usuarioA->id) {
+                                        $existenordenes = 1;
+                                        echo $agentesCorredores[$i]->N;
+                                    }
+
+                                }
+
+                                if ($existenordenes == 0) {
+                                    echo '0';
+                                }
+
+
+                                ?> ordenes asignadas
+                            </td>
+
+
+                            <td>
+                                <input type="button" data-dismiss="modal" class="btn btn-primary"
+                                       onclick="clikLog(this)" id="{{$usuarioA->nombre}} {{$usuarioA->apellido}}"
+                                       name="{{$usuarioA->id}}" value="Asignar orden"/>
+                            </td>
+                        </tr>
+
+                    @endforeach
+
+
+                    </tbody>
+                </table>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- PRUEBAS BVOOTSTRAP MODAL -->
 
 
 
     @foreach($ordenes as $orden)
         <br><br>
-
 
         <section class="content">
             <div class="row">
@@ -192,19 +271,21 @@
             </div>
         </div>
 
+        @if($ordenes[0]->idEstadoOrden == 2)
+            <div class="row">
 
-        <div class="row">
+                <div class="col-md-12">
 
-            <div class="col-md-12">
+                    <div class="widget-area no-padding blank">
+                        <div class="status-upload">
+                            @include('CasaCorredora.OrdenesAutorizador.formularios.EnviarComentarios')
+                        </div><!-- Status Upload  -->
+                    </div><!-- Widget Area -->
+                </div>
 
-                <div class="widget-area no-padding blank">
-                    <div class="status-upload">
-                        @include('CasaCorredora.OrdenesAutorizador.formularios.EnviarComentarios')
-                    </div><!-- Status Upload  -->
-                </div><!-- Widget Area -->
             </div>
+        @endif
 
-        </div>
 
     </section>
 

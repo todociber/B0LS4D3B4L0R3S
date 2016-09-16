@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AgenteCorredorMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -50,6 +51,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'administradorCasaCorredora' => \App\Http\Middleware\UsuarioAdministradorCasaCorredoraAuth::class,
-        'OperadorCasaCorredora' => \App\Http\Middleware\UsuarioOperadorCasaCorredora::class
+        'OperadorCasaCorredora' => \App\Http\Middleware\UsuarioOperadorCasaCorredora::class,
+        'AgenteCorredor' => AgenteCorredorMiddleware::class
     ];
 }

@@ -1,8 +1,12 @@
-@extends('layouts.ClientesLayout')
+@extends('layouts.CasaCorredoraLayout')
 
 @section('title')
-    <title>Usuarios Casa Corredora</title>
+    <title>Historial</title>
 
+@stop
+
+@section('NombrePantalla')
+    Historial
 @stop
 @section('content')
     <script>

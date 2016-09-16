@@ -1,9 +1,13 @@
-@extends('layouts.ClientesLayout')
+@extends('layouts.CasaCorredoraLayout')
 
 @section('title')
-    <title>Usuarios Casa Corredora</title>
+    <title>Reasignar Agente Corredor</title>
 
 @stop
+@section('NombrePantalla')
+    Reasignar Agente Corredor
+@stop
+
 @section('content')
     <script>
 
@@ -70,7 +74,7 @@
 
                                     if ($agentesCorredores[$i]->id == $usuarioA->id) {
                                         $existenordenes = 1;
-                                        echo $agentesCorredores[0]->N;
+                                        echo $agentesCorredores[$i]->N;
                                     }
 
                                 }

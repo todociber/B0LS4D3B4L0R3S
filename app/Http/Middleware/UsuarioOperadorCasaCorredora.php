@@ -32,7 +32,7 @@ class UsuarioOperadorCasaCorredora
         }
 
         if ($AdministradorCasa == 0) {
-            return redirect('/home');
+            return redirect('/login');
         }
         return $next($request);
     }

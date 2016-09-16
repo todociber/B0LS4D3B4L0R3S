@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\LatchModel;
+use App\Utilities\RolIdentificador;
 use Auth;
 use DB;
-use Illuminate\Http\Request;
+use ErrorException;
 use Illuminate\Support\Facades\Input;
 use Latch;
+use Mockery\CountValidator\Exception;
 
 class LatchController extends Controller
 {
-    public function pair(Request $request)
+    public function pair(Requests\RequestLatch $request)
     {
 
         // Comprobamos que venga el token desde el formulario
@@ -21,40 +23,47 @@ class LatchController extends Controller
             // Obtenemos el código de pareado del usuario
             $token = $request['token'];
             // Intenta parear Latch con el código (token)
-            if ($accountId = Latch::pair($token)) {
+            try {
+                if ($accountId = Latch::pair($token)) {
 
-                $codUsuario = DB::table('latchdatatoken')
-                    ->where('latchdatatoken.idUsuario', '=', Auth::user()->id)
-                    ->whereNull('deleted_at')
-                    ->count();
+                    $codUsuario = DB::table('latchdatatoken')
+                        ->where('latchdatatoken.idUsuario', '=', Auth::user()->id)
+                        ->whereNull('deleted_at')
+                        ->count();
 
-                if ($codUsuario == 0) {
-                    $LatchUser = new LatchModel([
-                        'idUsuario' => Auth::user()->id,
-                        'tokenLatch' => $accountId,
-                    ]);
-                    $LatchUser->save();
-                } else {
+                    if ($codUsuario == 0) {
+                        $LatchUser = new LatchModel([
+                            'idUsuario' => Auth::user()->id,
+                            'tokenLatch' => $accountId,
+                        ]);
+                        $LatchUser->save();
+                    } else {
 
-                    $usuarioExostet = LatchModel::where('idUsuario', '=', Auth::user()->id)->first();
-                    $usuarioExostet->delete();
+                        $usuarioExostet = LatchModel::where('idUsuario', '=', Auth::user()->id)->first();
+                        $usuarioExostet->delete();
 
-                    $LatchUser = new LatchModel([
-                        'idUsuario' => Auth::user()->id,
-                        'tokenLatch' => $accountId,
-                    ]);
-                    $LatchUser->save();
+                        $LatchUser = new LatchModel([
+                            'idUsuario' => Auth::user()->id,
+                            'tokenLatch' => $accountId,
+                        ]);
+                        $LatchUser->save();
+                    }
+
+
+                    redirect()->back()->withErrors("Pareado exitoso");
+                    // Si consigue parear guardamos el identificador del usuario (cifrado) de Latch en nuestra base de datos
+                } // Si ocurre algún error, mostramos al usuario un mensaje de error de una forma amigable
+                else {
+                    redirect()->back()->withErrors("no se encontro el token");
                 }
-
-
-                echo('Pareado Exitoso el token es ' . $accountId);
-                // Si consigue parear guardamos el identificador del usuario (cifrado) de Latch en nuestra base de datos
-            } // Si ocurre algún error, mostramos al usuario un mensaje de error de una forma amigable
-            else {
-                echo Latch::error();
+            } catch (Exception $e) {
+                redirect()->back()->withErrors("Error de conexion con Latch");
+            } catch (ErrorException $i) {
+                redirect()->back()->withErrors("Error de conexion con Latch");
             }
+
         } else {
-            echo "no hay token";
+            redirect()->back()->withErrors("no se encontro el token");
         }
     }
 
@@ -70,15 +79,31 @@ class LatchController extends Controller
             // Despareamos al usuario de Latch
             if (Latch::unpair($accountId->tokenLatch)) {
                 $accountId->delete();
-                echo "desenparejado completado ";
+                redirect()->back()->withErrors("Desenparejado completado");
             } // Si hay algun error, se lo mostramos al usuario
             else {
                 echo Latch::error();
             }
 
         } else {
-            echo "token no existe para el usuario";
+            redirect()->back()->withErrors("Error de conexion con Latch");
         }
 
+    }
+
+    public function LatchSolicitud()
+    {
+
+        $rolAdmin = new RolIdentificador();
+        if ($rolAdmin->Administrador(Auth::user())) {
+            $latch = LatchModel::where('idUsuario', '=', Auth::user()->id)->count();
+            if ($latch > 0) {
+                return redirect()->back()->withErrors('Ya tiene latch asociado a su cuenta');
+            } else {
+                return view('auth.latch');
+            }
+        } else {
+            return redirect()->back()->withErrors('Opcion permitida solo a administradores');
+        }
     }
 }

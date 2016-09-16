@@ -1,15 +1,19 @@
-@extends('layouts.ClientesLayout')
+@extends('layouts.CasaCorredoraLayout')
 
 @section('title')
-    <title>Usuarios Casa Corredora</title>
+    <title>Usuarios</title>
 
 @stop
+@section('NombrePantalla')
+    Usuarios
+@stop
+
 @section('content')
 
 
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Nuevo Usuario</h3>
+            <h3 class="box-title">Usuarios</h3>
         </div><!-- /.box-header -->
         <!-- form start -->
         <div class="box-body">
@@ -21,7 +25,9 @@
                             {!!link_to_route('UsuarioCasaCorredora.crear', $title = 'Crear Usuario ', $parameters = [], $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                             <br><br>
 
-                            <table id="example1" class="table table-hover">
+                            <div class="table-responsive">
+                                <table id="example1" class="table table-hover dt-responsive display nowrap"
+                                       cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
@@ -72,7 +78,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-
+                                <div>
                         </div>
                     </div><!--row-->
 

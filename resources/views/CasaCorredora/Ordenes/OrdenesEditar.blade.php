@@ -1,8 +1,12 @@
-@extends('layouts.ClientesLayout')
+@extends('layouts.CasaCorredoraLayout')
 
 @section('title')
-    <title>Usuarios Casa Corredora</title>
+    <title>Editar Ordenes</title>
 
+@stop
+
+@section('NombrePantalla')
+    Editar Ordenes
 @stop
 @section('content')
     <script>
@@ -168,7 +172,7 @@
                                     @include('CasaCorredora.Ordenes.formularios.EditarOrdenCompleta')
                                 @else
 
-                                    No es agente correor
+
                                     @include('CasaCorredora.Ordenes.formularios.EditarComision')
                                 @endif
 

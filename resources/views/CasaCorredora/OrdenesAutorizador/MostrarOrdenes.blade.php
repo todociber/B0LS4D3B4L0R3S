@@ -1,32 +1,39 @@
-@extends('layouts.ClientesLayout')
+@extends('layouts.CasaCorredoraLayout')
 
 @section('title')
-    <title>Usuarios Casa Corredora</title>
+    <title>Ordenes</title>
 
 @stop
+@section('NombrePantalla')
+    Ordenes
+@stop
 @section('content')
+    <?php use App\Utilities\RolIdentificador;
+    $rol = new RolIdentificador();
+    ?>
 
-
-
-
+    @include('alertas.flash')
+    @include('alertas.errores')
+    @if($rol->Autorizador(Auth::user()))
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title">Ordenes</h3>
         </div><!-- /.box-header -->
         <!-- form start -->
         <div class="box-body">
+
+
             <div role="form">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            @include('alertas.flash')
-                            @include('alertas.errores')
+
 
                             <br><br>
 
                             <div style="width: 100%; padding-left: -10px; border: 0px;">
                                 <div class="table-responsive">
-                                    <table id="example1" class="table table-hover dt-responsive display nowrap"
+                                    <table id="example4" class="table table-hover dt-responsive display nowrap"
                                            cellspacing="0">
                                 <thead>
                                 <tr>
@@ -76,9 +83,10 @@
                     <!-- /.box -->
                 </div>
             </div>
+
         </div>
     </div>
-
+    @endif
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title">Ordenes</h3>
@@ -89,14 +97,13 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            @include('alertas.flash')
-                            @include('alertas.errores')
+
 
                             <br><br>
 
                             <div style="width: 100%; padding-left: -10px; border: 0px;">
                                 <div class="table-responsive">
-                                    <table id="example2" class="table table-hover dt-responsive display nowrap"
+                                    <table id="example3" class="table table-hover dt-responsive display nowrap"
                                            cellspacing="0">
                                 <thead>
                                 <tr>

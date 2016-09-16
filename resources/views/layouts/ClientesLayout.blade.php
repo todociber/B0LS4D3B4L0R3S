@@ -47,6 +47,7 @@
 
     {!! Html::style('assets/plugins/datepicker/datepicker3.css') !!}
     {!! Html::script('assets/js/loading.js') !!}
+    {!! Html::script('assets/js/SERO.js') !!}
     {!! Html::style('assets/css/SERO.css') !!}
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -64,11 +65,11 @@
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
             <!-- Logo -->
-            <a class="logo">
+            <a href="#" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>B</b>V</span>
+                <span class="logo-mini"><b>A</b>LT</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>Bolsa De Valores</b></span>
+                <span class="logo-lg"><b>CLIENTES</b></span>
             </a>
             <!-- Sidebar toggle a-->
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="a">
@@ -77,41 +78,15 @@
 
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <!-- Messages: style can be found in dropdown.less-->
-                    <!-- Tasks: style can be found in dropdown.less -->
-                    <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <div class="margin-Div">
+                            <a href="{{url('/logout')}}" class="btn btn-danger">
+                                Cerrar Sesión
+                            </a>
+                        </div>
 
-                            <span class="hidden-xs">{{Auth::user()->nombre}} {{Auth::user()->apellido}}</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <!-- User image -->
-                            <li class="user-header">
-
-                                <p>
-                                    {{Auth::user()->Organizacion->nombre}}<br>
-                                    Roles del usuario
-                                    @foreach(Auth::user()->UsuarioRoles as $roles)
-                                        <small>{{$roles->RolN->nombre}}</small>
-                                    @endforeach
-                                </p>
-
-                            </li>
-                            <!-- Menu Body -->
-
-                            <!-- Menu Footer-->
-                            <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Perfil</a>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="{{url('/logout')}}" class="btn btn-default btn-flat">Cerrar Sesión</a>
-                                </div>
-                            </li>
-                        </ul>
                     </li>
-                    <!-- Control Sidebar Toggle a -->
+                    <!-- Control Sidebar Toggle Button -->
 
                 </ul>
             </div>
@@ -123,8 +98,8 @@
         <section class="sidebar">
             <div class="user-panel">
                 <div class="pull-left info">
-                    <p>{{Auth::user()->nombre}} {{Auth::user()->apellido}}</p>
-
+                    <p>Rigoberto Gómez</p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>
 
@@ -136,37 +111,43 @@
                         <i class="fa fa-archive"></i> <span>Ordenes</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li id="listadoOrdenes"><a href="{{route('Ordenes.index')}}"><i
-                                        class="fa fa-circle-o"></i>Ordenes Vigentes</a></li>
-
+                        <li id="listadoOrdenes"><a href="{{route('listadoordenesclienteV')}}"><i
+                                        class="fa fa-circle-o"></i>Ordenes</a></li>
+                        <li id="nuevaOrden"><a href="{{route('nuevaOrden')}}"><i class="fa fa-circle-o"></i> Nueva orden</a>
+                        </li>
                     </ul>
                 </li>
-                <li id="ordenes" class=" treeview">
+                <li>
                     <a href="#">
-                        <i class="fa fa-archive"></i> <span>Afiliaciones</span> <i
-                                class="fa fa-angle-left pull-right"></i>
+                        <i class="fa fa-home"></i>
+                        <span>Afiliación</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+
                     </a>
                     <ul class="treeview-menu">
-                        <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.index')}}"><i
-                                        class="fa fa-circle-o"></i>Solicitudes de Afiliacion</a></li>
-                        <li id="listadoOrdenes"><a href="{{route('Afiliados.index')}}"><i
-                                        class="fa fa-circle-o"></i>Afiliados</a></li>
-
+                        <li><a href="Solicitudes_Afiliacion.html"><i class="fa fa-circle-o"></i>Solicitudes de
+                                afiliación</a></li>
+                        <li><a href="afiliacion_form.html"><i class="fa fa-circle-o"></i> Afiliarse a una casa</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Listado de casas afiliado
+                            </a></li>
                     </ul>
                 </li>
-
                 <li class="treeview">
-                    <a href={{route('UsuarioCasaCorredora.index')}}>
+                    <a href="#">
                         <i class="fa fa-th-list"></i>
-                        <span>Usuarios Casa Corredora</span>
+                        <span>Mi perfil</span>
                     </a>
-
+                    <ul class="treeview-menu">
+                        <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Modificar información</a>
+                        </li>
+                        <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Cambio de contraseña</a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="header">OTRAS OPCIONES</li>
-                <li><a href={{route('Latch.index')}}><i class="fa fa-circle-o text-red"></i> <span>Vincular Latch</span></a>
-                </li>
-                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Perfil</span></a></li>
-
+                <!--<li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>-->
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -176,7 +157,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                @yield('NombrePantalla')
+                Solicitud de afiliación
 
             </h1>
 
@@ -186,6 +167,9 @@
         <!-- Main content -->
         <section class="content">
             @yield('content')
+        </section>
+        <section class="content">
+            @yield('content2')
         </section>
 
     </div><!-- /.content-wrapper -->
@@ -197,96 +181,22 @@
     </footer>
 
 
- </div>
-
+</div>
 
 <script>
     $(function () {
-                $("#example1").DataTable({
-                    "paging": true,
-                    "lengthChange": true,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": true,
-                    responsive: true,
-                    "order": [[3, 'asc'], [2, 'asc']],
-
-                    "language": {
-
-
-                        "sProcessing": "Procesando...",
-                        "sLengthMenu": "Mostrar _MENU_ registros",
-                        "sZeroRecords": "No se encontraron resultados",
-                        "sEmptyTable": "NingÃºn dato disponible en esta tabla",
-                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                        "sInfoPostFix": "",
-                        "sSearch": "Buscar:",
-                        "sUrl": "",
-                        "sInfoThousands": ",",
-                        "sLoadingRecords": "Cargando...",
-                        "oPaginate": {
-                            "sFirst": "Primero",
-                            "sLast": "Ãšltimo",
-                            "sNext": "Siguiente",
-                            "sPrevious": "Anterior"
-                        },
-                        "oAria": {
-                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                        }
-                    }
-
-                });
-            }
-    );
+        $("#example1").DataTable();
         $('#example2').DataTable({
             "paging": true,
-            "lengthChange": true,
-            "searching": true,
+            "lengthChange": false,
+            "searching": false,
             "ordering": true,
             "info": true,
-            responsive: true,
-            "autoWidth": true,
-
-            "order": [[3, 'asc'], [2, 'desc']],
-            "language": {
-
-
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "NingÃºn dato disponible en esta tabla",
-                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Ãšltimo",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-
-            }
-
+            "autoWidth": false
+        });
     });
-
-
     $(document).ready(function () {
     })
 </script>
-
-
 </body>
 </html>
