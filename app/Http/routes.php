@@ -75,59 +75,59 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::group(['middleware' => 'administradorCasaCorredora'], function () {
-        Route::get('UsuarioCasaCorredora/crear', 'UsuarioCasaCorredoraController@crear')->name('UsuarioCasaCorredora.crear');
-        Route::get('UsuarioCasaCorredora/{id}/editar', 'UsuarioCasaCorredoraController@editar')->name('UsuarioCasaCorredora.editar');
-        Route::get('UsuarioCasaCorredora/{id}/restaurar', 'UsuarioCasaCorredoraController@restaurar')->name('UsuarioCasaCorredora.restaurar');
-        Route::get('UsuarioCasaCorredora/{id}/resetear', 'UsuarioCasaCorredoraController@resetar')->name('UsuarioCasaCorredora.resetearpassword');
-        Route::resource('UsuarioCasaCorredora', 'UsuarioCasaCorredoraController');
+    Route::group(['middleware' => 'UsuarioCasaCorredora'], function () {
+        Route::group(['middleware' => 'administradorCasaCorredora'], function () {
+            Route::get('UsuarioCasaCorredora/crear', 'UsuarioCasaCorredoraController@crear')->name('UsuarioCasaCorredora.crear');
+            Route::get('UsuarioCasaCorredora/{id}/editar', 'UsuarioCasaCorredoraController@editar')->name('UsuarioCasaCorredora.editar');
+            Route::get('UsuarioCasaCorredora/{id}/restaurar', 'UsuarioCasaCorredoraController@restaurar')->name('UsuarioCasaCorredora.restaurar');
+            Route::get('UsuarioCasaCorredora/{id}/resetear', 'UsuarioCasaCorredoraController@resetar')->name('UsuarioCasaCorredora.resetearpassword');
+            Route::resource('UsuarioCasaCorredora', 'UsuarioCasaCorredoraController');
+            Route::get('LatchSolicitud', 'LatchController@LatchSolicitud')->name('Latch.index');
+            Route::post('Parear', 'LatchController@pair')->name('Latch.parear');
+            Route::get('Desenparejar', 'LatchController@unpair')->name('Latch.desenparejar');
+        });
 
-        Route::get('LatchSolicitud', 'LatchController@LatchSolicitud')->name('Latch.index');
-        Route::post('Parear', 'LatchController@pair')->name('Latch.parear');
-        Route::get('Desenparejar', 'LatchController@unpair')->name('Latch.desenparejar');
+        Route::group(['middleware' => 'OperadorCasaCorredora'], function () {
+            Route::get('SolicitudAfiliacion/{id}/detalle', 'SolicitudesCasaCorredora@detalle')->name('SolicitudAfiliacion.detalle');
+            Route::get('SolicitudAfiliacion/{id}/aceptar', 'SolicitudesCasaCorredora@aceptar')->name('SolicitudAfiliacion.aceptar');
+            Route::get('SolicitudAfiliacion/procesando', 'SolicitudesCasaCorredora@Procesando');
+            Route::get('SolicitudAfiliacion/procesadas', 'SolicitudesCasaCorredora@Procesadas');
+            Route::get('SolicitudAfiliacion/{id}/procesar', 'SolicitudesCasaCorredora@Procesar')->name('SolicitudAfiliacion.procesar');
+            Route::get('Afiliados', 'SolicitudesCasaCorredora@afiliados')->name('Afiliados.index');
+            Route::get('Afiliados/{id}/eliminar', 'SolicitudesCasaCorredora@eliminar')->name('Afiliado.eliminar');
+            Route::resource('SolicitudAfiliacion', 'SolicitudesCasaCorredora');
+            Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
+            Route::get('Ordenes/{id}/detalles', 'OrdenesCasaCorredoraAutorizador@detalles')->name('Ordenes.detalles');
+            Route::get('Ordenes/{id}/detalles/Historial', 'OrdenesController@Historial')->name('Ordenes.historial');
+            Route::get('Ordenes/{id}/detallesEliminar/', 'OrdenesCasaCorredoraAutorizador@detallesEliminar')->name('Ordenes.detallesEliminar');
+            Route::put('Ordenes/{id}/aceptar', 'OrdenesCasaCorredoraAutorizador@aceptar')->name('Ordenes.aceptar');
+            Route::put('Ordenes/{id}/ReAceptar', 'OrdenesCasaCorredoraAutorizador@ReAceptar')->name('Ordenes.ReAceptar');
+            Route::get('Ordenes/{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
+            Route::post('Ordenes/{id}/comentar', 'OrdenesController@Comentar')->name('Ordenes.Comentar');
+            Route::put('Ordenes/{id}/actualizar', 'OrdenesController@Actualizar')->name('Ordenes.actualizar');
+            Route::get('Ordenes/{id}/Operaciones', 'OrdenesController@Operaciones')->name('Ordenes.operaciones');
+            Route::post('Ordenes/{id}/Operaciones/Guardar', 'OrdenesController@OperacionesGuardar')->name('Ordenes.operacionesGuardar');
+            Route::get('Ordenes/{id}/editarOrden', 'OrdenesController@Editar')->name('Ordenes.editar');
+            Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
+        });
+
+        Route::group(['middleware' => 'AgenteCorredor'], function () {
+            Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
+            Route::get('Ordenes/{id}/detalles', 'OrdenesCasaCorredoraAutorizador@detalles')->name('Ordenes.detalles');
+            Route::get('Ordenes/{id}/detalles/Historial', 'OrdenesController@Historial')->name('Ordenes.historial');
+            Route::get('Ordenes/{id}/detallesEliminar/', 'OrdenesCasaCorredoraAutorizador@detallesEliminar')->name('Ordenes.detallesEliminar');
+            Route::put('Ordenes/{id}/aceptar', 'OrdenesCasaCorredoraAutorizador@aceptar')->name('Ordenes.aceptar');
+            Route::put('Ordenes/{id}/ReAceptar', 'OrdenesCasaCorredoraAutorizador@ReAceptar')->name('Ordenes.ReAceptar');
+            Route::get('Ordenes/{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
+            Route::post('Ordenes/{id}/comentar', 'OrdenesController@Comentar')->name('Ordenes.Comentar');
+            Route::put('Ordenes/{id}/actualizar', 'OrdenesController@Actualizar')->name('Ordenes.actualizar');
+            Route::get('Ordenes/{id}/Operaciones', 'OrdenesController@Operaciones')->name('Ordenes.operaciones');
+            Route::post('Ordenes/{id}/Operaciones/Guardar', 'OrdenesController@OperacionesGuardar')->name('Ordenes.operacionesGuardar');
+            Route::get('Ordenes/{id}/editarOrden', 'OrdenesController@Editar')->name('Ordenes.editar');
+            Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
+        });
     });
 
-    Route::group(['middleware' => 'OperadorCasaCorredora'], function () {
-        Route::get('SolicitudAfiliacion/{id}/detalle', 'SolicitudesCasaCorredora@detalle')->name('SolicitudAfiliacion.detalle');
-        Route::get('SolicitudAfiliacion/{id}/aceptar', 'SolicitudesCasaCorredora@aceptar')->name('SolicitudAfiliacion.aceptar');
-        Route::get('SolicitudAfiliacion/procesando', 'SolicitudesCasaCorredora@Procesando');
-        Route::get('SolicitudAfiliacion/procesadas', 'SolicitudesCasaCorredora@Procesadas');
-        Route::get('SolicitudAfiliacion/{id}/procesar', 'SolicitudesCasaCorredora@Procesar')->name('SolicitudAfiliacion.procesar');
-        Route::get('Afiliados', 'SolicitudesCasaCorredora@afiliados')->name('Afiliados.index');
-        Route::get('Afiliados/{id}/eliminar', 'SolicitudesCasaCorredora@eliminar')->name('Afiliado.eliminar');
-        Route::resource('SolicitudAfiliacion', 'SolicitudesCasaCorredora');
-
-
-        Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
-        Route::get('Ordenes/{id}/detalles', 'OrdenesCasaCorredoraAutorizador@detalles')->name('Ordenes.detalles');
-        Route::get('Ordenes/{id}/detalles/Historial', 'OrdenesController@Historial')->name('Ordenes.historial');
-        Route::get('Ordenes/{id}/detallesEliminar/', 'OrdenesCasaCorredoraAutorizador@detallesEliminar')->name('Ordenes.detallesEliminar');
-        Route::put('Ordenes/{id}/aceptar', 'OrdenesCasaCorredoraAutorizador@aceptar')->name('Ordenes.aceptar');
-        Route::put('Ordenes/{id}/ReAceptar', 'OrdenesCasaCorredoraAutorizador@ReAceptar')->name('Ordenes.ReAceptar');
-        Route::get('Ordenes/{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
-        Route::post('Ordenes/{id}/comentar', 'OrdenesController@Comentar')->name('Ordenes.Comentar');
-        Route::put('Ordenes/{id}/actualizar', 'OrdenesController@Actualizar')->name('Ordenes.actualizar');
-        Route::get('Ordenes/{id}/Operaciones', 'OrdenesController@Operaciones')->name('Ordenes.operaciones');
-        Route::post('Ordenes/{id}/Operaciones/Guardar', 'OrdenesController@OperacionesGuardar')->name('Ordenes.operacionesGuardar');
-        Route::get('Ordenes/{id}/editarOrden', 'OrdenesController@Editar')->name('Ordenes.editar');
-        Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
-    });
-
-    Route::group(['middleware' => 'AgenteCorredor'], function () {
-        Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
-        Route::get('Ordenes/{id}/detalles', 'OrdenesCasaCorredoraAutorizador@detalles')->name('Ordenes.detalles');
-        Route::get('Ordenes/{id}/detalles/Historial', 'OrdenesController@Historial')->name('Ordenes.historial');
-        Route::get('Ordenes/{id}/detallesEliminar/', 'OrdenesCasaCorredoraAutorizador@detallesEliminar')->name('Ordenes.detallesEliminar');
-        Route::put('Ordenes/{id}/aceptar', 'OrdenesCasaCorredoraAutorizador@aceptar')->name('Ordenes.aceptar');
-        Route::put('Ordenes/{id}/ReAceptar', 'OrdenesCasaCorredoraAutorizador@ReAceptar')->name('Ordenes.ReAceptar');
-        Route::get('Ordenes/{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
-        Route::post('Ordenes/{id}/comentar', 'OrdenesController@Comentar')->name('Ordenes.Comentar');
-        Route::put('Ordenes/{id}/actualizar', 'OrdenesController@Actualizar')->name('Ordenes.actualizar');
-        Route::get('Ordenes/{id}/Operaciones', 'OrdenesController@Operaciones')->name('Ordenes.operaciones');
-        Route::post('Ordenes/{id}/Operaciones/Guardar', 'OrdenesController@OperacionesGuardar')->name('Ordenes.operacionesGuardar');
-        Route::get('Ordenes/{id}/editarOrden', 'OrdenesController@Editar')->name('Ordenes.editar');
-        Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
-    });
 
 });
 
