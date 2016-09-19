@@ -24,7 +24,7 @@
                             @include('alertas.errores')
 
                             @if (Session::has('EditarUsuario'))
-
+                                {!!link_to_route('UsuarioCasaCorredora.edit', $title = ' Editar Usuario ', $parameters = $usuario[0]->id, $attributes = ['class'=>'btn btn-primary','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                             @else
 
                                 <br>

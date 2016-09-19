@@ -140,6 +140,17 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">Menu</li>
+
+                @if($administrador)
+
+                    <li class="treeview">
+                        <a href={{route('UsuarioCasaCorredora.index')}}>
+                            <i class="fa fa-th-list"></i>
+                            <span>Usuarios Casa Corredora</span>
+                        </a>
+
+                    </li>
+                @endif
                 @if($autorizador || $agenteCorredor)
 
                 <li id="ordenes" class=" treeview">
@@ -168,16 +179,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                     </ul>
                 </li>
                 @endif
-                @if($administrador)
 
-                <li class="treeview">
-                    <a href={{route('UsuarioCasaCorredora.index')}}>
-                        <i class="fa fa-th-list"></i>
-                        <span>Usuarios Casa Corredora</span>
-                    </a>
-
-                </li>
-                @endif
                 <li class="header">OTRAS OPCIONES</li>
                 @if($administrador)
                 <li><a href={{route('Latch.index')}}><i class="fa fa-circle-o text-red"></i> <span>Vincular Latch</span></a>
