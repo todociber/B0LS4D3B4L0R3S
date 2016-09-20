@@ -17,7 +17,6 @@ class CreateOrdensTable extends Migration
             $table->integer('correlativo')->unique();
             $table->date('FechaDeVigencia');
             $table->string('titulo',100);
-            $table->integer('cantidadDeValores');
             $table->decimal('valorMinimo', 65, 2);
             $table->decimal('valorMaximo', 65, 2);
             $table->decimal('monto', 65, 2);

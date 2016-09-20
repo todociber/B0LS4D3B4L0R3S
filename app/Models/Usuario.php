@@ -61,10 +61,6 @@ class Usuario extends Model implements AuthenticatableContract,
         return $this->hasMany(SolicitudRegistro::class, 'idUsuario', 'id');
     }
 
-    public function BitacoraUsuarios()
-    {
-        return $this->hasMany(BitacoraUsuario::class, 'idUsuario', 'id');
-    }
 
     public function MensajesUsuarios()
     {

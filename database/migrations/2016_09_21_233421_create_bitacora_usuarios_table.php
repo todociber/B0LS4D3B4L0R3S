@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateBitacoraUsuariosTable extends Migration
 {
@@ -12,16 +12,14 @@ class CreateBitacoraUsuariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('bitacora_usuarios', function (Blueprint $table) {
+        Schema::create('bitacora', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('descripcion',100);
-            $table->string('tipo Cambio');
-            $table->integer('idOrganizacion')->unsigned();
             $table->integer('idUsuario')->unsigned();
-            $table->foreign('idOrganizacion')
-                ->references('id')->on('organizacion');
-            $table->foreign('idUsuario')
-                ->references('id')->on('usuarios');
+            $table->integer('idUsuarioAfectado')->unsigned();
+            $table->integer('idOrden')->unsigned();
+            $table->integer('idModuloAfectado')->unsigned();
+            $table->foreign('idModuloAfectado')
+                ->references('id')->on('ModuloAfectado');
             $table->softDeletes();
             $table->timestamps();
         });

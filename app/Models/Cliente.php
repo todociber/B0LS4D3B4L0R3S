@@ -15,7 +15,7 @@ class Cliente extends Model
     protected $fillable = [
         'dui',
         'nit',
-        'fecha de nacimiento',
+        'fechaDeNacimiento',
         'idUsuario'
     ];
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class BitacoraUsuario
@@ -10,25 +11,23 @@ use Illuminate\Database\Eloquent\Model;
 class BitacoraUsuario extends Model
 {
     public $timestamps = true;
-    protected $table = 'bitacora_usuarios';
+    protected $table = 'bitacora';
     protected $fillable = [
-        'descripcion',
-        'tipo Cambio',
-        'idOrganizacion',
-        'idUsuario'
+        'idUsuario',
+        'idUsuarioAfectado',
+        'idOrden',
+        'idModuloAfectado'
     ];
 
     protected $guarded = [];
 
 
-    public function OrganizacionesN()
-    {
-        return $this->belongsTo(Organizacion::class, 'idOrganizacion', 'id');
-    }
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
-    public function UsuariosN()
+    public function ModuloAfectado()
     {
-        return $this->belongsTo(Usuario::class, 'idUsuario', 'id');
+        return $this->belongsTo(ModuloAfectado::class, 'idModuloAfectado', 'id');
     }
 
 

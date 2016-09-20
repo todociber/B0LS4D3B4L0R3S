@@ -16,7 +16,6 @@ class Ordene extends Model
         'correlativo',
         'FechaDeVigencia',
         'titulo',
-        'cantidadDeValores',
         'valorMinimo',
         'valorMaximo',
         'comision',
