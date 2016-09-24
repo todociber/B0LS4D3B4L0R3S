@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TipoOrganizacionSeeder::class);
         $this->call(OrganizacionSeeder::class);
         $this->call(UsuarioSeeder::class);
-        $this->call(rolUsuario::class);
+        $this->call(rolUsuarioSeeder::class);
 
     }
 }

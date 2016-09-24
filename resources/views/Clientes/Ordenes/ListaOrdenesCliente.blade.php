@@ -8,9 +8,29 @@
 <script>
     $('#ordenes').addClass('active');
     $('#listadoOrdenes').addClass('active')
+
 </script>
+<h2>
+    Ordenes de compra y venta de acciones
+
+</h2>
     <div class="row">
+        <div class="col-xs-4">
+            {{Form::open(['route'=>'filtrarOrden','method' =>'GET', 'id'=>'form'])  }}
+            <div class="form-group">
+                {{ Form::label('Filtra tus ordenes segun su estado') }}
+                {!! Form::select('estado',$estadoOrdenes,$seleccionado=isset($selected) ? $selected: null,['class'=>'form-control', 'id'=>'casa']) !!}
+
+            </div>
+            {!!Form::submit('Filtrar', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit', 'onclick'=>"animatedLoading()"])!!}
+
+            {{Form::close()}}
+        </div>
     <div class="col-xs-12">
+        @include('alertas.errores')
+        @include('alertas.flash')
+
+        <br/>
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Lista de Ordenes</h3>
@@ -25,6 +45,7 @@
                         <th><p class="text-center">Mercado</p></th>
                         <th><p class="text-center">Monto de inversión</p></th>
                         <th><p class="text-center">Fecha de vencimiento</p></th>
+                        <th><p class="text-center">Estado orden</p></th>
                         <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
                     </tr>
                     </thead>
@@ -34,13 +55,17 @@
 
                         <td>{{$orden->correlativo}}</td>
                         <td>{{$orden->TipoOrdenN->nombre}}</td>
-                        <td>{{$orden->mercado}}</td>
+                        <td>{{$orden->TipoMercado}}</td>
                         <td>{{$orden->monto}}</td>
                         <td>{{$orden->FechaDeVigencia}}</td>
-                        <td class="text-center"><a class="btn-table" href="ordenes_detalle.html"> <i
+                        <td>{{$orden->EstadoOrden->estado}}</td>
+                        <td class="text-center"><a class="btn-table" href="{{route('getOrdenes',['id'=>$orden->id])}}">
+                                <i
                                         class="fa fa-archive" aria-hidden="true"></i></a>
-                            <a class="btn btn-primary" style="background-color:#444444; "><em class="fa fa-pencil"></em></a>
-
+                            @if($orden->idEstadoOrden == 1 || $orden->idEstadoOrden==2)
+                                <a class="btn btn-primary background-pencil"
+                                   href="{{route('modificarorden',['id'=>$orden->id])}}"><em class="fa fa-pencil"></em></a>
+                            @endif
                         </td>
 
                     </tr>

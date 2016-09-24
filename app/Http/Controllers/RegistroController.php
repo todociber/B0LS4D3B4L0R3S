@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests;
 use App\Models\Cedeval;
 use App\Models\Cliente;
 use App\Models\Departamento;
@@ -10,12 +11,12 @@ use App\Models\Municipio;
 use App\Models\Organizacion;
 use App\Models\RolUsuario;
 use App\Models\SolicitudRegistro;
-use Illuminate\Http\Request;
+use App\Models\Telefono;
 use App\Models\Usuario;
-use App\Http\Requests;
-use Mockery\CountValidator\Exception;
-use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Mockery\CountValidator\Exception;
 
 class RegistroController extends Controller
 {
@@ -61,22 +62,13 @@ class RegistroController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
+    //REGISTRO DE CLIENTES
+
     public function store(Request $request)
     {
         try {
@@ -111,7 +103,6 @@ class RegistroController extends Controller
 
                 $usuario->fill(
                     [
-                        'idOrganizacion' => 17,
                         'nombre' => $request['nombre'],
                         'apellido' => $request['apellido'],
                         'email' => $request['email'],
@@ -145,6 +136,31 @@ class RegistroController extends Controller
                 );
                 $clientes->save();
 
+                $telefono = new Telefono();
+
+                $telefono->fill(
+                    [
+                        'idTipoTelefono' => 1,
+                        'numero' => $request['numeroCasa'],
+                        'idCliente' => $clientes->id,
+
+                    ]
+                );
+                $telefono->save();
+
+                $telefonoCelular = new Telefono();
+                $telefonoCelular->fill(
+                    [
+                        'idTipoTelefono' => 2,
+                        'numero' => $request['numeroCelular'],
+                        'idCliente' => $clientes->id,
+
+                    ]
+                );
+                $telefonoCelular->save();
+
+
+
                 $direccion = new Direccione();
                 $direccion->fill(
                     [
@@ -171,6 +187,7 @@ class RegistroController extends Controller
                     'idCliente' => $clientes->id,
                     'idOrganizacion' => $request['casaCorredora'],
                     'numeroDeAfiliado' => $request['numeroafiliacion'],
+                    'idEstadoSolicitud' => 1,
                 ]);
                 $solicitud->save();
 
@@ -185,6 +202,37 @@ class RegistroController extends Controller
             return redirect()->route('Registro.index');
         }
 
+    }
+
+    //VALIDANDO QUE NO SE ENVIEN CUENTAS CEDEVALES REPETIDAS
+    public function verifyCedeval($cedevals)
+    {
+        $CopyCede = $cedevals;
+        $BandFirst = true;
+        $BandTwo = true;
+        $i = 0;
+        $y = 0;
+        while ($BandFirst && $i < count($cedevals)) {
+            $cede1 = $cedevals[$i];
+            while ($BandTwo && $y < count($CopyCede)) {
+                $cede2 = $CopyCede[$y];
+                /*CONDICIONAL QUE EVALUA SI LAS POSICIONES SEAN DIFERENTES
+                PARA QUE NO SE EVALUE LA MISMA
+                */
+                if ($i != $y) {
+                    if ($cede1['cuenta'] == $cede2['cuenta']) {
+                        $BandFirst = false;
+                        $BandTwo = false;
+
+                    }
+                }
+                $y++;
+            }
+
+            $i++;
+        }
+
+        return $BandFirst;
     }
 
     /**
@@ -221,6 +269,9 @@ class RegistroController extends Controller
         //
     }
 
+
+//PARA VERIFICAR SI EL USUARIO HA INGRESADO CUENTAS CEDEVALS REPETIDAS
+
     /**
      * Remove the specified resource from storage.
      *
@@ -230,35 +281,6 @@ class RegistroController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-
-//PARA VERIFICAR SI EL USUARIO HA INGRESADO CUENTAS CEDEVALS REPETIDAS
-    public function verifyCedeval($cedevals)
-    {
-        $CopyCede = $cedevals;
-        $BandFirst = true;
-        $BandTwo = true;
-        $i = 0;
-        $y = 0;
-        while ($BandFirst && $i < count($cedevals)) {
-            $cede1 = $cedevals[$i];
-            while ($BandTwo && $y < count($CopyCede)) {
-                $cede2 = $CopyCede[$y];
-                if ($i != $y) {
-                    if ($cede1['cuenta'] == $cede2['cuenta']) {
-                        $BandFirst = false;
-                        $BandTwo = false;
-
-                    }
-                }
-                $y++;
-            }
-
-            $i++;
-        }
-
-        return $BandFirst;
     }
 
 }

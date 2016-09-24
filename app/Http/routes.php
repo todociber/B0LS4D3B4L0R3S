@@ -58,20 +58,28 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('bolsa/EliminarUsuario/{id}', 'UsuariosBolsaController@EliminarUsuario')->name('eliminarusuario');
     Route::get('bolsa/RestaurarUsuario/{id}', 'UsuariosBolsaController@RestaurarUsuario')->name('restaurarusuario');
     Route::get('bolsa/RestaurarPassword/{id}', 'UsuariosBolsaController@resetPassword')->name('restaurarpassword');
-    
+
     Route::resource('UsuarioBolsa', 'UsuariosBolsaController');
 
 //------BOLSA DE VALORES ROUTES--//
 
 //------CLIENTES ROUTES--//
 
-    Route::get('clientes/NuevaOrden','ClientesController@NuevaOrden')->name('nuevaOrden');
-    Route::get('Cliente/ListadoOrdenesV', 'ClientesController@ListadoOrdenesVigentes')->name('listadoordenesclienteV');
+    Route::get('Cliente/NuevaOrden', 'ClientesController@NuevaOrden')->name('nuevaOrden');
+    Route::get('Cliente/ListadoOrdenesV', 'ClientesController@ListadoOrdenes')->name('listadoordenesclienteV');
+    Route::get('Cliente/getOrdenes/{id}', 'ClientesController@OrdenesByID')->name('getOrdenes');
+    Route::get('Cliente/ModificarOrden/{id}', 'ClientesController@modificarOrden')->name('modificarorden');
+    Route::post('Cliente/setMensaje', 'ClientesController@storeMensajes')->name('setMensaje');
+    Route::put('Cliente/AnularOrden/{id}', 'ClientesController@AnularOrden')->name('anularorden');
+    Route::put('Cliente/EjecutarOrden', 'ClientesController@ejecutarOrden')->name('ejecutarorden');
+    Route::get('Cliente/FiltrarOrden', 'ClientesController@ordenesbyEstado')->name('filtrarOrden');
+    Route::get('Cliente/Miperfil', 'ClientesController@miPerfilUsuario')->name('perfilcliente');
+    Route::get('Cliente/ModificarPerfil', 'ClientesController@modificarPerfil')->name('modificarperfilCliente');
+    Route::post('Cliente/setModificarPerfil', 'ClientesController@modificarPerfilCliente')->name('setmodificarperfil');
+
+    //
     Route::resource('Clientes', 'ClientesController');
     //------CLIENTES ROUTES--//
-
-
-
 
 
 });

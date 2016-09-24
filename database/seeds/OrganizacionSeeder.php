@@ -23,13 +23,13 @@ class OrganizacionSeeder extends Seeder
             'updated_at' => new DateTime
         ));
         DB::table('organizacion')->insert(array(
-            'nombre'=>'Casa Corredora Maxima Ganancia',
-            'logo'=>'test',
-             'codigo' =>'02',
-            'correo' =>'alexlaley10@gmail.com',
-            'direccion' =>'bves',
-            'direccion' =>'12345678',
-            'idTipoOrganizacion' =>1,
+            'nombre' => 'Casa Corredora Maxima Ganancia',
+            'logo' => 'test',
+            'codigo' => '02',
+            'correo' => 'alexlaley10@gmail.com',
+            'direccion' => 'bves',
+            'direccion' => '12345678',
+            'idTipoOrganizacion' => 1,
             'created_at' => new DateTime,
             'updated_at' => new DateTime
         ));

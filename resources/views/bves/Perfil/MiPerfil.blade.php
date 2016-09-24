@@ -5,6 +5,7 @@
 @section('content')
     <script>
         $('#perfil').addClass('active');
+
     </script>
 
         <div class="row">
