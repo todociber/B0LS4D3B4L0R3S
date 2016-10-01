@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Ordene;
 use App\Models\Role;
 use App\Models\RolUsuario;
 use App\Models\Usuario;
@@ -74,11 +75,10 @@ class UsuarioCasaCorredoraController extends Controller
 
         $correoUsuario = $request['email'];
         $caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //posibles caracteres a usar
-        $numerodeletras=8; //numero de letras para generar el texto
+        $numerodeletras = 8; //numero de letras para generar el texto
         $cadena = ""; //variable para almacenar la cadena generada
-        for($i=0;$i<$numerodeletras;$i++)
-        {
-            $cadena .= substr($caracteres,rand(0,strlen($caracteres)),1);
+        for ($i = 0; $i < $numerodeletras; $i++) {
+            $cadena .= substr($caracteres, rand(0, strlen($caracteres)), 1);
         }
 
 //COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
@@ -198,8 +198,18 @@ class UsuarioCasaCorredoraController extends Controller
         $usuario = Usuario::find($id);
 
         if ($usuario->idOrganizacion != Auth::user()->idOrganizacion) {
-            return redirect('/home');
+            flash('Error en la consulta', 'danger');
+            return redirect('/UsuarioCasaCorredora');
         } else {
+            $ordenesVigentes = 0;
+            foreach ($usuario->OrdenesUsuario as $ordenes) {
+                if ($ordenes->idEstadoOrden == 2) {
+                    $ordenesVigentes = 1;
+                } elseif ($ordenes->idEstadoOrden == 5) {
+                    $ordenesVigentes = 1;
+                }
+            }
+
 
             $usuario->fill(
                 [
@@ -226,25 +236,39 @@ class UsuarioCasaCorredoraController extends Controller
                 if ($NRolesActivosByUser[0]->N > 0) {
                     $existeId = 0;
                     foreach ($request['rolUsuario'] as $role2) {
-
-
                         if ($role2 == $idRolDisponible) {
                             $existeId = 1;
                         }
-
-
                     }
-
                     if ($existeId == 0) {
-
-
                         if (Auth::user()->id == $id && $idRolDisponible == 2) {
-
                         } else {
                             $RolUsuarioABorrar = RolUsuario::where('idUsuario', $id)
                                 ->where('idRol', $idRolDisponible)->first();
 
-                            $RolUsuarioABorrar->delete();
+
+                            if ($ordenesVigentes == 1) {
+                                if ($RolUsuarioABorrar->idRol == 4) {
+                                    $usuario = Usuario::ofid($id)->get();
+                                    $ordenes = Ordene::where('idCorredor', '=', $id)
+                                        ->where('idEstadoOrden', '=', 2)
+                                        ->orWhere('idEstadoOrden', '=', 5)
+                                        ->get();
+                                    \Session::set('UsuarioEliminar', $id);
+                                    \Session::set('EditarUsuario', $id);
+
+
+                                    flash('Usuario tiene ordenes pendientes', 'danger');
+                                    return view('CasaCorredora.OrdenesAutorizador.ReAsignarOrdenes', compact('ordenes', 'usuario'));
+
+                                } else {
+                                    $RolUsuarioABorrar->delete();
+                                }
+                            } else {
+                                \Session::remove('EditarUsuario');
+                                $RolUsuarioABorrar->delete();
+                            }
+
                         }
 
 
@@ -299,30 +323,53 @@ class UsuarioCasaCorredoraController extends Controller
         } catch (Exception $e) {
             return redirect('/home');
         }
-
-
-        if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
-            return redirect('/home');
-        } elseif ($id == Auth::user()->id) {
-            return redirect('/home');
-        } else {
-
-
-            foreach ($Usuario->UsuarioAsignado as $solicitudes) {
-
-                if ($solicitudes->idEstadoSolicitud == 4) {
-                    $solicitudes->fill([
-                        'idUsuario' => NULL,
-                        'idEstadoSolicitud' => '1'
-                    ]);
-                    $solicitudes->save();
-                }
-
+        $ordenesVigentes = 0;
+        foreach ($Usuario->OrdenesUsuario as $ordenes) {
+            if ($ordenes->idEstadoOrden == 2) {
+                $ordenesVigentes = 1;
+            } elseif ($ordenes->idEstadoOrden == 5) {
+                $ordenesVigentes = 1;
             }
-            $Usuario->delete();
-            flash('El usuario se desactivo exitosamente', 'danger');
-            return redirect('/UsuarioCasaCorredora');
         }
+
+
+        if ($ordenesVigentes == 0) {
+            if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
+                flash('Error en consulta', 'danger');
+                return redirect('/UsuarioCasaCorredora');
+            } elseif ($id == Auth::user()->id) {
+                flash('Error en consulta', 'danger');
+                return redirect('/UsuarioCasaCorredora');
+            } else {
+
+                foreach ($Usuario->UsuarioAsignado as $solicitudes) {
+
+                    if ($solicitudes->idEstadoSolicitud == 4) {
+                        $solicitudes->fill([
+                            'idUsuario' => NULL,
+                            'idEstadoSolicitud' => '1'
+                        ]);
+                        $solicitudes->save();
+                    }
+
+                }
+                $Usuario->delete();
+                if (\Session::has('UsuarioEliminar')) {
+                    \Session::remove('UsuarioEliminar');
+                }
+                flash('El usuario se desactivo exitosamente', 'danger');
+                return redirect('/UsuarioCasaCorredora');
+            }
+        } else {
+            $usuario = Usuario::ofid($id)->get();
+            $ordenes = Ordene::where('idCorredor', '=', $id)
+                ->where('idEstadoOrden', '=', 2)
+                ->orWhere('idEstadoOrden', '=', 5)
+                ->get();
+            \Session::set('UsuarioEliminar', $id);
+            return view('CasaCorredora.OrdenesAutorizador.ReAsignarOrdenes', compact('ordenes', 'usuario'));
+        }
+
 
     }
 
@@ -390,4 +437,6 @@ class UsuarioCasaCorredoraController extends Controller
 
 
     }
+
+
 }

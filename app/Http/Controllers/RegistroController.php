@@ -11,7 +11,6 @@ use App\Models\Municipio;
 use App\Models\Organizacion;
 use App\Models\RolUsuario;
 use App\Models\SolicitudRegistro;
-use App\Models\Telefono;
 use App\Models\Usuario;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -62,13 +61,22 @@ class RegistroController extends Controller
 
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         //
     }
 
-    //REGISTRO DE CLIENTES
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         try {
@@ -103,6 +111,7 @@ class RegistroController extends Controller
 
                 $usuario->fill(
                     [
+                        'idOrganizacion' => 17,
                         'nombre' => $request['nombre'],
                         'apellido' => $request['apellido'],
                         'email' => $request['email'],
@@ -136,31 +145,6 @@ class RegistroController extends Controller
                 );
                 $clientes->save();
 
-                $telefono = new Telefono();
-
-                $telefono->fill(
-                    [
-                        'idTipoTelefono' => 1,
-                        'numero' => $request['numeroCasa'],
-                        'idCliente' => $clientes->id,
-
-                    ]
-                );
-                $telefono->save();
-
-                $telefonoCelular = new Telefono();
-                $telefonoCelular->fill(
-                    [
-                        'idTipoTelefono' => 2,
-                        'numero' => $request['numeroCelular'],
-                        'idCliente' => $clientes->id,
-
-                    ]
-                );
-                $telefonoCelular->save();
-
-
-
                 $direccion = new Direccione();
                 $direccion->fill(
                     [
@@ -187,7 +171,6 @@ class RegistroController extends Controller
                     'idCliente' => $clientes->id,
                     'idOrganizacion' => $request['casaCorredora'],
                     'numeroDeAfiliado' => $request['numeroafiliacion'],
-                    'idEstadoSolicitud' => 1,
                 ]);
                 $solicitud->save();
 
@@ -204,7 +187,6 @@ class RegistroController extends Controller
 
     }
 
-    //VALIDANDO QUE NO SE ENVIEN CUENTAS CEDEVALES REPETIDAS
     public function verifyCedeval($cedevals)
     {
         $CopyCede = $cedevals;
@@ -216,9 +198,6 @@ class RegistroController extends Controller
             $cede1 = $cedevals[$i];
             while ($BandTwo && $y < count($CopyCede)) {
                 $cede2 = $CopyCede[$y];
-                /*CONDICIONAL QUE EVALUA SI LAS POSICIONES SEAN DIFERENTES
-                PARA QUE NO SE EVALUE LA MISMA
-                */
                 if ($i != $y) {
                     if ($cede1['cuenta'] == $cede2['cuenta']) {
                         $BandFirst = false;

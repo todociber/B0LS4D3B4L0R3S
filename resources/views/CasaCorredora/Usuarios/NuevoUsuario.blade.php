@@ -1,8 +1,11 @@
-@extends('layouts.ClientesLayout')
+@extends('layouts.CasaCorredoraLayout')
 
 @section('title')
-    <title>Nueva Usuario Casa Corredora</title>
+    <title>Nuevo Usuario</title>
 
+@stop
+@section('NombrePantalla')
+    Nuevo Usuario
 @stop
 @section('content')
 
@@ -19,10 +22,10 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             @include('alertas.errores')
-                            {!!Form::open(['route'=>'UsuarioCasaCorredora.store', 'method'=>'POST'])!!}
+                            {!!Form::open(['route'=>'UsuarioCasaCorredora.store', 'method'=>'POST', 'onsubmit'=>"waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                             @include('CasaCorredora.Usuarios.formularios.formularioUsuario')
 
-                            {!!Form::submit('Registrar Usuario', ['class'=>'btn btn-primary btn-flat', 'onclick'=>"waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                            {!!Form::submit('Registrar Usuario', ['class'=>'btn btn-primary btn-flat','name'=>'btnCrearUsuario'])!!}
                             {!!Form::close()!!}
 
 

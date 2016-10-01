@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Http\Requests;
+use App\Models\Mensaje;
+use App\Models\OperacionBolsa;
+use App\Models\Ordene;
+use App\Utilities\RolIdentificador;
+use DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Redirect;
 
 class OrdenesController extends Controller
 {
@@ -82,5 +88,194 @@ class OrdenesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function Comentar(Requests\RequestComenatiosCasaCorredora $request, $id)
+    {
+        $orden = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->where('id', '=', $id)->count();
+        if ($orden > 0) {
+            $mensaje = new Mensaje([
+                'contenido' => $request['comentario'],
+                'idTipoMensaje' => '1',
+                'idOrden' => $id,
+                'idUsuario' => Auth::user()->id
+            ]);
+            flash('Comentario enviado exitosamente', 'success');
+            $mensaje->save();
+
+        } else {
+            flash('Error al enviar Comentario', 'danger');
+
+        }
+
+        return Redirect::back();
+
+
+    }
+
+
+    public function Historial($id)
+    {
+
+
+        $ordenes = Ordene::with('OrdenPadre')->ofid($id)->get();
+
+        if ($ordenes[0]->OrdenPadre == null) {
+            flash('Historial no disponible', 'warning');
+            return redirect('/Ordenes');
+        } else {
+            return view('CasaCorredora.OrdenesAutorizador.HistorialOrden', compact('ordenes'));
+        }
+
+    }
+
+    public function Editar($id)
+    {
+
+
+        $Autorizador = new RolIdentificador();
+
+
+        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoorden', '=', '2')->get();
+
+        if ($ordenes->count() > 0) {
+            if ($Autorizador->Autorizador(Auth::user())) {
+                $agentes = DB::table('usuarios')
+                    ->join('rol_usuarios', 'usuarios.id', '=', 'rol_usuarios.idUsuario')
+                    ->where('usuarios.idOrganizacion', '=', Auth::user()->idOrganizacion)
+                    ->where('rol_usuarios.idRol', '=', '4')
+                    ->whereNull('rol_usuarios.deleted_at')
+                    ->lists(DB::raw(' concat_ws("",nombre," ",apellido) as name'), 'usuarios.id');
+
+
+                $usuariosAgentes = DB::table('usuarios')
+                    ->join('rol_usuarios', 'usuarios.id', '=', 'rol_usuarios.idUsuario')
+                    ->where('usuarios.idOrganizacion', '=', Auth::user()->idOrganizacion)
+                    ->where('rol_usuarios.idRol', '=', '4')
+                    ->where('usuarios.id', '!=', \Session::get('UsuarioEliminar'))
+                    ->whereNull('usuarios.deleted_at')
+                    ->whereNull('rol_usuarios.deleted_at')
+                    ->orderBy('usuarios.id')
+                    ->select('usuarios.*')->get();
+                $Autorizador = true;
+                $agentesCorredores = DB::select('select COUNT(orden.id) as N, usuario.id, usuario.nombre, usuario.apellido,usuario.email from usuarios as usuario JOIN ordenes as orden ON usuario.id = orden.idCorredor JOIN rol_usuarios as roleU ON usuario.id = roleU.idUsuario where usuario.idOrganizacion=' . Auth::user()->idOrganizacion . ' and roleU.idRol =4 and (orden.idEstadoOrden= 2  or orden.idEstadoOrden=5) and  roleU.deleted_at IS NULL  and usuario.deleted_at IS NULL group by usuario.id, roleU.id order by usuario.id');
+                return view('CasaCorredora.Ordenes.OrdenesEditar', compact('ordenes', 'agentesCorredores', 'agentes', 'usuariosAgentes', 'Autorizador'));
+            } else {
+                $Autorizador = false;
+                return view('CasaCorredora.Ordenes.OrdenesEditar', compact('ordenes', 'Autorizador'));
+            }
+
+
+        } else {
+            flash('Error en consulta', 'danger');
+            return redirect('Ordenes');
+        }
+    }
+
+
+    public function  Actualizar(Request $request, $id)
+    {
+        $Orden = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', 2)->get();
+        if ($Orden->count() > 0) {
+            $agenteActual = $Orden[0]->idCorredor;
+            $comisionActual = $Orden[0]->comision;
+
+
+            if ($request['Comision'] == '') {
+                $ActuaizarComision = $comisionActual;
+            } else {
+                $ActuaizarComision = $request['Comision'];
+            }
+
+            if ($request['AgenteCorredor'] == '') {
+                $ActualizarAgente = $agenteActual;
+            } else {
+                $ActualizarAgente = $request['AgenteCorredor'];
+            }
+
+            $orden = Ordene::find($id);
+
+            $orden->fill([
+                'comision' => $ActuaizarComision,
+                'idCorredor' => $ActualizarAgente,
+            ]);
+            $orden->save();
+
+            flash('Actualizacion con exito', 'success');
+            return redirect('/Ordenes');
+        } else {
+            flash('Error en consulta', 'danger');
+            return redirect('/Ordenes');
+        }
+
+
+    }
+
+    public function Operaciones($id)
+    {
+        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->get();
+        if ($ordenes->count() > 0) {
+
+            return view('CasaCorredora.Ordenes.OperacionesDeVolsa', compact('ordenes'));
+
+        } else {
+            flash('Error en consulta', 'danger');
+            return redirect('/Ordenes');
+        }
+    }
+
+    public function OperacionesGuardar(Requests\RequestOperacionBolsa $request, $id)
+    {
+        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->where('idCorredor', '=', Auth::user()->id)->get();
+        if ($ordenes->count() > 0) {
+            if ($ordenes[0]->idTipoEjecucion != 2) {
+                $montoEjecutado = 0;
+                $OperacionesRealizadas = $ordenes[0]->Operaiones_ordenes;
+                foreach ($OperacionesRealizadas as $operacion) {
+                    $montoEjecutado = $montoEjecutado + $operacion->monto;
+                }
+                $montoGuardar = $request['Monto'];
+
+                if ($montoEjecutado < $ordenes[0]->monto && $montoEjecutado + $montoGuardar <= $ordenes[0]->monto) {
+
+                    if ($montoGuardar == $ordenes[0]->monto) {
+                        $orden = Ordene::find($id);
+
+                        $orden->fill([
+                            'idTipoEjecucion' => 2
+                        ]);
+                    } else {
+                        $orden = Ordene::find($id);
+
+                        $orden->fill([
+                            'idTipoEjecucion' => 1
+                        ]);
+                    }
+                    $operacion = new OperacionBolsa();
+                    $operacion->fill([
+                        'monto' => $request['Monto'],
+                        'idOrden' => $id
+                    ]);
+                    $operacion->save();
+                    $orden->save();
+                    flash('Operacion registrada exitosamente', 'success');
+                    return redirect()->back();
+
+
+                } else {
+                    return redirect()->back()->withErrors('Monto superior al autorizado por el cliente');
+                }
+            } else {
+
+                return redirect()->back()->withErrors('Orden ejecutada completamente');
+            }
+
+
+        } else {
+            flash('Error en consulta', 'danger');
+            return redirect('/Ordenes');
+        }
     }
 }

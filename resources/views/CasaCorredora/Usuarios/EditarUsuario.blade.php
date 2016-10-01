@@ -1,9 +1,13 @@
-@extends('layouts.ClientesLayout')
+@extends('layouts.CasaCorredoraLayout')
 
 @section('title')
-    <title>Nueva Usuario Casa Corredora</title>
+    <title> Editar Usuario</title>
 
 @stop
+@section('NombrePantalla')
+    Editar Usuario
+@stop
+
 @section('content')
 
 
@@ -19,10 +23,10 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             @include('alertas.errores')
-                            {!!Form::model($usuarios, ['route'=>['UsuarioCasaCorredora.update', $usuarios->id], 'method'=>'PUT'])!!}
+                            {!!Form::model($usuarios, ['route'=>['UsuarioCasaCorredora.update', $usuarios->id], 'method'=>'PUT', 'onsubmit'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                             @include('CasaCorredora.Usuarios.formularios.formularioUsuario')
 
-                            {!!Form::submit('Guardar', ['class'=>'btn btn-primary btn-flat','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                            {!!Form::submit('Guardar', ['class'=>'btn btn-primary btn-flat'])!!}
                             {!!Form::close()!!}
                             <br>
                             @if($usuarios->id== Auth::user()->id)

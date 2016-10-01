@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateOperacionBolsasTable extends Migration
 {
@@ -15,8 +15,8 @@ class CreateOperacionBolsasTable extends Migration
         Schema::create('operacion_bolsas', function (Blueprint $table) {
             $table->increments('id');
             $table->decimal('monto');
-            $table->integer('idOden')->unsigned();
-            $table->foreign('idOden')
+            $table->integer('idOrden')->unsigned();
+            $table->foreign('idOrden')
                 ->references('id')->on('ordenes');
             $table->timestamps();
             $table->softDeletes();

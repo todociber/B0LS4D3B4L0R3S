@@ -44,12 +44,6 @@ class Organizacion extends Model
         return $this->hasMany(Ordene::class, 'idOrganizacion', 'id');
     }
 
-    public function BitacoraUsuariosOrganizacion()
-    {
-        return $this->hasMany(BitacoraUsuario::class, 'idOrganizacion', 'id');
-    }
-
-
 
     public function scopeOfid($query, $id)
     {

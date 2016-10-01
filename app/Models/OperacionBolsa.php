@@ -14,7 +14,7 @@ class OperacionBolsa extends Model
     protected $table = 'operacion_bolsas';
     protected $fillable = [
         'monto',
-        'idOden'
+        'idOrden'
     ];
 
     protected $guarded = [];

@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', true),
+    'debug' => env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -150,6 +150,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
+        'Faytzel\LaravelLatch\LaravelLatchServiceProvider',
 
 
         /*
@@ -208,6 +209,7 @@ return [
         'Form' => 'Collective\Html\FormFacade',
         'Html' => 'Collective\Html\HtmlFacade',
         'Flash' => Laracasts\Flash\Flash::class,
+        'Latch' => 'Faytzel\LaravelLatch\Facades\LaravelLatch',
 
 
     ],

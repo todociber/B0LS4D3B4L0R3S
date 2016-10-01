@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTipoMercadosTable extends Migration
+class LatchData extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,13 @@ class CreateTipoMercadosTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_mercados', function (Blueprint $table) {
+        Schema::create('LatchDataToken', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre',15);
+            $table->string('tokenLatch',500);
+            $table->integer('idUsuario')->unsigned();
+            $table->foreign('idUsuario')->references('id')->on('usuarios');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +29,6 @@ class CreateTipoMercadosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tipo_mercados');
+        Schema::drop('LatchDataToken');
     }
 }

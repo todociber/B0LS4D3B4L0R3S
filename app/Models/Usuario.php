@@ -61,10 +61,6 @@ class Usuario extends Model implements AuthenticatableContract,
         return $this->hasMany(SolicitudRegistro::class, 'idUsuario', 'id');
     }
 
-    public function BitacoraUsuarios()
-    {
-        return $this->hasMany(BitacoraUsuario::class, 'idUsuario', 'id');
-    }
 
     public function MensajesUsuarios()
     {
@@ -76,9 +72,17 @@ class Usuario extends Model implements AuthenticatableContract,
         return $this->hasOne(Cliente::class, 'idUsuario', 'id');
     }
 
+    public function UsuariosLatchs()
+    {
+        return $this->hasMany(Usuario::class, 'idUsuario', 'id');
+    }
+
+
     public function scopeOfid($query, $id)
     {
-
+        if (trim($id) != "") {
+            $query->where('id', $id);
+        }
     }
     public function scopeOfType($query, $id){
 

@@ -10,7 +10,9 @@
         "laravelcollective/html": "^5.2",
         "barryvdh/laravel-ide-helper": "^2.2",
         "nesbot/carbon": "^1.21",
-        "laracasts/flash": "^2.0"
+        "laracasts/flash": "^2.0",
+        "faytzel/laravel-latch": "1.*"
+
 
     },
     "require-dev": {

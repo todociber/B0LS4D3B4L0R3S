@@ -49,7 +49,9 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Foundation\Http\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'UsuarioCasaCorredora' => \App\Http\Middleware\UsuarioCasaCorredora::class,
         'administradorCasaCorredora' => \App\Http\Middleware\UsuarioAdministradorCasaCorredoraAuth::class,
-        'OperadorCasaCorredora' => \App\Http\Middleware\UsuarioOperadorCasaCorredora::class
+        'OperadorCasaCorredora' => \App\Http\Middleware\UsuarioOperadorCasaCorredora::class,
+        'AgenteCorredor' => \App\Http\Middleware\AgenteCorredorMiddleware::class
     ];
 }

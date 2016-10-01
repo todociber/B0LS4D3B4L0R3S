@@ -16,12 +16,13 @@ class Ordene extends Model
         'correlativo',
         'FechaDeVigencia',
         'titulo',
-        'cantidadDeValores',
         'valorMinimo',
         'valorMaximo',
+        'comision',
         'monto',
         'tasaDeInteres',
         'emisor',
+        'TipoMercado',
         'idCliente',
         'idCorredor',
         'idTipoOrden',
@@ -51,7 +52,7 @@ class Ordene extends Model
 
     public function Operaiones_ordenes()
     {
-        return $this->hasMany(OperacionBolsa::class, 'idOden', 'id');
+        return $this->hasMany(OperacionBolsa::class, 'idOrden', 'id');
     }
 
 

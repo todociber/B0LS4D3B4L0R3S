@@ -1,15 +1,18 @@
-@extends('layouts.ClientesLayout')
+@extends('layouts.CasaCorredoraLayout')
 
 @section('title')
-    <title>Usuarios Casa Corredora</title>
+    <title>Afiliaciones Procesadas</title>
 
+@stop
+@section('NombrePantalla')
+    Afiliaciones Procesadas
 @stop
 @section('content')
 
 
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Nuevo Usuario</h3>
+            <h3 class="box-title">Afiliaciones Procesadas</h3>
         </div><!-- /.box-header -->
         <!-- form start -->
         <div class="box-body">
@@ -22,7 +25,9 @@
 
                             <br><br>
 
-                            <table id="example1" class="table table-hover">
+                            <div class="table-responsive">
+                                <table id="example1" class="table table-hover dt-responsive display nowrap"
+                                       cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
@@ -49,7 +54,6 @@
                                             {{ $solicitud->ClienteNSolicitud->UsuarioNC->nombre}}
 
 
-
                                         </td>
                                         <td>
                                             {{ $solicitud->ClienteNSolicitud->UsuarioNC->apellido}}
@@ -68,7 +72,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-
+                            </div>
                         </div>
                     </div><!--row-->
 
