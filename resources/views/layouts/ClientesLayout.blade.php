@@ -113,8 +113,7 @@
                     <ul class="treeview-menu">
                         <li id="listadoOrdenes"><a href="{{route('listadoordenesclienteV')}}"><i
                                         class="fa fa-circle-o"></i>Ordenes</a></li>
-                        <li id="nuevaOrden"><a href="{{route('nuevaOrden')}}"><i class="fa fa-circle-o"></i> Nueva orden</a>
-                        </li>
+                        <li id="nuevaOrden"><a href="{{route('nuevaOrden')}}"><i class="fa fa-circle-o"></i> Nueva orden</a></li>
                     </ul>
                 </li>
                 <li>
@@ -125,23 +124,21 @@
 
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="Solicitudes_Afiliacion.html"><i class="fa fa-circle-o"></i>Solicitudes de
-                                afiliación</a></li>
+                        <li><a href="Solicitudes_Afiliacion.html"><i class="fa fa-circle-o"></i>Solicitudes de afiliación</a></li>
                         <li><a href="afiliacion_form.html"><i class="fa fa-circle-o"></i> Afiliarse a una casa</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Listado de casas afiliado
+                        <li ><a href="#"><i class="fa fa-circle-o"></i> Listado de casas afiliado
                             </a></li>
                     </ul>
                 </li>
-                <li class="treeview">
+                <li id="opcionesPerfil" class=" treeview">
                     <a href="#">
                         <i class="fa fa-th-list"></i>
                         <span>Mi perfil</span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Modificar información</a>
-                        </li>
-                        <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Cambio de contraseña</a>
-                        </li>
+                        <li id="perfilUsuario"><a href="{{route('perfilcliente')}}"><i class="fa fa-circle-o"></i>Mi
+                                información</a></li>
+                        <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Cambio de contraseña</a></li>
                     </ul>
                 </li>
                 <li class="header">OTRAS OPCIONES</li>
@@ -156,10 +153,7 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>
-                Solicitud de afiliación
 
-            </h1>
 
         </section>
 
@@ -181,7 +175,7 @@
     </footer>
 
 
-</div>
+ </div>
 
 <script>
     $(function () {
@@ -195,6 +189,7 @@
             "autoWidth": false
         });
     });
+
     $(document).ready(function () {
     })
 </script>

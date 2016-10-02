@@ -57,7 +57,7 @@ class UsuariosBolsaController extends Controller
                 $activo = ($request['Estado'] == 0) ? 'test' : null;
                 $usuario->fill(
                     [
-                        'idOrganizacion' => 17,
+                        'idOrganizacion' => 1,
                         'nombre' => $request['nombre'],
                         'apellido' => $request['apellido'],
                         'email' => $request['email'],
@@ -132,21 +132,23 @@ class UsuariosBolsaController extends Controller
 
     public function EliminarUsuario($id)
     {
-        try {
-            $message = '';
+        try{
+            $message ='';
             $state = '';
-            if ($id != Auth::user()->id) {
+            if($id!=Auth::user()->id){
                 Usuario::destroy($id);
                 $message = 'Estado cambiado con éxito';
                 $state = 'success';
-            } else {
+            }
+            else {
 
                 $message = 'No puede modificar el estado de este usuario';
                 $state = 'info';
             }
 
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e){
             $message = 'Ocurrio un problema para cambiar el estado';
             $state = 'danger';
 
@@ -157,12 +159,12 @@ class UsuariosBolsaController extends Controller
     }
 
     public function resetPassword($id){
-        try {
+        try{
             $action = new Action();
-            $message = '';
+            $message ='';
             $state = '';
-            if ($id != Auth::user()->id) {
-                $user = Usuario::withTrashed()->where('id', '=', $id)->first();
+            if($id!=Auth::user()->id){
+                $user =Usuario::withTrashed()->where('id','=',$id)->first();
 
                 $pass = $action->makePassword($user->id);
                 $user->password = Hash::make($pass);
@@ -170,14 +172,16 @@ class UsuariosBolsaController extends Controller
                 //Usuario::destroy($id);
                 $message = 'Contraseña reiniciada con éxito';
                 $state = 'success';
-            } else {
+            }
+            else {
 
                 $message = 'No puede reiniciar la contraseña  de este usuario';
                 $state = 'info';
             }
 
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e){
             $message = 'Ocurrio un problema para reiniciar la contraseña';
             $state = 'danger';
 
@@ -190,11 +194,12 @@ class UsuariosBolsaController extends Controller
 
     public function RestaurarUsuario($id)
     {
-        try {
-            $usuario = Usuario::withTrashed()->where('id', '=', $id)->first();
+        try{
+            $usuario = Usuario::withTrashed()->where('id','=',$id)->first();
             $usuario->restore();
             flash('Estado cambiado con éxito', 'success');
-        } catch (Exception $e) {
+        }
+        catch (Exception $e){
             flash('Ocurrio un problema para cambiar el estado', 'danger');
 
         }
@@ -229,10 +234,10 @@ class UsuariosBolsaController extends Controller
         ]);
 
 
-        try {
-            $emailUser = DB::table('usuarios')->where('usuarios.email', '=', $request['email'])->where('usuarios.idOrganizacion', '=', 17)->where('usuarios.id', '!=', $id)->count();
+        try{
+            $emailUser = DB::table('usuarios')->where('usuarios.email', '=', $request['email'])->where('usuarios.idOrganizacion', '=',17)->where('usuarios.id', '!=',$id)->count();
             if ($emailUser == 0) {
-                $usuario = Usuario::withTrashed()->where('id', $id)->first();
+                $usuario = Usuario::withTrashed()->where('id',$id)->first();
                 $activo = ($request['Estado'] == 0) ? 'test' : null;
                 $usuario->fill(
                     [
@@ -251,15 +256,17 @@ class UsuariosBolsaController extends Controller
                 }
                 flash('Usuario modificado con éxito', 'success');
                 return redirect()->route('catalogoUsuarios');
-            } else {
+            }
+            else{
                 flash('Ya existe un usuario registrado con ese correo', 'info');
 
-                return redirect()->route('modificarusuario', $id);
+                return redirect()->route('modificarusuario',$id);
             }
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e){
             flash('Ocurrio un problema al modificar el usuario', 'danger');
-            return redirect()->route('modificarusuario', $id);
+            return redirect()->route('modificarusuario',$id);
 
         }
     }
@@ -282,8 +289,8 @@ class UsuariosBolsaController extends Controller
     public function ListadoUsuario()
     {
 
-        $usuarios = Usuario::withTrashed()->where('idOrganizacion', 17)->where('id', '!=', Auth::user()->id)->get();
-        return View('bves.Usuarios.ListadoUsuarios', ['usuarios' => $usuarios]);
+        $usuarios = Usuario::withTrashed()->where('idOrganizacion', 1)->where('id', '!=', Auth::user()->id)->get();
+        return View('bves.Usuarios.ListadoUsuarios',['usuarios'=>$usuarios]);
     }
 
     //PARA CREAR ROLES
@@ -300,7 +307,7 @@ class UsuariosBolsaController extends Controller
 
     public function MiPerfil()
     {
-        return View('bves.Perfil.MiPerfil', ['user' => Auth::user()]);
+        return View('bves.Perfil.MiPerfil', ['user'=> Auth::user()]);
     }
 
     public function EditarPerfil()

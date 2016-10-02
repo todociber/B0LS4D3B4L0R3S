@@ -2,15 +2,21 @@
 <div class="form-group">
     <br><br>
     <label for="exampleInputEmail1">Cuenta CEDEVAL</label>
-    {{Form::select('cedeval',$cedeval,null,['class'=>'form-control', 'id'=>'estado'])}}
+    {{Form::select('cuentacedeval',$cedeval,$cedeval = isset($orden) ? $orden->CuentaCedeval->cuenta: null,['class'=>'form-control', 'id'=>'estado'])}}
 </div>
 <div class="form-group">
+
+    @if (!isset($orden))
     <label for="exampleInputEmail1">Seleccione la casa cual desea realizar la orden</label>
-    {{Form::select('casas',$casas,null,['class'=>'form-control', 'required', 'id'=>'estado'])}}
+        {{Form::select('casacorredora',$casas,null,['class'=>'form-control', 'required', 'id'=>'estado'])}}
+    @else
+
+
+    @endif
 </div>
 <div class="form-group">
     <label for="exampleInputEmail1">Seleccione el tipo de orden </label>
-    {{Form::select('TipoOrden',$Tipoorden,$nombre = isset($orden) ? $orden->TipoOrdenN->nombre: null,['class'=>'form-control', 'required', 'id'=>'estado'])}}
+    {{Form::select('tipodeorden',$Tipoorden,$nombre = isset($orden) ? $orden->TipoOrdenN->nombre: null,['class'=>'form-control', 'required', 'id'=>'estado'])}}
 </div>
 <div class="form-group">
     <label for="exampleInputEmail1">Seleccione el mercado</label>
@@ -41,11 +47,11 @@
 </div>
 <div class="form-group">
     {{ Form::label('Precio minimo el cual desea comprar/vender el valor') }}
-    {{ Form::text('Pminimo',null,['class'=>'form-control','placeholder'=>'Ingrese el precio minimo', 'id'=>'pminimo']) }}
+    {{ Form::text('valorMinimo',null,['class'=>'form-control','placeholder'=>'Ingrese el precio minimo', 'id'=>'pminimo']) }}
 </div>
 <div class="form-group">
     {{ Form::label('Precio máximo el cual desea comprar/vender el valor') }}
-    {{ Form::text('PMaximo',null,['class'=>'form-control','placeholder'=>'Ingrese el precio maximo', 'id'=>'pmaximo']) }}
+    {{ Form::text('valorMaximo',null,['class'=>'form-control','placeholder'=>'Ingrese el precio maximo', 'id'=>'pmaximo']) }}
 </div>
 <div class="form-group" id="monto">
     {{ Form::label('Ingrese el monto de la inversion') }}
@@ -54,12 +60,12 @@
 
 <div class="form-group">
 
-    {{ Form::label('Fecha de nacimiento') }}
+    {{ Form::label('Fecha de vencimiento') }}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
-        {{ Form::text('nacimiento',null,['class'=>'form-control input-pointer','placeholder'=>'Ingresa tu fecha de nacimiento (dd/mm/yyyy)', 'id'=>'datepicker']) }}
+        {{ Form::text('FechaDeVigencia',null,['class'=>'form-control input-pointer','placeholder'=>'Ingresa la fecha de vigencia de la orden (dd/mm/yyyy)', 'id'=>'datepicker']) }}
     </div>
 </div>
 
