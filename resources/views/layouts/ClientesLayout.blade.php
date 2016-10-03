@@ -106,6 +106,8 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">Menu</li>
+                <?php $count = \App\Models\SolicitudRegistro::where("idCliente", Auth::user()->ClienteN)->where("idEstadoSolicitud", 2)->count();?>
+                @if($count> 0)
                 <li id="ordenes" class=" treeview">
                     <a href="#">
                         <i class="fa fa-archive"></i> <span>Ordenes</span> <i class="fa fa-angle-left pull-right"></i>
@@ -116,7 +118,10 @@
                         <li id="nuevaOrden"><a href="{{route('nuevaOrden')}}"><i class="fa fa-circle-o"></i> Nueva orden</a></li>
                     </ul>
                 </li>
-                <li>
+
+                @endif
+
+                <li id="afiliaciones">
                     <a href="#">
                         <i class="fa fa-home"></i>
                         <span>Afiliación</span>
@@ -124,9 +129,12 @@
 
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="Solicitudes_Afiliacion.html"><i class="fa fa-circle-o"></i>Solicitudes de afiliación</a></li>
-                        <li><a href="afiliacion_form.html"><i class="fa fa-circle-o"></i> Afiliarse a una casa</a></li>
-                        <li ><a href="#"><i class="fa fa-circle-o"></i> Listado de casas afiliado
+                        <li id="listadosolicitudes"><a href="{{route("listadoafiliaciones")}}"><i
+                                        class="fa fa-circle-o"></i>Solicitudes de afiliación</a></li>
+                        <li id="afiliarse"><a href="{{route("afiliarsecasa")}}"><i class="fa fa-circle-o"></i> Afiliarse
+                                a una casa</a></li>
+                        <li id="afiliacionesC"><a href="{{route("listadoafiliaciones")}}"><i class="fa fa-circle-o"></i>
+                                Listado de afiliaciones
                             </a></li>
                     </ul>
                 </li>
@@ -138,7 +146,8 @@
                     <ul class="treeview-menu">
                         <li id="perfilUsuario"><a href="{{route('perfilcliente')}}"><i class="fa fa-circle-o"></i>Mi
                                 información</a></li>
-                        <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Cambio de contraseña</a></li>
+                        <li><a href="{{route('modificarpassword')}}"><i class="fa fa-circle-o"></i> Cambio de contraseña</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="header">OTRAS OPCIONES</li>

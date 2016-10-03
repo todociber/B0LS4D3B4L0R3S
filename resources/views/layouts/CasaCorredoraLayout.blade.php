@@ -21,7 +21,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
     {!! Html::style('assets/css/font-awesome.css') !!}
     {!! Html::style('dist/css/select2.css') !!}
             <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.css">
+
     <!-- DataTables -->
     {!! Html::style('assets/plugins/datatables/dataTables.bootstrap.css') !!}
             <!-- Theme style -->
@@ -153,37 +153,39 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                 @endif
                 @if($autorizador || $agenteCorredor)
 
-                <li id="ordenes" class=" treeview">
-                    <a href="#">
-                        <i class="fa fa-archive"></i> <span>Ordenes</span> <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li id="listadoOrdenes"><a href="{{route('Ordenes.index')}}"><i
-                                        class="fa fa-circle-o"></i>Ordenes Vigentes</a></li>
+                    <li id="ordenes" class=" treeview">
+                        <a href="#">
+                            <i class="fa fa-archive"></i> <span>Ordenes</span> <i
+                                    class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li id="listadoOrdenes"><a href="{{route('Ordenes.index')}}"><i
+                                            class="fa fa-circle-o"></i>Ordenes Vigentes</a></li>
 
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
                 @endif
                 @if($autorizador)
-                <li id="Afiliaciones" class=" treeview">
-                    <a href="#">
-                        <i class="fa fa-archive"></i> <span>Afiliaciones</span> <i
-                                class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.index')}}"><i
-                                        class="fa fa-circle-o"></i>Solicitudes de Afiliacion</a></li>
-                        <li id="listadoOrdenes"><a href="{{route('Afiliados.index')}}"><i
-                                        class="fa fa-circle-o"></i>Afiliados</a></li>
+                    <li id="Afiliaciones" class=" treeview">
+                        <a href="#">
+                            <i class="fa fa-archive"></i> <span>Afiliaciones</span> <i
+                                    class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.index')}}"><i
+                                            class="fa fa-circle-o"></i>Solicitudes de Afiliacion</a></li>
+                            <li id="listadoOrdenes"><a href="{{route('Afiliados.index')}}"><i
+                                            class="fa fa-circle-o"></i>Afiliados</a></li>
 
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
                 @endif
 
                 <li class="header">OTRAS OPCIONES</li>
                 @if($administrador)
-                <li><a href={{route('Latch.index')}}><i class="fa fa-circle-o text-red"></i> <span>Vincular Latch</span></a>
-                </li>
+                    <li><a href={{route('Latch.index')}}><i class="fa fa-circle-o text-red"></i>
+                            <span>Vincular Latch</span></a>
+                    </li>
                 @endif
                 <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Perfil</span></a></li>
 

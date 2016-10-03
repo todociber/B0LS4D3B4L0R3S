@@ -1,4 +1,4 @@
-@extends('layouts.bolsavalores')
+@extends('layouts.loginLayout')
 
 @section('content')
     <div class="container">
@@ -14,7 +14,7 @@
                             {{ csrf_field() }}
 
                             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                                <label for="email" class="col-md-4 control-label">Correo electrónico</label>
 
                                 <div class="col-md-6">
                                     <input id="email" type="email" class="form-control" name="email"
@@ -29,7 +29,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                <label for="password" class="col-md-4 control-label">Password</label>
+                                <label for="password" class="col-md-4 control-label">Contraseña</label>
 
                                 <div class="col-md-6">
                                     <input id="password" type="password" class="form-control" name="password">
@@ -52,16 +52,27 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="col-md-6 col-md-offset-4">
+
+                            <div class="col-md-8 col-md-offset-4">
+                                <div class="col-md-4 ">
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-btn fa-sign-in"></i> Iniciar Session
+                                        <i class="fa fa-btn fa-sign-in"></i> Iniciar Sesion
                                     </button>
 
 
                                 </div>
+                                <div class="col-md-4 ">
+                                    <a href="{{route('Registro.index')}}" class="">
+                                        Registrarse
+                                    </a>
+
+
+                                </div>
                             </div>
+
+
                         </form>
+
                     </div>
                 </div>
             </div>

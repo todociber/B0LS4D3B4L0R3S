@@ -76,6 +76,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('Cliente/Miperfil', 'ClientesController@miPerfilUsuario')->name('perfilcliente');
     Route::get('Cliente/ModificarPerfil', 'ClientesController@modificarPerfil')->name('modificarperfilCliente');
     Route::post('Cliente/setModificarPerfil', 'ClientesController@modificarPerfilCliente')->name('setmodificarperfil');
+    Route::get('Cliente/AfiliarseCasa', 'ClientesController@AfiliacionCliente')->name('afiliarsecasa');
+    Route::post('Cliente/AfiliarseCasaStore', 'ClientesController@AfiliacionClienteStore')->name('afiliacioncasastore');
+    Route::get('Cliente/ListadoAfiliaciones', 'ClientesController@ListadoAfiliaciones')->name('listadoafiliaciones');
+    Route::get('Cliente/ListadoSolicitudes', 'ClientesController@ListadoSolicitudes')->name('listadoafiliaciones');
+    Route::get('Cliente/CuentasCedevales', 'ClientesController@CuentasCedevales')->name('cuentascedevales');
+    Route::delete('Cliente/eliminarCedeval', 'ClientesController@EliminarCedeval')->name('eliminarcedeval');
+    Route::post('Cliente/agregarCedeval', 'ClientesController@AgregarCedeval')->name('agregarcedeval');
+    Route::get('Cliente/cambiarPassword', 'ClientesController@modificarPassword')->name('modificarpassword');
+    Route::put('Cliente/cambiarPasswordUpdate', 'ClientesController@modificarPasswordUpdate')->name('modificarpasswordupdate');
 
     //
     Route::resource('Clientes', 'ClientesController');

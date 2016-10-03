@@ -8,7 +8,7 @@
         <!-- Font Awesome -->
 {!! Html::style('assets/css/font-awesome.css') !!}
         <!-- Ionicons -->
-<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.css">
+
 <!-- DataTables -->
 {!! Html::style('assets/plugins/datatables/dataTables.bootstrap.css') !!}
         <!-- Theme style -->

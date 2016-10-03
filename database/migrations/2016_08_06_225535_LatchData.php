@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class LatchData extends Migration
 {
@@ -14,7 +14,7 @@ class LatchData extends Migration
     {
         Schema::create('LatchDataToken', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('tokenLatch',500);
+            $table->string('tokenLatch', 500);
             $table->integer('idUsuario')->unsigned();
             $table->foreign('idUsuario')->references('id')->on('usuarios');
             $table->timestamps();

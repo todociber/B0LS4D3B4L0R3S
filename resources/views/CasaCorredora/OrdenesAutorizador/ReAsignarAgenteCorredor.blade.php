@@ -180,6 +180,8 @@
 
                         </div><!-- /.col -->
                     </div><!-- /.row -->
+                </div><!-- /.row -->
+            </div><!-- /.row -->
 
         </section>
     @endforeach

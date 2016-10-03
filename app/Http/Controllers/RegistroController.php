@@ -107,11 +107,16 @@ class RegistroController extends Controller
             } else if (!$this->verifyCedeval($request['cedeval'])) {
                 flash('Ha ingresado cuentas cedevales repetidas', 'info');
                 return redirect()->route('Registro.index');
+            } else if (Carbon::now()->diffInDays(Carbon::parse($request['nacimiento']), false) < 18) {
+
+
+                flash('Debe ser mayor de de 18 años', 'danger');
+                return redirect()->route('Registro.index');
             } else {
 
                 $usuario->fill(
                     [
-                        'idOrganizacion' => 17,
+
                         'nombre' => $request['nombre'],
                         'apellido' => $request['apellido'],
                         'email' => $request['email'],
@@ -139,7 +144,7 @@ class RegistroController extends Controller
                         'idUsuario' => $usuario->id,
                         'dui' => $request['dui'],
                         'nit' => $request['nit'],
-                        'fecha de nacimiento' => Carbon::parse($request['nacimiento'])->format('Y-m-d'),
+                        'fechaDeNacimiento' => Carbon::parse($request['nacimiento'])->format('Y-m-d'),
 
                     ]
                 );
@@ -171,6 +176,7 @@ class RegistroController extends Controller
                     'idCliente' => $clientes->id,
                     'idOrganizacion' => $request['casaCorredora'],
                     'numeroDeAfiliado' => $request['numeroafiliacion'],
+                    'idEstadoSolicitud' => 1,
                 ]);
                 $solicitud->save();
 
