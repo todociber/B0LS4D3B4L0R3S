@@ -11,6 +11,7 @@ use ErrorException;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Latch;
 use Mockery\CountValidator\Exception;
 use Validator;
@@ -65,6 +66,8 @@ class AuthController extends Controller
 
     protected function authenticated($request, $usuario)
     {
+        Log::info('TESTT');
+
         $rolIdentificador = new RolIdentificador();
         /*
          * 1- ADMNISTRADOR BOLSA DE VALORES

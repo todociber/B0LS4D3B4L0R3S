@@ -61,10 +61,11 @@
 
                 this.on("success", function (file, data) {
                     waitingDialog.hide();
+                    console.log(JSON.stringify(data));
                     dataError = data.error;
                     if (data.error == '0') {
                         $('#modalbody').text('Datos guardados con exito');
-
+                        window.location.href = '{{route('listadoCasas')}}'
 
                     }
                     else if (data.error == '2') {

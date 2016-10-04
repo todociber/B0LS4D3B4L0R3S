@@ -126,12 +126,12 @@
                         <span>Mi Perfil</span>
                     </a>
                 </li>
-                <li id="bitacoras" class="treeview">
+                <!--<li id="bitacoras" class="treeview">
                     <a href="bitacora.html">
                         <i class="fa fa-home"></i>
                         <span>Bitacoras</span>
                     </a>
-                </li>
+                </li>-->
             </ul>
         </section>
         <!-- /.sidebar -->

@@ -106,7 +106,7 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">Menu</li>
-                <?php $count = \App\Models\SolicitudRegistro::where("idCliente", Auth::user()->ClienteN)->where("idEstadoSolicitud", 2)->count();?>
+                <?php $count = \App\Models\SolicitudRegistro::where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", 2)->count();?>
                 @if($count> 0)
                 <li id="ordenes" class=" treeview">
                     <a href="#">

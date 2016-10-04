@@ -47,7 +47,7 @@ class ClientesController extends Controller
     public function NuevaOrden()
     {
 
-        $count = SolicitudRegistro::where("idCliente", Auth::user()->ClienteN)->where("idEstadoSolicitud", 2)->count();
+        $count = SolicitudRegistro::where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", 2)->count();
         if ($count > 0) {
 
         $idCliente = Auth::user()->ClienteN->id;
@@ -654,7 +654,7 @@ class ClientesController extends Controller
                 [
                     'idCliente' => Auth::user()->ClienteN->id,
                     'idOrganizacion' => $request["casas"],
-                    'numeroDeAfiiado' => $request['afiliacion'],
+                    'numeroDeAfiliado' => $request["afiliacion"],
                     'comentarioDeRechazo' => '',
                     'idEstadoSolicitud' => 1,
 

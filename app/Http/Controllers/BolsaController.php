@@ -11,6 +11,7 @@ use DB;
 use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Mockery\CountValidator\Exception;
 use Validator;
 
@@ -51,8 +52,10 @@ class BolsaController extends Controller
                 'file' => 'required',
             ]);
             if (!$validator->fails()) {
-                $codCasa = DB::table('organizacion')->where('organizacion.codigo', '=', $request['codigo'])->count();
+                $codCasa = Organizacion::where('codigo', $request['codigo'])->count();
+                Log::info($codCasa);
                 if ($codCasa == 0) {
+
                     $path = $this->Upload($request);
                     if ($path != 'error') {
                         $date = Carbon::now();
@@ -132,7 +135,7 @@ class BolsaController extends Controller
                 'apellido' => 'admin',
                 'email' => $correo,
                 'idOrganizacion' => $organizacion->id,
-                'password' => Hash::make($pass),
+                'password' => Hash::make('12345'),
             ]
         );
         $usuario->save();
