@@ -4,19 +4,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     @yield('title')
-    <!-- Tell the browser to be responsive to screen width -->
+            <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
     {!! Html::style('assets/css/bootstrap.css') !!}
-    <!-- Font Awesome -->
+            <!-- Font Awesome -->
     {!! Html::style('assets/css/font-awesome.css') !!}
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.css">
+            <!-- Ionicons -->
     <!-- DataTables -->
     {!! Html::style('assets/plugins/datatables/dataTables.bootstrap.css') !!}
-    <!-- Theme style -->
+            <!-- Theme style -->
     {!! Html::style('assets/dist/css/AdminLTE.css') !!}
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
+            <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     {!! Html::style('assets/dist/css/skins/_all-skins.css') !!}
 
@@ -49,7 +48,7 @@
 
             <!--  SERO JS -->
     {!! Html::script('assets/js/SERO.js') !!}
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+            <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <![endif]-->
@@ -76,9 +75,9 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
                         <div class="margin-Div">
-                        <a href="{{url('/logout')}}" class="btn btn-danger">
-                           Cerrar Sesión
-                        </a>
+                            <a href="{{url('/logout')}}" class="btn btn-danger">
+                                Cerrar Sesión
+                            </a>
                         </div>
 
                     </li>
@@ -127,12 +126,12 @@
                         <span>Mi Perfil</span>
                     </a>
                 </li>
-                <li id="bitacoras" class="treeview">
+                <!--<li id="bitacoras" class="treeview">
                     <a href="bitacora.html">
                         <i class="fa fa-home"></i>
                         <span>Bitacoras</span>
                     </a>
-                </li>
+                </li>-->
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -154,7 +153,7 @@
 
         <!-- Main content -->
         <section class="content">
-          @yield('content')
+        @yield('content')
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
@@ -183,9 +182,6 @@
             "autoWidth": false
         });
     });
-
-
 </script>
 </body>
 </html>
-
