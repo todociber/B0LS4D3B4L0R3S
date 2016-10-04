@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests;
 use App\Models\Cedeval;
 use App\Models\Cliente;
 use App\Models\Departamento;
@@ -10,12 +11,11 @@ use App\Models\Municipio;
 use App\Models\Organizacion;
 use App\Models\RolUsuario;
 use App\Models\SolicitudRegistro;
-use Illuminate\Http\Request;
 use App\Models\Usuario;
-use App\Http\Requests;
-use Mockery\CountValidator\Exception;
-use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Mockery\CountValidator\Exception;
 
 class RegistroController extends Controller
 {
@@ -107,11 +107,16 @@ class RegistroController extends Controller
             } else if (!$this->verifyCedeval($request['cedeval'])) {
                 flash('Ha ingresado cuentas cedevales repetidas', 'info');
                 return redirect()->route('Registro.index');
+            } else if (Carbon::now()->diffInDays(Carbon::parse($request['nacimiento']), false) < 18) {
+
+
+                flash('Debe ser mayor de de 18 años', 'danger');
+                return redirect()->route('Registro.index');
             } else {
 
                 $usuario->fill(
                     [
-                        'idOrganizacion' => 17,
+
                         'nombre' => $request['nombre'],
                         'apellido' => $request['apellido'],
                         'email' => $request['email'],
@@ -139,7 +144,7 @@ class RegistroController extends Controller
                         'idUsuario' => $usuario->id,
                         'dui' => $request['dui'],
                         'nit' => $request['nit'],
-                        'fecha de nacimiento' => Carbon::parse($request['nacimiento'])->format('Y-m-d'),
+                        'fechaDeNacimiento' => Carbon::parse($request['nacimiento'])->format('Y-m-d'),
 
                     ]
                 );
@@ -171,6 +176,7 @@ class RegistroController extends Controller
                     'idCliente' => $clientes->id,
                     'idOrganizacion' => $request['casaCorredora'],
                     'numeroDeAfiliado' => $request['numeroafiliacion'],
+                    'idEstadoSolicitud' => 1,
                 ]);
                 $solicitud->save();
 
@@ -185,6 +191,33 @@ class RegistroController extends Controller
             return redirect()->route('Registro.index');
         }
 
+    }
+
+    public function verifyCedeval($cedevals)
+    {
+        $CopyCede = $cedevals;
+        $BandFirst = true;
+        $BandTwo = true;
+        $i = 0;
+        $y = 0;
+        while ($BandFirst && $i < count($cedevals)) {
+            $cede1 = $cedevals[$i];
+            while ($BandTwo && $y < count($CopyCede)) {
+                $cede2 = $CopyCede[$y];
+                if ($i != $y) {
+                    if ($cede1['cuenta'] == $cede2['cuenta']) {
+                        $BandFirst = false;
+                        $BandTwo = false;
+
+                    }
+                }
+                $y++;
+            }
+
+            $i++;
+        }
+
+        return $BandFirst;
     }
 
     /**
@@ -221,6 +254,9 @@ class RegistroController extends Controller
         //
     }
 
+
+//PARA VERIFICAR SI EL USUARIO HA INGRESADO CUENTAS CEDEVALS REPETIDAS
+
     /**
      * Remove the specified resource from storage.
      *
@@ -230,35 +266,6 @@ class RegistroController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-
-//PARA VERIFICAR SI EL USUARIO HA INGRESADO CUENTAS CEDEVALS REPETIDAS
-    public function verifyCedeval($cedevals)
-    {
-        $CopyCede = $cedevals;
-        $BandFirst = true;
-        $BandTwo = true;
-        $i = 0;
-        $y = 0;
-        while ($BandFirst && $i < count($cedevals)) {
-            $cede1 = $cedevals[$i];
-            while ($BandTwo && $y < count($CopyCede)) {
-                $cede2 = $CopyCede[$y];
-                if ($i != $y) {
-                    if ($cede1['cuenta'] == $cede2['cuenta']) {
-                        $BandFirst = false;
-                        $BandTwo = false;
-
-                    }
-                }
-                $y++;
-            }
-
-            $i++;
-        }
-
-        return $BandFirst;
     }
 
 }

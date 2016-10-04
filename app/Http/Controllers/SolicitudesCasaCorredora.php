@@ -131,11 +131,25 @@ class SolicitudesCasaCorredora extends Controller
         } catch (Exception $e) {
             return redirect('/home');
         }
+
+        $rolesUsuario = Auth::user()->UsuarioRoles;
+        $autorizadorRol = 0;
+        foreach ($rolesUsuario as $rol) {
+
+            if ($rol->idRol == '3') {
+
+                $autorizadorRol = 1;
+            }
+        }
+
+
         if ($solicitud[0]->idOrganizacion == Auth::user()->idOrganizacion) {
 
             if ($solicitud[0]->idUsuario == null) {
                 return view('CasaCorredora.SolicitudesAfiliacion.DetalleAfiliacion', compact('solicitud'));
             } elseif ($solicitud[0]->idUsuario == Auth::user()->id) {
+                return view('CasaCorredora.SolicitudesAfiliacion.DetalleAfiliacion', compact('solicitud'));
+            } else if ($autorizadorRol == 1) {
                 return view('CasaCorredora.SolicitudesAfiliacion.DetalleAfiliacion', compact('solicitud'));
             } else {
                 return redirect('/SolicitudAfiliacion');
@@ -143,7 +157,7 @@ class SolicitudesCasaCorredora extends Controller
 
 
         } else {
-            return redirect('/home');
+            return redirect('/SolicitudAfiliacion');
         }
 
 
@@ -189,11 +203,31 @@ class SolicitudesCasaCorredora extends Controller
     public function Procesadas()
     {
 
-        $solicitudes = SolicitudRegistro::with('ClienteNSolicitud', 'EstadoSolicitudN')
-            ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
-            ->where('idEstadoSolicitud', '!=', '1')->where('idEstadoSolicitud', '!=', '4')
-            ->where('idUsuario', '=', Auth::user()->id)
-            ->get();
+        $rolesUsuario = Auth::user()->UsuarioRoles;
+        $autorizadorRol = 0;
+        foreach ($rolesUsuario as $rol) {
+
+            if ($rol->idRol == '3') {
+
+                $autorizadorRol = 1;
+            }
+        }
+
+        if ($autorizadorRol == 0) {
+
+            $solicitudes = SolicitudRegistro::with('ClienteNSolicitud', 'EstadoSolicitudN')
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idEstadoSolicitud', '!=', '1')->where('idEstadoSolicitud', '!=', '4')
+                ->where('idUsuario', '=', Auth::user()->id)
+                ->get();
+        } else if ($autorizadorRol == 1) {
+            $solicitudes = SolicitudRegistro::with('ClienteNSolicitud', 'EstadoSolicitudN')
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idEstadoSolicitud', '!=', '1')->where('idEstadoSolicitud', '!=', '4')
+                ->get();
+        }
+
+
         return view('CasaCorredora.SolicitudesAfiliacion.MostrarAfiliacionesProcesadas', compact('solicitudes'));
     }
 

@@ -1,7 +1,7 @@
 @extends('layouts.bolsavalores')
 @section('title')
     <title>Nueva casa</title>
- @stop
+@stop
 
 
 @section('content')
@@ -61,10 +61,11 @@
 
                 this.on("success", function (file, data) {
                     waitingDialog.hide();
+                    console.log(JSON.stringify(data));
                     dataError = data.error;
                     if (data.error == '0') {
                         $('#modalbody').text('Datos guardados con exito');
-
+                        window.location.href = '{{route('listadoCasas')}}'
 
                     }
                     else if (data.error == '2') {
@@ -99,41 +100,41 @@
 
 
     <div class="row">
-    <div class="col-xs-12">
-        <div class="row">
-            <!-- left column -->
-            <div class="col-md-12">
-                <!-- general form elements -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Registro de Casas</h3>
-                    </div><!-- /.box-header -->
-                    <!-- form start -->
+        <div class="col-xs-12">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Registro de Casas</h3>
+                        </div><!-- /.box-header -->
+                        <!-- form start -->
 
-                    <div class="box-body">
-                        <div class="content">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    @include('alertas.errores')
-                                    @include('alertas.flash')
-                                    {{Form::open(['route'=>'Bolsa.store','method' =>'POST', 'id'=>'my-dropzone','class' => 'dropzone', 'files' => true])  }}
-                                    @include('bves.Casas.Formulario.FormularioCasa')
+                        <div class="box-body">
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @include('alertas.errores')
+                                        @include('alertas.flash')
+                                        {{Form::open(['route'=>'Bolsa.store','method' =>'POST', 'id'=>'my-dropzone','class' => 'dropzone', 'files' => true])  }}
+                                        @include('bves.Casas.Formulario.FormularioCasa')
 
                                 </div>
 
+                                </div>
+                        </div>
+                            <div class="box-footer">
+                                {!!Form::submit('Registrar casa', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'clickable','data-style'=>'expand-left'])!!}
                             </div>
-                        </div>
-                        <div class="box-footer">
-                            {!!Form::submit('Registrar casa', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'clickable','data-style'=>'expand-left'])!!}
-                        </div>
-                        {{ Form::close() }}
+                            {{ Form::close() }}
                     </div>
 
-                </div><!-- /.box -->
+                    </div><!-- /.box -->
+            </div>
             </div>
         </div>
     </div>
-</div>
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -153,4 +154,4 @@
         </div>
     </div>
 
- @stop
+@stop

@@ -22,7 +22,7 @@ class RequestOrdenAutorizador extends Request
     public function rules()
     {
         return [
-            'agentes' => 'required|exists:usuarios,id',
+            'AgenteCorredor' => 'required|exists:usuarios,id',
             'Comision' => 'required|min:0'
         ];
     }

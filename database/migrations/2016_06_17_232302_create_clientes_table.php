@@ -16,7 +16,7 @@ class CreateClientesTable extends Migration
             $table->increments('id');
             $table->string('dui',10)->unique();
             $table->string('nit',17)->unique();
-            $table->date('fecha de nacimiento');
+            $table->date('fechaDeNacimiento');
             $table->integer('idUsuario')->unsigned()->nullable();
             $table->foreign('idUsuario')
                 ->references('id')->on('usuarios');

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests;
 use App\Models\RolUsuario;
 use App\Models\Usuario;
 use App\Utilities\Action;
-use Illuminate\Http\Request;
 use DB;
-use App\Http\Requests;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Mockery\CountValidator\Exception;
@@ -57,7 +57,7 @@ class UsuariosBolsaController extends Controller
                 $activo = ($request['Estado'] == 0) ? 'test' : null;
                 $usuario->fill(
                     [
-                        'idOrganizacion' => 17,
+                        'idOrganizacion' => 1,
                         'nombre' => $request['nombre'],
                         'apellido' => $request['apellido'],
                         'email' => $request['email'],
@@ -88,6 +88,20 @@ class UsuariosBolsaController extends Controller
             return redirect()->route('nuevoUsuario');
 
         }
+
+    }
+
+    public function assignRole($idUsuario)
+    {
+        $rolUsuario = new RolUsuario();
+        $rolUsuario->fill(
+            [
+                'idUsuario' => $idUsuario,
+                'idRol' => 1,
+
+            ]
+        );
+        $rolUsuario->save();
 
     }
 
@@ -257,6 +271,10 @@ class UsuariosBolsaController extends Controller
         }
     }
 
+
+
+    //---CONTROL DE USUARIOS---//
+
     /**
      * Remove the specified resource from storage.
      *
@@ -268,16 +286,14 @@ class UsuariosBolsaController extends Controller
         //
     }
 
-
-
-    //---CONTROL DE USUARIOS---//
-
     public function ListadoUsuario()
     {
 
-        $usuarios = Usuario::withTrashed()->where('idOrganizacion',17)->where('id','!=', Auth::user()->id)->get();
+        $usuarios = Usuario::withTrashed()->where('idOrganizacion', 1)->where('id', '!=', Auth::user()->id)->get();
         return View('bves.Usuarios.ListadoUsuarios',['usuarios'=>$usuarios]);
     }
+
+    //PARA CREAR ROLES
 
     public function NuevoUsuario()
     {
@@ -285,24 +301,10 @@ class UsuariosBolsaController extends Controller
         return View('bves.Usuarios.NuevoUsuario');
     }
 
-    //PARA CREAR ROLES
-    public function assignRole($idUsuario)
-    {
-        $rolUsuario = new RolUsuario();
-        $rolUsuario->fill(
-            [
-                'idUsuario' => $idUsuario,
-                'idRol' => 1,
-
-            ]
-        );
-        $rolUsuario->save();
-
-    }
-
     //---CONTROL DE USUARIOS---//
 
     //Mi perfil
+
     public function MiPerfil()
     {
         return View('bves.Perfil.MiPerfil', ['user'=> Auth::user()]);

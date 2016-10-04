@@ -11,7 +11,6 @@
     <!-- Font Awesome -->
     {!! Html::style('assets/css/font-awesome.css') !!}
     <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.css">
     <!-- DataTables -->
     {!! Html::style('assets/plugins/datatables/dataTables.bootstrap.css') !!}
     <!-- Theme style -->
@@ -127,12 +126,12 @@
                         <span>Mi Perfil</span>
                     </a>
                 </li>
-                <li id="bitacoras" class="treeview">
+                <!--<li id="bitacoras" class="treeview">
                     <a href="bitacora.html">
                         <i class="fa fa-home"></i>
                         <span>Bitacoras</span>
                     </a>
-                </li>
+                </li>-->
             </ul>
         </section>
         <!-- /.sidebar -->

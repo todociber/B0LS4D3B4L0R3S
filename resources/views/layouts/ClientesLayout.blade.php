@@ -47,6 +47,7 @@
 
     {!! Html::style('assets/plugins/datepicker/datepicker3.css') !!}
     {!! Html::script('assets/js/loading.js') !!}
+    {!! Html::script('assets/js/SERO.js') !!}
     {!! Html::style('assets/css/SERO.css') !!}
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -77,37 +78,15 @@
 
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <!-- Messages: style can be found in dropdown.less-->
-                    <!-- Tasks: style can be found in dropdown.less -->
-                    <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <div class="margin-Div">
+                            <a href="{{url('/logout')}}" class="btn btn-danger">
+                                Cerrar Sesión
+                            </a>
+                        </div>
 
-                            <span class="hidden-xs">Nombre del cliente</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <!-- User image -->
-                            <li class="user-header">
-
-                                <p>
-                                    Cliente casa Corredora
-                                    <small>Cliente</small>
-                                </p>
-                            </li>
-                            <!-- Menu Body -->
-
-                            <!-- Menu Footer-->
-                            <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Perfil</a>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Cerrar Sesión</a>
-                                </div>
-                            </li>
-                        </ul>
                     </li>
-                    <!-- Control Sidebar Toggle a -->
+                    <!-- Control Sidebar Toggle Button -->
 
                 </ul>
             </div>
@@ -127,16 +106,22 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">Menu</li>
+                <?php $count = \App\Models\SolicitudRegistro::where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", 2)->count();?>
+                @if($count> 0)
                 <li id="ordenes" class=" treeview">
                     <a href="#">
                         <i class="fa fa-archive"></i> <span>Ordenes</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li  id="listadoOrdenes" ><a href="{{route('listadoordenesclienteV')}}"><i class="fa fa-circle-o"></i>Ordenes Vigentes</a></li>
+                        <li id="listadoOrdenes"><a href="{{route('listadoordenesclienteV')}}"><i
+                                        class="fa fa-circle-o"></i>Ordenes</a></li>
                         <li id="nuevaOrden"><a href="{{route('nuevaOrden')}}"><i class="fa fa-circle-o"></i> Nueva orden</a></li>
                     </ul>
                 </li>
-                <li>
+
+                @endif
+
+                <li id="afiliaciones">
                     <a href="#">
                         <i class="fa fa-home"></i>
                         <span>Afiliación</span>
@@ -144,20 +129,25 @@
 
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="Solicitudes_Afiliacion.html"><i class="fa fa-circle-o"></i>Solicitudes de afiliación</a></li>
-                        <li><a href="afiliacion_form.html"><i class="fa fa-circle-o"></i> Afiliarse a una casa</a></li>
-                        <li ><a href="#"><i class="fa fa-circle-o"></i> Listado de casas afiliado
+                        <li id="listadosolicitudes"><a href="{{route("listadoafiliaciones")}}"><i
+                                        class="fa fa-circle-o"></i>Solicitudes de afiliación</a></li>
+                        <li id="afiliarse"><a href="{{route("afiliarsecasa")}}"><i class="fa fa-circle-o"></i> Afiliarse
+                                a una casa</a></li>
+                        <li id="afiliacionesC"><a href="{{route("listadoafiliaciones")}}"><i class="fa fa-circle-o"></i>
+                                Listado de afiliaciones
                             </a></li>
                     </ul>
                 </li>
-                <li class="treeview">
+                <li id="opcionesPerfil" class=" treeview">
                     <a href="#">
                         <i class="fa fa-th-list"></i>
                         <span>Mi perfil</span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Modificar información</a></li>
-                        <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Cambio de contraseña</a></li>
+                        <li id="perfilUsuario"><a href="{{route('perfilcliente')}}"><i class="fa fa-circle-o"></i>Mi
+                                información</a></li>
+                        <li><a href="{{route('modificarpassword')}}"><i class="fa fa-circle-o"></i> Cambio de contraseña</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="header">OTRAS OPCIONES</li>
@@ -172,10 +162,7 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>
-                Solicitud de afiliación
 
-            </h1>
 
         </section>
 
@@ -183,6 +170,9 @@
         <!-- Main content -->
         <section class="content">
             @yield('content')
+        </section>
+        <section class="content">
+            @yield('content2')
         </section>
 
     </div><!-- /.content-wrapper -->

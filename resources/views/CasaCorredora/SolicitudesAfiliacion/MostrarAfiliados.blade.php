@@ -1,15 +1,21 @@
-@extends('layouts.ClientesLayout')
+@extends('layouts.CasaCorredoraLayout')
 
 @section('title')
-    <title>Usuarios Casa Corredora</title>
+    <title>Afiliados</title>
 
+@stop
+
+
+
+@section('NombrePantalla')
+    Afiliados
 @stop
 @section('content')
 
 
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Nuevo Usuario</h3>
+            <h3 class="box-title">Afiliados</h3>
         </div><!-- /.box-header -->
         <!-- form start -->
         <div class="box-body">
@@ -21,7 +27,9 @@
                             @include('alertas.errores')
                             <br><br>
 
-                            <table id="example1" class="table table-hover">
+                            <div class="table-responsive">
+                                <table id="example1" class="table table-hover dt-responsive display nowrap"
+                                       cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
@@ -66,7 +74,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-
+                            </div>
                         </div>
                     </div><!--row-->
 
@@ -75,4 +83,5 @@
                 </div>
             </div>
         </div>
+    </div>
 @stop

@@ -26,5 +26,10 @@ class SeederEstadoSolicitud extends Seeder
             'created_at' => new DateTime,
             'updated_at' => new DateTime
         ));
+        DB::table('estado_solicitud')->insert(array(
+            'nombre' => 'Procesando',
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime
+        ));
     }
 }

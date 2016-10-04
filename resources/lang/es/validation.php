@@ -111,6 +111,12 @@ return [
             'unique' => 'Una o varias de las cuentas cedeval ingresadas ya se encuentran registradas',
 
         ],
+        'CuentaCedeval' => [
+            'required' => 'Debe ingresar el número de cuenta',
+            'numeric' => 'La cuenta cedeval solo debe llevar números',
+            'unique' => 'Esta cuenta cedeval ya se encuentra registrada',
+
+        ],
         'direccion' => [
             'required' => 'Debe ingresar la dirección',
         ],
@@ -152,6 +158,15 @@ return [
         ],
         'apellido' => [
             'required' => 'Debe escribir un apellido',
+        ],
+        'passwordActual' => [
+            'required' => 'Debe escribir su contraseña actual',
+        ],
+        'newPassword' => [
+            'required' => 'Debe escribir la nueva contraseña',
+        ],
+        'repitaPassword' => [
+            'required' => 'Debe repetir la contraseña',
         ],
 
 

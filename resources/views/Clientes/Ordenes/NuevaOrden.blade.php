@@ -22,31 +22,31 @@
         $('#nuevaOrden').addClass('active');
 
     </script>
-<div class="box box-primary">
-    <div class="box-header with-border">
-        <h3 class="box-title">Nueva orden</h3>
-    </div><!-- /.box-header -->
-    <!-- form start -->
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Nueva orden</h3>
+        </div><!-- /.box-header -->
+        <!-- form start -->
 
-    <div class="box-body">
-        <div role="form">
-            <div class="row">
-                <div class="col-md-12">
-                    @include('alertas.errores')
-                    @include('alertas.flash')
-                    {{Form::open(['route'=>'Clientes.store','method' =>'POST', 'id'=>'form','role' => 'form'])  }}
-                    @include('Clientes.Ordenes.FormularioOrden.FormularioOrden')
+        <div class="box-body">
+            <div role="form">
+                <div class="row">
+                    <div class="col-md-12">
+                        @include('alertas.errores')
+                        @include('alertas.flash')
+                        {{Form::open(['route'=>'Clientes.store','method' =>'POST', 'id'=>'form','role' => 'form'])  }}
+                        @include('Clientes.Ordenes.FormularioOrden.FormularioOrden')
 
-                    <div class="box-footer">
-                        <button type="submit" class="btn btn-primary btn-flat">Generar Orden</button>
-                    </div>
-                    {{ Form::close() }}
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary btn-flat">Generar Orden</button>
+                        </div>
+                        {{ Form::close() }}
                 </div>
-            </div><!--row-->
+                </div><!--row-->
 
 
-            <!-- /.box -->
+                <!-- /.box -->
+            </div>
         </div>
-    </div>
 </div>
 @stop
