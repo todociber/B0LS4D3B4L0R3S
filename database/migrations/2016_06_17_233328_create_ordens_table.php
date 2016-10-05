@@ -48,7 +48,6 @@ class CreateOrdensTable extends Migration
                 ->references('id')->on('cedevals');
             $table->foreign('idOrden')
                 ->references('id')->on('ordenes');
-
             $table->timestamps();
             $table->softDeletes();
         });
