@@ -1,8 +1,74 @@
+<script>
+    var titulos = <?php echo json_encode($titulos); ?>;
 
+
+    $('#pminimo').mask('###0.00', {reverse: true, maxlength: false});
+    $('#pmaximo').mask('###0.00', {reverse: true, maxlength: false});
+    $('#total').mask('###0.00', {reverse: true, maxlength: false});
+
+
+    function getEmisorTasa(valor) {
+        animatedLoading();
+        var arrSplit = valor.split("+");
+        var title = titulos[arrSplit[1]];
+        console.log('TITLE ' + JSON.stringify(title));
+        $('#tasa').val(title.tasaDeInteres);
+        $.ajax({
+
+
+            // la URL para la petición
+            url: '{{route('getemisor',['id'=>""])}}/' + arrSplit[0],
+
+            // la información a enviar
+            // (también es posible utilizar una cadena de datos)
+            data: {_token: $('input[name=_token]').val()},
+
+            // especifica si será una petición POST o GET
+            type: 'GET',
+
+            // el tipo de información que se espera de respuesta
+            dataType: 'json',
+
+            // código a ejecutar si la petición es satisfactoria;
+            // la respuesta es pasada como argumento a la función
+            success: function (json, textStatus, xhr) {
+                console.log('SUCESS ');
+                $('#emisor').val(json.datos.Emisor.nombreEmisor);
+                waitingDialog.hide();
+
+
+            },
+
+            // código a ejecutar si la petición falla;
+            // son pasados como argumentos a la función
+            // el objeto de la petición en crudo y código de estatus de la petición
+            error: function (xhr, status) {
+
+                waitingDialog.hide();
+                //  this.stop();
+            },
+
+            // código a ejecutar sin importar si la petición falló o no
+            complete: function (xhr, status, json) {
+                console.log('FINISH');
+                waitingDialog.hide();
+                if (xhr.status == 450) {
+
+
+                    var response = JSON.parse(xhr.responseText);
+                    $('#modalbody').text(response.error);
+
+                    $('#modal').modal('show');
+                }
+
+            }
+        });
+    }
+</script>
 <div class="form-group">
     <br><br>
     <label for="exampleInputEmail1">Cuenta CEDEVAL</label>
-    {{Form::select('cuentacedeval',$cedeval,$cedeval = isset($orden) ? $orden->CuentaCedeval->cuenta: null,['class'=>'form-control', 'id'=>'estado'])}}
+    {{Form::select('cuentacedeval',$cedeval,$cedeval = isset($orden) ? $orden->CuentaCedeval->cuenta: null,['class'=>'form-control','required', 'id'=>'cuenta', 'required'])}}
 </div>
 <div class="form-group">
 
@@ -20,7 +86,7 @@
 </div>
 <div class="form-group">
     <label for="exampleInputEmail1">Seleccione el mercado</label>
-    <select type="text" class="form-control" id="mercado" name="mercado">
+    <select type="text" class="form-control" required id="mercado" name="mercado">
         <option>Accion Primario</option>
         <option>Accion Secundario</option>
         <option>Primario</option>
@@ -33,29 +99,34 @@
     <h5 class="text-center"><strong>Caracteristicas de valor</strong> </h5>
     <div class="form-group">
         <label for="exampleInputEmail1">Seleccione el titulo de valor a adquirir</label>
-        <select type="text" class="form-control" name="titulo">
-            <option>ASESUISA</option>
-            <option>AACSA</option>
-            <option>AASESUISAV</option>
+        <select type="text" class="form-control" name="titulo" onchange="getEmisorTasa(this.value)">
+            {{$i =0}}
+            @foreach($titulos as $titulo)
+                <option value="{{$titulo->id}}+{{$i}}">{{$titulo->nombreTitulo}}</option>
+                {{$i++}}
+            @endforeach
         </select>
     </div>
 </div>
 <div class="form-group">
-    <label for="exampleInputEmail1">Emisor</label>
     {{ Form::label('Emisor') }}
-    {{ Form::text('emisor',null,['class'=>'form-control','placeholder'=>'Ingrese el emisor', 'id'=>'emisor']) }}
+    {{ Form::text('emisor',null,['class'=>'form-control','disabled','placeholder'=>'Ingrese el emisor','required', 'id'=>'emisor']) }}
+</div>
+<div class="form-group">
+    {{ Form::label('Tasa de interes') }}
+    {{ Form::number('tasaDeInteres',null,['class'=>'form-control','disabled','placeholder'=>'Ingrese la tasa de interes','required', 'id'=>'tasa']) }}
 </div>
 <div class="form-group">
     {{ Form::label('Precio minimo el cual desea comprar/vender el valor') }}
-    {{ Form::text('valorMinimo',null,['class'=>'form-control','placeholder'=>'Ingrese el precio minimo', 'id'=>'pminimo']) }}
+    {{ Form::number('valorMinimo',null,['class'=>'form-control','placeholder'=>'Ingrese el precio minimo', 'id'=>'pminimo','required']) }}
 </div>
 <div class="form-group">
     {{ Form::label('Precio máximo el cual desea comprar/vender el valor') }}
-    {{ Form::text('valorMaximo',null,['class'=>'form-control','placeholder'=>'Ingrese el precio maximo', 'id'=>'pmaximo']) }}
+    {{ Form::number('valorMaximo',null,['class'=>'form-control','placeholder'=>'Ingrese el precio maximo', 'id'=>'pmaximo','required']) }}
 </div>
 <div class="form-group" id="monto">
     {{ Form::label('Ingrese el monto de la inversion') }}
-    {{ Form::text('monto',null,['class'=>'form-control','placeholder'=>'Ingrese el monto de la inversión']) }}
+    {{ Form::number('monto',null,['class'=>'form-control','id'=>'total','placeholder'=>'Ingrese el monto de la inversión','required']) }}
 </div>
 
 <div class="form-group">
@@ -65,7 +136,7 @@
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
-        {{ Form::text('FechaDeVigencia',null,['class'=>'form-control input-pointer','placeholder'=>'Ingresa la fecha de vigencia de la orden (dd/mm/yyyy)', 'id'=>'datepicker']) }}
+        {{ Form::text('FechaDeVigencia',null,['class'=>'form-control input-pointer','required','placeholder'=>'Ingresa la fecha de vigencia de la orden (dd/mm/yyyy)', 'id'=>'datepicker']) }}
     </div>
 </div>
 

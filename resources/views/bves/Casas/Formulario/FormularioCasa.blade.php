@@ -4,12 +4,12 @@
 </div>
 <div class="form-group">
     {{ Form::label('Codigo') }}
-    {{ Form::text('codigo',null,['class'=>'form-control','placeholder'=>'Ingresa el código asignado a la organización','required']) }}
+    {{ Form::text('codigo',null,['id'=>'codigo','class'=>'form-control','placeholder'=>'Ingresa el código asignado a la organización','required']) }}
 </div>
 
 <div class="form-group">
     {{ Form::label('Correo electrónico') }}
-    {{ Form::text('correo',null,['class'=>'form-control','placeholder'=>'Ingresa el correo de la organización','required']) }}
+    {{ Form::email('correo',null,['class'=>'form-control','placeholder'=>'Ingresa el correo de la organización','required']) }}
 </div>
 <div class="form-group">
     {{ Form::label('Dirección') }}
@@ -17,7 +17,7 @@
 </div>
 <div class="form-group">
     {{ Form::label('Teléfono') }}
-    {{ Form::text('telefono',null,['class'=>'form-control','placeholder'=>'Ingresa el teléfono de la organización','required']) }}
+    {{ Form::text('telefono',null,['id'=>'telefono','class'=>'form-control','placeholder'=>'Ingresa el teléfono de la organización','required']) }}
 </div>
 
 <div class="form-group">

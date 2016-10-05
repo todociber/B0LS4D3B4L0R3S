@@ -49,6 +49,7 @@
     {!! Html::script('assets/js/loading.js') !!}
     {!! Html::script('assets/js/SERO.js') !!}
     {!! Html::style('assets/css/SERO.css') !!}
+    {!! Html::script('assets/js/jquery.mask.min.js') !!}
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -98,8 +99,8 @@
         <section class="sidebar">
             <div class="user-panel">
                 <div class="pull-left info">
-                    <p>Rigoberto Gómez</p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    <p>{{Auth::user()->nombre}}</p>
+
                 </div>
             </div>
 

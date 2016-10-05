@@ -28,7 +28,7 @@
                                     <div class="col-md-12">
                                         @include('alertas.errores')
                                         @include('alertas.flash')
-                                        {{Form::open(['route'=>'UsuarioBolsa.store','method' =>'POST', 'id'=>'form','role' => 'form'])  }}
+                                        {{Form::open(['route'=>'UsuarioBolsa.store','method' =>'POST', 'id'=>'form','role' => 'form', 'onsubmit'=>'animatedLoading()'])  }}
                                         @include('bves.Usuarios.FormularioUserBolsa.FormularioUserBolsa')
 
                                     </div>
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="box-footer">
-                                {!!Form::submit('Registrar Usuario', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit', 'onclick'=>"waitingDialog.show('Procesando... ',{ progressType: 'info'})"])!!}
+                                {!!Form::submit('Registrar Usuario', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit'])!!}
                             </div>
                             {{ Form::close() }}
 

@@ -22,16 +22,16 @@
                             <div class="content">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        {{Form::model($usuario,['route'=>['UsuarioBolsa.update', $usuario->id],'method' =>'PUT', 'id'=>'form','role' => 'form'])  }}
+                                        {{Form::model($usuario,['route'=>['UsuarioBolsa.update', $usuario->id],'method' =>'PUT', 'id'=>'form','role' => 'form','onsubmit'=>'animatedLoading()'])  }}
                                             <div class="form-group">
                                                 {!!   Form::label('Nombre')!!}
-                                                {!!   Form::text('nombre',null,['class'=>'form-control','placeholder'=>'Ingresa tu nombre']) !!}
+                                                {!!   Form::text('nombre',null,['class'=>'form-control','placeholder'=>'Ingresa tu nombre','required']) !!}
                                             </div>
                                             <div class="form-group">
                                                 {{ Form::label('Apellido') }}
-                                                {{ Form::text('apellido',null,['class'=>'form-control','placeholder'=>'Ingresa tu apellido']) }}
+                                                {{ Form::text('apellido',null,['class'=>'form-control','placeholder'=>'Ingresa tu apellido','required']) }}
                                             </div>
-                                            {!!Form::submit('Modificar información', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit', 'onclick'=>"waitingDialog.show('Procesando... ',{ progressType: 'info'})"])!!}
+                                        {!!Form::submit('Modificar información', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit'])!!}
                                             {{ Form::close() }}
 
 

@@ -45,8 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('bolsa/NuevaCasa','BolsaController@NuevaCasa')->name('nuevaCasa');
     Route::get('bolsa/EditarCasa/{id}', 'BolsaController@editarCasa')->name('editarCasa');
     Route::get('bolsa/ListadoCasas','BolsaController@ListadoCasas')->name('listadoCasas');
-    Route::get('bolsa/EliminarCasa/{id}', 'BolsaController@eliminarCasa')->name('eliminarCasa');
-    Route::get('bolsa/RestaurarCasa/{id}', 'BolsaController@RestoreCasa')->name('restaurarcasa');
+    Route::post('bolsa/EliminarRestaurar', 'BolsaController@eliminarRestaurarCasa')->name('eliminarrestaurarcasas');
     Route::resource('Bolsa', 'BolsaController');
     Route::post('bolsa/Upload', 'BolsaController@Upload')->name('upload');
 
@@ -55,7 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('bolsa/NuevoUsuario', 'UsuariosBolsaController@NuevoUsuario')->name('nuevoUsuario');
     Route::get('bolsa/ModificarUsuario/{id}', 'UsuariosBolsaController@ModificarUsuario')->name('modificarusuario');
     Route::get('bolsa/MiPerfil', 'UsuariosBolsaController@MiPerfil')->name('miPerfil');
-    Route::get('bolsa/EliminarUsuario/{id}', 'UsuariosBolsaController@EliminarUsuario')->name('eliminarusuario');
+    Route::post('bolsa/EliminarRestaurarUsuario', 'UsuariosBolsaController@EliminarRestaurarUsuario')->name('eliminarrestaurar');
     Route::get('bolsa/RestaurarUsuario/{id}', 'UsuariosBolsaController@RestaurarUsuario')->name('restaurarusuario');
     Route::get('bolsa/RestaurarPassword/{id}', 'UsuariosBolsaController@resetPassword')->name('restaurarpassword');
 
@@ -85,6 +84,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('Cliente/agregarCedeval', 'ClientesController@AgregarCedeval')->name('agregarcedeval');
     Route::get('Cliente/cambiarPassword', 'ClientesController@modificarPassword')->name('modificarpassword');
     Route::put('Cliente/cambiarPasswordUpdate', 'ClientesController@modificarPasswordUpdate')->name('modificarpasswordupdate');
+    Route::get('Cliente/getEmisor/{id}', 'ClientesController@getEmisor')->name('getemisor');
 
     //
     Route::resource('Clientes', 'ClientesController');

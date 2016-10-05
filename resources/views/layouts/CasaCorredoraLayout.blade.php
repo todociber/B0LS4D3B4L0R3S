@@ -57,7 +57,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
     {!! Html::style('assets/plugins/datepicker/datepicker3.css') !!}
     {!! Html::script('assets/js/loading.js') !!}
     {!! Html::style('assets/css/SERO.css') !!}
-
+    {!! Html::script('assets/js/jquery.mask.min.js') !!}
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

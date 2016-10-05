@@ -17,6 +17,7 @@ use App\Models\Telefono;
 use App\Models\TipoOrden;
 use App\Models\Usuario;
 use Carbon\Carbon;
+use GuzzleHttp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -49,6 +50,14 @@ class ClientesController extends Controller
 
         $count = SolicitudRegistro::where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", 2)->count();
         if ($count > 0) {
+            $client = new GuzzleHttp\Client();
+            $res = $client->request('GET', 'https://e60e591e.ngrok.io/GetTitulos');
+            $bodyJ = $res->getBody();
+            $body = json_decode($bodyJ);
+            Log::info($body->Titulos);
+            if ($body->errorCode == 0) {
+                $titulos = $body->Titulos;
+
 
         $idCliente = Auth::user()->ClienteN->id;
         $cedeval = Cedeval::where('idCliente', $idCliente)->lists('cuenta', 'id');
@@ -58,12 +67,32 @@ class ClientesController extends Controller
         })->lists('nombre', 'id');
         $tipoOrden = TipoOrden::lists('nombre', 'id');
 
-        return View('Clientes.Ordenes.NuevaOrden', ['cedeval' => $cedeval, 'casas' => $casas, 'Tipoorden' => $tipoOrden]);
-
+                return View('Clientes.Ordenes.NuevaOrden', ['cedeval' => $cedeval, 'casas' => $casas, 'Tipoorden' => $tipoOrden, 'titulos' => $titulos]);
+            } else {
+                return redirect()->route("afiliarsecasa");
+            }
         } else {
 
             return redirect()->route("afiliarsecasa");
         }
+    }
+
+    public function getEmisor($id)
+    {
+        try {
+
+            $client = new GuzzleHttp\Client();
+            $res = $client->request('GET', "http://e60e591e.ngrok.io/GetEmisores/$id/titulo");
+            $bodyJ = $res->getBody();
+            $body = json_decode($bodyJ);
+
+            return response()->json(["error" => 0, "datos" => $body], 200);
+
+        } catch (Exception $e) {
+            return response()->json(["error" => 1, "datos" => $body], 200);
+
+        }
+
     }
 
     //LISTADO DE ORDENES SIN IMPORTAR ESTADO
@@ -168,16 +197,17 @@ class ClientesController extends Controller
     {
         try {
             $this->validate($request, [
-                'cuentacedeval' => 'required',
+                'cuentacedeval' => 'required|integer',
                 'casacorredora' => 'required',
-                'tipodeorden' => 'required|numeric',
+                'tipodeorden' => 'required|numeric|integer',
                 'mercado' => 'required',
                 'titulo' => 'required',
                 'emisor' => 'required',
-                'valorMinimo' => 'required|numeric',
-                'valorMaximo' => 'required|numeric',
-                'monto' => 'required|numeric',
+                'valorMinimo' => 'required|numeric|min:0',
+                'valorMaximo' => 'required|numeric|min:0',
+                'monto' => 'required|numeric|min:0',
                 'FechaDeVigencia' => 'required|date',
+                'tasaDeInteres' => 'required|numeric|min:0',
 
             ]);
 
@@ -211,7 +241,7 @@ class ClientesController extends Controller
                 flash('La fecha de vigencia no debe ser mayor a 2 meses', 'info');
                 return redirect()->route('nuevaOrden');
             } else {
-                $result = DB::statement('call NuevaOrden(?,?,?,?,?,?,?,?,?,?,?)',
+                $result = DB::statement('call NuevaOrden(?,?,?,?,?,?,?,?,?,?,?,?)',
                     array(Auth::user()->ClienteN->id,
                         Carbon::parse($request['FechaDeVigencia'])->format('Y-m-d'),
                         $request['tipodeorden'],
@@ -222,7 +252,8 @@ class ClientesController extends Controller
                         number_format((float)$request['monto'], 2, '.', ''),
                         $request['cuentacedeval'],
                         $request['emisor'],
-                        $request['mercado'])
+                        $request['mercado'],
+                        $request['tasaDeInteres'])
                 );
 
 
@@ -381,6 +412,7 @@ class ClientesController extends Controller
                 'mercado' => 'required',
                 'titulo' => 'required',
                 'emisor' => 'required',
+                'tasaDeInteres' => 'required|numeric',
                 'valorMinimo' => 'required|numeric',
                 'valorMaximo' => 'required|numeric',
                 'monto' => 'required|numeric',
@@ -410,7 +442,7 @@ class ClientesController extends Controller
 
             } else if (Carbon::now()->diffInDays(Carbon::parse($request['FechaDeVigencia']), false) < 2) {
 
-
+                /**/
                 flash('La fecha de vigencia no debe ser menor a 2 días', 'info');
 
                 return redirect()->route('modificarorden', ["id" => $id]);
@@ -445,6 +477,7 @@ class ClientesController extends Controller
                         'idCuentaCedeval' => $request['cuentacedeval'],
                         'emisor' => $request['emisor'],
                         'TipoMercado' => $request['mercado'],
+                        'tasaDeInteres' => $request['tasaDeInteres'],
 
                     ]
                 );
@@ -508,11 +541,11 @@ class ClientesController extends Controller
             $this->validate($request, [
                 'nombre' => 'required',
                 'apellido' => 'required',
-                'dui' => 'required|numeric',
-                'nit' => 'required|numeric',
+                'dui' => 'required|numeric|digits:9|min:0',
+                'nit' => 'required|numeric|digits:14|min:0',
                 'fechaDeNacimiento' => 'required|date',
-                'numeroCasa' => 'required|numeric',
-                'numeroCelular' => 'required|numeric',
+                'numeroCasa' => 'required|numeric|digits:8|min:0',
+                'numeroCelular' => 'required|numeric|digits:8|min:0',
                 'departamento' => 'required',
                 'municipio' => 'required',
                 'direccion' => 'required',
@@ -540,8 +573,7 @@ class ClientesController extends Controller
                 flash('El email ingresado ya pertenece a un usuario', 'danger');
                 return redirect()->route('modificarperfilCliente');
 
-            } else if (Carbon::now()->diffInDays(Carbon::parse($request['fechaDeNacimiento']), false) < 18) {
-
+            } else if (Carbon::parse($request['fechaDeNacimiento'])->diffInYears(Carbon::now(), false) < 18) {
 
                 flash('Debe ser mayor de de 18 años', 'danger');
                 return redirect()->route('modificarperfilCliente');
@@ -646,7 +678,7 @@ class ClientesController extends Controller
         try {
             $this->validate($request, [
                 'casas' => 'required',
-                'afiliacion' => 'required',
+                'numeroafiliacion' => 'required|numeric|digits:5|integer|min:0',
 
             ]);
             $afiliacion = new SolicitudRegistro();
@@ -654,7 +686,7 @@ class ClientesController extends Controller
                 [
                     'idCliente' => Auth::user()->ClienteN->id,
                     'idOrganizacion' => $request["casas"],
-                    'numeroDeAfiliado' => $request["afiliacion"],
+                    'numeroDeAfiliado' => $request["numeroafiliacion"],
                     'comentarioDeRechazo' => '',
                     'idEstadoSolicitud' => 1,
 
@@ -737,7 +769,7 @@ class ClientesController extends Controller
     {
         try {
             $this->validate($request, [
-                'CuentaCedeval' => 'required|numeric|unique:cedevals,cuenta',
+                'CuentaCedeval' => 'required|numeric|unique:cedevals,cuenta|digits:10|integer|min:0',
 
             ]);
 

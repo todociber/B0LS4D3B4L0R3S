@@ -11,6 +11,7 @@ use App\Models\Municipio;
 use App\Models\Organizacion;
 use App\Models\RolUsuario;
 use App\Models\SolicitudRegistro;
+use App\Models\Telefono;
 use App\Models\Usuario;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -83,35 +84,37 @@ class RegistroController extends Controller
             $this->validate($request, [
                 'nombre' => 'required',
                 'apellido' => 'required',
-                'dui' => 'required|unique:clientes,dui|numeric',
-                'nit' => 'required|unique:clientes,nit|numeric',
+                'dui' => 'required|unique:clientes,dui|numeric|integer|digits:9|min:0',
+                'nit' => 'required|unique:clientes,nit|numeric|integer|digits:14|min:0',
                 'nacimiento' => 'required|date',
-                'numeroCasa' => 'required|numeric',
-                'numeroCelular' => 'required|numeric',
+                'numeroCasa' => 'required|numeric|digits:8|min:0|integer',
+                'numeroCelular' => 'required|numeric|digits:8|min:0|integer',
                 'departamento' => 'required',
                 'municipio' => 'required',
                 'direccion' => 'required',
-                'cedeval.*.cuenta' => 'required|numeric|unique:cedevals,cuenta',
+                'cedeval.*.cuenta' => 'required|numeric|unique:cedevals,cuenta|digits:10|integer|min:0',
                 'casaCorredora' => 'required',
-                'numeroafiliacion' => 'required|numeric',
+                'numeroafiliacion' => 'required|numeric|digits:5|integer|min:0',
                 'password' => 'required',
                 'password2' => 'required',
                 'email' => 'required|email|unique:usuarios,email',
             ]);
-
+            //return redirect()->back(
             $usuario = new Usuario();
-
             if ($request['password'] != $request['password2']) {
                 flash('Las contraseñas ingresadas no coinciden.', 'info');
-                return redirect()->route('Registro.index');
+                return redirect()->back();
+            } else if (count($request['cedeval']) > 5) {
+                flash('Solo puede ingresar 5 cuentas cedevales', 'info');
+                return redirect()->back();
             } else if (!$this->verifyCedeval($request['cedeval'])) {
                 flash('Ha ingresado cuentas cedevales repetidas', 'info');
-                return redirect()->route('Registro.index');
-            } else if (Carbon::now()->diffInDays(Carbon::parse($request['nacimiento']), false) < 18) {
+                return redirect()->back();
+            } else if (Carbon::parse($request['nacimiento'])->diffInYears(Carbon::now(), false) < 18) {
 
 
                 flash('Debe ser mayor de de 18 años', 'danger');
-                return redirect()->route('Registro.index');
+                return redirect()->back();
             } else {
 
                 $usuario->fill(
@@ -159,7 +162,30 @@ class RegistroController extends Controller
 
                     ]
                 );
+
                 $direccion->save();
+
+                $telefono = new Telefono();
+                $telefono->fill(
+                    [
+                        'numero' => $request['numeroCasa'],
+                        'idCliente' => $clientes->id,
+                        'idTipoTelefono' => 1,
+
+                    ]
+                );
+                $telefono->save();
+
+                $telefono2 = new Telefono();
+                $telefono2->fill(
+                    [
+                        'numero' => $request['numeroCelular'],
+                        'idCliente' => $clientes->id,
+                        'idTipoTelefono' => 2,
+
+                    ]
+                );
+                $telefono2->save();
                 // var_dump($request['cedeval']);
                 /*$key => $value*/
 

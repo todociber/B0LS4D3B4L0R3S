@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Ordene;
 use App\Models\Organizacion;
 use App\Models\RolUsuario;
 use App\Models\Usuario;
@@ -47,8 +48,8 @@ class BolsaController extends Controller
                 'nombre' => 'required',
                 'correo' => 'required|email',
                 'direccion' => 'required',
-                'telefono' => 'required',
-                'codigo' => 'required',
+                'telefono' => 'required|numeric|digits:8',
+                'codigo' => 'required|numeric',
                 'file' => 'required',
             ]);
             if (!$validator->fails()) {
@@ -58,8 +59,8 @@ class BolsaController extends Controller
 
                     $path = $this->Upload($request);
                     if ($path != 'error') {
-                        $date = Carbon::now();
-                        $activo = ($request['estado'] == 0) ? $date : null;
+
+
                         $organizacion = new Organizacion();
                         $organizacion->nombre = $request->input('nombre');
                         $organizacion->logo = $path;
@@ -70,7 +71,7 @@ class BolsaController extends Controller
                         $organizacion->idTipoOrganizacion = 1;
                         $organizacion->save();
 
-                        if ($activo != null) {
+                        if ($request['Estado'] == 0) {
                             $organizacion->delete();
 
                         }
@@ -152,11 +153,25 @@ class BolsaController extends Controller
 
     }
 
-    public function eliminarCasa($id)
+    public function eliminarRestaurarCasa(Request $request)
     {
         try {
-            Organizacion::destroy($id);
+
+            if ($request["tipo"] == 0) {
+                $countOrden = Ordene::where("idOrganizacion", $request["id"])
+                    ->whereNotIn("idEstadoOrden", [1, 2, 4, 5, 6])->count();
+                if ($countOrden == 0) {
+                    Organizacion::destroy($request["id"]);
+                } else {
+
+                    flash('La casa no puede ser removida porque tiene ordenes en curso', 'success');
+
+                }
+            } else {
+                $organizacion = Organizacion::withTrashed()->where('id', '=', $request["id"])->first();
+                $organizacion->restore();
             flash('Estado cambiado con éxito', 'success');
+            }
         } catch (Exception $e) {
             flash('Ocurrio un problema para cambiar el estado', 'danger');
 
@@ -263,7 +278,7 @@ class BolsaController extends Controller
 
     public function ListadoCasas()
     {
-        $organizaciones = Organizacion::withTrashed()->get();
+        $organizaciones = Organizacion::withTrashed()->where("idTipoOrganizacion", "!=", 2)->get();
 
 
         return View('bves.Casas.ListaCasas', ['organizaciones' => $organizaciones]);
