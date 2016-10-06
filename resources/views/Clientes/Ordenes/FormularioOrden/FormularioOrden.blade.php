@@ -1,14 +1,22 @@
 <script>
+            <?php
+            $tituloAct = '';
+            if (isset($orden)) {
+                $tituloAct = $orden->titulo;
+
+            }?>
     var titulos = <?php echo json_encode($titulos); ?>;
 
 
-    $('#pminimo').mask('###0.00', {reverse: true, maxlength: false});
-    $('#pmaximo').mask('###0.00', {reverse: true, maxlength: false});
-    $('#total').mask('###0.00', {reverse: true, maxlength: false});
+    //$('#pminimo').mask('###0.00', {reverse: true, maxlength: false});
+    //$('#pmaximo').mask('###0.00', {reverse: true, maxlength: false});
+    //$('#total').mask('###0.00', {reverse: true, maxlength: false});
 
 
     function getEmisorTasa(valor) {
         animatedLoading();
+        var titulo = $('#selectedTitulo').find(":selected").text();
+        $('#titulo').val(titulo);
         var arrSplit = valor.split("+");
         var title = titulos[arrSplit[1]];
         console.log('TITLE ' + JSON.stringify(title));
@@ -99,34 +107,40 @@
     <h5 class="text-center"><strong>Caracteristicas de valor</strong> </h5>
     <div class="form-group">
         <label for="exampleInputEmail1">Seleccione el titulo de valor a adquirir</label>
-        <select type="text" class="form-control" name="titulo" onchange="getEmisorTasa(this.value)">
+        <select type="text" class="form-control" id="selectedTitulo" onchange="getEmisorTasa(this.value)">
+            <option value="" selected disabled>Elija un titulo de valor</option>
             {{$i =0}}
             @foreach($titulos as $titulo)
-                <option value="{{$titulo->id}}+{{$i}}">{{$titulo->nombreTitulo}}</option>
+
+                <option {{$ts = $tituloAct == $titulo->nombreTitulo ? 'selected':''}} value="{{$titulo->id}}+{{$i}}">{{$titulo->nombreTitulo}}</option>
+
                 {{$i++}}
             @endforeach
         </select>
     </div>
 </div>
+<div class="form-group" style="display: none;">
+    {{ Form::text('titulo',null,['class'=>'form-control','readonly','placeholder'=>'Ingrese el emisor','required', 'id'=>'titulo']) }}
+</div>
 <div class="form-group">
     {{ Form::label('Emisor') }}
-    {{ Form::text('emisor',null,['class'=>'form-control','disabled','placeholder'=>'Ingrese el emisor','required', 'id'=>'emisor']) }}
+    {{ Form::text('emisor',null,['class'=>'form-control','readonly','placeholder'=>'Ingrese el emisor','required', 'id'=>'emisor']) }}
 </div>
 <div class="form-group">
     {{ Form::label('Tasa de interes') }}
-    {{ Form::number('tasaDeInteres',null,['class'=>'form-control','disabled','placeholder'=>'Ingrese la tasa de interes','required', 'id'=>'tasa']) }}
+    {{ Form::number('tasaDeInteres',$tsd = isset($orden) ? $orden->tasaDeInteres:null,['class'=>'form-control','readonly','placeholder'=>'Ingrese la tasa de interes','required', 'id'=>'tasa']) }}
 </div>
 <div class="form-group">
     {{ Form::label('Precio minimo el cual desea comprar/vender el valor') }}
-    {{ Form::number('valorMinimo',null,['class'=>'form-control','placeholder'=>'Ingrese el precio minimo', 'id'=>'pminimo','required']) }}
+    {{ Form::number('valorMinimo',null,['class'=>'form-control','step'=>'0.01','placeholder'=>'Ingrese el precio minimo', 'id'=>'pminimo','required']) }}
 </div>
 <div class="form-group">
     {{ Form::label('Precio máximo el cual desea comprar/vender el valor') }}
-    {{ Form::number('valorMaximo',null,['class'=>'form-control','placeholder'=>'Ingrese el precio maximo', 'id'=>'pmaximo','required']) }}
+    {{ Form::number('valorMaximo',null,['class'=>'form-control','step'=>'0.01','placeholder'=>'Ingrese el precio maximo', 'id'=>'pmaximo','required']) }}
 </div>
 <div class="form-group" id="monto">
     {{ Form::label('Ingrese el monto de la inversion') }}
-    {{ Form::number('monto',null,['class'=>'form-control','id'=>'total','placeholder'=>'Ingrese el monto de la inversión','required']) }}
+    {{ Form::number('monto',null,['class'=>'form-control','step'=>'0.01','id'=>'total','placeholder'=>'Ingrese el monto de la inversión','required']) }}
 </div>
 
 <div class="form-group">

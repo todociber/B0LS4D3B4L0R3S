@@ -136,7 +136,7 @@ class BolsaController extends Controller
                 'apellido' => 'admin',
                 'email' => $correo,
                 'idOrganizacion' => $organizacion->id,
-                'password' => Hash::make('12345'),
+                'password' => bcrypt('12345'),
             ]
         );
         $usuario->save();

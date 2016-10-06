@@ -177,6 +177,12 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                             <li id="listadoOrdenes"><a href="{{route('Afiliados.index')}}"><i
                                             class="fa fa-circle-o"></i>Afiliados</a></li>
 
+                            <li id="listadoOrdenes"><a href="{{route('Solicitudes.procesadas')}}"><i
+                                            class="fa fa-circle-o"></i>Solicitudes procesadas</a></li>
+
+                            <li id="listadoOrdenes"><a href="{{route('Solicitudes.procesando')}}"><i
+                                            class="fa fa-circle-o"></i>Solicitudes en Proceso</a></li>
+
                         </ul>
                     </li>
                 @endif

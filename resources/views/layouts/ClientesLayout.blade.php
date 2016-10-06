@@ -130,10 +130,9 @@
 
                     </a>
                     <ul class="treeview-menu">
-                        <li id="listadosolicitudes"><a href="{{route("listadoafiliaciones")}}"><i
-                                        class="fa fa-circle-o"></i>Solicitudes de afiliación</a></li>
-                        <li id="afiliarse"><a href="{{route("afiliarsecasa")}}"><i class="fa fa-circle-o"></i> Afiliarse
-                                a una casa</a></li>
+                        <li id="listadosolicitudes"><a href="{{route("listadsolicitudes")}}"><i
+                                        class="fa fa-circle-o"></i>Pendiente de aprobación <br/> de cambio</a></li>
+
                         <li id="afiliacionesC"><a href="{{route("listadoafiliaciones")}}"><i class="fa fa-circle-o"></i>
                                 Listado de afiliaciones
                             </a></li>

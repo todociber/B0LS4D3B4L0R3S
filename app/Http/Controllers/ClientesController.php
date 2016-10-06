@@ -69,11 +69,11 @@ class ClientesController extends Controller
 
                 return View('Clientes.Ordenes.NuevaOrden', ['cedeval' => $cedeval, 'casas' => $casas, 'Tipoorden' => $tipoOrden, 'titulos' => $titulos]);
             } else {
-                return redirect()->route("afiliarsecasa");
+                return redirect()->back();
             }
         } else {
 
-            return redirect()->route("afiliarsecasa");
+            return redirect()->back();
         }
     }
 
@@ -99,7 +99,8 @@ class ClientesController extends Controller
     public function ListadoOrdenes()
     {
 
-        $count = SolicitudRegistro::where("idCliente", Auth::user()->ClienteN)->where("idEstadoSolicitud", 2)->count();
+        $count = SolicitudRegistro::where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", 2)->count();
+        Log::info($count);
         if ($count > 0) {
         $idCliente = Auth::user()->ClienteN->id;
 
@@ -109,7 +110,7 @@ class ClientesController extends Controller
         return View('Clientes.Ordenes.ListaOrdenesCliente', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes]);
         } else {
 
-            return redirect()->route("afiliarsecasa");
+            return redirect()->back();
         }
     }
 
@@ -281,16 +282,24 @@ class ClientesController extends Controller
             ->where("idEstadoOrden", "=", 2)
             ->orwhere("idEstadoOrden", 1)->first();
         if (count($orden) > 0) {
+            $client = new GuzzleHttp\Client();
+            $res = $client->request('GET', 'https://e60e591e.ngrok.io/GetTitulos');
+            $bodyJ = $res->getBody();
+            $body = json_decode($bodyJ);
+            Log::info($body->Titulos);
+            if ($body->errorCode == 0) {
+                $titulos = $body->Titulos;
+                $fechaVigencia = Carbon::parse($orden->FechaDeVigencia)->format('m/d/Y');
+                $orden->FechaDeVigencia = $fechaVigencia;
+                $cedeval = Cedeval::where('idCliente', $idCliente)->lists('cuenta', 'id');
+                //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE
+                $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
+                    $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 2);
+                })->lists('nombre', 'id');
+                $tipoOrden = TipoOrden::lists('nombre', 'id');
+                return view('Clientes.Ordenes.ModificarOrden', ['orden' => $orden, 'cedeval' => $cedeval, 'casas' => $casas, 'Tipoorden' => $tipoOrden, 'titulos' => $titulos]);
 
-            $fechaVigencia = Carbon::parse($orden->FechaDeVigencia)->format('m/d/Y');
-            $orden->FechaDeVigencia = $fechaVigencia;
-            $cedeval = Cedeval::where('idCliente', $idCliente)->lists('cuenta', 'id');
-            //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE
-            $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
-                $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 2);
-            })->lists('nombre', 'id');
-            $tipoOrden = TipoOrden::lists('nombre', 'id');
-            return view('Clientes.Ordenes.ModificarOrden', ['orden' => $orden, 'cedeval' => $cedeval, 'casas' => $casas, 'Tipoorden' => $tipoOrden]);
+            }
         } else {
             return redirect()->route('ListadoOrdenesV');
 
@@ -407,16 +416,16 @@ class ClientesController extends Controller
         try {
 
             $this->validate($request, [
-                'cuentacedeval' => 'required',
-                'tipodeorden' => 'required|numeric',
+                'cuentacedeval' => 'required|integer',
+                'tipodeorden' => 'required|numeric|integer',
                 'mercado' => 'required',
                 'titulo' => 'required',
                 'emisor' => 'required',
-                'tasaDeInteres' => 'required|numeric',
-                'valorMinimo' => 'required|numeric',
-                'valorMaximo' => 'required|numeric',
-                'monto' => 'required|numeric',
+                'valorMinimo' => 'required|numeric|min:0',
+                'valorMaximo' => 'required|numeric|min:0',
+                'monto' => 'required|numeric|min:0',
                 'FechaDeVigencia' => 'required|date',
+                'tasaDeInteres' => 'required|numeric|min:0',
 
             ]);
 
@@ -459,10 +468,12 @@ class ClientesController extends Controller
                     ->orwhere("idEstadoOrden", 1)->first();
 
                 $idOrden = $orden->idOrden ? $orden->idOrden : $orden->id;
+                $count = Ordene::where("idOrden", $idOrden)->count() + 1;
+                $correlativo = $orden->correlativo . '-' . $count;
                 $nuevaOrden = new Ordene();
                 $nuevaOrden->fill(
                     [
-                        'correlativo' => $orden->correlativo,
+                        'correlativo' => $correlativo,
                         'idCliente' => $idCliente,
                         'FechaDeVigencia' => Carbon::parse($request['FechaDeVigencia'])->format('Y-m-d'),
                         'idCorredor' => $orden->idCorredor,
@@ -478,10 +489,13 @@ class ClientesController extends Controller
                         'emisor' => $request['emisor'],
                         'TipoMercado' => $request['mercado'],
                         'tasaDeInteres' => $request['tasaDeInteres'],
+                        'idTipoEjecucion' => 3,
 
                     ]
                 );
                 $nuevaOrden->save();
+
+
                 $orden->fill(
                     [
                         'idEstadoOrden' => 4,
@@ -558,6 +572,7 @@ class ClientesController extends Controller
             $countDui = Cliente::where('dui', $request['dui'])->where('id', '!=', $clientes->id)->count();
             $countNIT = Cliente::where('nit', $request['nit'])->where('id', '!=', $clientes->id)->count();
             $countEmail = Usuario::where('email', $request['email'])->where('id', '!=', $usuario->id)->count();
+            $countOrdenes = Ordene::where('idCliente', $usuario->id)->whereIn("idEstadoOrden", [1, 2, 5])->count();
             if ($countDui > 0) {
 
                 flash('El DUI ingresado ya pertenece a un usuario', 'danger');
@@ -576,6 +591,10 @@ class ClientesController extends Controller
             } else if (Carbon::parse($request['fechaDeNacimiento'])->diffInYears(Carbon::now(), false) < 18) {
 
                 flash('Debe ser mayor de de 18 años', 'danger');
+                return redirect()->route('modificarperfilCliente');
+            } else if ($countOrdenes != 0) {
+
+                flash('Tiene ordenes en curso, no puede modificar su información', 'danger');
                 return redirect()->route('modificarperfilCliente');
             } else {
                 $usuario->fill(
@@ -633,6 +652,7 @@ class ClientesController extends Controller
                     Direccione::destroy($direcciones[0]->id);
 
                 }
+                $this->modificarEstadoSolicitud($clientes->id);
 
                 flash('Datos ingresados con exito', 'success');
                 return redirect()->route('perfilcliente');
@@ -642,6 +662,15 @@ class ClientesController extends Controller
 
             return redirect()->route('modificarperfilCliente');
         }
+
+    }
+
+    public function modificarEstadoSolicitud($idCliente)
+    {
+        DB::table('solicitud_registros')
+            ->where('idCliente', $idCliente)
+            ->update(['idEstadoSolicitud' => 4]);
+
 
     }
 
@@ -670,7 +699,6 @@ class ClientesController extends Controller
         return view("Clientes.Afiliaciones.AfiliacionCliente", ["casas" => $arrcasas]);
 
     }
-
 
     public function AfiliacionClienteStore(Request $request)
     {
@@ -705,7 +733,6 @@ class ClientesController extends Controller
 
     }
 
-
     public function ListadoAfiliaciones()
     {
 
@@ -721,7 +748,7 @@ class ClientesController extends Controller
     {
 
         $solicitudes = SolicitudRegistro::with("OrganizacionN", "EstadoSolicitudN")
-            ->where("idCliente", Auth::user()->ClienteN->id)->get();
+            ->where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", "!=", 2)->get();
         return view("Clientes.Afiliaciones.ListadoSolicitudesAfiliacion", ["solicitudes" => $solicitudes]);
 
 
@@ -828,6 +855,9 @@ class ClientesController extends Controller
 
     }
 
+
+    //CAMBIANDO LAS SOLICITUDES A ESTADO REVISIÓN
+
     public function modificarPasswordUpdate(Request $request)
     {
 
@@ -868,9 +898,29 @@ class ClientesController extends Controller
 
     }
 
+    //LISTADO DE ORDENES RELACION RECURSIVA
 
-    
-    
+    public function ListadoOrdenesPadre($id)
+    {
+
+        try {
+
+            $ordenes = Ordene::with("EstadoOrden")->where("idOrden", $id)
+                ->where("idCliente", Auth::user()->ClienteN->id)
+                ->orderBy("created_at", 'DESC')
+                ->get();
+
+            return view('Clientes.Ordenes.listadoOrdenesPadre', ["ordenes" => $ordenes]);
+        } catch (Exception $e) {
+            return redirect()->back();
+
+        }
+
+
+    }
+
+
+
     /**
      *
      * Remove the specified resource from storage.

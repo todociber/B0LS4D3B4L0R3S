@@ -197,6 +197,7 @@ class RegistroController extends Controller
                     ]);
                     $cedeval->save();
                 }
+
                 $solicitud = new SolicitudRegistro();
                 $solicitud->fill([
                     'idCliente' => $clientes->id,
