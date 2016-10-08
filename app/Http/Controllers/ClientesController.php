@@ -123,10 +123,16 @@ class ClientesController extends Controller
             $orden = Ordene::orderBy('FechaDevigencia', 'desc')->where('id', $id)->where('idCliente', Auth::user()->ClienteN->id)->first();
             if (count($orden) > 0) {
 
+                $motivoCancel = '';
+                if ($orden->idEstadoOrden == 8) {
+
+                    $motivoCancel = Mensaje::where("idOrden", $orden->id)->where("idTipoMensaje", 2)->first();
+
+                }
                 // var_dump($orden);
                 // $timestamp = Carbon::parse($orden->created_at)->timestamp;
                 $ordenDate = $orden->created_at->format('m-d-Y'); //date('m-d-Y',Carbon::createFromFormat('Y-d-m H:i:s', $orden->created_at)->timestamp);
-                return view('Clientes.Ordenes.DetalleOrden', ['orden' => $orden, 'ordenDate' => $ordenDate]);
+                return view('Clientes.Ordenes.DetalleOrden', ['orden' => $orden, 'ordenDate' => $ordenDate, 'motivoCancel' => $motivoCancel]);
             } else {
 
                 return redirect()->route('listadoordenesclienteV');
@@ -479,7 +485,7 @@ class ClientesController extends Controller
                         'idCorredor' => $orden->idCorredor,
                         'idTipoOrden' => $request["tipodeorden"],
                         'titulo' => $request['titulo'],
-                        'idEstadoOrden' => $orden->idEstadoOrden,
+                        'idEstadoOrden' => 1,
                         'valorMinimo' => number_format((float)$request['valorMinimo'], 2, '.', ''),
                         'idOrganizacion' => $orden->idOrganizacion,
                         'valorMaximo' => number_format((float)$request['valorMaximo'], 2, '.', ''),
@@ -489,7 +495,7 @@ class ClientesController extends Controller
                         'emisor' => $request['emisor'],
                         'TipoMercado' => $request['mercado'],
                         'tasaDeInteres' => $request['tasaDeInteres'],
-                        'idTipoEjecucion' => 3,
+                        'idTipoEjecucion' => $orden->idTipoEjecucion,
 
                     ]
                 );
