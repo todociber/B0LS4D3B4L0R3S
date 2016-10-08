@@ -99,7 +99,8 @@ return [
         'numeroafiliacion' => [
             'required' => 'El código de afiliación es requerido',
             'numeric' => 'Debe ingrear solo números para el codigod e afiliación',
-
+            'digits' => 'Número de afiliación no debe ser menor o mayor a 5 digitos',
+            'min' => 'Número de afiliación no debe ser negativo',
         ],
         'casaCorredora' => [
             'required' => 'Debe ingresar la casa corredora a la que desea afiliarse',
@@ -109,6 +110,15 @@ return [
             'required' => 'Debe ingresar al menos una cuenta cedeval',
             'numeric' => 'La cuenta cedeval solo debe llevar números',
             'unique' => 'Una o varias de las cuentas cedeval ingresadas ya se encuentran registradas',
+            'digits' => 'Número de cuenta no debe ser menor o mayor a 10 digitos',
+            'min' => 'Número de cuenta no debe ser un número negativo',
+            'integer' => 'Número de cuenta debe ser número entero',
+        ],
+        'CuentaCedeval' => [
+            'required' => 'Debe ingresar el número de cuenta',
+            'numeric' => 'La cuenta cedeval solo debe llevar números',
+            'unique' => 'Esta cuenta cedeval ya se encuentra registrada',
+            'digits' => 'Número de cuenta no debe ser menor o mayor a 10 digitos',
 
         ],
         'direccion' => [
@@ -123,14 +133,16 @@ return [
         'numeroCelular' => [
             'required' => 'Debe escribir un número celular',
             'numeric' => 'Debe escribir un número de celular valido',
-            'max' => ['numeric'=>'Numero celular no debe exceder de 8 digitos'],
-            'min' => ['numeric'=>'Numero celular no debe ser menor a 8 digitos'],
+            'max' => 'Numero celular no debe exceder de 8 digitos',
+            'min' => 'Numero celular no debe ser menor a 8 digitos',
+            'digits' => 'Número de celular no debe ser menor o mayor a 8 digitos',
         ],
         'numeroCasa' => [
             'required' => 'Debe escribir un número casa',
             'numeric' => 'Debe escribir un número de casa valido',
-            'max' => ['numeric'=>'Numero de casa no debe exceder de 8 digitos'],
-            'min' =>  ['numeric'=>'Numero de casa no debe ser menor a 8 digitos'],
+            'max' => 'Numero de casa no debe exceder de 8 digitos',//['numeric'=>'Numero de casa no debe exceder de 8 digitos'],
+            'min' => 'Numero de casa no debe ser menor a 8 digitos',
+            'digits' => 'Número de casa no debe ser menor o mayor a 8 digitos',
         ],
         'nacimiento' => [
             'required' => 'Debe seleccionar una fecha de nacimiento',
@@ -139,19 +151,36 @@ return [
         'nit' => [
             'required' => 'Debe escribir un número de NIT',
             'unique' => 'El número de nit ingresado, ya se encuentra registrado',
+            'integer' => 'El NIT debe ser númerico',
+            'max' => 'Numero de NIT no debe exceder de 14 digitos',
+            'min' => 'Número de NIT   no debe ser menor a 14 digitos',
+            'digits' => 'Número de NIT no debe ser menor o mayor a 14 digitos',
+            
         ],
         'dui' => [
             'required' => 'Debe escribir un número de DUI',
             'unique' => 'El número de DUI ingresado, ya se encuentra registrado',
             'numeric' => 'Debe escribir un número de DUI valido',
-            'max' => ['numeric'=>'Número de DUI no debe exceder los 9 digitos'],
-            'min' => ['numeric'=>'Número de DUI  no debe ser menor a 9 digitos'],
+            'max' => 'Numero de DUI no debe exceder de 9 digitos',
+            'min' => 'Número de DUI  no debe ser menor a 9 digitos',
+            'integer' => 'Número de DUI  no debe ser menor a 9 digitos',
+            'digits' => 'Número de DUI  no debe ser menor o mayor a 9 digitos',
+
         ],
         'nombre' => [
             'required' => 'Debe escribir un nombre',
         ],
         'apellido' => [
             'required' => 'Debe escribir un apellido',
+        ],
+        'passwordActual' => [
+            'required' => 'Debe escribir su contraseña actual',
+        ],
+        'newPassword' => [
+            'required' => 'Debe escribir la nueva contraseña',
+        ],
+        'repitaPassword' => [
+            'required' => 'Debe repetir la contraseña',
         ],
 
 

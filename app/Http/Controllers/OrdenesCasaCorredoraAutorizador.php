@@ -180,8 +180,6 @@ class OrdenesCasaCorredoraAutorizador extends Controller
             return view('CasaCorredora.OrdenesAutorizador.DetalleOrden', compact('ordenes', 'usuariosAgentes', 'agentesCorredores', 'agentes'));
 
 
-
-
         }
 
 

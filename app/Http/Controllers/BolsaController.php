@@ -1,6 +1,9 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Http\Requests;
+use App\Models\Ordene;
 use App\Models\Organizacion;
 use App\Models\RolUsuario;
 use App\Models\Usuario;
@@ -15,36 +18,49 @@ use Validator;
 
 class BolsaController extends Controller
 {
+
+
     //-------CONTROL DE CASAS CORREDORAS-----//
+
+
     public function NuevaCasa()
     {
+
         return View('bves.Casas.RegistroCasas');
     }
+
     public function index()
     {
+
+
         $organizacion = new Organizacion;
         return View('bves.Casas.RegistroCasas');
     }
+
+
     //REGISTRAR NUEVA CASA
+
     public function store(Request $request)
     {
+
         try {
             $validator = Validator::make($request->all(), [
                 'nombre' => 'required',
                 'correo' => 'required|email',
                 'direccion' => 'required',
-                'telefono' => 'required',
-                'codigo' => 'required',
+                'telefono' => 'required|numeric|digits:8',
+                'codigo' => 'required|numeric',
                 'file' => 'required',
             ]);
             if (!$validator->fails()) {
                 $codCasa = Organizacion::where('codigo', $request['codigo'])->count();
                 Log::info($codCasa);
                 if ($codCasa == 0) {
+
                     $path = $this->Upload($request);
                     if ($path != 'error') {
-                        $date = Carbon::now();
-                        $activo = ($request['estado'] == 0) ? $date : null;
+
+
                         $organizacion = new Organizacion();
                         $organizacion->nombre = $request->input('nombre');
                         $organizacion->logo = $path;
@@ -54,28 +70,42 @@ class BolsaController extends Controller
                         $organizacion->codigo = $request->input('codigo');
                         $organizacion->idTipoOrganizacion = 1;
                         $organizacion->save();
-                        if ($activo != null) {
+
+                        if ($request['Estado'] == 0) {
                             $organizacion->delete();
+
                         }
+
                         $this->makeUser($request['codigo'], $organizacion, $request['correo']);
+
                         //errir 0 todo bien, error 1, no se guardo la imagen, error 3 ya existe una casa con ese codigo
                         return response()->json(['error' => '0']);
                     } else {
+
                         return response()->json(['error' => '1']);
+
                     }
                 } else {
+
                     return response()->json(['error' => '3']);
                 }
             } else {
+
                 return response()->json(['error' => '2']);
             }
             // Flash::success('Casa registrada con éxito');
+
         } catch (Exception $e) {
+
             return response()->json(['error' => '1', 'error' => $e]);
+
+
         }
     }
+
     public function Upload($request)
     {
+
         try {
             //upload an image to the /img/tmp directory and return the filepath.
             $date = Carbon::now();
@@ -86,13 +116,17 @@ class BolsaController extends Controller
             $path = $tmpFileName;
             return $path;
         } catch (Exception $e) {
+
             return 'error';
+
         }
     }
+
     public function makeUser($codigo, $organizacion, $correo)
     {
         $date = Carbon::now();
         $usuario = new Usuario();
+
         $hash = Hash::make($date->timestamp . $codigo);
         $pass = str_limit($hash, 5);
         //MAKING USER
@@ -112,20 +146,40 @@ class BolsaController extends Controller
             [
                 'idUsuario' => $usuario->id,
                 'idRol' => 2,
+
             ]
         );
         $rolUsuario->save();
+
     }
-    public function eliminarCasa($id)
+
+    public function eliminarRestaurarCasa(Request $request)
     {
         try {
-            Organizacion::destroy($id);
+
+            if ($request["tipo"] == 0) {
+                $countOrden = Ordene::where("idOrganizacion", $request["id"])
+                    ->whereNotIn("idEstadoOrden", [1, 2, 4, 5, 6])->count();
+                if ($countOrden == 0) {
+                    Organizacion::destroy($request["id"]);
+                } else {
+
+                    flash('La casa no puede ser removida porque tiene ordenes en curso', 'success');
+
+                }
+            } else {
+                $organizacion = Organizacion::withTrashed()->where('id', '=', $request["id"])->first();
+                $organizacion->restore();
             flash('Estado cambiado con éxito', 'success');
+            }
         } catch (Exception $e) {
             flash('Ocurrio un problema para cambiar el estado', 'danger');
+
         }
         return redirect()->route('listadoCasas');
+
     }
+
     public function RestoreCasa($id)
     {
         try {
@@ -134,21 +188,33 @@ class BolsaController extends Controller
             flash('Estado cambiado con éxito', 'success');
         } catch (Exception $e) {
             flash('Ocurrio un problema para cambiar el estado', 'danger');
+
         }
         return redirect()->route('listadoCasas');
+
     }
+
     public function editarCasa($id)
     {
         //'id'=>'my-dropzone','class' => 'dropzone',
+
         $organizacion = DB::table('organizacion')->where('organizacion.id', '=', $id)->first();
         // $organizacion = Organizacion::find($id);
+
         return view('bves.Casas.ModificarCasa', ['organizacion' => $organizacion]);
+
     }
+
     //-------CONTROL DE CASAS CORREDORAS-----//
+
+
     //UPLOAD IMAGE
+
     public function update(Request $request, $id)
     {
+
         try {
+
             $validator = Validator::make($request->all(), [
                 'nombre' => 'required',
                 'correo' => 'required|email',
@@ -159,6 +225,7 @@ class BolsaController extends Controller
             ]);
             if (!$validator->fails()) {
                 $codCasa = DB::table('organizacion')->where('organizacion.codigo', '=', $request['codigo'])->where('organizacion.id', '!=', $id)->count();
+
                 if ($codCasa == 0) {
                     $organizacion = Organizacion::withTrashed()->where('id', $id)->first();
                     $path = $this->Upload($request);
@@ -178,28 +245,43 @@ class BolsaController extends Controller
                         $organizacion->save();
                         if ($activo != null) {
                             $organizacion->delete();
+
                         } else {
                             $organizacion->restore();
+
                         }
                         // $this->makeUser($request['codigo'],$organizacion,$request['correo']);
                         return response()->json(['error' => '0']);
                     } else {
+
                         return response()->json(['error' => '1']);
+
                     }
                 } else {
+
                     return response()->json(['error' => '3']);
                 }
+
             } else {
+
                 return response()->json(['error' => '2']);
             }
         } catch (Exception $e) {
+
             return response()->json(['error' => '1', 'error' => $e]);
+
         }
     }
+
+
     //MAKEUSER
+
     public function ListadoCasas()
     {
-        $organizaciones = Organizacion::withTrashed()->get();
+        $organizaciones = Organizacion::withTrashed()->where("idTipoOrganizacion", "!=", 2)->get();
+
+
         return View('bves.Casas.ListaCasas', ['organizaciones' => $organizaciones]);
     }
+
 }

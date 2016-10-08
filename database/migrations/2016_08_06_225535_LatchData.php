@@ -14,7 +14,7 @@ class LatchData extends Migration
     {
         Schema::create('latchdatatoken', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('tokenLatch',500);
+            $table->string('tokenLatch', 500);
             $table->integer('idUsuario')->unsigned();
             $table->foreign('idUsuario')->references('id')->on('usuarios');
             $table->timestamps();

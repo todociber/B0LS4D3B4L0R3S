@@ -175,7 +175,7 @@ class OrdenesController extends Controller
     }
 
 
-    public function  Actualizar(Request $request, $id)
+    public function Actualizar(Request $request, $id)
     {
         $Orden = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', 2)->get();
         if ($Orden->count() > 0) {

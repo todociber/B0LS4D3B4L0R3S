@@ -9,6 +9,9 @@
         $(document).ready(function () {
             $('#casas').addClass('active');
             $('#registrar').addClass('active');
+            $('#telefono').mask('00000000');
+            $('#codigo').mask('00000');
+
             var buttonLada;
             var dataError;
 

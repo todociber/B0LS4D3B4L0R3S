@@ -49,6 +49,7 @@
     {!! Html::script('assets/js/loading.js') !!}
     {!! Html::script('assets/js/SERO.js') !!}
     {!! Html::style('assets/css/SERO.css') !!}
+    {!! Html::script('assets/js/jquery.mask.min.js') !!}
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -98,8 +99,8 @@
         <section class="sidebar">
             <div class="user-panel">
                 <div class="pull-left info">
-                    <p>Rigoberto Gómez</p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    <p>{{Auth::user()->nombre}}</p>
+
                 </div>
             </div>
 
@@ -131,10 +132,9 @@
 
                     </a>
                     <ul class="treeview-menu">
-                        <li id="listadosolicitudes"><a href="{{route("listadoafiliaciones")}}"><i
-                                        class="fa fa-circle-o"></i>Solicitudes de afiliación</a></li>
-                        <li id="afiliarse"><a href="{{route("afiliarsecasa")}}"><i class="fa fa-circle-o"></i> Afiliarse
-                                a una casa</a></li>
+                        <li id="listadosolicitudes"><a href="{{route("listadsolicitudes")}}"><i
+                                        class="fa fa-circle-o"></i>Pendiente de aprobación <br/> de cambio</a></li>
+
                         <li id="afiliacionesC"><a href="{{route("listadoafiliaciones")}}"><i class="fa fa-circle-o"></i>
                                 Listado de afiliaciones
                             </a></li>
@@ -200,6 +200,7 @@
             "autoWidth": false
         });
     });
+
     $(document).ready(function () {
     })
 </script>

@@ -6,7 +6,12 @@
     <script>
         $('#usuarios').addClass('active');
         $('#catalogo').addClass('active');
+        function desactivarActivarCasa(nombre, activar, id, accion) {
+            $('#modalbody').text("¿Desea " + activar + "la casa " + nombre + " ?");
+            $('#idusuario').val(id);
+            $('#tipo').val(accion);
 
+        }
 
     </script>
     <div class="row">
@@ -51,14 +56,16 @@
                                                 class="fa fa-pencil"></em></a>
                                     @if($usuario->deleted_at == null)
 
-                                        <button onclick="window.location.href='{!! route('eliminarusuario',['id'=>$usuario->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'});">
+                                        <button onclick="desactivarActivarCasa('{{$usuario->nombre}}','Desactivar','{{$usuario->id}}',0); "
+                                                data-toggle="modal" data-target="#desactivarActivarUsuario">
                                             <span class="glyphicon glyphicon-remove p-red"></span></button>
+
 
                                     @else
 
-                                        <button onclick="window.location.href='{!! route('restaurarusuario',['id'=>$usuario->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'}); ">
+                                        <button onclick="desactivarActivarCasa('{{$usuario->nombre}}','Activar','{{$usuario->id}}',1); "
+                                                data-toggle="modal" data-target="#desactivarActivarUsuario">
                                             <span class="glyphicon glyphicon-ok p-green"></span></button>
-
 
                                     @endif
                                 </td>
@@ -72,6 +79,28 @@
             </div><!-- /.box -->
         </div><!-- /.col -->
     </div>
+    <div class="modal fade" id="desactivarActivarUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Mensaje</h4>
+                </div>
+                {{Form::open(['route'=>'eliminarrestaurar','method' =>'POST', 'id'=>'form','role' => 'form', 'onsubmit'=>'animatedLoading()']) }}
 
+                {{ Form::hidden('id',null,['id'=>'idusuario','class'=>'form-control','required']) }}
+                {{ Form::hidden('tipo',null,['id'=>'tipo','class'=>'form-control', 'required']) }}
+                <div class="modal-body">
+                    <p id="modalbody"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">Cancelar</button>
+                </div>
+                {{Form::close()}}
+            </div>
+        </div>
+    </div>
 @stop
 

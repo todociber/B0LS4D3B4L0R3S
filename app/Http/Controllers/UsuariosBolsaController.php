@@ -48,7 +48,7 @@ class UsuariosBolsaController extends Controller
             'nombre' => 'required',
             'apellido' => 'required',
             'email' => 'required|email',
-            'Estado' => 'required|Numeric',
+            'Estado' => 'required|numeric',
         ]);
         try{
             $emailUser = DB::table('usuarios')->where('usuarios.email', '=', $request['email'])->where('usuarios.idOrganizacion', '=',17)->count();
@@ -130,23 +130,30 @@ class UsuariosBolsaController extends Controller
       //  return response()->json(['error' => $usuario]);
     }
 
-    public function EliminarUsuario($id)
+    public function EliminarRestaurarUsuario(Request $request)
     {
-        try{
-            $message ='';
+        try {
+            $message = '';
             $state = '';
-            if($id!=Auth::user()->id){
-                Usuario::destroy($id);
-                $message = 'Estado cambiado con éxito';
-                $state = 'success';
+            if ($request["tipo"] == 0) {
+                if ($request["id"] != Auth::user()->id) {
+                    Usuario::destroy($request["id"]);
+                    $message = 'Estado cambiado con éxito';
+                    $state = 'success';
+                } else {
+
+                    $message = 'No puede modificar el estado de este usuario';
+                    $state = 'info';
+                }
+
+
             }
             else {
 
-                $message = 'No puede modificar el estado de este usuario';
-                $state = 'info';
+                $usuario = Usuario::withTrashed()->where('id', '=', $request["id"])->first();
+                $usuario->restore();
+                flash('Estado cambiado con éxito', 'success');
             }
-
-
         }
         catch (Exception $e){
             $message = 'Ocurrio un problema para cambiar el estado';
@@ -230,7 +237,7 @@ class UsuariosBolsaController extends Controller
             'nombre' => 'required',
             'apellido' => 'required',
             'email' => 'required|email',
-            'Estado' => 'required|Numeric',
+            'Estado' => 'required|numeric',
         ]);
 
 

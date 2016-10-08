@@ -45,6 +45,8 @@
             <!--  loading JS -->
     {!! Html::script('assets/js/loading.js') !!}
 
+    {!! Html::script('assets/js/jquery.mask.min.js') !!}
+
 
             <!--  SERO JS -->
     {!! Html::script('assets/js/SERO.js') !!}
@@ -94,8 +96,8 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left info">
-                    <p>Rigoberto Gómez</p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    <p>{{Auth::user()->nombre}}</p>
+
                 </div>
             </div>
             <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -182,6 +184,9 @@
             "autoWidth": false
         });
     });
+
+
 </script>
 </body>
 </html>
+

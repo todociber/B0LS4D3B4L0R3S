@@ -109,7 +109,9 @@
 
 
                         </div><!-- /.col -->
-                    </div><!-- /.row -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.row -->
 
         </section>
 
@@ -199,6 +201,8 @@
 
                         </div><!-- /.col -->
                     </div><!-- /.row -->
+                </div><!-- /.row -->
+            </div><!-- /.row -->
 
         </section>
         @if($orden->OrdenPadre==null)

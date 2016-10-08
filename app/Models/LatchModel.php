@@ -24,6 +24,7 @@ class LatchModel extends Model
     {
         return $this->belongsTo(Usuario::class, 'idUsuario', 'id');
     }
+
     public function scopeOfid($query, $id)
     {
         if (trim($id) != "") {

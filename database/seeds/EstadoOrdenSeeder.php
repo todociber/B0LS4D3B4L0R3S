@@ -41,5 +41,16 @@ class EstadoOrdenSeeder extends Seeder
             'created_at' => new DateTime,
             'updated_at' => new DateTime
         ));
+        DB::table('estado_orden')->insert(array(
+            'estado' => 'Vencida',
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime
+        ));
+        DB::table('estado_orden')->insert(array(
+            'estado' => 'Rechazada',
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime
+        ));
+      
     }
 }

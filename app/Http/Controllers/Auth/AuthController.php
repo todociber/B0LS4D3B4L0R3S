@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\LatchModel;
 use App\Models\Usuario;
 use App\User;
 use App\Utilities\RolIdentificador;
-use ErrorException;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Latch;
-use Mockery\CountValidator\Exception;
 use Validator;
 
 class AuthController extends Controller
@@ -65,6 +62,8 @@ class AuthController extends Controller
 
     protected function authenticated($request, $usuario)
     {
+        Log::info('TESTT');
+
         $rolIdentificador = new RolIdentificador();
         /*
          * 1- ADMNISTRADOR BOLSA DE VALORES
@@ -76,31 +75,31 @@ class AuthController extends Controller
       //  var_dump($usuario->UsuarioRoles->RolN->id);
 
 
-        $LatchTokenExiste = LatchModel::where('idUsuario', '=', Auth::user()->id)->count();
-
-        if ($LatchTokenExiste > 0) {
-
-            try {
-                $userIDLatch = LatchModel::where('idUsuario', '=', Auth::user()->id)->first();
-                $accountId = $userIDLatch->tokenLatch;
-                $locked = false;
-
-                if (Latch::locked($accountId)) {
-                    $locked = true;
-                }
-
-
-                if ($locked) {
-
-                    Auth::logout();
-                }
-            } catch (ErrorException $i) {
-
-            } catch (Exception $e) {
-
-            }
-
-        }
+        /* $LatchTokenExiste = LatchModel::where('idUsuario', '=', Auth::user()->id)->count();
+ 
+         if ($LatchTokenExiste > 0) {
+ 
+             try {
+                 $userIDLatch = LatchModel::where('idUsuario', '=', Auth::user()->id)->first();
+                 $accountId = $userIDLatch->tokenLatch;
+                 $locked = false;
+ 
+                 if (Latch::locked($accountId)) {
+                     $locked = true;
+                 }
+ 
+ 
+                 if ($locked) {
+ 
+                     Auth::logout();
+                 }
+             } catch (ErrorException $i) {
+ 
+             } catch (Exception $e) {
+ 
+             }
+ 
+         }*/
 
 
 

@@ -9,6 +9,8 @@
         $(document).ready(function () {
             $('#casas').addClass('active');
             $('#registrar').addClass('active');
+            $('#telefono').mask('00000000');
+            $('#codigo').mask('00000');
             var buttonLada;
             var dataError;
             $('#modal').on('hidden.bs.modal', function () {
@@ -61,10 +63,11 @@
 
                 this.on("success", function (file, data) {
                     waitingDialog.hide();
+                    console.log(JSON.stringify(data));
                     dataError = data.error;
                     if (data.error == '0') {
                         $('#modalbody').text('Datos guardados con exito');
-
+                        window.location.href = '{{route('listadoCasas')}}'
 
                     }
                     else if (data.error == '2') {

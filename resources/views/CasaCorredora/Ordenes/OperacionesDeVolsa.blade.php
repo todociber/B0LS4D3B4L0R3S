@@ -67,7 +67,6 @@
                             <div class="form-group col-md-6">
 
 
-
                                 {!!Form::label('Agente Corredor: ')!!} {{$orden->Corredor_UsuarioN->nombre}} {{$orden->Corredor_UsuarioN->apellido}}
                                 <br>{!! Form::label('Comision') !!} {{$orden->comision}}%
 
@@ -88,7 +87,8 @@
 
                         </div><!-- /.col -->
                     </div><!-- /.row -->
-
+                </div>
+            </div>
         </section>
     @endforeach
 
