@@ -36,10 +36,10 @@
                                 </ul>
                             </div>
 
-                            {!!Form::password('password',null, ['class'=>'form-control', 'placeholder'=>'Ingrese el  token','id'=>'password'])!!}
+                            <input name="password" type="password" value="" id="password"><br>
                             <br>
                             {!!Form::label('Repite la contraseña')!!}<br>
-                            {!!Form::password('password2',null,['id'=>'password2','class'=>'form-control', 'placeholder'=>'Ingrese el  token'])!!}
+                            <input name="password2" type="password" value="" id="password2"><br>
                             <br><br>
                             {!!Form::submit('Cambiar Contraseña', ['class'=>'btn btn-primary btn-flat','name'=>'btnCrearUsuario', 'onclick'=>"waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                             {!!Form::close()!!}
@@ -50,4 +50,20 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+
+
+        $(document).ready(function ($) {
+
+            $('#password').strength({
+                strengthClass: 'strength'
+
+            });
+
+
+        });
+
+    </script>
 @endsection

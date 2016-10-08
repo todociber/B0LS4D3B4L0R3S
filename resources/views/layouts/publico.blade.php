@@ -11,7 +11,7 @@
             <!-- Font Awesome -->
     {!! Html::style('assets/css/font-awesome.css') !!}
     {!! Html::style('dist/css/select2.css') !!}
-
+    {!! Html::style('pass/strength.css') !!}
 
             <!-- DataTables -->
     {!! Html::style('assets/plugins/datatables/dataTables.bootstrap.css') !!}
@@ -28,6 +28,9 @@
     {!! Html::script('dist/js/select2.js') !!}
             <!-- Bootstrap 3.3.5 -->
     {!! Html::script('assets/js/bootstrap.min.js') !!}
+    {!! Html::script('pass/js.js') !!}
+
+    {!! Html::script('pass/strength.js') !!}
             <!-- DataTables -->
     {!! Html::script('assets/plugins/datatables/jquery.dataTables.min.js') !!}
     {!! Html::script('assets/plugins/datatables/dataTables.bootstrap.min.js') !!}
