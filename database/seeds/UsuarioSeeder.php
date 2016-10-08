@@ -26,7 +26,7 @@ class UsuarioSeeder extends Seeder
             'idOrganizacion' => 2,
             'nombre' => 'Alexander ',
             'apellido' => 'Dominguez',
-            'email' => 'alexlaley10@gmail.com',
+            'email' => 'alexlaley100@gmail.com',
             'password' => bcrypt('todociber'),
             'created_at' => new DateTime,
             'updated_at' => new DateTime

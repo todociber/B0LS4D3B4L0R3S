@@ -40,7 +40,7 @@
 <body>
 <div class="container">
     <div class="content">
-        <div class="title">No se a encontrado la url</div>
+        <div class="title">Elemento no encontrado</div>
     </div>
 </div>
 </body>

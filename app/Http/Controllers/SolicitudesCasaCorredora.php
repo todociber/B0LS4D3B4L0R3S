@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Cliente;
 use App\Models\SolicitudRegistro;
 use Auth;
 use ErrorException;
@@ -321,6 +322,69 @@ class SolicitudesCasaCorredora extends Controller
 
         } else {
             return redirect('/home');
+        }
+
+    }
+
+
+    public function buscarCliente()
+    {
+        return view('CasaCorredora.SolicitudesAfiliacion.BuscarAfiliado');
+    }
+
+
+    public function buscarClientePost(Requests\BuscarClienteRequest $request)
+    {
+        $cliente = Cliente::withTrashed()->where('DUI', '=', $request['dui'])->get();
+        if ($cliente->count() > 0) {
+            flash('Cliente encontrado', 'success');
+            \Session::remove('cliente');
+            \Session::push('cliente', $cliente[0]);
+        } else {
+            flash('No se encontró al cliente', 'warning');
+            \Session::remove('cliente');
+        }
+        return view('CasaCorredora.SolicitudesAfiliacion.BuscarAfiliado');
+    }
+
+    public function afiliarCliente(Requests\AfiliarClienteRequest $request, $id)
+    {
+
+        $cliente = Cliente::withTrashed()->where('id', '=', $id)->get();
+        if ($cliente->count() > 0) {
+            if ($cliente[0]->deleted_at == NULL) {
+                $buscarSolicitud = SolicitudRegistro::where('idCliente', '=', $cliente[0]->id)->where('idEstadoSolicitud', '=', '2')->get();
+                if ($buscarSolicitud->count() == 0) {
+                    $buscarSolicitudPendiente = SolicitudRegistro::where('idCliente', '=', $cliente[0]->id)->where('idEstadoSolicitud', '=', '1')->get();
+                    if ($buscarSolicitudPendiente->count() == 0) {
+                        $nuevaSolicitud = new SolicitudRegistro();
+                        $nuevaSolicitud->fill([
+                            'idCliente' => $id,
+                            'idOrganizacion' => Auth::user()->idOrganizacion,
+                            'idEstadoSolicitud' => '2',
+                            'idUsuario' => Auth::user()->id,
+                            'numeroDeAfiliado' => $request['numeroafiliacion']
+                        ]);
+
+                        $nuevaSolicitud->save();
+                        flash('Cliente Afiliado Exitosamente', 'success');
+                        return redirect('/Afiliados');
+                    } else {
+                        $buscarSolicitudPendiente[0]->fill([
+                            'idEstadoSolicitud' => 2
+                        ]);
+                        $buscarSolicitudPendiente[0]->save();
+                        flash('Cliente Afiliado Exitosamente', 'success');
+                        return redirect('/Afiliados');
+                    }
+                } else {
+                    return redirect()->back()->withErrors('Cliente ya se encuentra afiliado');
+                }
+            } else {
+                return redirect()->back()->withErrors('Cliente no se encuentra Activo');
+            }
+        } else {
+            return redirect()->back()->withErrors('Cliente no encontrado');
         }
 
     }

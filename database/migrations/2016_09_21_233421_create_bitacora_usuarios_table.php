@@ -32,6 +32,6 @@ class CreateBitacoraUsuariosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('bitacora_usuarios');
+        Schema::drop('bitacora');
     }
 }

@@ -12,6 +12,7 @@ use DB;
 use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Mail;
 use Mockery\CountValidator\Exception;
 use Redirect;
 
@@ -413,18 +414,23 @@ class UsuarioCasaCorredoraController extends Controller
 
 
         $caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //posibles caracteres a usar
-        $numerodeletras = 8; //numero de letras para generar el texto
+        $numerodeletras = 9; //numero de letras para generar el texto
         $cadena = ""; //variable para almacenar la cadena generada
         for ($i = 0; $i < $numerodeletras; $i++) {
             $cadena .= substr($caracteres, rand(0, strlen($caracteres)), 1);
         }
 
-//COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
+        $data = array(
+            'cadena' => $cadena,
 
-        $cadena = 'todociber';
+        );
+        Mail::send('emails.NuevoPasswordCasa', $data, function ($message) use ($Usuario) {
 
+            $message->from('todociber100@gmail.com', 'Reseteo de Contraseña');
 
-//COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
+            $message->to($Usuario->email)->subject('Reseteo de Contraseña ');
+
+        });
         $Usuario->fill(
             [
                 'password' => bcrypt($cadena),
@@ -436,6 +442,11 @@ class UsuarioCasaCorredoraController extends Controller
         return redirect('/UsuarioCasaCorredora');
 
 
+    }
+
+    public function perfil()
+    {
+        return View('CasaCorredora.Usuarios.Perfil', ['user' => Auth::user()]);
     }
 
 

@@ -27,6 +27,6 @@ class ModuloAfectado extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('ModuloAfectado');
     }
 }

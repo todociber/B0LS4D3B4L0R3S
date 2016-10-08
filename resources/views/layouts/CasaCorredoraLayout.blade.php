@@ -18,6 +18,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
     <!-- Bootstrap 3.3.5 -->
     {!! Html::style('assets/css/bootstrap.css') !!}
             <!-- Font Awesome -->
+
     {!! Html::style('assets/css/font-awesome.css') !!}
     {!! Html::style('dist/css/select2.css') !!}
             <!-- Ionicons -->
@@ -34,7 +35,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
             <!-- jQuery 2.1.4 -->
     {!! Html::script('assets/plugins/jQuery/jQuery-2.1.4.min.js') !!}
 
-    {!! Html::script('dist/js/select2.js') !!}
+    {!! Html::script('dist/js/select2.full.js') !!}
             <!-- Bootstrap 3.3.5 -->
     {!! Html::script('assets/js/bootstrap.min.js') !!}
             <!-- DataTables -->
@@ -112,7 +113,8 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                                    <a href="{{route('Perfil.UsuarioCasa')}}"
+                                       class="btn btn-default btn-flat">Perfil</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="{{url('/logout')}}" class="btn btn-default btn-flat">Cerrar Sesión</a>
@@ -171,10 +173,13 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                                 class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.index')}}"><i
-                                        class="fa fa-circle-o"></i>Solicitudes de Afiliacion</a></li>
+                        <li id="listadoOrdenes"><a href="{{route('Registrar.Clientes')}}"><i
+                                        class="fa fa-circle-o"></i>Registrar Clientes</a></li>
                         <li id="listadoOrdenes"><a href="{{route('Afiliados.index')}}"><i
                                         class="fa fa-circle-o"></i>Afiliados</a></li>
+
+                        <li id="listadoOrdenes"><a href="{{route('Buscar.Cliente')}}"><i
+                                        class="fa fa-circle-o"></i>Buscar Cliente</a></li>
 
                     </ul>
                 </li>
@@ -185,7 +190,8 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                 <li><a href={{route('Latch.index')}}><i class="fa fa-circle-o text-red"></i> <span>Vincular Latch</span></a>
                 </li>
                 @endif
-                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Perfil</span></a></li>
+                <li><a href="{{route('Perfil.UsuarioCasa')}}"><i class="fa fa-circle-o text-yellow"></i>
+                        <span>Perfil</span></a></li>
 
             </ul>
         </section>

@@ -2,6 +2,16 @@
 @section('content')
 
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".js-example-basic-single").select2();
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".js-example-basic-single2").select2();
+        });
+    </script>
     <script>
         var contador = 0;
         var clonar;
@@ -162,10 +172,11 @@
             </div>
             <div class="form-group">
                 {{ Form::label('Departamento') }}
-                {!! Form::select('departamento',$departamentos,null,['class'=>'form-control','required', 'id'=>'department', 'onchange'=>'GetMunicipios(this)']) !!}
+                {!! Form::select('departamento',$departamentos,null,['class'=>'js-example-basic-single form-control ','required', 'id'=>'department', 'onchange'=>'GetMunicipios(this)', 'style'=>'width: 100%']) !!}
             </div>
             <div id="divmun" class="form-group" style="display: none;">
-                <select id="municipio" name="municipio" class="form-control">
+                <select id="municipio" name="municipio" class="form-control js-example-basic-single2"
+                        style="width: 100%">
 
                 </select>
 

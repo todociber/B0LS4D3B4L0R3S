@@ -53,15 +53,15 @@
                                         </td>
                                         <td>
 
-                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC}}
+                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->nombre}}
 
 
                                         </td>
                                         <td>
-                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC}}
+                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->apellido}}
                                         </td>
                                         <td>
-                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC}}
+                                            {{ $solicitud->ClienteNSolicitud->UsuarioNC->email}}
                                         </td>
                                         <td>
                                             {{$solicitud->numeroDeAfiliado}}

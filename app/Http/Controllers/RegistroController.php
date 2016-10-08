@@ -25,6 +25,8 @@ use Redirect;
 
 class RegistroController extends Controller
 {
+    public $emailE = "";
+
     /**
      * Display a listing of the resource.
      *
@@ -167,6 +169,7 @@ class RegistroController extends Controller
                     'idCliente' => $clientes->id,
                     'idOrganizacion' => Auth::user()->idOrganizacion,
                     'numeroDeAfiliado' => $request['numeroafiliacion'],
+                    'idUsuario' => Auth::user()->id,
                     'idEstadoSolicitud' => 1,
                 ]);
                 $solicitud->save();
@@ -186,11 +189,11 @@ class RegistroController extends Controller
                 );
                 $token->save();
 
-                Mail::send('emails.ActivacionCliente', $data, function ($message) {
+                Mail::send('emails.ActivacionCliente', $data, function ($message) use ($usuario) {
 
-                    $message->from('bolsaDeValores@todociber.com', 'Activacion de cuenta');
+                    $message->from('todociber100@gmail.com', 'Activacion de cuenta');
 
-                    $message->to('alexlaley10@gmail.com')->subject('Activar Cuenta de sistema');
+                    $message->to($usuario->email)->subject('Activar cuenta de sistema de Ordenes ');
 
                 });
                 $clientes->delete();
@@ -289,14 +292,20 @@ class RegistroController extends Controller
             $token = \Session::get('token');
             $tokenE = token::withTrashed()->where('token', '=', $token[0])->first();
             $usuario = Usuario::where('id', '=', $tokenE->idUsuario)->first();
-            $cliente = Cliente::onlyTrashed()->where('idUsuario', '=', $usuario->id)->first();
+            $cliente = Cliente::withTrashed()->where('idUsuario', '=', $usuario->id)->first();
+            $solicitud = SolicitudRegistro::where('idCliente', '=', $cliente->id)->first();
             $usuario->fill([
                 'password' => bcrypt($request['password'])
             ]);
+            $solicitud->fill([
+                'idEstadoSolicitud' => '2'
+            ]);
+            $solicitud->save();
             $usuario->save();
             $cliente->restore();
+            $tokenE->delete();
             \Session::remove('token');
-            return redirect()->back()->withErrors('Cuenta Activada exitosamente');
+            return redirect('/login')->withErrors('Cuenta Activada exitosamente');
         } else {
             return redirect()->back()->withErrors('Contraseñas no coiciden');
         }
