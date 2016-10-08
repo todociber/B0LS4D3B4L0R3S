@@ -1,12 +1,14 @@
 <html>
 <head>
-    <title>Activacion de Cuenta</title>
+    <title>Restaurar Contrasña</title>
 
 </head>
+Tu contraséña fue reseteada por un administrador.
+<br>
 <h1>
-    Tu contraseña ha sido reseteada por un administrador </h1><br><br>
+    Para resetear tu contraseña sigue el siguiente link: </h1><br><br>
 
-Tu nueva contraseña es: <h2>{!! $cadena !!}</h2>
 
+{!!link_to_route('Token.Activacion', $title = 'Restaurar Contraseña', $parameters = $tokenDeUsuario, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
 
 </html>

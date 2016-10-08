@@ -5,48 +5,7 @@
 
 @stop
 
-<script>
-    $(document).ready(function () {
 
-        $('input[type=password]').keyup(function () {
-            // set password variable
-            var pswd = $(this).val();
-            //validate the length
-            if (pswd.length < 8) {
-                $('#length').removeClass('valid').addClass('invalid');
-            } else {
-                $('#length').removeClass('invalid').addClass('valid');
-            }
-
-            //validate letter
-            if (pswd.match(/[A-z]/)) {
-                $('#letter').removeClass('invalid').addClass('valid');
-            } else {
-                $('#letter').removeClass('valid').addClass('invalid');
-            }
-
-            //validate capital letter
-            if (pswd.match(/[A-Z]/)) {
-                $('#capital').removeClass('invalid').addClass('valid');
-            } else {
-                $('#capital').removeClass('valid').addClass('invalid');
-            }
-
-            //validate number
-            if (pswd.match(/\d/)) {
-                $('#number').removeClass('invalid').addClass('valid');
-            } else {
-                $('#number').removeClass('valid').addClass('invalid');
-            }
-
-        }).focus(function () {
-            $('#pswd_info').show();
-        }).blur(function () {
-            $('#pswd_info').hide();
-        });
-
-    });
-</script>
 
 
 @section('content')
@@ -80,7 +39,7 @@
                             {!!Form::password('password',null, ['class'=>'form-control', 'placeholder'=>'Ingrese el  token','id'=>'password'])!!}
                             <br>
                             {!!Form::label('Repite la contraseña')!!}<br>
-                            {!!Form::password('password2',null, ['class'=>'form-control', 'placeholder'=>'Ingrese el  token','id'=>'password2'])!!}
+                            {!!Form::password('password2',null,['id'=>'password2','class'=>'form-control', 'placeholder'=>'Ingrese el  token'])!!}
                             <br><br>
                             {!!Form::submit('Cambiar Contraseña', ['class'=>'btn btn-primary btn-flat','name'=>'btnCrearUsuario', 'onclick'=>"waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                             {!!Form::close()!!}

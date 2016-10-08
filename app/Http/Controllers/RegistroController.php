@@ -292,20 +292,25 @@ class RegistroController extends Controller
             $token = \Session::get('token');
             $tokenE = token::withTrashed()->where('token', '=', $token[0])->first();
             $usuario = Usuario::where('id', '=', $tokenE->idUsuario)->first();
-            $cliente = Cliente::withTrashed()->where('idUsuario', '=', $usuario->id)->first();
-            $solicitud = SolicitudRegistro::where('idCliente', '=', $cliente->id)->first();
             $usuario->fill([
                 'password' => bcrypt($request['password'])
             ]);
-            $solicitud->fill([
-                'idEstadoSolicitud' => '2'
-            ]);
-            $solicitud->save();
+            if ($usuario->idOrganizacion == null) {
+                $cliente = Cliente::withTrashed()->where('idUsuario', '=', $usuario->id)->first();
+                $solicitud = SolicitudRegistro::where('idCliente', '=', $cliente->id)->first();
+                $solicitud->fill([
+                    'idEstadoSolicitud' => '2'
+                ]);
+                $solicitud->save();
+                $cliente->restore();
+                flash('Cuenta activada exitosamente', 'success');
+            } else {
+                flash('Password actualizado', 'success');
+            }
             $usuario->save();
-            $cliente->restore();
             $tokenE->delete();
             \Session::remove('token');
-            return redirect('/login')->withErrors('Cuenta Activada exitosamente');
+            return redirect('/login');
         } else {
             return redirect()->back()->withErrors('Contraseñas no coiciden');
         }

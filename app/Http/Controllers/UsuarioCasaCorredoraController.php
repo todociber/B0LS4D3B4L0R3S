@@ -6,7 +6,9 @@ use App\Http\Requests;
 use App\Models\Ordene;
 use App\Models\Role;
 use App\Models\RolUsuario;
+use App\Models\token;
 use App\Models\Usuario;
+use App\Utilities\GenerarToken;
 use Auth;
 use DB;
 use ErrorException;
@@ -413,32 +415,30 @@ class UsuarioCasaCorredoraController extends Controller
         $Usuario->restore();
 
 
-        $caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //posibles caracteres a usar
-        $numerodeletras = 9; //numero de letras para generar el texto
-        $cadena = ""; //variable para almacenar la cadena generada
-        for ($i = 0; $i < $numerodeletras; $i++) {
-            $cadena .= substr($caracteres, rand(0, strlen($caracteres)), 1);
-        }
+        $token = new token();
+        $gentoken = new GenerarToken();
+        $tokenDeUsuario = $gentoken->tokengenerador();
 
         $data = array(
-            'cadena' => $cadena,
-
+            'tokenDeUsuario' => $tokenDeUsuario,
+            'objetoToken' => $token
         );
-        Mail::send('emails.NuevoPasswordCasa', $data, function ($message) use ($Usuario) {
-
-            $message->from('todociber100@gmail.com', 'Reseteo de Contraseña');
-
-            $message->to($Usuario->email)->subject('Reseteo de Contraseña ');
-
-        });
-        $Usuario->fill(
-            [
-                'password' => bcrypt($cadena),
+        $token->fill([
+                'token' => $tokenDeUsuario,
+                'idUsuario' => $Usuario->id
             ]
         );
-        $Usuario->save();
+        $token->save();
 
-        flash('Se envio una nueva contraseña al correo del usuario', 'info');
+        Mail::send('emails.NuevoPasswordCasa', $data, function ($message) use ($Usuario) {
+
+            $message->from('todociber100@gmail.com', 'Restauracion de password');
+
+            $message->to($Usuario->email)->subject('Restauracion de password');
+
+        });
+
+        flash('Contraseña resteada exitosamente ', 'info');
         return redirect('/UsuarioCasaCorredora');
 
 

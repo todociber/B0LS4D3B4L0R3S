@@ -11,9 +11,9 @@
             <!-- Font Awesome -->
     {!! Html::style('assets/css/font-awesome.css') !!}
     {!! Html::style('dist/css/select2.css') !!}
-            <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.css">
-    <!-- DataTables -->
+
+
+            <!-- DataTables -->
     {!! Html::style('assets/plugins/datatables/dataTables.bootstrap.css') !!}
             <!-- Theme style -->
     {!! Html::style('assets/dist/css/AdminLTE.css') !!}
