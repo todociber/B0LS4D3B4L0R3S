@@ -289,6 +289,7 @@ class SolicitudesCasaCorredora extends Controller
             ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
             ->where('idEstadoSolicitud', '=', '2')
             ->get();
+
         return view('CasaCorredora.SolicitudesAfiliacion.MostrarAfiliados', compact('solicitudes'));
 
     }

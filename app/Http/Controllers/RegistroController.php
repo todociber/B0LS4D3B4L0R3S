@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Http\Requests\RegistroRequest;
 use App\Models\Cedeval;
 use App\Models\Cliente;
 use App\Models\Departamento;
@@ -11,11 +12,16 @@ use App\Models\Municipio;
 use App\Models\Organizacion;
 use App\Models\RolUsuario;
 use App\Models\SolicitudRegistro;
+use App\Models\Telefono;
+use App\Models\token;
 use App\Models\Usuario;
+use App\Utilities\GenerarToken;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Mail;
 use Mockery\CountValidator\Exception;
+use Redirect;
 
 class RegistroController extends Controller
 {
@@ -31,7 +37,7 @@ class RegistroController extends Controller
         $casas = Organizacion::orderBy('nombre', 'ASC')->where('idTipoOrganizacion', '!=', 2)->lists('nombre', 'id');
 
 
-        return view('Clientes.Registro.Registro', ['departamentos' => $departamentos, 'casas' => $casas]);
+        return view('CasaCorredora.SolicitudesAfiliacion.RegistrarCliente', ['departamentos' => $departamentos, 'casas' => $casas]);
     }
 
 
@@ -77,88 +83,78 @@ class RegistroController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RegistroRequest $request)
     {
         try {
-            $this->validate($request, [
-                'nombre' => 'required',
-                'apellido' => 'required',
-                'dui' => 'required|unique:clientes,dui|numeric',
-                'nit' => 'required|unique:clientes,nit|numeric',
-                'nacimiento' => 'required|date',
-                'numeroCasa' => 'required|numeric',
-                'numeroCelular' => 'required|numeric',
-                'departamento' => 'required',
-                'municipio' => 'required',
-                'direccion' => 'required',
-                'cedeval.*.cuenta' => 'required|numeric|unique:cedevals,cuenta',
-                'casaCorredora' => 'required',
-                'numeroafiliacion' => 'required|numeric',
-                'password' => 'required',
-                'password2' => 'required',
-                'email' => 'required|email|unique:usuarios,email',
-            ]);
 
+            //return redirect()->back(
             $usuario = new Usuario();
-
-            if ($request['password'] != $request['password2']) {
-                flash('Las contraseñas ingresadas no coinciden.', 'info');
-                return redirect()->route('Registro.index');
+            if (count($request['cedeval']) > 5) {
+                flash('Solo puede ingresar 5 cuentas cedevales', 'info');
+                return Redirect::back()->withInput();
             } else if (!$this->verifyCedeval($request['cedeval'])) {
                 flash('Ha ingresado cuentas cedevales repetidas', 'info');
-                return redirect()->route('Registro.index');
+                return redirect()->back()->withInput();
+            } else if (Carbon::parse($request['nacimiento'])->diffInYears(Carbon::now(), false) < 18) {
+                flash('Debe ser mayor de de 18 años', 'danger');
+                return redirect()->back()->withInput();
             } else {
-
                 $usuario->fill(
                     [
-                        'idOrganizacion' => 17,
                         'nombre' => $request['nombre'],
                         'apellido' => $request['apellido'],
                         'email' => $request['email'],
-                        'password' => Hash::make($request['password2']),
+                        'password' => bcrypt('12345'),
                     ]
                 );
                 $usuario->save();
-
                 $rolUsuario = new RolUsuario();
                 $rolUsuario->fill(
                     [
                         'idUsuario' => $usuario->id,
                         'idRol' => 5,
-
-
                     ]
                 );
                 $rolUsuario->save();
-
-
                 $clientes = new Cliente();
-
                 $clientes->fill(
                     [
                         'idUsuario' => $usuario->id,
                         'dui' => $request['dui'],
                         'nit' => $request['nit'],
-                        'fecha de nacimiento' => Carbon::parse($request['nacimiento'])->format('Y-m-d'),
-
+                        'fechaDeNacimiento' => Carbon::parse($request['nacimiento'])->format('Y-m-d'),
                     ]
                 );
                 $clientes->save();
-
                 $direccion = new Direccione();
                 $direccion->fill(
                     [
                         'idMunicipio' => $request['municipio'],
                         'idCliente' => $clientes->id,
                         'detalle' => $request['direccion'],
-
                     ]
                 );
                 $direccion->save();
+                $telefono = new Telefono();
+                $telefono->fill(
+                    [
+                        'numero' => $request['numeroCasa'],
+                        'idCliente' => $clientes->id,
+                        'idTipoTelefono' => 1,
+                    ]
+                );
+                $telefono->save();
+                $telefono2 = new Telefono();
+                $telefono2->fill(
+                    [
+                        'numero' => $request['numeroCelular'],
+                        'idCliente' => $clientes->id,
+                        'idTipoTelefono' => 2,
+                    ]
+                );
+                $telefono2->save();
                 // var_dump($request['cedeval']);
                 /*$key => $value*/
-
-
                 foreach ($request['cedeval'] as $cede) {
                     $cedeval = new Cedeval([
                         'idCliente' => $clientes->id,
@@ -169,24 +165,43 @@ class RegistroController extends Controller
                 $solicitud = new SolicitudRegistro();
                 $solicitud->fill([
                     'idCliente' => $clientes->id,
-                    'idOrganizacion' => $request['casaCorredora'],
+                    'idOrganizacion' => Auth::user()->idOrganizacion,
                     'numeroDeAfiliado' => $request['numeroafiliacion'],
+                    'idEstadoSolicitud' => 1,
                 ]);
                 $solicitud->save();
 
-                flash('Datos ingresados con exito', 'success');
-                return redirect()->route('Registro.index');
+                $token = new token();
+                $gentoken = new GenerarToken();
+                $tokenDeUsuario = $gentoken->tokengenerador();
 
+                $data = array(
+                    'tokenDeUsuario' => $tokenDeUsuario,
+                    'objetoToken' => $token
+                );
+                $token->fill([
+                        'token' => $tokenDeUsuario,
+                        'idUsuario' => $usuario->id
+                    ]
+                );
+                $token->save();
+
+                Mail::send('emails.ActivacionCliente', $data, function ($message) {
+
+                    $message->from('bolsaDeValores@todociber.com', 'Activacion de cuenta');
+
+                    $message->to('alexlaley10@gmail.com')->subject('Activar Cuenta de sistema');
+
+                });
+                $clientes->delete();
+                flash('Cliente registrado exitosamente', 'success');
+                return redirect()->route('Afiliados.index');
             }
-
         } catch (Exception $e) {
-
             flash('Ocurrio un problema al ingresar la información', 'danger');
             return redirect()->route('Registro.index');
         }
-
     }
-
     public function verifyCedeval($cedevals)
     {
         $CopyCede = $cedevals;
@@ -202,18 +217,14 @@ class RegistroController extends Controller
                     if ($cede1['cuenta'] == $cede2['cuenta']) {
                         $BandFirst = false;
                         $BandTwo = false;
-
                     }
                 }
                 $y++;
             }
-
             $i++;
         }
-
         return $BandFirst;
     }
-
     /**
      * Display the specified resource.
      *
@@ -224,7 +235,6 @@ class RegistroController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -235,7 +245,6 @@ class RegistroController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -247,10 +256,7 @@ class RegistroController extends Controller
     {
         //
     }
-
-
 //PARA VERIFICAR SI EL USUARIO HA INGRESADO CUENTAS CEDEVALS REPETIDAS
-
     /**
      * Remove the specified resource from storage.
      *
@@ -262,5 +268,38 @@ class RegistroController extends Controller
         //
     }
 
-}
+    public function activarCuenta($tokenDeUsuario)
+    {
 
+        $tokenE = token::where('token', '=', $tokenDeUsuario)->get();
+        if ($tokenE->count() == 0) {
+            flash('Token incorrecto', 'danger');
+            return view('auth.passwords.reset');
+        } else {
+            \Session::push('token', $tokenDeUsuario);
+
+            return view('auth.passwords.reset');
+        }
+
+    }
+
+    public function cambiarPassword(Requests\CambioPasswordRequest $request)
+    {
+        if ($request['password'] == $request['password2']) {
+            $token = \Session::get('token');
+            $tokenE = token::withTrashed()->where('token', '=', $token[0])->first();
+            $usuario = Usuario::where('id', '=', $tokenE->idUsuario)->first();
+            $cliente = Cliente::onlyTrashed()->where('idUsuario', '=', $usuario->id)->first();
+            $usuario->fill([
+                'password' => bcrypt($request['password'])
+            ]);
+            $usuario->save();
+            $cliente->restore();
+            \Session::remove('token');
+            return redirect()->back()->withErrors('Cuenta Activada exitosamente');
+        } else {
+            return redirect()->back()->withErrors('Contraseñas no coiciden');
+        }
+
+    }
+}

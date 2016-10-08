@@ -33,7 +33,7 @@ class UsuarioCasaCorredoraController extends Controller
     {
 
 
-        $Usuarios = Usuario::with('UsuarioRoles')->withTrashed()->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
+        $Usuarios = Usuario::with('UsuarioRoles')->withTrashed()->where('id', '!=', Auth::user()->id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
 
 
         return view('CasaCorredora.Usuarios.MostrarUsuarios', ['Usuarios' => $Usuarios]);

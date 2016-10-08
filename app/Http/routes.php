@@ -12,8 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+})->name('Url.base');
 
 
 
@@ -120,6 +119,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('Ordenes/{id}/Operaciones', 'OrdenesController@Operaciones')->name('Ordenes.operaciones');
             Route::post('Ordenes/{id}/Operaciones/Guardar', 'OrdenesController@OperacionesGuardar')->name('Ordenes.operacionesGuardar');
             Route::get('Ordenes/{id}/editarOrden', 'OrdenesController@Editar')->name('Ordenes.editar');
+
+            Route::get('RegistrarClientes', 'RegistroController@index')->name('Registrar.Clientes');
+
             Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
         });
 
@@ -142,8 +144,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 });
-
-
+Route::get('/activacion/{tokenDeUsuario}/cuenta', 'Registrocontroller@activarCuenta')->name('Token.Activacion');
+Route::post('cambiar/password', 'Registrocontroller@cambiarPassword')->name('Cambiar.password');
 Route::auth();
 Route::get('admin', 'HomeController@index');
 Route::get('/home', 'HomeController@index');

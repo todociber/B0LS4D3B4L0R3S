@@ -50,7 +50,7 @@ class LatchController extends Controller
                     }
 
 
-                    redirect()->back()->withErrors("Pareado exitoso");
+                    return redirect('LatchSolicitud');
                     // Si consigue parear guardamos el identificador del usuario (cifrado) de Latch en nuestra base de datos
                 } // Si ocurre algún error, mostramos al usuario un mensaje de error de una forma amigable
                 else {
@@ -79,7 +79,9 @@ class LatchController extends Controller
             // Despareamos al usuario de Latch
             if (Latch::unpair($accountId->tokenLatch)) {
                 $accountId->delete();
-                redirect()->back()->withErrors("Desenparejado completado");
+                flash('Desemparejado completado', 'warning');
+                return redirect('LatchSolicitud');
+
             } // Si hay algun error, se lo mostramos al usuario
             else {
                 echo Latch::error();
@@ -98,10 +100,11 @@ class LatchController extends Controller
         if ($rolAdmin->Administrador(Auth::user())) {
             $latch = LatchModel::where('idUsuario', '=', Auth::user()->id)->count();
             if ($latch > 0) {
-                return redirect()->back()->withErrors('Ya tiene latch asociado a su cuenta');
+                flash('Su cuenta ya se encuentra protegida por Latch', 'danger');
             } else {
-                return view('auth.latch');
+
             }
+            return view('auth.latch');
         } else {
             return redirect()->back()->withErrors('Opcion permitida solo a administradores');
         }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class LatchData extends Migration
+class TokensTabla extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,14 @@ class LatchData extends Migration
      */
     public function up()
     {
-        Schema::create('latchdatatoken', function (Blueprint $table) {
+        Schema::create('tokens', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('tokenLatch',500);
+            $table->string('token', 500);
             $table->integer('idUsuario')->unsigned();
-            $table->foreign('idUsuario')->references('id')->on('usuarios');
-            $table->timestamps();
+            $table->foreign('idUsuario')
+                ->references('id')->on('usuarios');
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -29,6 +30,6 @@ class LatchData extends Migration
      */
     public function down()
     {
-        Schema::drop('LatchDataToken');
+        Schema::drop('tokens');
     }
 }
