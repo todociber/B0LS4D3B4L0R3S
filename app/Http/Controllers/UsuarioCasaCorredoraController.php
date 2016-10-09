@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\LatchModel;
 use App\Models\Ordene;
 use App\Models\Role;
 use App\Models\RolUsuario;
@@ -14,6 +15,7 @@ use DB;
 use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Latch;
 use Mail;
 use Mockery\CountValidator\Exception;
 use Redirect;
@@ -245,12 +247,15 @@ class UsuarioCasaCorredoraController extends Controller
                     }
                     if ($existeId == 0) {
                         if (Auth::user()->id == $id && $idRolDisponible == 2) {
+
                         } else {
                             $RolUsuarioABorrar = RolUsuario::where('idUsuario', $id)
                                 ->where('idRol', $idRolDisponible)->first();
 
 
                             if ($ordenesVigentes == 1) {
+
+
                                 if ($RolUsuarioABorrar->idRol == 4) {
                                     $usuario = Usuario::ofid($id)->get();
                                     $ordenes = Ordene::where('idCorredor', '=', $id)
@@ -264,8 +269,20 @@ class UsuarioCasaCorredoraController extends Controller
                                     flash('Usuario tiene ordenes pendientes', 'danger');
                                     return view('CasaCorredora.OrdenesAutorizador.ReAsignarOrdenes', compact('ordenes', 'usuario'));
 
+                                } elseif ($RolUsuarioABorrar->idRol == 2) {
+
+                                    $LatchTokenExiste = LatchModel::where('idUsuario', '=', $id)->count();
+                                    if ($LatchTokenExiste > 0) {
+                                        $accountId = LatchModel::where('idUsuario', '=', $id)->first();
+                                        if (Latch::unpair($accountId->tokenLatch)) {
+                                            $accountId->delete();
+                                        }
+                                    }
+                                    $RolUsuarioABorrar->delete();
+
                                 } else {
                                     $RolUsuarioABorrar->delete();
+
                                 }
                             } else {
                                 \Session::remove('EditarUsuario');
@@ -355,6 +372,14 @@ class UsuarioCasaCorredoraController extends Controller
                         $solicitudes->save();
                     }
 
+                }
+
+                $LatchTokenExiste = LatchModel::where('idUsuario', '=', $Usuario->id)->count();
+                if ($LatchTokenExiste > 0) {
+                    $accountId = LatchModel::where('idUsuario', '=', $Usuario->id)->first();
+                    if (Latch::unpair($accountId->tokenLatch)) {
+                        $accountId->delete();
+                    }
                 }
                 $Usuario->delete();
                 if (\Session::has('UsuarioEliminar')) {

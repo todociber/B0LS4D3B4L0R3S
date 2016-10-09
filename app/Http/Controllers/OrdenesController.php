@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\EstadoOrden;
 use App\Models\Mensaje;
 use App\Models\OperacionBolsa;
 use App\Models\Ordene;
 use App\Utilities\RolIdentificador;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -278,4 +280,90 @@ class OrdenesController extends Controller
             return redirect('/Ordenes');
         }
     }
+
+
+    public function DetalleOrdenPDF($id)
+    {
+        $ordenes = Ordene::ofid($id)->get();
+        if ($ordenes->count() > 0) {
+            if ($ordenes[0]->idOrganizacion != Auth::user()->idOrganizacion) {
+                flash('Error en consulta', 'danger');
+                return redirect('/Ordenes');
+            } else {
+
+                $ordenes = Ordene::ofid($id)
+                    ->with(['MensajesN_Orden', 'Corredor_UsuarioN' => function ($query) {
+                        $query->withTrashed();
+                    }])->get();
+
+                $view = \View::make('CasaCorredora.OrdenesAutorizador.OrdenReportePDF', compact('ordenes'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view);
+                return $pdf->stream('DetalleOrden#' . $ordenes[0]->correlativo);
+            }
+        } else {
+            flash('Orden no encontrada', 'danger');
+            return redirect('/Ordenes');
+        }
+    }
+
+
+    public function DetallesOrdenesPDF()
+    {
+        $ordenes = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganizacion)->with(['MensajesN_Orden', 'Corredor_UsuarioN' => function ($query) {
+            $query->withTrashed();
+        }])->get();
+
+        $view = \View::make('CasaCorredora.OrdenesAutorizador.OrdenesReportePDF', compact('ordenes'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        return $pdf->stream('DetalleOrden#' . $ordenes[0]->correlativo);
+    }
+
+    public function ReporteFecha()
+    {
+        $estadosOrdenes = EstadoOrden::orderBy('id', 'ASC')->lists('estado', 'id');
+        $estadosOrdenes['7'] = 'Todas';
+        return view('CasaCorredora.Ordenes.ReporteDeOrdenes', compact('estadosOrdenes'));
+    }
+
+    public function ReporteFechaBuscar(Requests\BuscadorOrdenRequest $request)
+    {
+
+        $fechaInicial = Carbon::parse($request['fechaInicial'])->format('Y-m-d');
+        $fechaFinal = Carbon::parse($request['fechaFinal'])->format('Y-m-d');
+        $estadoOrden = $request['estadoOrden'];
+        if (Carbon::parse($request['fechaInicial'])->diffInDays(Carbon::parse($request['fechaFinal']), false) >= 0) {
+            if ($estadoOrden == 7) {
+                $ordenes = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganizacion)->whereBetween('created_at', [$fechaInicial . ' 00:00:00', $fechaFinal . ' 00:00:00'])->with(['MensajesN_Orden', 'Corredor_UsuarioN' => function ($query) {
+                    $query->withTrashed();
+                }])->get();
+            } else {
+                $ordenes = Ordene::where('idEstadoOrden', '=', $estadoOrden)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->whereBetween('created_at', [$fechaInicial . ' 00:00:00', $fechaFinal . ' 00:00:00'])->with(['MensajesN_Orden', 'Corredor_UsuarioN' => function ($query) {
+                    $query->withTrashed();
+                }])->get();
+            }
+            if ($ordenes->count() > 0) {
+                $view = \View::make('CasaCorredora.OrdenesAutorizador.OrdenesReportePDF', compact('ordenes'))->render();
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($view);
+                return $pdf->stream('DetalleOrden#' . $ordenes[0]->correlativo);
+            } else {
+                return redirect()->back()->withInput()->withErrors('No se encontraron ordenes para el reporte');
+            }
+
+        } else {
+
+            return redirect()->back()->withInput()->withErrors('Fecha final no puede ser mayor que la fecha inicial');
+        }
+
+
+    }
+
+
 }
+
+
+
+
+

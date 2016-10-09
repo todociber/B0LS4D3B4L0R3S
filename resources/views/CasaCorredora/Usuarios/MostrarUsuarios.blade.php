@@ -15,8 +15,7 @@
         <div class="box-header with-border">
             <h3 class="box-title">Usuarios</h3>
         </div><!-- /.box-header -->
-    </div><!-- /.box-header -->
-        <!-- form start -->
+
         <div class="box-body">
             <div role="form">
                 <div class="row">

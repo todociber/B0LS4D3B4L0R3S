@@ -17,7 +17,7 @@
     @if($rol->Autorizador(Auth::user()))
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Ordenes</h3>
+                <h3 class="box-title">Ordenes pendientes de asignacion</h3>
             </div><!-- /.box-header -->
             <!-- form start -->
             <div class="box-body">
@@ -90,7 +90,7 @@
     @endif
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Ordenes</h3>
+            <h3 class="box-title">Ordenes asignadas</h3>
         </div><!-- /.box-header -->
         <!-- form start -->
         <div class="box-body">

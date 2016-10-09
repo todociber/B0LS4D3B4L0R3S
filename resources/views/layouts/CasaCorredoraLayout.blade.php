@@ -162,6 +162,8 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                     <ul class="treeview-menu">
                         <li id="listadoOrdenes"><a href="{{route('Ordenes.index')}}"><i
                                         class="fa fa-circle-o"></i>Ordenes Vigentes</a></li>
+                        <li id="listadoOrdenes2"><a href="{{route('OrdenesReporte.Fecha')}}"><i
+                                        class="fa fa-circle-o"></i>Reporte de Ordenes</a></li>
 
                     </ul>
                 </li>

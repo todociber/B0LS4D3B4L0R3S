@@ -153,6 +153,7 @@
                                 <b>Estado:</b><span style="color:orangered"> {{$orden->EstadoOrden->estado}}</span>
                                 <br><br>
 
+                                {!!link_to_route('OrdenesDetalles.PDF', $title = 'Descargar Reporte', $parameters = $orden->id, $attributes = ['class'=>'btn btn-info','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                 @if($orden->idEstadoOrden==2)
                                     {!!link_to_route('Ordenes.editar', $title = 'Editar', $parameters = $orden->id, $attributes = ['class'=>'btn btn-warning','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'danger'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                 @endif
