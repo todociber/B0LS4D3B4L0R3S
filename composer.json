@@ -12,7 +12,8 @@
         "nesbot/carbon": "^1.21",
         "laracasts/flash": "^2.0",
         "faytzel/laravel-latch": "1.*",
-        "guzzlehttp/guzzle": "~6.0"
+        "guzzlehttp/guzzle": "^6.2",
+        "barryvdh/laravel-dompdf": "^0.7.0"
 
 
     },

@@ -20,7 +20,7 @@ class SolicitudesCasaCorredora extends Controller
     public function index()
     {
 
-        $solicitudes = SolicitudRegistro::with('ClienteNSolicitud', 'EstadoSolicitudN')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoSolicitud', '=', '1')->get();
+        $solicitudes = SolicitudRegistro::with('ClienteNSolicitud', 'EstadoSolicitudN')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoSolicitud', '=', '5')->get();
         return view('CasaCorredora.SolicitudesAfiliacion.MostrarAfiliaciones', compact('solicitudes'));
     }
 
@@ -245,7 +245,7 @@ class SolicitudesCasaCorredora extends Controller
         }
         if ($solicitud[0]->idOrganizacion == Auth::user()->idOrganizacion) {
 
-            if ($solicitud[0]->idEstadoSolicitud == 1) {
+            if ($solicitud[0]->idEstadoSolicitud == 5) {
                 $solicitudAActualizar = SolicitudRegistro::find($id);
 
                 $solicitudAActualizar->fill(
@@ -311,7 +311,10 @@ class SolicitudesCasaCorredora extends Controller
             if ($solicitud[0]->idEstadoSolicitud == 2) {
                 $solicitudAActualizar = SolicitudRegistro::find($id);
 
-                $solicitudAActualizar->delete();
+                $solicitudAActualizar->fill([
+                    'idEstadoSolicitud' => '3'
+                ]);
+                $solicitudAActualizar->save();
                 flash('Afiliado Eliminado ', 'success');
                 return redirect('/Afiliados');
 

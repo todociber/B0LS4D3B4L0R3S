@@ -151,7 +151,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         'Faytzel\LaravelLatch\LaravelLatchServiceProvider',
-
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -210,6 +210,7 @@ return [
         'Html' => 'Collective\Html\HtmlFacade',
         'Flash' => Laracasts\Flash\Flash::class,
         'Latch' => 'Faytzel\LaravelLatch\Facades\LaravelLatch',
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
 
     ],

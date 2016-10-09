@@ -51,7 +51,7 @@ class ClientesController extends Controller
         $count = SolicitudRegistro::where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", 2)->count();
         if ($count > 0) {
             $client = new GuzzleHttp\Client();
-            $res = $client->request('GET', 'https://e60e591e.ngrok.io/GetTitulos');
+            $res = $client->request('GET', 'http://e60e591e.ngrok.io/GetTitulos');
             $bodyJ = $res->getBody();
             $body = json_decode($bodyJ);
             Log::info($body->Titulos);
