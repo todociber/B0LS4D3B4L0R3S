@@ -106,7 +106,7 @@ class RegistroController extends Controller
                         'nombre' => $request['nombre'],
                         'apellido' => $request['apellido'],
                         'email' => $request['email'],
-                        'password' => bcrypt('12345'),
+                        'password' => bcrypt(Carbon::now()),
                     ]
                 );
                 $usuario->save();
@@ -170,7 +170,7 @@ class RegistroController extends Controller
                     'idOrganizacion' => Auth::user()->idOrganizacion,
                     'numeroDeAfiliado' => $request['numeroafiliacion'],
                     'idUsuario' => Auth::user()->id,
-                    'idEstadoSolicitud' => 1,
+                    'idEstadoSolicitud' => 2,
                 ]);
                 $solicitud->save();
 
@@ -196,7 +196,7 @@ class RegistroController extends Controller
                     $message->to($usuario->email)->subject('Activar cuenta de sistema de Ordenes ');
 
                 });
-                $clientes->delete();
+
                 flash('Cliente registrado exitosamente', 'success');
                 return redirect()->route('Afiliados.index');
             }
@@ -295,18 +295,6 @@ class RegistroController extends Controller
             $usuario->fill([
                 'password' => bcrypt($request['password'])
             ]);
-            if ($usuario->idOrganizacion == null) {
-                $cliente = Cliente::withTrashed()->where('idUsuario', '=', $usuario->id)->first();
-                $solicitud = SolicitudRegistro::where('idCliente', '=', $cliente->id)->first();
-                $solicitud->fill([
-                    'idEstadoSolicitud' => '2'
-                ]);
-                $solicitud->save();
-                $cliente->restore();
-                flash('Cuenta activada exitosamente', 'success');
-            } else {
-                flash('Password actualizado', 'success');
-            }
             $usuario->save();
             $usuario->restore();
             $tokenE->delete();
