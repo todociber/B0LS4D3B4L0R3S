@@ -333,28 +333,33 @@ class OrdenesController extends Controller
         $fechaInicial = Carbon::parse($request['fechaInicial'])->format('Y-m-d');
         $fechaFinal = Carbon::parse($request['fechaFinal'])->format('Y-m-d');
         $estadoOrden = $request['estadoOrden'];
-        if (Carbon::parse($request['fechaInicial'])->diffInDays(Carbon::parse($request['fechaFinal']), false) >= 0) {
-            if ($estadoOrden == 7) {
-                $ordenes = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganizacion)->whereBetween('created_at', [$fechaInicial . ' 00:00:00', $fechaFinal . ' 00:00:00'])->with(['MensajesN_Orden', 'Corredor_UsuarioN' => function ($query) {
-                    $query->withTrashed();
-                }])->get();
-            } else {
-                $ordenes = Ordene::where('idEstadoOrden', '=', $estadoOrden)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->whereBetween('created_at', [$fechaInicial . ' 00:00:00', $fechaFinal . ' 00:00:00'])->with(['MensajesN_Orden', 'Corredor_UsuarioN' => function ($query) {
-                    $query->withTrashed();
-                }])->get();
-            }
-            if ($ordenes->count() > 0) {
-                $view = \View::make('CasaCorredora.OrdenesAutorizador.OrdenesReportePDF', compact('ordenes'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view);
-                return $pdf->stream('DetalleOrden#' . $ordenes[0]->correlativo);
-            } else {
-                return redirect()->back()->withInput()->withErrors('No se encontraron ordenes para el reporte');
-            }
 
+        if (Carbon::now()->diffInDays(Carbon::parse($request['fechaFinal']), false) <= 0) {
+            if (Carbon::parse($request['fechaInicial'])->diffInDays(Carbon::parse($request['fechaFinal']), false) >= 0) {
+                if ($estadoOrden == 7) {
+                    $ordenes = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganizacion)->whereBetween('created_at', [$fechaInicial . ' 00:00:00', $fechaFinal . ' 00:00:00'])->with(['MensajesN_Orden', 'Corredor_UsuarioN' => function ($query) {
+                        $query->withTrashed();
+                    }])->get();
+                } else {
+                    $ordenes = Ordene::where('idEstadoOrden', '=', $estadoOrden)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->whereBetween('created_at', [$fechaInicial . ' 00:00:00', $fechaFinal . ' 00:00:00'])->with(['MensajesN_Orden', 'Corredor_UsuarioN' => function ($query) {
+                        $query->withTrashed();
+                    }])->get();
+                }
+                if ($ordenes->count() > 0) {
+                    $view = \View::make('CasaCorredora.OrdenesAutorizador.OrdenesReportePDF', compact('ordenes'))->render();
+                    $pdf = \App::make('dompdf.wrapper');
+                    $pdf->loadHTML($view);
+                    return $pdf->stream('DetalleOrden#' . $ordenes[0]->correlativo);
+                } else {
+                    return redirect()->back()->withInput()->withErrors('No se encontraron ordenes para el reporte');
+                }
+
+            } else {
+
+                return redirect()->back()->withInput()->withErrors('Fecha final no puede ser mayor que la fecha inicial');
+            }
         } else {
-
-            return redirect()->back()->withInput()->withErrors('Fecha final no puede ser mayor que la fecha inicial');
+            return redirect()->back()->withInput()->withErrors('Fecha final no puede ser mayor que el dia de hoy');
         }
 
 

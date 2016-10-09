@@ -1,21 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="ReAceptacion de Afiliados funcionando">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Http/Requests/BuscadorOrdenRequest.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database/migrations/2016_10_08_214402_ProcedimientoAlmacenadoOrdenes.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/ReporteDeOrdenes.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/formularios/ReporteFechas.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/OrdenReportePDF.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/OrdenesReportePDF.blade.php" />
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Reporte de Ordenes en PDF funcional">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/MostrarUsuarios.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/MostrarUsuarios.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -113,7 +101,7 @@
         <entry file="file://$PROJECT_DIR$/app/Http/Requests/BuscadorOrdenRequest.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-15.038462">
-              <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+              <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -158,7 +146,7 @@
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-14.346154">
-              <caret line="131" column="94" selection-start-line="131" selection-start-column="94" selection-end-line="131" selection-end-column="120" />
+              <caret line="131" column="95" selection-start-line="131" selection-start-column="95" selection-end-line="131" selection-end-column="121" />
               <folding />
             </state>
           </provider>
@@ -167,10 +155,11 @@
       <file leaf-file-name="OrdenesController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.13876653">
-              <caret line="334" column="51" selection-start-line="334" selection-start-column="51" selection-end-line="334" selection-end-column="51" />
+            <state vertical-scroll-proportion="1.2246696">
+              <caret line="361" column="112" selection-start-line="361" selection-start-column="112" selection-end-line="361" selection-end-column="112" />
               <folding>
-                <marker date="1475999540139" expanded="true" signature="4324:4802" placeholder="select COUNT..usuarios..." />
+                <element signature="e#40#62#0#PHP" expanded="true" />
+                <marker date="1475999877467" expanded="true" signature="4289:4767" placeholder="select COUNT..usuarios..." />
               </folding>
             </state>
           </provider>
@@ -202,8 +191,8 @@
             <state vertical-scroll-proportion="-23.423077">
               <caret line="36" column="27" selection-start-line="36" selection-start-column="27" selection-end-line="36" selection-end-column="27" />
               <folding>
-                <marker date="1475995104159" expanded="true" signature="1632:1885" placeholder="..." />
-                <marker date="1475995104159" expanded="true" signature="1646:1884" placeholder="..." />
+                <marker date="1475999571714" expanded="true" signature="1624:1877" placeholder="..." />
+                <marker date="1475999571714" expanded="true" signature="1638:1876" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -1016,7 +1005,13 @@
       <option name="project" value="LOCAL" />
       <updated>1475971489894</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Reporte de Ordenes en PDF funcional">
+      <created>1475999575930</created>
+      <option name="number" value="00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1475999575930</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -1029,6 +1024,7 @@
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3050162" sideWeight="0.49421486" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3656286" sideWeight="0.50647247" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928804" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1038,7 +1034,6 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23263328" sideWeight="0.5057851" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32802126" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1115,7 +1110,8 @@
     <MESSAGE value="Falta Validacion de contraseñas con JS solamente" />
     <MESSAGE value="Password fuerza validator agregado," />
     <MESSAGE value="ReAceptacion de Afiliados funcionando" />
-    <option name="LAST_COMMIT_MESSAGE" value="ReAceptacion de Afiliados funcionando" />
+    <MESSAGE value="Reporte de Ordenes en PDF funcional" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reporte de Ordenes en PDF funcional" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1221,8 +1217,7 @@
         <state vertical-scroll-proportion="-3.4">
           <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
           <folding>
-            <element signature="e#40#62#0#PHP" expanded="true" />
-            <marker date="1475982317342" expanded="true" signature="40:420" placeholder="..." />
+            <marker date="1475999571687" expanded="true" signature="40:420" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1435,16 +1430,16 @@
         <state vertical-scroll-proportion="-11.115385">
           <caret line="17" column="3" selection-start-line="17" selection-start-column="3" selection-end-line="17" selection-end-column="3" />
           <folding>
-            <marker date="1475994624645" expanded="true" signature="603:862" placeholder="..." />
-            <marker date="1475994624645" expanded="true" signature="617:861" placeholder="..." />
-            <marker date="1475994624645" expanded="true" signature="2168:2436" placeholder="..." />
-            <marker date="1475994624645" expanded="true" signature="2182:2435" placeholder="..." />
-            <marker date="1475994624645" expanded="true" signature="2625:2893" placeholder="..." />
-            <marker date="1475994624645" expanded="true" signature="2639:2892" placeholder="..." />
-            <marker date="1475994624645" expanded="true" signature="3155:3360" placeholder="..." />
-            <marker date="1475994624645" expanded="true" signature="3168:3359" placeholder="..." />
-            <marker date="1475994624645" expanded="true" signature="3545:3829" placeholder="..." />
-            <marker date="1475994624645" expanded="true" signature="3559:3828" placeholder="..." />
+            <marker date="1475999571740" expanded="true" signature="600:859" placeholder="..." />
+            <marker date="1475999571740" expanded="true" signature="614:858" placeholder="..." />
+            <marker date="1475999571740" expanded="true" signature="2165:2433" placeholder="..." />
+            <marker date="1475999571740" expanded="true" signature="2179:2432" placeholder="..." />
+            <marker date="1475999571740" expanded="true" signature="2622:2890" placeholder="..." />
+            <marker date="1475999571740" expanded="true" signature="2636:2889" placeholder="..." />
+            <marker date="1475999571740" expanded="true" signature="3152:3357" placeholder="..." />
+            <marker date="1475999571740" expanded="true" signature="3165:3356" placeholder="..." />
+            <marker date="1475999571740" expanded="true" signature="3542:3826" placeholder="..." />
+            <marker date="1475999571740" expanded="true" signature="3556:3825" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1524,8 +1519,8 @@
         <state vertical-scroll-proportion="-23.423077">
           <caret line="36" column="27" selection-start-line="36" selection-start-column="27" selection-end-line="36" selection-end-column="27" />
           <folding>
-            <marker date="1475995104159" expanded="true" signature="1632:1885" placeholder="..." />
-            <marker date="1475995104159" expanded="true" signature="1646:1884" placeholder="..." />
+            <marker date="1475999571714" expanded="true" signature="1624:1877" placeholder="..." />
+            <marker date="1475999571714" expanded="true" signature="1638:1876" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1541,7 +1536,7 @@
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-14.346154">
-          <caret line="131" column="94" selection-start-line="131" selection-start-column="94" selection-end-line="131" selection-end-column="120" />
+          <caret line="131" column="95" selection-start-line="131" selection-start-column="95" selection-end-line="131" selection-end-column="121" />
           <folding />
         </state>
       </provider>
@@ -1597,7 +1592,7 @@
     <entry file="file://$PROJECT_DIR$/app/Http/Requests/BuscadorOrdenRequest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-15.038462">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1612,10 +1607,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13876653">
-          <caret line="334" column="51" selection-start-line="334" selection-start-column="51" selection-end-line="334" selection-end-column="51" />
+        <state vertical-scroll-proportion="1.2246696">
+          <caret line="361" column="112" selection-start-line="361" selection-start-column="112" selection-end-line="361" selection-end-column="112" />
           <folding>
-            <marker date="1475999540139" expanded="true" signature="4324:4802" placeholder="select COUNT..usuarios..." />
+            <element signature="e#40#62#0#PHP" expanded="true" />
+            <marker date="1475999877467" expanded="true" signature="4289:4767" placeholder="select COUNT..usuarios..." />
           </folding>
         </state>
       </provider>
