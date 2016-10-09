@@ -291,7 +291,7 @@ class RegistroController extends Controller
         if ($request['password'] == $request['password2']) {
             $token = \Session::get('token');
             $tokenE = token::withTrashed()->where('token', '=', $token[0])->first();
-            $usuario = Usuario::where('id', '=', $tokenE->idUsuario)->first();
+            $usuario = Usuario::withTrashed()->where('id', '=', $tokenE->idUsuario)->first();
             $usuario->fill([
                 'password' => bcrypt($request['password'])
             ]);
@@ -308,6 +308,7 @@ class RegistroController extends Controller
                 flash('Password actualizado', 'success');
             }
             $usuario->save();
+            $usuario->restore();
             $tokenE->delete();
             \Session::remove('token');
             return redirect('/login');
