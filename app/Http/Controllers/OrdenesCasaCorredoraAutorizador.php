@@ -288,7 +288,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                 ]);
                 $orden->save();
                 flash('Agente corredor asignado exitosamente', 'success');
-                return redirect()->back();
+                return redirect("/UsuarioCasaCorredora/" . \Session::get('UsuarioEliminar') . "/editar");
             } else {
                 flash('Error en consulta', 'danger');
                 return redirect('/Ordenes');

@@ -86,12 +86,11 @@ class UsuarioCasaCorredoraController extends Controller
             $cadena .= substr($caracteres, rand(0, strlen($caracteres)), 1);
         }
 
-//COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
 
         $cadena = 'todociber';
 
 
-//COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
+
         $Usuario = new Usuario(
             [
                 'nombre' => $request['nombre'],
@@ -104,13 +103,41 @@ class UsuarioCasaCorredoraController extends Controller
 
         $Usuario->save();
 
+
         foreach ($request['rolUsuario'] as $roles) {
             $RolUsuario = new RolUsuario([
                 'idUsuario' => $Usuario->id,
                 'idRol' => $roles,
             ]);
             $RolUsuario->save();
+
+
         }
+
+        $token = new token();
+        $gentoken = new GenerarToken();
+        $tokenDeUsuario = $gentoken->tokengenerador();
+
+        $data = array(
+            'tokenDeUsuario' => $tokenDeUsuario,
+            'objetoToken' => $token
+        );
+        $token->fill([
+                'token' => $tokenDeUsuario,
+                'idUsuario' => $Usuario->id
+            ]
+        );
+        $token->save();
+
+        Mail::send('emails.ActivacionCliente', $data, function ($message) use ($Usuario) {
+
+            $message->from('todociber100@gmail.com', 'Activacion de cuenta');
+
+            $message->to($Usuario->email)->subject('Activar cuenta de sistema de Ordenes ');
+
+        });
+
+        $Usuario->delete();
 
         flash('El usuario  se registro exitosamente', 'success');
         return redirect('/UsuarioCasaCorredora');
@@ -216,15 +243,70 @@ class UsuarioCasaCorredoraController extends Controller
             }
 
 
-            $usuario->fill(
-                [
-                    'nombre' => $request['nombre'],
-                    'apellido' => $request['apellido'],
-                    'email' => $request['email'],
-                    'idOrganizacion' => Auth::user()->idOrganizacion,
-                ]
-            );
-            $usuario->save();
+            if ($usuario->email != $request['email']) {
+                if ($ordenesVigentes == 1) {
+                    $usuario = Usuario::ofid($id)->get();
+                    $ordenes = Ordene::where('idCorredor', '=', $id)
+                        ->where('idEstadoOrden', '=', 2)
+                        ->orWhere('idEstadoOrden', '=', 5)
+                        ->get();
+                    \Session::set('UsuarioEliminar', $id);
+                    \Session::set('EditarUsuario', $id);
+
+
+                    flash('Usuario tiene ordenes pendientes', 'danger');
+                    return view('CasaCorredora.OrdenesAutorizador.ReAsignarOrdenes', compact('ordenes', 'usuario'));
+                } else {
+                    $usuario->fill(
+                        [
+                            'nombre' => $request['nombre'],
+                            'apellido' => $request['apellido'],
+                            'email' => $request['email'],
+                            'idOrganizacion' => Auth::user()->idOrganizacion,
+                        ]
+                    );
+
+                    $usuario->save();
+
+                    $token = new token();
+                    $gentoken = new GenerarToken();
+                    $tokenDeUsuario = $gentoken->tokengenerador();
+
+                    $data = array(
+                        'tokenDeUsuario' => $tokenDeUsuario,
+                        'objetoToken' => $token
+                    );
+                    $token->fill([
+                            'token' => $tokenDeUsuario,
+                            'idUsuario' => $usuario->id
+                        ]
+                    );
+                    $token->save();
+
+                    Mail::send('emails.ActivacionCliente', $data, function ($message) use ($usuario) {
+
+                        $message->from('todociber100@gmail.com', 'Activacion de cuenta');
+
+                        $message->to($usuario->email)->subject('Activar cuenta de sistema de Ordenes ');
+
+                    });
+
+                    $usuario->delete();
+                }
+            } else {
+                $usuario->fill(
+                    [
+                        'nombre' => $request['nombre'],
+                        'apellido' => $request['apellido'],
+                        'email' => $request['email'],
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                    ]
+                );
+
+                $usuario->save();
+            }
+
+
 
             $rolesDisponibles = Role::all();
 
