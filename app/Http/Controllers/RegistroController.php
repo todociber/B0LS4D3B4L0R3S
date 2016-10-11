@@ -182,7 +182,8 @@ class RegistroController extends Controller
                     'tokenDeUsuario' => $tokenDeUsuario,
                     'objetoToken' => $token
                 );
-                $token->fill([
+                $token->fill(
+                    [
                         'token' => $tokenDeUsuario,
                         'idUsuario' => $usuario->id
                     ]

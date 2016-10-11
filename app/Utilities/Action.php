@@ -5,6 +5,7 @@ namespace App\Utilities;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class Action
 {
@@ -23,6 +24,19 @@ class Action
 
         return '12345';
 
+    }
+
+    public function sendEmail($data, $email, $tema, $subject, $page)
+    {
+        Mail::send($page, $data, function ($message) use ($email, $tema, $subject) {
+
+            $message->from('todociber100@gmail.com', $tema);
+
+            $message->to($email)->subject($subject);
+
+        });
+        
+        
     }
 
 

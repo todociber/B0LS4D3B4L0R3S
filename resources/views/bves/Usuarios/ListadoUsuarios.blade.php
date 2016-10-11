@@ -7,7 +7,7 @@
         $('#usuarios').addClass('active');
         $('#catalogo').addClass('active');
         function desactivarActivarCasa(nombre, activar, id, accion) {
-            $('#modalbody').text("¿Desea " + activar + "la casa " + nombre + " ?");
+            $('#modalbody').text("¿Desea " + activar + " al usuario " + nombre + " ?");
             $('#idusuario').val(id);
             $('#tipo').val(accion);
 

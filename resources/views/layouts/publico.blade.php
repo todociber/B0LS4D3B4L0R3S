@@ -63,34 +63,10 @@
 <body class="hold-transition skin-black-light sidebar-mini">
 <div class="wrapper">
 
-    <header class="main-header">
 
-        <!-- Header Navbar: style can be found in header.less -->
-        <nav class="navbar navbar-static-top" role="navigation">
-            <!-- Logo -->
-            <a href="#" class="logo">
-                <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>A</b>LT</span>
-                <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>CLIENTES</b></span>
-            </a>
-            <!-- Sidebar toggle a-->
-            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="a">
-                <span class="sr-only">Toggle navigation</span>
-            </a>
-
-
-        </nav>
-    </header>
-    <!-- Left side column. contains the logo and sidebar -->
-    <aside class="main-sidebar">
-        <!-- sidebar: style can be found in sidebar.less -->
-
-        <!-- /.sidebar -->
-    </aside>
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
+
+    <!-- Content Header (Page header) -->
         <section class="content-header">
 
 
@@ -101,36 +77,12 @@
         <section class="content">
             @yield('content')
         </section>
-        <section class="content">
-            @yield('content2')
-        </section>
-
-    </div><!-- /.content-wrapper -->
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0.0
-        </div>
-        <strong>Copyright &copy; 2016-2017 <a href="https://bolsadevalores.com.sv">Bolsa de Valores de El Salvador</a>.</strong>
-        Derechos reservados.
-    </footer>
 
 
 </div>
 
 <script>
-    $(function () {
-        $("#example1").DataTable();
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false
-        });
-    });
-    $(document).ready(function () {
-    })
+
 </script>
 </body>
 </html>
