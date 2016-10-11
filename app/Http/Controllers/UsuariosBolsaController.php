@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\RolUsuario;
+use App\Models\token;
 use App\Models\Usuario;
 use App\Utilities\Action;
+use App\Utilities\GenerarToken;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Mockery\CountValidator\Exception;
 
 class UsuariosBolsaController extends Controller
@@ -73,6 +76,35 @@ class UsuariosBolsaController extends Controller
                     $usuario->restore();
 
                 }
+
+                $token = new token();
+                $gentoken = new GenerarToken();
+                $tokenDeUsuario = $gentoken->tokengenerador();
+
+
+                $data = [
+                    'tokenDeUsuario' => $tokenDeUsuario,
+                    'objetoToken' => $token,
+                    'titulo' => 'Activación de cuenta',
+                    'nombre' => 'Activación de cuenta, para: ' . $usuario->nombre,
+                    'usuario' => $usuario->email,
+                    'ruta' => 'Token.Activacion',
+                    'subtitulo' => 'Ingresa al siguiente enlace par activar tu usuario'
+                ];
+                $token->fill([
+                    'token' => $tokenDeUsuario,
+                    'idUsuario' => $usuario->id
+                ]);
+                $token->save();
+
+                Mail::send('emails.ResetPasswordBolsa', $data, function ($message) use ($usuario) {
+
+                    $message->from('todociber100@gmail.com', 'Activación de cuenta');
+
+                    $message->to($usuario->email)->subject('Activación de cuenta');
+
+                });
+                
                 flash('Usuario guardado con éxito', 'success');
                 return redirect()->route('catalogoUsuarios');
             }
@@ -176,6 +208,34 @@ class UsuariosBolsaController extends Controller
                 $pass = $action->makePassword($user->id);
                 $user->password = Hash::make($pass);
                 $user->save();
+
+                $token = new token();
+                $gentoken = new GenerarToken();
+                $tokenDeUsuario = $gentoken->tokengenerador();
+
+
+                $data = [
+                    'tokenDeUsuario' => $tokenDeUsuario,
+                    'objetoToken' => $token,
+                    'titulo' => 'Activación de cuenta',
+                    'nombre' => 'Cambio de contraseña, para: ' . $user->nombre,
+                    'usuario' => $user->email,
+                    'ruta' => 'Token.Activacion',
+                    'subtitulo' => 'Tu contraseña ha sido reiniciada, ingresa a la siguiente dirección para cambiar su contraseña'
+                ];
+                $token->fill([
+                    'token' => $tokenDeUsuario,
+                    'idUsuario' => $user->id
+                ]);
+                $token->save();
+
+                Mail::send('emails.ResetPasswordBolsa', $data, function ($message) use ($user) {
+
+                    $message->from('todociber100@gmail.com', 'Reinicio de contraseña');
+
+                    $message->to($user->email)->subject('Reinicio de contraseña');
+
+                });
                 //Usuario::destroy($id);
                 $message = 'Contraseña reiniciada con éxito';
                 $state = 'success';

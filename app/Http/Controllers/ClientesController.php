@@ -263,7 +263,7 @@ class ClientesController extends Controller
                         $request['tasaDeInteres'])
                 );
 
-
+                
                 flash('Orden generada con exito', 'success');
                 return redirect()->route('listadoordenesclienteV');
             }

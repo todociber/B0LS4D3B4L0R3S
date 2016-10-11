@@ -73,7 +73,7 @@
                     dataError = data.error;
                     if (data.error == '0') {
                         $('#modalbody').text('Datos guardados con exito');
-
+                        window.location.href = '{{route('listadoCasas')}}'
 
                     }
                     else if (data.error == '2') {
@@ -83,6 +83,9 @@
                     else if (data.error == '3') {
 
                         $('#modalbody').text('Ya exite una casa registrada con ese código ');
+                    } else if (data.error == '5') {
+
+                        $('#modalbody').text('La casa corredora tiene ordenes vigentes,por lo tanto no puede realizar ningun cambio');
                     }
                     else {
 

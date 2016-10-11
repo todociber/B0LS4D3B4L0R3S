@@ -6,13 +6,17 @@ use App\Http\Requests;
 use App\Models\Ordene;
 use App\Models\Organizacion;
 use App\Models\RolUsuario;
+use App\Models\token;
 use App\Models\Usuario;
+use App\Utilities\Action;
+use App\Utilities\GenerarToken;
 use Carbon\Carbon;
 use DB;
 use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Mockery\CountValidator\Exception;
 use Validator;
 
@@ -48,8 +52,8 @@ class BolsaController extends Controller
                 'nombre' => 'required',
                 'correo' => 'required|email',
                 'direccion' => 'required',
-                'telefono' => 'required|numeric|digits:8',
-                'codigo' => 'required|numeric',
+                'telefono' => 'required|numeric|digits:8|min:0',
+                'codigo' => 'required|numeric|digits:5|min:0',
                 'file' => 'required',
             ]);
             if (!$validator->fails()) {
@@ -136,7 +140,7 @@ class BolsaController extends Controller
                 'apellido' => 'admin',
                 'email' => $correo,
                 'idOrganizacion' => $organizacion->id,
-                'password' => bcrypt('12345'),
+                'password' => bcrypt($pass),
             ]
         );
         $usuario->save();
@@ -151,6 +155,35 @@ class BolsaController extends Controller
         );
         $rolUsuario->save();
 
+        $token = new token();
+        $gentoken = new GenerarToken();
+        $tokenDeUsuario = $gentoken->tokengenerador();
+
+
+        $data = [
+            'tokenDeUsuario' => $tokenDeUsuario,
+            'objetoToken' => $token,
+            'titulo' => 'Activación de cuenta',
+            'nombre' => 'Se ha registrado la casa corredora ' . $organizacion->nombre,
+            'usuario' => $usuario->email,
+            'ruta' => 'Token.Activacion',
+            'subtitulo' => 'Tu cuenta ha sido creada, ingresa a la siguiente dirección para activarla'
+        ];
+        $token->fill([
+                'token' => $tokenDeUsuario,
+                'idUsuario' => $usuario->id
+            ]
+        );
+        $token->save();
+
+        Mail::send('emails.EmailSend', $data, function ($message) use ($usuario) {
+
+            $message->from('todociber100@gmail.com', 'Activacion de cuenta');
+
+            $message->to($usuario->email)->subject('Activar su cuenta para uso del sistema SERO');
+
+        });
+
     }
 
     public function eliminarRestaurarCasa(Request $request)
@@ -161,6 +194,7 @@ class BolsaController extends Controller
                 $countOrden = Ordene::where("idOrganizacion", $request["id"])
                     ->whereNotIn("idEstadoOrden", [1, 2, 4, 5, 6])->count();
                 if ($countOrden == 0) {
+                    DB::table('usuarios')->where("idOrganizacion", $request["id"])->update(["deleted_at" => Carbon::now()]);
                     Organizacion::destroy($request["id"]);
                 } else {
 
@@ -170,7 +204,9 @@ class BolsaController extends Controller
             } else {
                 $organizacion = Organizacion::withTrashed()->where('id', '=', $request["id"])->first();
                 $organizacion->restore();
-            flash('Estado cambiado con éxito', 'success');
+                DB::table('usuarios')->where("idOrganizacion", $request["id"])->update(["deleted_at" => null]);
+
+                flash('Estado cambiado con éxito', 'success');
             }
         } catch (Exception $e) {
             flash('Ocurrio un problema para cambiar el estado', 'danger');
@@ -227,6 +263,11 @@ class BolsaController extends Controller
                 $codCasa = DB::table('organizacion')->where('organizacion.codigo', '=', $request['codigo'])->where('organizacion.id', '!=', $id)->count();
 
                 if ($codCasa == 0) {
+                    $countOrden = Ordene::where("idOrganizacion", $id)
+                        ->whereNotIn("idEstadoOrden", [1, 2, 4, 5, 6])->count();
+
+                    if ($countOrden == 0) {
+
                     $organizacion = Organizacion::withTrashed()->where('id', $id)->first();
                     $path = $this->Upload($request);
                     if ($path != 'error') {
@@ -250,11 +291,42 @@ class BolsaController extends Controller
                             $organizacion->restore();
 
                         }
+
+
+                        $data = [
+                            'titulo' => 'La bolsa de valores ha modificado información de la casa corredora ' . $organizacion->nombre,
+                            'nombre' => $organizacion->nombre,
+                            'usuario' => $organizacion->email,
+                            'ruta' => 'Token.Activacion',
+                            'subtitulo' => 'Ingresa al siguiente enlace par activar tu usuario',
+
+                        ];
+                        $idrol = 2;
+                        $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                            $query->where('idRol', $idrol);
+                        })->where("idOrganizacion", $organizacion->id)->get();
+                        $emails = [];
+                        $i = 0;
+                        foreach ($usuarios as $user) {
+                            $emails[$i] = $user->email;
+                            $i++;
+                        }
+                        $action = new Action();
+                        $action->sendEmail($data, $emails, 'Modificación de información', 'Modificación de información', 'emails.emailUpdateCasa');
+                        
+
+                       
                         // $this->makeUser($request['codigo'],$organizacion,$request['correo']);
                         return response()->json(['error' => '0']);
                     } else {
 
                         return response()->json(['error' => '1']);
+
+                    }
+
+                    } else {
+
+                        return response()->json(['error' => '5']);
 
                     }
                 } else {
