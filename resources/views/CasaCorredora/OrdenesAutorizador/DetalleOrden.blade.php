@@ -29,6 +29,20 @@
 
     </script>
 
+
+    <div id="modalRechazar" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                @include('CasaCorredora.OrdenesAutorizador.formularios.RechazarOrden')
+
+            </div>
+
+        </div>
+    </div>
+
+
     <?php use Carbon\Carbon;?>
 
 
@@ -183,7 +197,9 @@
                                     @include('CasaCorredora.OrdenesAutorizador.formularios.AsignarAgenteCorredorForm')
                                     <div>
                                         <br>
-                                        {!!link_to_route('Ordenes.rechazar', $title = 'Rechazar', $parameters = $orden->id, $attributes = ['class'=>'btn btn-danger','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'danger'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                                        <a data-toggle="modal" data-target="#modalRechazar"
+                                           class="btn btn-danger btn-flat">Rechazar</a>
+
                                     </div>
 
                                 @else
@@ -272,7 +288,7 @@
             </div>
         </div>
 
-        @if($ordenes[0]->idEstadoOrden == 2)
+        @if($ordenes[0]->idEstadoOrden == 2 ||$ordenes[0]->idEstadoOrden == 1||$ordenes[0]->idEstadoOrden == 5  )
             <div class="row">
 
                 <div class="col-md-12">

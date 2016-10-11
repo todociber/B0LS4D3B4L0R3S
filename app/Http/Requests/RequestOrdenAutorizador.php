@@ -23,7 +23,7 @@ class RequestOrdenAutorizador extends Request
     {
         return [
             'AgenteCorredor' => 'required|exists:usuarios,id',
-            'Comision' => 'required|min:0'
+            'Comision' => 'required|min:0|max:100|integer'
         ];
     }
 }

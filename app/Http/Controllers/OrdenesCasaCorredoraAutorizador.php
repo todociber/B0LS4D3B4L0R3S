@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Mensaje;
 use App\Models\Ordene;
+use App\Models\Usuario;
 use App\Utilities\RolIdentificador;
 use Auth;
 use DB;
@@ -187,6 +189,10 @@ class OrdenesCasaCorredoraAutorizador extends Controller
 
     public function aceptar(Requests\RequestOrdenAutorizador $request, $id)
     {
+        $agenteC = Usuario::ofid($request['AgenteCorredor'])->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
+        if ($agenteC->count() == 0) {
+            return redirect()->back()->withInput()->withErrors('Agente Corredor no disponible');
+        }
 
         $ordenes = Ordene::ofid($id)->get();
         try {
@@ -223,7 +229,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
 
     }
 
-    public function rechazar($id)
+    public function rechazar(Requests\RequestComenatiosCasaCorredora $request, $id)
     {
         $ordenes = Ordene::ofid($id)->get();
         try {
@@ -245,10 +251,21 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                 $ordenAEliminar->fill(
                     [
                         'idCorredor' => Auth::user()->id,
-                        'idEstadoOrden' => '3'
+                        'idEstadoOrden' => '8'
                     ]
                 );
                 $ordenAEliminar->save();
+
+                $mensaje = new Mensaje([
+                    'contenido' => $request['comentario'],
+                    'idTipoMensaje' => '2',
+                    'idOrden' => $id,
+                    'idUsuario' => Auth::user()->id
+                ]);
+                flash('Comentario enviado exitosamente', 'success');
+                $mensaje->save();
+
+
                 flash('Orden rechazada ', 'success');
                 return redirect('/Ordenes');
             } else {

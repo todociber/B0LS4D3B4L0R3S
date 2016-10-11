@@ -8,7 +8,7 @@ Ingrese el rango de fechas que desea buscar:<br>
     </div>
 
 
-    {{ Form::text('fechaInicial',null,['class'=>'form-control input-pointer','placeholder'=>'Ingresa tu fecha  incial (dd/mm/yyyy)', 'id'=>'datepicker','required']) }}
+    {{ Form::text('fechaInicial',null,['class'=>'form-control input-pointer','placeholder'=>'Ingresa tu fecha  incial (dd/mm/yyyy)', 'id'=>'datepicker']) }}
 </div>
 <br>
 
@@ -19,7 +19,7 @@ Ingrese el rango de fechas que desea buscar:<br>
     </div>
 
 
-    {{ Form::text('fechaFinal',null,['class'=>'form-control input-pointer','placeholder'=>'Ingresa tu fecha final (dd/mm/yyyy)', 'id'=>'datepicker2','required']) }}
+    {{ Form::text('fechaFinal',null,['class'=>'form-control input-pointer','placeholder'=>'Ingresa tu fecha final (dd/mm/yyyy)', 'id'=>'datepicker2']) }}
 </div>
 
 <br><br>

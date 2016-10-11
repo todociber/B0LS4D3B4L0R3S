@@ -148,7 +148,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('Ordenes/{id}/detallesEliminar/', 'OrdenesCasaCorredoraAutorizador@detallesEliminar')->name('Ordenes.detallesEliminar');
             Route::put('Ordenes/{id}/aceptar', 'OrdenesCasaCorredoraAutorizador@aceptar')->name('Ordenes.aceptar');
             Route::put('Ordenes/{id}/ReAceptar', 'OrdenesCasaCorredoraAutorizador@ReAceptar')->name('Ordenes.ReAceptar');
-            Route::get('Ordenes/{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
+            Route::post('Ordenes/{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
             Route::post('Ordenes/{id}/comentar', 'OrdenesController@Comentar')->name('Ordenes.Comentar');
             Route::put('Ordenes/{id}/actualizar', 'OrdenesController@Actualizar')->name('Ordenes.actualizar');
             Route::get('Ordenes/{id}/Operaciones', 'OrdenesController@Operaciones')->name('Ordenes.operaciones');

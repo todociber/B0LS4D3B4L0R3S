@@ -22,7 +22,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
     {!! Html::style('assets/css/font-awesome.css') !!}
     {!! Html::style('dist/css/select2.css') !!}
             <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.css">
+
     <!-- DataTables -->
     {!! Html::style('assets/plugins/datatables/dataTables.bootstrap.css') !!}
             <!-- Theme style -->
@@ -253,7 +253,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                         "sProcessing": "Procesando...",
                         "sLengthMenu": "Mostrar _MENU_ registros",
                         "sZeroRecords": "No se encontraron resultados",
-                        "sEmptyTable": "NingÃºn dato disponible en esta tabla",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
                         "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                         "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
                         "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
@@ -293,7 +293,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",
             "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "NingÃºn dato disponible en esta tabla",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
             "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
             "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
@@ -332,7 +332,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",
             "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "NingÃºn dato disponible en esta tabla",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
             "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
             "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
@@ -371,7 +371,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",
             "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "NingÃºn dato disponible en esta tabla",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
             "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
             "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",

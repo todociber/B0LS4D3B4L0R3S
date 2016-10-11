@@ -24,6 +24,8 @@ BEGIN
     SET codigo  = ( SELECT organizacion.codigo FROM  organizacion WHERE id = casacorredora);
     IF contador=0 THEN
       SET contador = 1;
+    ELSE
+      SET contador = contador +1;
     END IF;
     SET correlativo = (SELECT CONCAT(codigo,'-',contador ));
     INSERT INTO ordenes  (ordenes.correlativo,ordenes.idCliente,
@@ -36,9 +38,7 @@ BEGIN
     titulo,valorMaximo,valorMinimo,
     monto,emisor,mercado,tipodeorden,3,1,
     casacorredora,cuentacedeval,tasaDeInteres,now());
-
-
-  END");
+  END;");
     }
 
     /**

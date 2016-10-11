@@ -51,7 +51,7 @@ class ClientesController extends Controller
         $count = SolicitudRegistro::where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", 2)->count();
         if ($count > 0) {
             $client = new GuzzleHttp\Client();
-            $res = $client->request('GET', 'http://e60e591e.ngrok.io/GetTitulos');
+            $res = $client->request('GET', 'http://localhost:8000/GetTitulos');
             $bodyJ = $res->getBody();
             $body = json_decode($bodyJ);
             Log::info($body->Titulos);
@@ -82,7 +82,7 @@ class ClientesController extends Controller
         try {
 
             $client = new GuzzleHttp\Client();
-            $res = $client->request('GET', "http://e60e591e.ngrok.io/GetEmisores/$id/titulo");
+            $res = $client->request('GET', "http://localhost:8000/GetEmisores/$id/titulo");
             $bodyJ = $res->getBody();
             $body = json_decode($bodyJ);
 
@@ -289,7 +289,7 @@ class ClientesController extends Controller
             ->orwhere("idEstadoOrden", 1)->first();
         if (count($orden) > 0) {
             $client = new GuzzleHttp\Client();
-            $res = $client->request('GET', 'https://e60e591e.ngrok.io/GetTitulos');
+            $res = $client->request('GET', 'http://localhost:8000/GetTitulos');
             $bodyJ = $res->getBody();
             $body = json_decode($bodyJ);
             Log::info($body->Titulos);

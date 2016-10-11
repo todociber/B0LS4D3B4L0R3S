@@ -22,8 +22,8 @@ class BuscadorOrdenRequest extends Request
     public function rules()
     {
         return [
-            'fechaInicial' => 'required|date',
-            'fechaFinal' => 'required|date',
+            'fechaInicial' => 'date',
+            'fechaFinal' => 'date',
             'estadoOrden' => 'required|numeric|digits:1|integer|',
         ];
     }

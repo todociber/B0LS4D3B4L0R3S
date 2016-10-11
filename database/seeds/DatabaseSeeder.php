@@ -24,5 +24,8 @@ class DatabaseSeeder extends Seeder
          $this->call(SedderTipoEjecucionOrden::class);
         $this->call(TriggerProtegerRoles::class);
         $this->call(TipoTelefonoSeeder::class);
+        $this->call(TipoMensaje::class);
+
+
     }
 }

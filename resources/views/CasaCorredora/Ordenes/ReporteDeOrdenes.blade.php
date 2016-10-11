@@ -63,7 +63,10 @@
                             Descargar Reporte General : <br>
                             {!!link_to_route('OrdenesReporte.PDF', $title = 'Reporte General ', $parameters = [], $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                             <br>
+
+
                             @include('CasaCorredora.Ordenes.formularios.ReporteFechas')
+                            <h6>Puede especificar o no fechas para el rango de busqueda</h6>
                         </div>
                     </div>
                 </div>

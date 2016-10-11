@@ -39,6 +39,7 @@
                                             <tr>
                                                 <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span>
                                                     </p></th>
+                                                <th><p class="text-center">Correlativo</p></th>
                                                 <th><p class="text-center">Cliente</p></th>
                                                 <th><p class="text-center">Monto</p></th>
                                                 <th><p class="text-center">Fecha de vigencia</p></th>
@@ -58,6 +59,7 @@
 
 
                                                         </td>
+                                                        <td>{{$orden->correlativo}}</td>
                                                         <td> {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->nombre}}  {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->apellido}}</td>
                                                         <td>{{$orden->monto}}</td>
                                                         <td>{{$orden->FechaDeVigencia}}</td>
@@ -109,6 +111,7 @@
                                 <thead>
                                 <tr>
                                     <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
+                                    <th><p class="text-center">Correlativo</p></th>
                                     <th><p class="text-center">Cliente</p></th>
                                     <th><p class="text-center">Monto</p></th>
                                     <th><p class="text-center">Fecha de Vigencia </p></th>
@@ -128,6 +131,7 @@
 
 
                                         </td>
+                                        <td>{{$orden->correlativo}}</td>
                                         <td> {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->nombre}}  {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->apellido}}</td>
                                         <td>{{$orden->monto}}</td>
                                         <td>{{$orden->FechaDeVigencia}}</td>
