@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\LatchModel;
 use App\Models\Usuario;
 use App\User;
 use App\Utilities\RolIdentificador;
+use Auth;
+use ErrorException;
+use Exception;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Support\Facades\Log;
@@ -75,7 +79,7 @@ class AuthController extends Controller
       //  var_dump($usuario->UsuarioRoles->RolN->id);
 
 
-        /* $LatchTokenExiste = LatchModel::where('idUsuario', '=', Auth::user()->id)->count();
+        $LatchTokenExiste = LatchModel::where('idUsuario', '=', Auth::user()->id)->count();
  
          if ($LatchTokenExiste > 0) {
  
@@ -98,8 +102,8 @@ class AuthController extends Controller
              } catch (Exception $e) {
  
              }
- 
-         }*/
+
+         }
 
 
 
