@@ -1,29 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Merge con Gustavo Envio de emails">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/formularios/RechazarOrden.blade.php" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/database/seeds/tipo_telefonos.php" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.env" afterPath="$PROJECT_DIR$/.env" />
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="arreglos varioos, comentarios, buscador de ordenes, afiliados, rechazo de orden con comentario y modal">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Requests/BuscadorOrdenRequest.php" afterPath="$PROJECT_DIR$/app/Http/Requests/BuscadorOrdenRequest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Requests/RequestOrdenAutorizador.php" afterPath="$PROJECT_DIR$/app/Http/Requests/RequestOrdenAutorizador.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/session.php" afterPath="$PROJECT_DIR$/config/session.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_10_08_214402_ProcedimientoAlmacenadoOrdenes.php" afterPath="$PROJECT_DIR$/database/migrations/2016_10_08_214402_ProcedimientoAlmacenadoOrdenes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/ReporteDeOrdenes.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/ReporteDeOrdenes.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/formularios/EditarComision.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/formularios/EditarComision.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/formularios/EditarOrdenCompleta.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/formularios/EditarOrdenCompleta.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/formularios/ReporteFechas.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Ordenes/formularios/ReporteFechas.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/formularios/AsignarAgenteCorredorForm.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/formularios/AsignarAgenteCorredorForm.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" afterPath="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -120,7 +99,8 @@
             <state vertical-scroll-proportion="-11.8">
               <caret line="393" column="0" selection-start-line="393" selection-start-column="0" selection-end-line="393" selection-end-column="0" />
               <folding>
-                <marker date="1476229488399" expanded="true" signature="4313:4791" placeholder="select COUNT..usuarios..." />
+                <marker date="1476229890821" expanded="false" signature="40:335" placeholder="..." />
+                <marker date="1476229890821" expanded="true" signature="4313:4791" placeholder="select COUNT..usuarios..." />
               </folding>
             </state>
           </provider>
@@ -142,9 +122,10 @@
             <state vertical-scroll-proportion="-52.96154">
               <caret line="266" column="0" selection-start-line="266" selection-start-column="0" selection-end-line="266" selection-end-column="0" />
               <folding>
-                <marker date="1476227170337" expanded="true" signature="3283:3761" placeholder="select COUNT..usuarios..." />
-                <marker date="1476227170337" expanded="true" signature="5937:6415" placeholder="select COUNT..usuarios..." />
-                <marker date="1476227170337" expanded="true" signature="8158:8636" placeholder="select COUNT..usuarios..." />
+                <marker date="1476229890845" expanded="false" signature="40:251" placeholder="..." />
+                <marker date="1476229890845" expanded="true" signature="3283:3761" placeholder="select COUNT..usuarios..." />
+                <marker date="1476229890845" expanded="true" signature="5937:6415" placeholder="select COUNT..usuarios..." />
+                <marker date="1476229890845" expanded="true" signature="8158:8636" placeholder="select COUNT..usuarios..." />
               </folding>
             </state>
           </provider>
@@ -179,17 +160,17 @@
       <file leaf-file-name="DetalleOrden.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="6.258599">
-              <caret line="289" column="110" selection-start-line="289" selection-start-column="110" selection-end-line="289" selection-end-column="110" />
+            <state vertical-scroll-proportion="9.166045">
+              <caret line="290" column="110" selection-start-line="290" selection-start-column="110" selection-end-line="290" selection-end-column="110" />
               <folding>
-                <marker date="1476229773989" expanded="true" signature="6281:6541" placeholder="..." />
-                <marker date="1476229773989" expanded="true" signature="6295:6540" placeholder="..." />
-                <marker date="1476229773989" expanded="true" signature="6646:6895" placeholder="..." />
-                <marker date="1476229773989" expanded="true" signature="6660:6894" placeholder="..." />
-                <marker date="1476229773989" expanded="true" signature="7039:7290" placeholder="..." />
-                <marker date="1476229773989" expanded="true" signature="7053:7289" placeholder="..." />
-                <marker date="1476229773989" expanded="true" signature="7561:7830" placeholder="..." />
-                <marker date="1476229773989" expanded="true" signature="7575:7829" placeholder="..." />
+                <marker date="1476229890858" expanded="true" signature="6281:6541" placeholder="..." />
+                <marker date="1476229890858" expanded="true" signature="6295:6540" placeholder="..." />
+                <marker date="1476229890858" expanded="true" signature="6646:6895" placeholder="..." />
+                <marker date="1476229890858" expanded="true" signature="6660:6894" placeholder="..." />
+                <marker date="1476229890858" expanded="true" signature="7039:7290" placeholder="..." />
+                <marker date="1476229890858" expanded="true" signature="7053:7289" placeholder="..." />
+                <marker date="1476229890858" expanded="true" signature="7561:7830" placeholder="..." />
+                <marker date="1476229890858" expanded="true" signature="7575:7829" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -713,7 +694,13 @@
       <option name="project" value="LOCAL" />
       <updated>1476207053983</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="arreglos varioos, comentarios, buscador de ordenes, afiliados, rechazo de orden con comentario y modal">
+      <created>1476229909243</created>
+      <option name="number" value="00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1476229909243</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -724,19 +711,19 @@
     <editor active="false" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.342233" sideWeight="0.49421486" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.342233" sideWeight="0.49421486" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3656286" sideWeight="0.50647247" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928804" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32949308" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28604382" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28604382" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42741936" sideWeight="0.4935275" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23263328" sideWeight="0.5057851" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32802126" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -788,7 +775,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Todos los Modelos Relacionados" />
     <MESSAGE value="cambios UsuarioCasaCorredora create insercion en cadena" />
     <MESSAGE value="Usuarios Casas Corredoras funcionando Errores de Diseño" />
     <MESSAGE value="login Usuario Funcional" />
@@ -813,7 +799,8 @@
     <MESSAGE value="envio de contraseñas a Usuario" />
     <MESSAGE value="Correcciones de Registro Controller" />
     <MESSAGE value="Merge con Gustavo Envio de emails" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge con Gustavo Envio de emails" />
+    <MESSAGE value="arreglos varioos, comentarios, buscador de ordenes, afiliados, rechazo de orden con comentario y modal" />
+    <option name="LAST_COMMIT_MESSAGE" value="arreglos varioos, comentarios, buscador de ordenes, afiliados, rechazo de orden con comentario y modal" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1183,9 +1170,10 @@
         <state vertical-scroll-proportion="-52.96154">
           <caret line="266" column="0" selection-start-line="266" selection-start-column="0" selection-end-line="266" selection-end-column="0" />
           <folding>
-            <marker date="1476227170337" expanded="true" signature="3283:3761" placeholder="select COUNT..usuarios..." />
-            <marker date="1476227170337" expanded="true" signature="5937:6415" placeholder="select COUNT..usuarios..." />
-            <marker date="1476227170337" expanded="true" signature="8158:8636" placeholder="select COUNT..usuarios..." />
+            <marker date="1476229890845" expanded="false" signature="40:251" placeholder="..." />
+            <marker date="1476229890845" expanded="true" signature="3283:3761" placeholder="select COUNT..usuarios..." />
+            <marker date="1476229890845" expanded="true" signature="5937:6415" placeholder="select COUNT..usuarios..." />
+            <marker date="1476229890845" expanded="true" signature="8158:8636" placeholder="select COUNT..usuarios..." />
           </folding>
         </state>
       </provider>
@@ -1211,7 +1199,8 @@
         <state vertical-scroll-proportion="-11.8">
           <caret line="393" column="0" selection-start-line="393" selection-start-column="0" selection-end-line="393" selection-end-column="0" />
           <folding>
-            <marker date="1476229488399" expanded="true" signature="4313:4791" placeholder="select COUNT..usuarios..." />
+            <marker date="1476229890821" expanded="false" signature="40:335" placeholder="..." />
+            <marker date="1476229890821" expanded="true" signature="4313:4791" placeholder="select COUNT..usuarios..." />
           </folding>
         </state>
       </provider>
@@ -1240,17 +1229,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="6.258599">
-          <caret line="289" column="110" selection-start-line="289" selection-start-column="110" selection-end-line="289" selection-end-column="110" />
+        <state vertical-scroll-proportion="9.166045">
+          <caret line="290" column="110" selection-start-line="290" selection-start-column="110" selection-end-line="290" selection-end-column="110" />
           <folding>
-            <marker date="1476229773989" expanded="true" signature="6281:6541" placeholder="..." />
-            <marker date="1476229773989" expanded="true" signature="6295:6540" placeholder="..." />
-            <marker date="1476229773989" expanded="true" signature="6646:6895" placeholder="..." />
-            <marker date="1476229773989" expanded="true" signature="6660:6894" placeholder="..." />
-            <marker date="1476229773989" expanded="true" signature="7039:7290" placeholder="..." />
-            <marker date="1476229773989" expanded="true" signature="7053:7289" placeholder="..." />
-            <marker date="1476229773989" expanded="true" signature="7561:7830" placeholder="..." />
-            <marker date="1476229773989" expanded="true" signature="7575:7829" placeholder="..." />
+            <marker date="1476229890858" expanded="true" signature="6281:6541" placeholder="..." />
+            <marker date="1476229890858" expanded="true" signature="6295:6540" placeholder="..." />
+            <marker date="1476229890858" expanded="true" signature="6646:6895" placeholder="..." />
+            <marker date="1476229890858" expanded="true" signature="6660:6894" placeholder="..." />
+            <marker date="1476229890858" expanded="true" signature="7039:7290" placeholder="..." />
+            <marker date="1476229890858" expanded="true" signature="7053:7289" placeholder="..." />
+            <marker date="1476229890858" expanded="true" signature="7561:7830" placeholder="..." />
+            <marker date="1476229890858" expanded="true" signature="7575:7829" placeholder="..." />
           </folding>
         </state>
       </provider>
