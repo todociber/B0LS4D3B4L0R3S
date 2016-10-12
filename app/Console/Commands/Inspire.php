@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Ordene;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Log;
 
 class Inspire extends Command
 {
@@ -28,6 +30,15 @@ class Inspire extends Command
      */
     public function handle()
     {
+        $ordenes = Ordene::where('FechaDeVigencia', '=', date('Y-m-d'))->where('idEstadoOrden', '=', 5)->get();
+        foreach ($ordenes as $orden) {
+            $orden->fill([
+                'idEstadoOrden' => 6,
+            ]);
+            $orden->save();
+            Log::info('Orden actualizada ' . $orden->id);
+        }
+        Log::info('Numero de ordenes encontradas: ' . $ordenes->count());
         $this->comment(PHP_EOL.Inspiring::quote().PHP_EOL);
     }
 }
