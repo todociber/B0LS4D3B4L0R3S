@@ -167,7 +167,7 @@ class BolsaController extends Controller
             'nombre' => 'Se ha registrado la casa corredora ' . $organizacion->nombre,
             'usuario' => $usuario->email,
             'ruta' => 'Token.Activacion',
-            'subtitulo' => 'Tu cuenta ha sido creada, ingresa a la siguiente dirección para activarla'
+            'subtitulo' => 'Ingresa a la siguiente dirección para activar tu cuenta'
         ];
         $token->fill([
                 'token' => $tokenDeUsuario,
@@ -192,7 +192,7 @@ class BolsaController extends Controller
 
             if ($request["tipo"] == 0) {
                 $countOrden = Ordene::where("idOrganizacion", $request["id"])
-                    ->whereNotIn("idEstadoOrden", [1, 2, 4, 5, 6])->count();
+                    ->whereNotIn("idEstadoOrden", [1, 2, 5])->count();
                 if ($countOrden == 0) {
                     DB::table('usuarios')->where("idOrganizacion", $request["id"])->update(["deleted_at" => Carbon::now()]);
                     Organizacion::destroy($request["id"]);
@@ -294,11 +294,11 @@ class BolsaController extends Controller
 
 
                         $data = [
-                            'titulo' => 'La bolsa de valores ha modificado información de la casa corredora ' . $organizacion->nombre,
-                            'nombre' => $organizacion->nombre,
+                            'titulo' => 'La bolsa de valores ha modificado información de la casa corredora ',
                             'usuario' => $organizacion->email,
                             'ruta' => 'Token.Activacion',
                             'subtitulo' => 'Ingresa al siguiente enlace par activar tu usuario',
+                            'nombre' => $organizacion->nombre,
 
                         ];
                         $idrol = 2;

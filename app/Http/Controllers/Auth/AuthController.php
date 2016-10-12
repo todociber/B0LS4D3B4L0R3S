@@ -64,6 +64,7 @@ class AuthController extends Controller
     {
         Log::info('TESTT');
 
+
         $rolIdentificador = new RolIdentificador();
         /*
          * 1- ADMNISTRADOR BOLSA DE VALORES
@@ -126,7 +127,7 @@ class AuthController extends Controller
         }
         else {
             //CLIENTE
-            return redirect()->route('listadoordenesclienteV');
+            return redirect()->route('perfilcliente');
 
 
         }

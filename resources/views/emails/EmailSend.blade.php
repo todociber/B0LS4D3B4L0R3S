@@ -242,13 +242,12 @@
                                                                                                     </td>
                                                                                                 </tr>
                                                                                                 <tr>
-                                                                                                    <td width="150"
-                                                                                                        class="data-heading">
-                                                                                                        {{$subtitulo}}
-                                                                                                    </td>
+
                                                                                                     <td class="data-value">
                                                                                                         <a href="{{route("$ruta",["tokenDeUsuario"=>$tokenDeUsuario])}}">Click
-                                                                                                            aqui</a>
+                                                                                                            aqui para
+                                                                                                            activar la
+                                                                                                            cuenta</a>
                                                                                                     </td>
                                                                                                 </tr>
                                                                                             </table>

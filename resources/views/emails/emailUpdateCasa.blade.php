@@ -233,7 +233,7 @@
                                                                                                    width="100%"
                                                                                                    bgcolor="#ffffff">
                                                                                                 <tr>
-                                                                                                    <td class="data-heading">
+                                                                                                    <td>
                                                                                                         {{$titulo}}
                                                                                                     </td>
 

@@ -40,7 +40,7 @@
                 @endif<br>
                 <b>Comisión a cobrar: </b> {{$cm = $orden->comision ? $orden->comision:'Por definir'}}<br>
                 <b>Tipo de
-                    ejecución:</b> <?php echo $tipo = $orden->idtipoEjecucion ? $orden->TipoEjecucionN->forma : "Por definir"  ?>
+                    ejecución:</b> {{$orden->TipoEjecucionN->forma}}
                 <br>
                 <b>Estado:</b>{{$orden->EstadoOrden->estado}}
 
@@ -307,4 +307,4 @@
 
         </div>
     </div>
-    @end
+@endif

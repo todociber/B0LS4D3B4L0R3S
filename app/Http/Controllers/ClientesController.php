@@ -16,6 +16,7 @@ use App\Models\SolicitudRegistro;
 use App\Models\Telefono;
 use App\Models\TipoOrden;
 use App\Models\Usuario;
+use App\Utilities\Action;
 use Carbon\Carbon;
 use GuzzleHttp;
 use Illuminate\Http\Request;
@@ -152,6 +153,7 @@ class ClientesController extends Controller
 
             $idCliente = Auth::user()->ClienteN->id;
             $ordenes = Ordene::with('TipoOrdenN')->where('idCliente', $idCliente)->where('idEstadoOrden', $request['estado'])->get();
+            $mensaje = '';
             $estadoOrdenes = EstadoOrden::lists('estado', 'id');
             return View('Clientes.Ordenes.ListaOrdenesCliente', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes, 'selected' => $request['estado']]);
         } catch (Exception $e) {
@@ -263,6 +265,22 @@ class ClientesController extends Controller
                         $request['tasaDeInteres'])
                 );
 
+                $idrol = 3;
+                $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                    $query->where('idRol', $idrol);
+                })->where("idOrganizacion", $request["casacorredora"])->get();
+                $emails = [];
+                $i = 0;
+                foreach ($usuarios as $user) {
+                    $emails[$i] = $user->email;
+                    $i++;
+                }
+
+                $data = [
+                    'titulo' => 'El cliente ' . Auth::user()->nombre . ' ha realizado una orden de inversión',
+                ];
+                $action = new Action();
+                $action->sendEmail($data, $emails, 'Nueva orden de inversión', 'Nueva orden de inversión', 'emails.OrdenEmail');
                 
                 flash('Orden generada con exito', 'success');
                 return redirect()->route('listadoordenesclienteV');
@@ -357,6 +375,32 @@ class ClientesController extends Controller
                 ]
             );
             $mensajes->save();
+            $idrol = 3;
+            $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                $query->where('idRol', $idrol);
+            })->where("idOrganizacion", $request["casacorredora"])->get();
+            $emails = [];
+            $i = 0;
+            $band = false;
+            foreach ($usuarios as $user) {
+                if ($orden->Corredor_UsuarioN->email == $user->email) {
+
+                    $band = true;
+                }
+                $emails[$i] = $user->email;
+                $i++;
+            }
+            if (!$band) {
+                $i++;
+                $emails[$i] = $orden->Corredor_UsuarioN->email;
+            }
+
+
+            $data = [
+                'titulo' => 'El cliente ' . Auth::user()->nombre . ' ha cancelado una orden de inversión, con el correlativo ' . $orden->correlativo,
+            ];
+            $action = new Action();
+            $action->sendEmail($data, $emails, 'Cancelación de orden', 'Cancelación de orden', 'emails.OrdenEmail');
             flash('Orden anulada con exito', 'success');
             return redirect()->route('listadoordenesclienteV');
         } catch (Exception $e) {
@@ -389,7 +433,32 @@ class ClientesController extends Controller
                 ]
             );
             $orden->save();
+            $idrol = 3;
+            $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                $query->where('idRol', $idrol);
+            })->where("idOrganizacion", $request["casacorredora"])->get();
+            $emails = [];
+            $i = 0;
+            $band = false;
+            foreach ($usuarios as $user) {
+                if ($orden->Corredor_UsuarioN->email == $user->email) {
 
+                    $band = true;
+                }
+                $emails[$i] = $user->email;
+                $i++;
+            }
+            if (!$band) {
+                $i++;
+                $emails[$i] = $orden->Corredor_UsuarioN->email;
+            }
+
+
+            $data = [
+                'titulo' => 'El cliente ' . Auth::user()->nombre . ' ha ejecutado una orden de inversión, con el correlativo ' . $orden->correlativo,
+            ];
+            $action = new Action();
+            $action->sendEmail($data, $emails, 'Ejecución de orden', 'Ejecución de orden', 'emails.OrdenEmail');
             flash('Orden ejecutada con exito', 'success');
             return redirect()->route('getOrdenes', ["id" => $request["id"]]);
 
@@ -468,7 +537,7 @@ class ClientesController extends Controller
             } else {
 
                 $idCliente = Auth::user()->ClienteN->id;
-                $orden = Ordene::where("id", $id)
+                $orden = Ordene::with("Corredor_UsuarioN")->where("id", $id)
                     ->where("idCliente", $idCliente)
                     ->where("idEstadoOrden", "=", 2)
                     ->orwhere("idEstadoOrden", 1)->first();
@@ -509,6 +578,32 @@ class ClientesController extends Controller
                     ]
                 );
                 $orden->save();
+                $idrol = 3;
+                $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                    $query->where('idRol', $idrol);
+                })->where("idOrganizacion", $request["casacorredora"])->get();
+                $emails = [];
+                $i = 0;
+                $band = false;
+                foreach ($usuarios as $user) {
+                    if ($orden->Corredor_UsuarioN->email == $user->email) {
+
+                        $band = true;
+                    }
+                    $emails[$i] = $user->email;
+                    $i++;
+                }
+                if (!$band) {
+                    $i++;
+                    $emails[$i] = $orden->Corredor_UsuarioN->email;
+                }
+
+
+                $data = [
+                    'titulo' => 'El cliente ' . Auth::user()->nombre . ' ' . Auth::user()->apellido . ' ha modificado una orden de inversión, con el correlativo ' . $nuevaOrden->correlativo,
+                ];
+                $action = new Action();
+                $action->sendEmail($data, $emails, 'Modificación de orden de inversión', 'Modificación de orden de inversión', 'emails.OrdenEmail');
 
                 flash('Orden modificada con exito', 'success');
                 return redirect()->route('listadoordenesclienteV');
@@ -578,7 +673,7 @@ class ClientesController extends Controller
             $countDui = Cliente::where('dui', $request['dui'])->where('id', '!=', $clientes->id)->count();
             $countNIT = Cliente::where('nit', $request['nit'])->where('id', '!=', $clientes->id)->count();
             $countEmail = Usuario::where('email', $request['email'])->where('id', '!=', $usuario->id)->count();
-            $countOrdenes = Ordene::where('idCliente', $usuario->id)->whereIn("idEstadoOrden", [1, 2, 5])->count();
+            $countOrdenes = Ordene::where('idCliente', $clientes->id)->whereIn("idEstadoOrden", [1, 2, 5])->count();
             if ($countDui > 0) {
 
                 flash('El DUI ingresado ya pertenece a un usuario', 'danger');
@@ -617,7 +712,7 @@ class ClientesController extends Controller
                         'idUsuario' => $usuario->id,
                         'dui' => $request['dui'],
                         'nit' => $request['nit'],
-                        'fechaDeNacimiento' => Carbon::parse($request['nacimiento'])->format('Y-m-d'),
+                        'fechaDeNacimiento' => Carbon::parse($request['fechaDeNacimiento'])->format('Y-m-d'),
 
                     ]
                 );
@@ -658,8 +753,26 @@ class ClientesController extends Controller
                     Direccione::destroy($direcciones[0]->id);
 
                 }
+                $idCliente = $clientes->id;
                 $this->modificarEstadoSolicitud($clientes->id);
+                $idrol = 3;
+                $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                    $query->where('idRol', $idrol);
+                })->whereIn("idOrganizacion", Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
+                    $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 5);
+                })->pluck('id')->toArray())->get();
+                $emails = [];
+                $i = 0;
+                foreach ($usuarios as $user) {
+                    $emails[$i] = $user->email;
+                    $i++;
+                }
 
+                $data = [
+                    'titulo' => 'El cliente ' . Auth::user()->nombre . ' ' . Auth::user()->apellido . ' ha cambiado su información'
+                ];
+                $action = new Action();
+                $action->sendEmail($data, $emails, 'Cambio de información', 'Cambio de información', 'emails.cambioInformacion');
                 flash('Datos ingresados con exito', 'success');
                 return redirect()->route('perfilcliente');
             }
@@ -675,7 +788,7 @@ class ClientesController extends Controller
     {
         DB::table('solicitud_registros')
             ->where('idCliente', $idCliente)
-            ->update(['idEstadoSolicitud' => 4]);
+            ->update(['idEstadoSolicitud' => 5]);
 
 
     }
