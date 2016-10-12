@@ -38,7 +38,7 @@ class Inspire extends Command
             $orden->save();
             Log::info('Orden actualizada ' . $orden->id);
         }
-        Log::info('Numero de ordenes encontradas: ' . $ordenes->count());
+        Log::info('Numero de ordenes encontradas: ' . $ordenes->count() . 'el dia 3' . date('Y-m-d'));
         $this->comment(PHP_EOL.Inspiring::quote().PHP_EOL);
     }
 }
