@@ -233,7 +233,7 @@
                                                                                                    width="100%"
                                                                                                    bgcolor="#ffffff">
                                                                                                 <tr>
-                                                                                                    <td width="150"
+                                                                                                    <td
                                                                                                         class="data-heading">
                                                                                                         Usuario:
                                                                                                     </td>
@@ -242,7 +242,7 @@
                                                                                                     </td>
                                                                                                 </tr>
                                                                                                 <tr>
-                                                                                                    <td width="150"
+                                                                                                    <td
                                                                                                         class="data-heading">
                                                                                                         {{$subtitulo}}
                                                                                                     </td>
