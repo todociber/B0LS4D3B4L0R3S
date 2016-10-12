@@ -597,7 +597,13 @@
       <option name="project" value="LOCAL" />
       <updated>1476291429490</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="login sin registro">
+      <created>1476291704246</created>
+      <option name="number" value="00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1476291704246</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
