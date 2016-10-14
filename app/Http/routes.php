@@ -105,6 +105,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('Parear', 'LatchController@pair')->name('Latch.parear');
             Route::get('Desenparejar', 'LatchController@unpair')->name('Latch.desenparejar');
             Route::get('Perfil', 'UsuarioCasaCorredoraController@perfil')->name('Perfil.UsuarioCasa');
+            Route::get('Ordenes/Reasignacion', 'OrdeneController@reasignar')->name('Ordenes.Reasignacion');
+            Route::put('Ordenes/{id}/ReAceptar', 'OrdenesCasaCorredoraAutorizador@ReAceptar')->name('Ordenes.ReAceptar');
+
+            Route::get('Ordenes/{id}/detallesEliminar/', 'OrdenesCasaCorredoraAutorizador@detallesEliminar')->name('Ordenes.detallesEliminar');
         });
         Route::group(['middleware' => 'OperadorCasaCorredora'], function () {
             Route::get('SolicitudAfiliacion/{id}/detalle', 'SolicitudesCasaCorredora@detalle')->name('SolicitudAfiliacion.detalle');
@@ -126,7 +130,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::put('Ordenes/{id}/actualizar', 'OrdenesController@Actualizar')->name('Ordenes.actualizar');
             Route::get('Ordenes/{id}/Operaciones', 'OrdenesController@Operaciones')->name('Ordenes.operaciones');
             Route::post('Ordenes/{id}/Operaciones/Guardar', 'OrdenesController@OperacionesGuardar')->name('Ordenes.operacionesGuardar');
-
+            Route::get('Ordenes/Reasignacion', 'OrdeneController@reasignar')->name('Ordenes.Reasignacion');
             Route::get('Ordenes/{id}/DetallePDF', 'OrdenesController@DetalleOrdenPDF')->name('OrdenesDetalles.PDF');
             Route::get('Ordenes/Reporte', 'OrdenesController@ReporteFecha')->name('OrdenesReporte.Fecha');
             Route::post('Ordenes/ReporteFecha', 'OrdenesController@ReporteFechaBuscar')->name('OrdenesReporte.FechaBuscar');

@@ -397,6 +397,52 @@ class OrdenesController extends Controller
     }
 
 
+    public function reasignar()
+    {
+
+
+        if (\Session::has('UsuarioEliminar')) {
+            $id = \Session::get('UsuarioEliminar');
+            $Usuario = Usuario::find($id);
+            $ordenesVigentes = 0;
+            foreach ($Usuario->OrdenesUsuario as $ordenes) {
+                if ($ordenes->idEstadoOrden == 2) {
+                    $ordenesVigentes = 1;
+                } elseif ($ordenes->idEstadoOrden == 5) {
+                    $ordenesVigentes = 1;
+                }
+            }
+            if ($ordenesVigentes == 0) {
+                $usuario = Usuario::ofid($id)->get();
+                $ordenes = Ordene::where('idCorredor', '=', $id)
+                    ->where('idEstadoOrden', '=', 2)
+                    ->orWhere('idEstadoOrden', '=', 5)
+                    ->get();
+                flash('Usuario tiene ordenes pendientes', 'danger');
+                return view('CasaCorredora.OrdenesAutorizador.ReAsignarOrdenes', compact('ordenes', 'usuario'));
+            } else {
+                if (\Session::has('EditarUsuario')) {
+                    flash('Puede editar el usuario ahora', 'succsess');
+                    \Session::remove('EditarUsuario');
+                    \Session::remove('UsuarioEliminar');
+
+                    return redirect('UsuarioCasaCorredora/' . $id . '/editar');
+
+                } else {
+                    $Usuario->delete();
+                    \Session::remove('UsuarioEliminar');
+                    flash('Usuario Eliminado Exitosamente', 'danger');
+                    return redirect('UsuarioCasaCorredora');
+                }
+            }
+        } else {
+            flash('Error en consulta', 'danger');
+            return redirect('UsuarioCasaCorredora');
+        }
+
+    }
+
+
 }
 
 

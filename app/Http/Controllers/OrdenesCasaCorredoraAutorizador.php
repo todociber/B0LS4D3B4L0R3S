@@ -295,17 +295,28 @@ class OrdenesCasaCorredoraAutorizador extends Controller
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
         } else {
+            $agenteC = Usuario::ofid($request['AgenteCorredor'])->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
+            if ($agenteC->count() == 0) {
+                return redirect()->back()->withInput()->withErrors('Agente Corredor no disponible');
+            }
 
             if (\Session::has('UsuarioEliminar')) {
                 $orden = Ordene::find($id);
-                $orden->fill([
-                    'idCorredor' => $request['AgenteCorredor'],
-                    'comision' => $request['Comision'],
-                    'idEstadoOrden' => '2'
-                ]);
+                if ($request['Comision'] == null) {
+                    $orden->fill([
+                        'idCorredor' => $request['AgenteCorredor'],
+                        'idEstadoOrden' => '2'
+                    ]);
+                } else {
+                    $orden->fill([
+                        'idCorredor' => $request['AgenteCorredor'],
+                        'comision' => $request['Comision'],
+                        'idEstadoOrden' => '2'
+                    ]);
+                }
                 $orden->save();
                 flash('Agente corredor asignado exitosamente', 'success');
-                return redirect("/UsuarioCasaCorredora/" . \Session::get('UsuarioEliminar') . "/editar");
+                return redirect("Ordenes/Reasignacion");
             } else {
                 flash('Error en consulta', 'danger');
                 return redirect('/Ordenes');

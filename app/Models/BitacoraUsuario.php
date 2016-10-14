@@ -10,13 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class BitacoraUsuario extends Model
 {
-    /* Schema::create('bitacora', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('tipoCambio',20)->unsigned();
-            $table->integer('idUsuario')->unsigned();
-            $table->string('descripcion',100)->unsigned();
-            $table->timestamps();
-        });*/
     public $timestamps = true;
     protected $table = 'bitacora';
     protected $fillable = [
@@ -32,10 +25,6 @@ class BitacoraUsuario extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
-    public function ModuloAfectado()
-    {
-        return $this->belongsTo(ModuloAfectado::class, 'idModuloAfectado', 'id');
-    }
 
 
     public function scopeOfid($query, $id)

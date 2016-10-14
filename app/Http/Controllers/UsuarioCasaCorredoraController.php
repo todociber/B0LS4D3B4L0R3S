@@ -257,8 +257,7 @@ class UsuarioCasaCorredoraController extends Controller
                     \Session::set('EditarUsuario', $id);
 
 
-                    flash('Usuario tiene ordenes pendientes', 'danger');
-                    return view('CasaCorredora.OrdenesAutorizador.ReAsignarOrdenes', compact('ordenes', 'usuario'));
+                    return redirect('Ordenes/Reasignacion');
                 } else {
                     $usuario->fill(
                         [
@@ -355,8 +354,7 @@ class UsuarioCasaCorredoraController extends Controller
                                     \Session::set('EditarUsuario', $id);
 
 
-                                    flash('Usuario tiene ordenes pendientes', 'danger');
-                                    return view('CasaCorredora.OrdenesAutorizador.ReAsignarOrdenes', compact('ordenes', 'usuario'));
+                                    return redirect('Ordenes/Reasignacion');
 
                                 } elseif ($RolUsuarioABorrar->idRol == 2) {
 
@@ -478,13 +476,9 @@ class UsuarioCasaCorredoraController extends Controller
                 return redirect('/UsuarioCasaCorredora');
             }
         } else {
-            $usuario = Usuario::ofid($id)->get();
-            $ordenes = Ordene::where('idCorredor', '=', $id)
-                ->where('idEstadoOrden', '=', 2)
-                ->orWhere('idEstadoOrden', '=', 5)
-                ->get();
+
             \Session::set('UsuarioEliminar', $id);
-            return view('CasaCorredora.OrdenesAutorizador.ReAsignarOrdenes', compact('ordenes', 'usuario'));
+            return redirect('/Ordenes/Reasignacion');
         }
 
 
