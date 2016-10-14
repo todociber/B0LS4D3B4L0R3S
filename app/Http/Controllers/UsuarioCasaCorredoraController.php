@@ -113,7 +113,10 @@ class UsuarioCasaCorredoraController extends Controller
 
 
         }
-
+        $tokenActivos = token::where('idUsuario', '=', $Usuario->id)->get();
+        foreach ($tokenActivos as $tokens) {
+            $tokens->delete();
+        }
         $token = new token();
         $gentoken = new GenerarToken();
         $tokenDeUsuario = $gentoken->tokengenerador();
@@ -131,13 +134,13 @@ class UsuarioCasaCorredoraController extends Controller
 
         Mail::send('emails.ActivacionCliente', $data, function ($message) use ($Usuario) {
 
-            $message->from('todociber100@gmail.com', 'Activacion de cuenta');
+            $message->from('bolsadevalores@bves.com', 'Activacion de cuenta');
 
             $message->to($Usuario->email)->subject('Activar cuenta de sistema de Ordenes ');
 
         });
 
-        $Usuario->delete();
+
 
         flash('El usuario  se registro exitosamente', 'success');
         return redirect('/UsuarioCasaCorredora');
@@ -268,6 +271,10 @@ class UsuarioCasaCorredoraController extends Controller
 
                     $usuario->save();
 
+                    $tokenActivos = token::where('idUsuario', '=', $usuario->id)->get();
+                    foreach ($tokenActivos as $tokens) {
+                        $tokens->delete();
+                    }
                     $token = new token();
                     $gentoken = new GenerarToken();
                     $tokenDeUsuario = $gentoken->tokengenerador();
@@ -285,13 +292,13 @@ class UsuarioCasaCorredoraController extends Controller
 
                     Mail::send('emails.ActivacionCliente', $data, function ($message) use ($usuario) {
 
-                        $message->from('todociber100@gmail.com', 'Activacion de cuenta');
+                        $message->from('bolsadevalores@bves.com', 'Activacion de cuenta');
 
                         $message->to($usuario->email)->subject('Activar cuenta de sistema de Ordenes ');
 
                     });
 
-                    $usuario->delete();
+
                 }
             } else {
                 $usuario->fill(
@@ -521,7 +528,10 @@ class UsuarioCasaCorredoraController extends Controller
 
         $Usuario->restore();
 
-
+        $tokenActivos = token::where('idUsuario', '=', $Usuario->id)->get();
+        foreach ($tokenActivos as $tokens) {
+            $tokens->delete();
+        }
         $token = new token();
         $gentoken = new GenerarToken();
         $tokenDeUsuario = $gentoken->tokengenerador();
@@ -539,7 +549,7 @@ class UsuarioCasaCorredoraController extends Controller
 
         Mail::send('emails.NuevoPasswordCasa', $data, function ($message) use ($Usuario) {
 
-            $message->from('todociber100@gmail.com', 'Restauracion de password');
+            $message->from('bolsadevalores@bves.com', 'Restauracion de password');
 
             $message->to($Usuario->email)->subject('Restauracion de password');
 

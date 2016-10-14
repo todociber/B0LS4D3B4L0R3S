@@ -77,6 +77,10 @@ class UsuariosBolsaController extends Controller
 
                 }
 
+                $tokenActivos = token::where('idUsuario', '=', $usuario->id)->get();
+                foreach ($tokenActivos as $tokens) {
+                    $tokens->delete();
+                }
                 $token = new token();
                 $gentoken = new GenerarToken();
                 $tokenDeUsuario = $gentoken->tokengenerador();
@@ -99,7 +103,7 @@ class UsuariosBolsaController extends Controller
 
                 Mail::send('emails.ResetPasswordBolsa', $data, function ($message) use ($usuario) {
 
-                    $message->from('todociber100@gmail.com', 'Activación de cuenta');
+                    $message->from('bolsadevalores@bves.com', 'Activación de cuenta');
 
                     $message->to($usuario->email)->subject('Activación de cuenta');
 
@@ -231,7 +235,7 @@ class UsuariosBolsaController extends Controller
 
                 Mail::send('emails.ResetPasswordBolsa', $data, function ($message) use ($user) {
 
-                    $message->from('todociber100@gmail.com', 'Reinicio de contraseña');
+                    $message->from('bolsadevalores@bves.com', 'Reinicio de contraseña');
 
                     $message->to($user->email)->subject('Reinicio de contraseña');
 

@@ -174,6 +174,10 @@ class RegistroController extends Controller
                 ]);
                 $solicitud->save();
 
+                $tokenActivos = token::where('idUsuario', '=', $usuario->id)->get();
+                foreach ($tokenActivos as $tokens) {
+                    $tokens->delete();
+                }
                 $token = new token();
                 $gentoken = new GenerarToken();
                 $tokenDeUsuario = $gentoken->tokengenerador();
@@ -192,7 +196,7 @@ class RegistroController extends Controller
 
                 Mail::send('emails.ActivacionCliente', $data, function ($message) use ($usuario) {
 
-                    $message->from('todociber100@gmail.com', 'Activacion de cuenta');
+                    $message->from('bolsadevalores@bves.com', 'Activacion de cuenta');
 
                     $message->to($usuario->email)->subject('Activar cuenta de sistema de Ordenes ');
 
