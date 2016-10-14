@@ -187,6 +187,16 @@ class ClientesController extends Controller
                 ]
             );
             $mensaje->save();
+            $emails = [];
+            $i = 0;
+            $band = false;
+        
+
+            $data = [
+                'titulo' => 'El cliente ' . Auth::user()->nombre . ' ' . Auth::user()->apellido . ' ha modificado una orden de inversión, con el correlativo ' . $nuevaOrden->correlativo,
+            ];
+            $action = new Action();
+            $action->sendEmail($data, $emails, 'Modificación de orden de inversión', 'Modificación de orden de inversión', 'emails.OrdenEmail');
             flash('Mensaje agregado con exito', 'success');
             return redirect()->route('getOrdenes', ['id' => $idOrden]);
         } catch (Exception $e) {

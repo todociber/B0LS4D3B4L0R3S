@@ -10,13 +10,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class BitacoraUsuario extends Model
 {
+    /* Schema::create('bitacora', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('tipoCambio',20)->unsigned();
+            $table->integer('idUsuario')->unsigned();
+            $table->string('descripcion',100)->unsigned();
+            $table->timestamps();
+        });*/
     public $timestamps = true;
     protected $table = 'bitacora';
     protected $fillable = [
+        'tipoCambio',
         'idUsuario',
-        'idUsuarioAfectado',
-        'idOrden',
-        'idModuloAfectado'
+        'descripcion',
+        'idOrganizacion',
     ];
 
     protected $guarded = [];
