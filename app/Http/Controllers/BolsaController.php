@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\BitacoraUsuario;
 use App\Models\Ordene;
 use App\Models\Organizacion;
 use App\Models\RolUsuario;
@@ -14,6 +15,7 @@ use Carbon\Carbon;
 use DB;
 use Flash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -36,8 +38,6 @@ class BolsaController extends Controller
     public function index()
     {
 
-
-        $organizacion = new Organizacion;
         return View('bves.Casas.RegistroCasas');
     }
 
@@ -82,7 +82,18 @@ class BolsaController extends Controller
 
                         $this->makeUser($request['codigo'], $organizacion, $request['correo']);
 
-                        //errir 0 todo bien, error 1, no se guardo la imagen, error 3 ya existe una casa con ese codigo
+                        $bitacora = new BitacoraUsuario();
+
+                        $bitacora->fill(
+                            [
+                                'tipoCambio' => 'Creación',
+                                'idUsuario' => Auth::user()->id,
+                                'idOrganizacion' => Auth::user()->Organizacion->id,
+                                'descripcion' => 'Creación de la casa corredora ' . $organizacion->nombre,
+
+                            ]
+                        );
+                        $bitacora->save();
                         return response()->json(['error' => '0']);
                     } else {
 
@@ -184,6 +195,7 @@ class BolsaController extends Controller
 
         });
 
+
     }
 
     public function eliminarRestaurarCasa(Request $request)
@@ -193,17 +205,43 @@ class BolsaController extends Controller
             if ($request["tipo"] == 0) {
                 $countOrden = Ordene::where("idOrganizacion", $request["id"])
                     ->whereNotIn("idEstadoOrden", [1, 2, 5])->count();
+                $organizacion = Organizacion::where("idOrganizacion", $request["id"])->first();
                 if ($countOrden == 0) {
                     DB::table('usuarios')->where("idOrganizacion", $request["id"])->update(["deleted_at" => Carbon::now()]);
                     Organizacion::destroy($request["id"]);
+                    $bitacora = new BitacoraUsuario();
+
+                    $bitacora->fill(
+                        [
+                            'tipoCambio' => 'Modifiación de estado de casa corredora',
+                            'idUsuario' => Auth::user()->id,
+                            'idOrganizacion' => Auth::user()->Organizacion->id,
+                            'descripcion' => 'Casa' . $organizacion->nombre . ', cambio a estado innactivo ',
+
+                        ]
+                    );
+                    $bitacora->save();
                 } else {
 
                     flash('La casa no puede ser removida porque tiene ordenes en curso', 'success');
+
 
                 }
             } else {
                 $organizacion = Organizacion::withTrashed()->where('id', '=', $request["id"])->first();
                 $organizacion->restore();
+                $bitacora = new BitacoraUsuario();
+
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'Modifiación de estado de casa corredora',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->Organizacion->id,
+                        'descripcion' => 'Casa' . $organizacion->nombre . ', cambio a estado innactivo ',
+
+                    ]
+                );
+                $bitacora->save();
                 DB::table('usuarios')->where("idOrganizacion", $request["id"])->update(["deleted_at" => null]);
 
                 flash('Estado cambiado con éxito', 'success');
@@ -313,9 +351,20 @@ class BolsaController extends Controller
                         }
                         $action = new Action();
                         $action->sendEmail($data, $emails, 'Modificación de información', 'Modificación de información', 'emails.emailUpdateCasa');
-                        
 
-                       
+
+                        $bitacora = new BitacoraUsuario();
+
+                        $bitacora->fill(
+                            [
+                                'tipoCambio' => 'Modifiación de información de casa corredora',
+                                'idUsuario' => Auth::user()->id,
+                                'idOrganizacion' => Auth::user()->Organizacion->id,
+                                'descripcion' => 'Casa' . $organizacion->nombre . ', han cambiado su información',
+
+                            ]
+                        );
+                        $bitacora->save();
                         // $this->makeUser($request['codigo'],$organizacion,$request['correo']);
                         return response()->json(['error' => '0']);
                     } else {
