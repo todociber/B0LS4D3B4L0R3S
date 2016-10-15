@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Cliente;
+use App\Models\Ordene;
 use App\Models\SolicitudRegistro;
+use App\Utilities\Action;
 use Auth;
 use ErrorException;
 use Exception;
 use Illuminate\Http\Request;
+use Log;
 
 class SolicitudesCasaCorredora extends Controller
 {
@@ -308,6 +311,21 @@ class SolicitudesCasaCorredora extends Controller
         }
         if ($solicitud[0]->idOrganizacion == Auth::user()->idOrganizacion) {
 
+            $ordenesVigentes = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganziacion)
+                ->where('idCliente', '=', $solicitud[0]->idCliente)->get();
+            $ordenVigente = false;
+            foreach ($ordenesVigentes as $orden) {
+                if ($orden->idEstadoOrden == 2) {
+                    $ordenVigente = true;
+                } else if ($orden->idEstadoOrden == 5) {
+                    $ordenVigente = true;
+                }
+            }
+
+            if ($ordenVigente) {
+                flash('Cliente con ordenes pentientes de terminacion', 'danger');
+                return redirect('/SolicitudAfiliacion');
+            }
             if ($solicitud[0]->idEstadoSolicitud == 2) {
                 $solicitudAActualizar = SolicitudRegistro::find($id);
 
@@ -315,11 +333,19 @@ class SolicitudesCasaCorredora extends Controller
                     'idEstadoSolicitud' => '3'
                 ]);
                 $solicitudAActualizar->save();
+
+
+                $data = [
+                    'nombreCasa' => Auth::user()->Organizacion->nombre,
+                    'accionAfiliacion' => 'Eliminada'
+                ];
+                $action = new Action();
+                $action->sendEmail($data, $solicitud[0]->ClienteNSolicitud->UsuarioNC->emaiil, 'Cancelación de Afiliacion', 'Cancelación de Afiliacion', 'emails.AfiliacionAceptada');
                 flash('Afiliado Eliminado ', 'success');
                 return redirect('/Afiliados');
 
             } else {
-                flash('Solicitud no pudo ser aceptada', 'danger');
+                flash('Solicitud no pudo ser eliminado', 'danger');
                 return redirect('/SolicitudAfiliacion');
             }
 
@@ -370,6 +396,14 @@ class SolicitudesCasaCorredora extends Controller
                         ]);
 
                         $nuevaSolicitud->save();
+                        $data = [
+                            'nombreCasa' => Auth::user()->Organizacion->nombre,
+                            'accionAfiliacion' => 'Aceptada'
+                        ];
+                        $action = new Action();
+                        Log::info('Email de afiliado a Eliminar' . $cliente[0]->UsuarioNC->email);
+                        $action->sendEmail($data, $cliente[0]->UsuarioNC->email, 'Afiliacion', ' Afiliacion', 'emails.AfiliacionAceptada');
+
                         flash('Cliente Afiliado Exitosamente', 'success');
                         return redirect('/Afiliados');
                     } else {

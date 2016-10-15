@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'mailgun'),
+    'driver' => env('MAIL_DRIVER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'administracion@bves.com', 'name' => 'Bolsa de Valores El Salvador '],
+    'from' => ['address' => 'todociber100@gmail.com', 'name' => 'Bolsa de Valores El Salvador '],
 
     /*
     |--------------------------------------------------------------------------

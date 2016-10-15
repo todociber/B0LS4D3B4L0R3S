@@ -8,6 +8,7 @@ use App\Models\Mensaje;
 use App\Models\OperacionBolsa;
 use App\Models\Ordene;
 use App\Models\Usuario;
+use App\Utilities\Action;
 use App\Utilities\RolIdentificador;
 use Carbon\Carbon;
 use DB;
@@ -285,6 +286,13 @@ class OrdenesController extends Controller
                     ]);
                     $operacion->save();
                     $orden->save();
+
+                    $data = [
+                        'nombreCasa' => Auth::user()->Organizacion->nombre,
+                        'correlativoOrden' => $orden->correlativo
+                    ];
+                    $action = new Action();
+                    $action->sendEmail($data, $orden->ClientesN->UsuarioNC->email, 'Operacion de Bolsa', 'Operacion de Bolsa', 'emails.OperacionBolsa');
                     flash('Operacion registrada exitosamente', 'success');
                     return redirect()->back();
 

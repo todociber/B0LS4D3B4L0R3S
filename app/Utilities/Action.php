@@ -30,7 +30,7 @@ class Action
     {
         Mail::send($page, $data, function ($message) use ($email, $tema, $subject) {
 
-            $message->from('bolsaDeValores@bves.com', $tema);
+            $message->from('sandbox34d44e5a00664adb81a8297905b05f4e.mailgun.org', $tema);
 
             $message->to($email)->subject($subject);
 
