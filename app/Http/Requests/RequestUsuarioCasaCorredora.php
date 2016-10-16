@@ -22,8 +22,8 @@ class RequestUsuarioCasaCorredora extends Request
     public function rules()
     {
         return [
-            'nombre'=>'required',
-            'apellido'=>'required',
+            'nombre' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+            'apellido' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'email' => 'required|email|unique:usuarios,email',
             'rolUsuario' => 'required|array|exists:roles,id'
 

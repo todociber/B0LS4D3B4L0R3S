@@ -151,6 +151,13 @@ class OrdenesCasaCorredoraAutorizador extends Controller
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
         }
+        $rol = new RolIdentificador();
+        if (!$rol->Autorizador(Auth::user())) {
+            if ($ordenes[0]->idCorredor != Auth::user()->id) {
+                flash('Error en consulta', 'danger');
+                return redirect('Ordenes');
+            }
+        }
 
         if ($ordenes[0]->idOrganizacion != Auth::user()->idOrganizacion) {
             flash('Error en consulta', 'danger');
@@ -217,6 +224,8 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                     'idEstadoOrden' => '2'
                 ]);
                 $orden->save();
+
+
                 flash('Agente corredor asignado exitosamente', 'success');
                 return redirect('/Ordenes');
             } else {

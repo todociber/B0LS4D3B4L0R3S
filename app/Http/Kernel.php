@@ -52,6 +52,7 @@ class Kernel extends HttpKernel
         'UsuarioCasaCorredora' => \App\Http\Middleware\UsuarioCasaCorredora::class,
         'administradorCasaCorredora' => \App\Http\Middleware\UsuarioAdministradorCasaCorredoraAuth::class,
         'OperadorCasaCorredora' => \App\Http\Middleware\UsuarioOperadorCasaCorredora::class,
-        'AgenteCorredor' => \App\Http\Middleware\AgenteCorredorMiddleware::class
+        'AgenteCorredor' => \App\Http\Middleware\AgenteCorredorMiddleware::class,
+        'UsuarioNoLogueado' => \App\Http\Middleware\UsuarioNoLogueado::class
     ];
 }

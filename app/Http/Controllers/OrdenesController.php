@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\BitacoraUsuario;
 use App\Models\EstadoOrden;
+use App\Models\LatchModel;
 use App\Models\Mensaje;
 use App\Models\OperacionBolsa;
 use App\Models\Ordene;
@@ -14,6 +16,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Latch;
 use Redirect;
 
 class OrdenesController extends Controller
@@ -179,7 +182,7 @@ class OrdenesController extends Controller
     }
 
 
-    public function Actualizar(Requests\RequestOrdenAutorizador $request, $id)
+    public function Actualizar(Request $request, $id)
     {
 
         $agenteC = Usuario::ofid($request['AgenteCorredor'])->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
@@ -212,6 +215,17 @@ class OrdenesController extends Controller
             ]);
             $orden->save();
 
+            $bitacora = new BitacoraUsuario();
+            $bitacora->fill(
+                [
+                    'tipoCambio' => 'Actualizacion',
+                    'idUsuario' => Auth::user()->id,
+                    'idOrganizacion' => Auth::user()->idOrganizacion,
+                    'descripcion' => 'Actualizacion sobre Orden id' . $orden->id . ' Correlativo ' . $orden->correlativo,
+
+                ]
+            );
+            $bitacora->save();
             flash('Actualizacion con exito', 'success');
             return redirect('/Ordenes');
         } else {
@@ -293,6 +307,18 @@ class OrdenesController extends Controller
                     ];
                     $action = new Action();
                     $action->sendEmail($data, $orden->ClientesN->UsuarioNC->email, 'Operacion de Bolsa', 'Operacion de Bolsa', 'emails.OperacionBolsa');
+                    $bitacora = new BitacoraUsuario();
+                    $bitacora->fill(
+                        [
+                            'tipoCambio' => 'OperacionBolsa',
+                            'idUsuario' => Auth::user()->id,
+                            'idOrganizacion' => Auth::user()->idOrganizacion,
+                            'descripcion' => 'Realizacion de Operacion de Bolsa sobre Orden id: ' . $orden->id . ' Correlativo' . $orden->correlativo,
+
+                        ]
+                    );
+                    $bitacora->save();
+
                     flash('Operacion registrada exitosamente', 'success');
                     return redirect()->back();
 
@@ -344,11 +370,15 @@ class OrdenesController extends Controller
         $ordenes = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganizacion)->with(['MensajesN_Orden', 'Corredor_UsuarioN' => function ($query) {
             $query->withTrashed();
         }])->get();
+        if ($ordenes->count() > 0) {
+            $view = \View::make('CasaCorredora.OrdenesAutorizador.OrdenesReportePDF', compact('ordenes'))->render();
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($view);
+            return $pdf->stream('DetalleOrden#' . $ordenes[0]->correlativo);
+        } else {
+            return redirect()->back()->withErrors('No se encontraron Ordenes para el reporte');
+        }
 
-        $view = \View::make('CasaCorredora.OrdenesAutorizador.OrdenesReportePDF', compact('ordenes'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view);
-        return $pdf->stream('DetalleOrden#' . $ordenes[0]->correlativo);
     }
 
     public function ReporteFecha()
@@ -370,7 +400,7 @@ class OrdenesController extends Controller
             $fechaFinal = Carbon::parse($request['fechaFinal'])->format('Y-m-d');
 
 
-            if (Carbon::now()->diffInDays(Carbon::parse($request['fechaFinal']), false) <= 0) {
+
                 if (Carbon::parse($request['fechaInicial'])->diffInDays(Carbon::parse($request['fechaFinal']), false) >= 0) {
                     if ($estadoOrden == 7) {
                         $ordenes = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganizacion)->whereBetween('created_at', [$fechaInicial . ' 00:00:00', $fechaFinal . ' 00:00:00'])->with(['MensajesN_Orden', 'Corredor_UsuarioN' => function ($query) {
@@ -387,9 +417,7 @@ class OrdenesController extends Controller
 
                     return redirect()->back()->withInput()->withErrors('Fecha final no puede ser mayor que la fecha inicial');
                 }
-            } else {
-                return redirect()->back()->withInput()->withErrors('Fecha final no puede ser mayor que el dia de hoy');
-            }
+
         }
         if ($ordenes->count() > 0) {
             $view = \View::make('CasaCorredora.OrdenesAutorizador.OrdenesReportePDF', compact('ordenes'))->render();
@@ -410,8 +438,12 @@ class OrdenesController extends Controller
 
 
         if (\Session::has('UsuarioEliminar')) {
+
+
             $id = \Session::get('UsuarioEliminar');
-            $Usuario = Usuario::find($id);
+
+
+            $Usuario = Usuario::ofid($id)->first();
             $ordenesVigentes = 0;
             foreach ($Usuario->OrdenesUsuario as $ordenes) {
                 if ($ordenes->idEstadoOrden == 2) {
@@ -420,7 +452,7 @@ class OrdenesController extends Controller
                     $ordenesVigentes = 1;
                 }
             }
-            if ($ordenesVigentes == 0) {
+            if ($ordenesVigentes == 1) {
                 $usuario = Usuario::ofid($id)->get();
                 $ordenes = Ordene::where('idCorredor', '=', $id)
                     ->where('idEstadoOrden', '=', 2)
@@ -437,6 +469,26 @@ class OrdenesController extends Controller
                     return redirect('UsuarioCasaCorredora/' . $id . '/editar');
 
                 } else {
+
+
+                    $LatchTokenExiste = LatchModel::where('idUsuario', '=', $Usuario->id)->count();
+                    if ($LatchTokenExiste > 0) {
+                        $accountId = LatchModel::where('idUsuario', '=', $Usuario->id)->first();
+                        if (Latch::unpair($accountId->tokenLatch)) {
+                            $accountId->delete();
+                        }
+                    }
+                    $bitacora = new BitacoraUsuario();
+                    $bitacora->fill(
+                        [
+                            'tipoCambio' => 'Desactivacion',
+                            'idUsuario' => Auth::user()->id,
+                            'idOrganizacion' => Auth::user()->idOrganizacion,
+                            'descripcion' => 'Desactivacion de usuario Casa Corredora' . $Usuario->nombre . ' ' . $Usuario->apellido . ' id: ' . $Usuario->id,
+
+                        ]
+                    );
+                    $bitacora->save();
                     $Usuario->delete();
                     \Session::remove('UsuarioEliminar');
                     flash('Usuario Eliminado Exitosamente', 'danger');

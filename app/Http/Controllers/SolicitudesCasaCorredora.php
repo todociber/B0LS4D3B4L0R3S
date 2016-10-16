@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\BitacoraUsuario;
 use App\Models\Cliente;
 use App\Models\Ordene;
 use App\Models\SolicitudRegistro;
@@ -101,6 +102,18 @@ class SolicitudesCasaCorredora extends Controller
                 );
 
                 $solicitudAActualizar->save();
+                $bitacora = new BitacoraUsuario();
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'Rechazo',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                        'descripcion' => 'Rechazo de afiliacion id' . $solicitudAActualizar->id,
+
+                    ]
+                );
+                $bitacora->save();
+
                 flash('Solicitud rechazada', 'warning');
                 return redirect('/SolicitudAfiliacion');
 
@@ -190,6 +203,18 @@ class SolicitudesCasaCorredora extends Controller
                 );
 
                 $solicitudAActualizar->save();
+
+                $bitacora = new BitacoraUsuario();
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'Aceptar',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                        'descripcion' => 'Aceptacion de afiliacion id' . $solicitudAActualizar->id,
+
+                    ]
+                );
+                $bitacora->save();
                 flash('Solicitud aceptada', 'success');
                 return redirect('/SolicitudAfiliacion');
 
@@ -259,6 +284,18 @@ class SolicitudesCasaCorredora extends Controller
                 );
 
                 $solicitudAActualizar->save();
+                $bitacora = new BitacoraUsuario();
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'ProcesoAfiliacion',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                        'descripcion' => 'Afiliacion en proceso id' . $solicitudAActualizar->id,
+
+                    ]
+                );
+                $bitacora->save();
+
                 flash('Solicitud procesada', 'success');
                 return redirect('/SolicitudAfiliacion');
 
@@ -341,6 +378,18 @@ class SolicitudesCasaCorredora extends Controller
                 ];
                 $action = new Action();
                 $action->sendEmail($data, $solicitud[0]->ClienteNSolicitud->UsuarioNC->emaiil, 'Cancelación de Afiliacion', 'Cancelación de Afiliacion', 'emails.AfiliacionAceptada');
+                $bitacora = new BitacoraUsuario();
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'Eliminacion',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                        'descripcion' => 'Eliminacion de afiliacion id' . $solicitudAActualizar->id,
+
+                    ]
+                );
+                $bitacora->save();
+
                 flash('Afiliado Eliminado ', 'success');
                 return redirect('/Afiliados');
 
@@ -411,6 +460,18 @@ class SolicitudesCasaCorredora extends Controller
                             'idEstadoSolicitud' => 2
                         ]);
                         $buscarSolicitudPendiente[0]->save();
+
+                        $bitacora = new BitacoraUsuario();
+                        $bitacora->fill(
+                            [
+                                'tipoCambio' => 'Afiliacion',
+                                'idUsuario' => Auth::user()->id,
+                                'idOrganizacion' => Auth::user()->idOrganizacion,
+                                'descripcion' => 'Aceptacion de afiliacion id' . $buscarSolicitudPendiente[0]->id,
+
+                            ]
+                        );
+                        $bitacora->save();
                         flash('Cliente Afiliado Exitosamente', 'success');
                         return redirect('/Afiliados');
                     }

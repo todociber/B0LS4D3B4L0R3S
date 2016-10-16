@@ -61,6 +61,7 @@
                         </thead>
                         <tbody>
                         @foreach($usuariosAgentes as $usuarioA)
+                            @if($usuarioA->id!=$ordenes[0]->idCorredor)
 
                             <tr>
 
@@ -94,7 +95,7 @@
                                            name="{{$usuarioA->id}}" value="Asignar orden"/>
                                 </td>
                             </tr>
-
+                            @endif
                         @endforeach
 
 

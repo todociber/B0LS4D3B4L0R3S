@@ -113,15 +113,17 @@
                             <td><b>Estado:</b></td>
                             <td><span style="color:orangered"> {{$orden->EstadoOrden->estado}}</span></td>
                         </tr>
+                        @if($orden->Corredor_UsuarioN()->count()>0)
                         <tr>
                             <td><b>Agente Corredor: </b></td>
                             <td> {{$orden->Corredor_UsuarioN->nombre}} {{$orden->Corredor_UsuarioN->apellido}}</td>
                         </tr>
+
                         <tr>
                             <td><b>Comision </b></td>
                             <td> {{$orden->comision}}%</td>
                         </tr>
-
+                        @endif
                         </tbody>
                     </table>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Requests\RegistroRequest;
+use App\Models\BitacoraUsuario;
 use App\Models\Cedeval;
 use App\Models\Cliente;
 use App\Models\Departamento;
@@ -202,6 +203,18 @@ class RegistroController extends Controller
 
                 });
 
+
+                $bitacora = new BitacoraUsuario();
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'Creacion',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                        'descripcion' => 'Creacion de usuario cliente' . $usuario->nombre . ' ' . $usuario->apellido . ' idClientes: ' . $clientes->id,
+
+                    ]
+                );
+                $bitacora->save();
                 flash('Cliente registrado exitosamente', 'success');
                 return redirect()->route('Afiliados.index');
             }

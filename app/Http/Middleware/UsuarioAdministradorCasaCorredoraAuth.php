@@ -20,6 +20,11 @@ class UsuarioAdministradorCasaCorredoraAuth
 
         $rol = new RolIdentificador();
         if (!$rol->Administrador(Auth::user())) {
+            if ($rol->Autorizador(Auth::user())) {
+                return redirect()->route('SolicitudAfiliacion.index');
+            } else if ($rol->AgenteCorredor(Auth::user())) {
+                return redirect()->route('Ordenes.index');
+            }
             return redirect('/login');
         }
         return $next($request);

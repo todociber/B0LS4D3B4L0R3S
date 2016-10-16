@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\BitacoraUsuario;
 use App\Models\LatchModel;
 use App\Models\Ordene;
 use App\Models\Role;
@@ -134,14 +135,25 @@ class UsuarioCasaCorredoraController extends Controller
 
         Mail::send('emails.ActivacionCliente', $data, function ($message) use ($Usuario) {
 
-            $message->from('bolsadevalores@bves.com', 'Activacion de cuenta');
+            $message->from('todociber100@gmail.com', 'Activacion de cuenta');
 
             $message->to($Usuario->email)->subject('Activar cuenta de sistema de Ordenes ');
 
         });
 
 
+        $bitacora = new BitacoraUsuario();
 
+        $bitacora->fill(
+            [
+                'tipoCambio' => 'Creación',
+                'idUsuario' => Auth::user()->id,
+                'idOrganizacion' => Auth::user()->idOrganizacion,
+                'descripcion' => 'Creacion de usuario Casa Corredora' . $Usuario->nombre . ' ' . $Usuario->apellido . ' id: ' . $Usuario->id,
+
+            ]
+        );
+        $bitacora->save();
         flash('El usuario  se registro exitosamente', 'success');
         return redirect('/UsuarioCasaCorredora');
     }
@@ -208,8 +220,8 @@ class UsuarioCasaCorredoraController extends Controller
     {
 
         $rules = array(
-            'nombre' => 'required',
-            'apellido' => 'required',
+            'nombre' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+            'apellido' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'email' => 'required|unique:usuarios,email,' . $id,
             'rolUsuario' => 'required|exists:roles,id'
 
@@ -356,7 +368,7 @@ class UsuarioCasaCorredoraController extends Controller
 
                                     return redirect('Ordenes/Reasignacion');
 
-                                } elseif ($RolUsuarioABorrar->idRol == 2) {
+                                } else if ($RolUsuarioABorrar->idRol == 2) {
 
                                     $LatchTokenExiste = LatchModel::where('idUsuario', '=', $id)->count();
                                     if ($LatchTokenExiste > 0) {
@@ -403,6 +415,20 @@ class UsuarioCasaCorredoraController extends Controller
                 }
 
             }
+
+            $bitacora = new BitacoraUsuario();
+
+            $bitacora->fill(
+                [
+                    'tipoCambio' => 'Edicion',
+                    'idUsuario' => Auth::user()->id,
+                    'idOrganizacion' => Auth::user()->idOrganizacion,
+                    'descripcion' => 'Edicion de usuario Casa Corredora' . $usuario->nombre . ' ' . $usuario->apellido . ' id: ' . $usuario->id,
+
+                ]
+            );
+            $bitacora->save();
+
             flash('El usuario se edito exitosamente', 'success');
             return redirect('/UsuarioCasaCorredora');
         }
@@ -439,7 +465,6 @@ class UsuarioCasaCorredoraController extends Controller
             }
         }
 
-
         if ($ordenesVigentes == 0) {
             if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
                 flash('Error en consulta', 'danger');
@@ -468,6 +493,17 @@ class UsuarioCasaCorredoraController extends Controller
                         $accountId->delete();
                     }
                 }
+                $bitacora = new BitacoraUsuario();
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'Desactivacion',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                        'descripcion' => 'Desactivacion de usuario Casa Corredora' . $Usuario->nombre . ' ' . $Usuario->apellido . ' id: ' . $Usuario->id,
+
+                    ]
+                );
+                $bitacora->save();
                 $Usuario->delete();
                 if (\Session::has('UsuarioEliminar')) {
                     \Session::remove('UsuarioEliminar');
@@ -510,6 +546,18 @@ class UsuarioCasaCorredoraController extends Controller
         } else {
 
             $Usuario->restore();
+
+            $bitacora = new BitacoraUsuario();
+            $bitacora->fill(
+                [
+                    'tipoCambio' => 'ReActivacion',
+                    'idUsuario' => Auth::user()->id,
+                    'idOrganizacion' => Auth::user()->idOrganizacion,
+                    'descripcion' => 'ReActivacion de usuario Casa Corredora' . $Usuario->nombre . ' ' . $Usuario->apellido . ' id: ' . $Usuario->id,
+
+                ]
+            );
+            $bitacora->save();
             flash('El usuario se activo exitosamente', 'warning');
             return redirect('/UsuarioCasaCorredora');
         }
@@ -543,12 +591,26 @@ class UsuarioCasaCorredoraController extends Controller
 
         Mail::send('emails.NuevoPasswordCasa', $data, function ($message) use ($Usuario) {
 
-            $message->from('bolsadevalores@bves.com', 'Restauracion de password');
+            $message->from('todociber100@gmail.com', 'Restauracion de password');
 
             $message->to($Usuario->email)->subject('Restauracion de password');
 
         });
 
+
+        $Usuario->restore();
+
+        $bitacora = new BitacoraUsuario();
+        $bitacora->fill(
+            [
+                'tipoCambio' => 'Reseteo',
+                'idUsuario' => Auth::user()->id,
+                'idOrganizacion' => Auth::user()->idOrganizacion,
+                'descripcion' => 'Reseteo de contrseña  de usuario Casa Corredora' . $Usuario->nombre . ' ' . $Usuario->apellido . ' id: ' . $Usuario->id,
+
+            ]
+        );
+        $bitacora->save();
         flash('Contraseña resteada exitosamente ', 'info');
         return redirect('/UsuarioCasaCorredora');
 
