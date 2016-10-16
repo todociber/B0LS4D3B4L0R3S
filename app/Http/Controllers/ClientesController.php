@@ -1,6 +1,4 @@
-<?php
-
-namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Cedeval;
@@ -83,7 +81,7 @@ class ClientesController extends Controller
         try {
 
             $client = new GuzzleHttp\Client();
-            $res = $client->request('GET', "http://e60e591e.ngrok.io/GetEmisores/$id/titulo");
+            $res = $client->request('GET', "http://e60e591e.ngrok.io//GetEmisores/$id/titulo");
             $bodyJ = $res->getBody();
             $body = json_decode($bodyJ);
 
@@ -193,10 +191,10 @@ class ClientesController extends Controller
         
 
             $data = [
-                'titulo' => 'El cliente ' . Auth::user()->nombre . ' ' . Auth::user()->apellido . ' ha modificado una orden de inversión, con el correlativo ' . $nuevaOrden->correlativo,
+                'titulo' => 'El cliente ' . Auth::user()->nombre . ' ' . Auth::user()->apellido . 'Ha enviado un nuevo mensaje',
             ];
             $action = new Action();
-            $action->sendEmail($data, $emails, 'Modificación de orden de inversión', 'Modificación de orden de inversión', 'emails.OrdenEmail');
+            $action->sendEmail($data, $emails, 'Mensaje', 'Nuevo mensaje de cliente', 'emails.OrdenEmail');
             flash('Mensaje agregado con exito', 'success');
             return redirect()->route('getOrdenes', ['id' => $idOrden]);
         } catch (Exception $e) {
@@ -222,9 +220,9 @@ class ClientesController extends Controller
                 'mercado' => 'required',
                 'titulo' => 'required',
                 'emisor' => 'required',
-                'valorMinimo' => 'required|numeric|min:0',
-                'valorMaximo' => 'required|numeric|min:0',
-                'monto' => 'required|numeric|min:0',
+                'valorMinimo' => 'required|numeric|min:1',
+                'valorMaximo' => 'required|numeric|min:1',
+                'monto' => 'required|numeric|min:1',
                 'FechaDeVigencia' => 'required|date',
                 'tasaDeInteres' => 'required|numeric|min:0',
 
@@ -313,8 +311,8 @@ class ClientesController extends Controller
         $idCliente = Auth::user()->ClienteN->id;
         $orden = Ordene::where("id", $id)
             ->where("idCliente", $idCliente)
-            ->where("idEstadoOrden", "=", 2)
-            ->orwhere("idEstadoOrden", 1)->first();
+            ->whereIn("idEstadoOrden", [1, 2])->first();
+
         if (count($orden) > 0) {
             $client = new GuzzleHttp\Client();
             $res = $client->request('GET', 'http://e60e591e.ngrok.io/GetTitulos');
@@ -506,8 +504,8 @@ class ClientesController extends Controller
                 'mercado' => 'required',
                 'titulo' => 'required',
                 'emisor' => 'required',
-                'valorMinimo' => 'required|numeric|min:0',
-                'valorMaximo' => 'required|numeric|min:0',
+                'valorMinimo' => 'required|numeric|min:1',
+                'valorMaximo' => 'required|numeric|min:1',
                 'monto' => 'required|numeric|min:0',
                 'FechaDeVigencia' => 'required|date',
                 'tasaDeInteres' => 'required|numeric|min:0',
@@ -547,14 +545,15 @@ class ClientesController extends Controller
             } else {
 
                 $idCliente = Auth::user()->ClienteN->id;
-                $orden = Ordene::with("Corredor_UsuarioN")->where("id", $id)
+                $orden = Ordene::where("id", $id)
                     ->where("idCliente", $idCliente)
-                    ->where("idEstadoOrden", "=", 2)
-                    ->orwhere("idEstadoOrden", 1)->first();
-
+                    ->whereIn("idEstadoOrden", [1, 2])->first();
                 $idOrden = $orden->idOrden ? $orden->idOrden : $orden->id;
-                $count = Ordene::where("idOrden", $idOrden)->count() + 1;
-                $correlativo = $orden->correlativo . '-' . $count;
+                $idor = $orden->idOrden ? "idOrden" : "id";
+                $count = Ordene::where($idor, $idOrden)->count() + 1;
+                $correlativoPadre = DB::table('ordenes')->where('id', $idOrden)->value('correlativo');
+                Log::info($count);
+                $correlativo = $correlativoPadre . '-' . $count;
                 $nuevaOrden = new Ordene();
                 $nuevaOrden->fill(
                     [
@@ -605,7 +604,10 @@ class ClientesController extends Controller
                 }
                 if (!$band) {
                     $i++;
-                    $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    if ($orden->Corredor_UsuarioN) {
+                        $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    }
+
                 }
 
 
@@ -766,6 +768,9 @@ class ClientesController extends Controller
                 $idCliente = $clientes->id;
                 $this->modificarEstadoSolicitud($clientes->id);
                 $idrol = 3;
+                /*OBTENIENDO USUARIOS DE ROL AUTORIZADOR DE TODAS LAS CASAS DONDE EL CLIENTE
+                ESTA AFILIADO PARA NOTIFICAR DEL CAMBIO DE INFORMACIÓN.
+              */
                 $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                     $query->where('idRol', $idrol);
                 })->whereIn("idOrganizacion", Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
@@ -1035,6 +1040,7 @@ class ClientesController extends Controller
         try {
 
             $ordenes = Ordene::with("EstadoOrden")->where("idOrden", $id)
+                ->orWhere("id", $id)
                 ->where("idCliente", Auth::user()->ClienteN->id)
                 ->orderBy("created_at", 'DESC')
                 ->get();
