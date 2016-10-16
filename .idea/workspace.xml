@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Bitacora bolsa de valores agregado.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.env" afterPath="$PROJECT_DIR$/.env" />
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Bugs en el documento corregidos, restauracion de contraseña casa corredora realizado">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/assets/js/jquery.mask.min.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/BolsaController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/BolsaController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_06_17_233328_create_ordens_table.php" afterPath="$PROJECT_DIR$/database/migrations/2016_06_17_233328_create_ordens_table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" afterPath="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/bves/Casas/ModificarCasa.blade.php" afterPath="$PROJECT_DIR$/resources/views/bves/Casas/ModificarCasa.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/bves/Casas/RegistroCasas.blade.php" afterPath="$PROJECT_DIR$/resources/views/bves/Casas/RegistroCasas.blade.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -83,16 +76,15 @@
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BolsaController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="193">
-              <caret line="374" column="15" selection-start-line="374" selection-start-column="15" selection-end-line="374" selection-end-column="15" />
+              <caret line="375" column="15" selection-start-line="375" selection-start-column="15" selection-end-line="375" selection-end-column="15" />
               <folding>
-                <element signature="e#40#62#0#PHP" expanded="true" />
                 <element signature="e#860#3608#0#PHP" expanded="false" />
                 <element signature="e#3614#4137#0#PHP" expanded="false" />
                 <element signature="e#4143#5912#0#PHP" expanded="false" />
                 <element signature="e#5918#8291#0#PHP" expanded="false" />
                 <element signature="e#8297#8711#0#PHP" expanded="false" />
                 <element signature="e#8717#9048#0#PHP" expanded="false" />
-                <element signature="e#9075#12004#0#PHP" expanded="false" />
+                <element signature="e#9075#12006#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -126,8 +118,8 @@
       <file leaf-file-name="ModificarCasa.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/bves/Casas/ModificarCasa.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="675">
-              <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+            <state relative-caret-position="285">
+              <caret line="55" column="12" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -514,6 +506,60 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="database" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
@@ -801,7 +847,7 @@
       <workItem from="1476315637869" duration="2156000" />
       <workItem from="1476417503845" duration="206000" />
       <workItem from="1476546840560" duration="4692000" />
-      <workItem from="1476566481857" duration="7620000" />
+      <workItem from="1476566481857" duration="7818000" />
     </task>
     <task id="LOCAL-00001" summary="Crear y editar Usuario&#10;">
       <created>1467422376103</created>
@@ -1013,11 +1059,18 @@
       <option name="project" value="LOCAL" />
       <updated>1476417592529</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Bugs en el documento corregidos, restauracion de contraseña casa corredora realizado">
+      <created>1476576966190</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1476576966190</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="209695000" />
+    <option name="totallyTimeSpent" value="209893000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -1032,21 +1085,21 @@
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329235" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26712328" sideWeight="0.503231" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12328767" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36301368" sideWeight="0.49676898" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24232633" sideWeight="0.4890411" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26712328" sideWeight="0.503231" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21243942" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12341407" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36301368" sideWeight="0.49676898" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2714055" sideWeight="0.5109589" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329235" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32802126" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1097,7 +1150,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Crear y editar Usuario&#10;" />
     <MESSAGE value="data en cadena algunos modelos y loading boostrap" />
     <MESSAGE value="arreglo migracion Mensajes" />
     <MESSAGE value="Todos los Modelos Relacionados" />
@@ -1122,7 +1174,8 @@
     <MESSAGE value="Envio de correos modulo bolsa de valores finalizado. Se comienza el envio de correos desde el módulo de clientes." />
     <MESSAGE value="Bugs solventados, correos enviados y diseño agregado a correos-" />
     <MESSAGE value="Bitacora bolsa de valores agregado." />
-    <option name="LAST_COMMIT_MESSAGE" value="Bitacora bolsa de valores agregado." />
+    <MESSAGE value="Bugs en el documento corregidos, restauracion de contraseña casa corredora realizado" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bugs en el documento corregidos, restauracion de contraseña casa corredora realizado" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1321,6 +1374,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1487,18 +1541,17 @@
         <state relative-caret-position="-146">
           <caret line="775" column="20" selection-start-line="773" selection-start-column="16" selection-end-line="775" selection-end-column="20" />
           <folding>
-            <element signature="e#39#61#0#PHP" expanded="true" />
             <element signature="e#1031#2390#0#PHP" expanded="false" />
             <element signature="e#2396#2874#0#PHP" expanded="false" />
             <element signature="e#2925#3612#0#PHP" expanded="false" />
             <element signature="e#3649#4708#0#PHP" expanded="false" />
             <element signature="e#4714#5412#0#PHP" expanded="false" />
-            <element signature="e#5442#6722#0#PHP" expanded="false" />
-            <element signature="e#6914#11031#0#PHP" expanded="false" />
-            <element signature="e#11080#12591#0#PHP" expanded="false" />
-            <element signature="e#12778#15006#0#PHP" expanded="false" />
-            <element signature="e#15012#16921#0#PHP" expanded="false" />
-            <element signature="e#17309#23467#0#PHP" expanded="false" />
+            <element signature="e#5442#6718#0#PHP" expanded="false" />
+            <element signature="e#6910#11027#0#PHP" expanded="false" />
+            <element signature="e#11076#12588#0#PHP" expanded="false" />
+            <element signature="e#12775#15003#0#PHP" expanded="false" />
+            <element signature="e#15009#16918#0#PHP" expanded="false" />
+            <element signature="e#17306#23467#0#PHP" expanded="false" />
             <element signature="e#23474#23602#0#PHP" expanded="false" />
             <element signature="e#23608#24710#0#PHP" expanded="false" />
             <element signature="e#31051#31739#0#PHP" expanded="false" />
@@ -1579,16 +1632,15 @@
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BolsaController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
-          <caret line="374" column="15" selection-start-line="374" selection-start-column="15" selection-end-line="374" selection-end-column="15" />
+          <caret line="375" column="15" selection-start-line="375" selection-start-column="15" selection-end-line="375" selection-end-column="15" />
           <folding>
-            <element signature="e#40#62#0#PHP" expanded="true" />
             <element signature="e#860#3608#0#PHP" expanded="false" />
             <element signature="e#3614#4137#0#PHP" expanded="false" />
             <element signature="e#4143#5912#0#PHP" expanded="false" />
             <element signature="e#5918#8291#0#PHP" expanded="false" />
             <element signature="e#8297#8711#0#PHP" expanded="false" />
             <element signature="e#8717#9048#0#PHP" expanded="false" />
-            <element signature="e#9075#12004#0#PHP" expanded="false" />
+            <element signature="e#9075#12006#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1603,8 +1655,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/bves/Casas/ModificarCasa.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+        <state relative-caret-position="285">
+          <caret line="55" column="12" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="12" />
           <folding />
         </state>
       </provider>
