@@ -13,7 +13,7 @@
     <div class="invoice">
         <h2 class="page-header">
             <i class="fa fa-file-text-o"></i> Orden #{{$orden->correlativo}} <br/><br/>
-            Cliente: Gustavo Campos
+            Cliente: {{Auth::user()->nombre.' '. Auth::user()->apellido}}
             <small class="pull-right"><strong>Fecha de Registro:</strong> {{$ordenDate}} </small>
             <br>
             <small class="pull-right"><strong>Fecha de

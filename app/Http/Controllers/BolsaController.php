@@ -49,11 +49,11 @@ class BolsaController extends Controller
 
         try {
             $validator = Validator::make($request->all(), [
-                'nombre' => 'required',
-                'correo' => 'required|email',
+                'nombre' => 'required|unique:organizacion,nombre',
+                'correo' => 'required|email|unique:organizacion,correo',
                 'direccion' => 'required',
-                'telefono' => 'required|numeric|digits:8|min:0',
-                'codigo' => 'required|numeric|digits:5|min:0',
+                'telefono' => 'required|numeric|digits:8|min:1',
+                'codigo' => 'required|numeric|digits:5|min:1',
                 'file' => 'required',
             ]);
             if (!$validator->fails()) {
@@ -205,7 +205,7 @@ class BolsaController extends Controller
             if ($request["tipo"] == 0) {
                 $countOrden = Ordene::where("idOrganizacion", $request["id"])
                     ->whereNotIn("idEstadoOrden", [1, 2, 5])->count();
-                $organizacion = Organizacion::where("idOrganizacion", $request["id"])->first();
+                $organizacion = Organizacion::where("id", $request["id"])->first();
                 if ($countOrden == 0) {
                     DB::table('usuarios')->where("idOrganizacion", $request["id"])->update(["deleted_at" => Carbon::now()]);
                     Organizacion::destroy($request["id"]);
@@ -221,6 +221,7 @@ class BolsaController extends Controller
                         ]
                     );
                     $bitacora->save();
+                    flash('Estado cambiado con éxito', 'success');
                 } else {
 
                     flash('La casa no puede ser removida porque tiene ordenes en curso', 'success');
@@ -279,6 +280,82 @@ class BolsaController extends Controller
 
     }
 
+    //RESET PASSWORD
+    public function ResetPasswordCasa($id)
+    {
+        if ($id) {
+            try {
+
+                $idrol = 2;
+                $Usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                    $query->where('idRol', $idrol);
+                })->where("idOrganizacion", $id)->get();
+                Log::info($Usuarios);
+                if (count($Usuarios) > 1) {
+
+                    flash('La casa tiene ya mas de un usuario administrador, por ende no puede reinicar la contraseña', 'info');
+                    return redirect()->back();
+                } else {
+                    $organizacion = Organizacion::where("id", $id)->first();
+                    $token = new token();
+                    $gentoken = new GenerarToken();
+                    $tokenDeUsuario = $gentoken->tokengenerador();
+
+                    $data = [
+                        'tokenDeUsuario' => $tokenDeUsuario,
+                        'objetoToken' => $token,
+                        'titulo' => 'Activación de cuenta',
+                        'nombre' => 'Se ha activado la casa corredora ' . $organizacion->nombre,
+                        'usuario' => $Usuarios[0]->email,
+                        'ruta' => 'Token.Activacion',
+                        'subtitulo' => 'Ingresa a la siguiente dirección para activar tu cuenta'
+                    ];
+                    $token->fill([
+                            'token' => $tokenDeUsuario,
+                            'idUsuario' => $Usuarios[0]->id
+                        ]
+                    );
+                    $token->save();
+                    $usuario = $Usuarios[0];
+                    Mail::send('emails.EmailSend', $data, function ($message) use ($usuario) {
+
+                        $message->from('todociber100@gmail.com', 'Activacion de cuenta');
+
+                        $message->to($usuario->email)->subject('Activar su cuenta para uso del sistema SERO');
+
+                    });
+                    $bitacora = new BitacoraUsuario();
+
+                    $bitacora->fill(
+                        [
+                            'tipoCambio' => 'Modificación',
+                            'idUsuario' => Auth::user()->id,
+                            'idOrganizacion' => Auth::user()->Organizacion->id,
+                            'descripcion' => 'Renovación de contraseña de usuario admin casa corredora ' . $organizacion->nombre,
+
+                        ]
+                    );
+                    $bitacora->save();
+
+                    flash('Contraseña reiniciada con exito', 'success');
+                    return redirect()->route('listadoCasas');
+
+                }
+
+            } catch (Exception $e) {
+                flash('Ocurrio un error al reiniciar la contraseña', 'danger');
+                return redirect()->back();
+
+            }
+
+        } else {
+            return redirect()->route('listadoCasas');
+
+        }
+
+
+    }
+
     //-------CONTROL DE CASAS CORREDORAS-----//
 
 
@@ -290,11 +367,11 @@ class BolsaController extends Controller
         try {
 
             $validator = Validator::make($request->all(), [
-                'nombre' => 'required',
-                'correo' => 'required|email',
+                'nombre' => 'required|unique:organizacion,nombre',
+                'correo' => 'required|email|unique:organizacion,correo',
                 'direccion' => 'required',
-                'telefono' => 'required',
-                'codigo' => 'required',
+                'telefono' => 'required|numeric|digits:8|min:1',
+                'codigo' => 'required|numeric|digits:5|min:1',
                 'file' => 'required',
             ]);
             if (!$validator->fails()) {
@@ -302,7 +379,7 @@ class BolsaController extends Controller
 
                 if ($codCasa == 0) {
                     $countOrden = Ordene::where("idOrganizacion", $id)
-                        ->whereNotIn("idEstadoOrden", [1, 2, 4, 5, 6])->count();
+                        ->whereNotIn("idEstadoOrden", [1, 2, 5])->count();
 
                     if ($countOrden == 0) {
 

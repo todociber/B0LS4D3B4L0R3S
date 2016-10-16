@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Bugs solventados, correos enviados y diseño agregado a correos-">
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Bitacora bolsa de valores agregado.">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.env" afterPath="$PROJECT_DIR$/.env" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/BolsaController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/BolsaController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/BitacoraUsuario.php" afterPath="$PROJECT_DIR$/app/Models/BitacoraUsuario.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_09_21_233421_create_bitacora_usuarios_table.php" afterPath="$PROJECT_DIR$/database/migrations/2016_09_21_233421_create_bitacora_usuarios_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_06_17_233328_create_ordens_table.php" afterPath="$PROJECT_DIR$/database/migrations/2016_06_17_233328_create_ordens_table.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" afterPath="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/bves/Casas/ModificarCasa.blade.php" afterPath="$PROJECT_DIR$/resources/views/bves/Casas/ModificarCasa.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/bves/Casas/RegistroCasas.blade.php" afterPath="$PROJECT_DIR$/resources/views/bves/Casas/RegistroCasas.blade.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,29 +39,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ClientesController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientesController.php">
+      <file leaf-file-name="DetalleOrden.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2550">
-              <caret line="192" column="8" selection-start-line="192" selection-start-column="8" selection-end-line="192" selection-end-column="8" />
-              <folding>
-                <element signature="e#6999#11116#0#PHP" expanded="false" />
-                <element signature="e#11165#12713#0#PHP" expanded="false" />
-                <element signature="e#12900#15128#0#PHP" expanded="false" />
-                <element signature="e#15134#17043#0#PHP" expanded="false" />
-                <element signature="e#23403#23531#0#PHP" expanded="false" />
-                <element signature="e#23537#24639#0#PHP" expanded="false" />
-                <element signature="e#24645#30584#0#PHP" expanded="false" />
-                <element signature="e#31492#32504#0#PHP" expanded="false" />
-                <element signature="e#32842#33191#0#PHP" expanded="false" />
-                <element signature="e#33197#33417#0#PHP" expanded="false" />
-                <element signature="e#33423#34446#0#PHP" expanded="false" />
-                <element signature="e#34452#35258#0#PHP" expanded="false" />
-                <element signature="e#35264#36094#0#PHP" expanded="false" />
-                <element signature="e#36100#36209#0#PHP" expanded="false" />
-                <element signature="e#36267#37363#0#PHP" expanded="false" />
-                <element signature="e#37414#37870#0#PHP" expanded="false" />
-              </folding>
+            <state relative-caret-position="-45">
+              <caret line="56" column="71" selection-start-line="56" selection-start-column="23" selection-end-line="56" selection-end-column="71" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RegistroCasas.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/bves/Casas/RegistroCasas.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="75" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -65,25 +62,60 @@
       <file leaf-file-name="RegistroController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegistroController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3915">
-              <caret line="280" column="42" selection-start-line="280" selection-start-column="42" selection-end-line="280" selection-end-column="42" />
+            <state relative-caret-position="-1372">
+              <caret line="101" column="41" selection-start-line="101" selection-start-column="22" selection-end-line="101" selection-end-column="41" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".env" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.env">
+      <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <state relative-caret-position="212">
+              <caret line="59" column="115" selection-start-line="59" selection-start-column="94" selection-end-line="59" selection-end-column="115" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bolsadevalores.bitacora" pinned="false" current-in-tab="false">
-        <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.bitacora">
+      <file leaf-file-name="BolsaController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BolsaController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="193">
+              <caret line="374" column="15" selection-start-line="374" selection-start-column="15" selection-end-line="374" selection-end-column="15" />
+              <folding>
+                <element signature="e#40#62#0#PHP" expanded="true" />
+                <element signature="e#860#3608#0#PHP" expanded="false" />
+                <element signature="e#3614#4137#0#PHP" expanded="false" />
+                <element signature="e#4143#5912#0#PHP" expanded="false" />
+                <element signature="e#5918#8291#0#PHP" expanded="false" />
+                <element signature="e#8297#8711#0#PHP" expanded="false" />
+                <element signature="e#8717#9048#0#PHP" expanded="false" />
+                <element signature="e#9075#12004#0#PHP" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ListaCasas.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/bves/Casas/ListaCasas.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-540">
+              <caret line="23" column="43" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bolsadevalores.usuarios" pinned="false" current-in-tab="false">
+        <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.usuarios">
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
           <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
             <state>
               <filtering enabled="true" />
@@ -91,21 +123,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BolsaController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BolsaController.php">
+      <file leaf-file-name="ModificarCasa.blade.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/bves/Casas/ModificarCasa.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="203" column="12" selection-start-line="203" selection-start-column="12" selection-end-line="203" selection-end-column="12" />
+            <state relative-caret-position="675">
+              <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Usuario.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Models/Usuario.php">
+      <file leaf-file-name="errores.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/alertas/errores.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="43" column="32" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="32" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FormularioCasa.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/bves/Casas/Formulario/FormularioCasa.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -140,8 +182,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/views/Clientes/Perfil/modificarPassword.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/Clientes/Perfil/CuentasCedevales.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/Clientes/Registro/Registro.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" />
         <option value="$PROJECT_DIR$/database/seeds/SeederEstadoSolicitud.php" />
@@ -152,7 +192,6 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/14f742d4-bd28-4fc5-afa5-25fdb7e0c13d/console.sql" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/14f742d4-bd28-4fc5-afa5-25fdb7e0c13d/console_2.sql" />
         <option value="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
-        <option value="$PROJECT_DIR$/database/migrations/2016_06_17_233328_create_ordens_table.php" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/14f742d4-bd28-4fc5-afa5-25fdb7e0c13d/console_5.sql" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/14f742d4-bd28-4fc5-afa5-25fdb7e0c13d/console_4.sql" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/14f742d4-bd28-4fc5-afa5-25fdb7e0c13d/console_3.sql" />
@@ -165,32 +204,35 @@
         <option value="$PROJECT_DIR$/resources/views/Clientes/Ordenes/listadoOrdenesPadre.blade.php" />
         <option value="$PROJECT_DIR$/database/seeds/EstadoOrdenSeeder.php" />
         <option value="$PROJECT_DIR$/database/seeds/TipoMensaje.php" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/RegistroController.php" />
-        <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/publico.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/UsuariosBolsaController.php" />
         <option value="$PROJECT_DIR$/app/Utilities/Action.php" />
-        <option value="$PROJECT_DIR$/resources/views/bves/Casas/ModificarCasa.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/bves/Usuarios/ListadoUsuarios.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/emails/ResetPasswordBolsa.blade.php" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/7a6fe4f0-931a-48cf-bd89-1751a61de22c/console_2.sql" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/7a6fe4f0-931a-48cf-bd89-1751a61de22c/console_1.sql" />
         <option value="$PROJECT_DIR$/resources/views/emails/OrdenEmail.blade.php" />
-        <option value="dbroutine:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.NuevaOrden" />
         <option value="$PROJECT_DIR$/resources/views/Clientes/Ordenes/ListaOrdenesCliente.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" />
         <option value="$PROJECT_DIR$/resources/views/emails/emailTest.html" />
         <option value="$PROJECT_DIR$/resources/views/emails/cambioInformacion.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/emails/emailUpdateCasa.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/emails/EmailSend.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" />
         <option value="dbroutine:/43adfab9/14f742d4-bd28-4fc5-afa5-25fdb7e0c13d/bolsadevalores.NuevaOrden" />
         <option value="$PROJECT_DIR$/database/migrations/2016_09_21_233421_create_bitacora_usuarios_table.php" />
         <option value="$PROJECT_DIR$/app/Models/BitacoraUsuario.php" />
+        <option value="$PROJECT_DIR$/.env" />
+        <option value="dbroutine:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.NuevaOrden" />
+        <option value="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2016_06_17_233328_create_ordens_table.php" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/7a6fe4f0-931a-48cf-bd89-1751a61de22c/console.sql" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/resources/views/bves/Casas/RegistroCasas.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/BolsaController.php" />
+        <option value="$PROJECT_DIR$/resources/views/bves/Casas/ModificarCasa.blade.php" />
       </list>
     </option>
   </component>
@@ -239,6 +281,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -267,11 +310,21 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
+              <option name="myItemId" value="vendor" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
+              <option name="myItemId" value="storage" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -290,10 +343,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vendor" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -354,6 +403,106 @@
               <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Clientes" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ordenes" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bves" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Usuarios" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bves" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bves" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Casas" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -397,6 +546,20 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
@@ -415,7 +578,7 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Models" />
+              <option name="myItemId" value="Jobs" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -437,10 +600,79 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Http" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Requests" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Http" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Controllers" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Http" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Controllers" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Auth" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -567,7 +799,9 @@
       <workItem from="1476245168418" duration="3417000" />
       <workItem from="1476300620845" duration="5625000" />
       <workItem from="1476315637869" duration="2156000" />
-      <workItem from="1476417503845" duration="30000" />
+      <workItem from="1476417503845" duration="206000" />
+      <workItem from="1476546840560" duration="4692000" />
+      <workItem from="1476566481857" duration="7620000" />
     </task>
     <task id="LOCAL-00001" summary="Crear y editar Usuario&#10;">
       <created>1467422376103</created>
@@ -772,11 +1006,18 @@
       <option name="project" value="LOCAL" />
       <updated>1476252096864</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Bitacora bolsa de valores agregado.">
+      <created>1476417592529</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1476417592529</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="197207000" />
+    <option name="totallyTimeSpent" value="209695000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -789,18 +1030,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28109854" sideWeight="0.4890411" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24232633" sideWeight="0.4890411" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26712328" sideWeight="0.503231" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23021002" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21243942" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12341407" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2650273" sideWeight="0.49676898" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36301368" sideWeight="0.49676898" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2714055" sideWeight="0.5109589" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -880,182 +1121,23 @@
     <MESSAGE value="Adicionando vistas que no iban en el commit." />
     <MESSAGE value="Envio de correos modulo bolsa de valores finalizado. Se comienza el envio de correos desde el módulo de clientes." />
     <MESSAGE value="Bugs solventados, correos enviados y diseño agregado a correos-" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bugs solventados, correos enviados y diseño agregado a correos-" />
+    <MESSAGE value="Bitacora bolsa de valores agregado." />
+    <option name="LAST_COMMIT_MESSAGE" value="Bitacora bolsa de valores agregado." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="14" />
+      <option name="time" value="19" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.direcciones">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-390">
-          <caret line="75" column="9" selection-start-line="75" selection-start-column="9" selection-end-line="75" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/seeds/tipo_telefonos.php" />
-    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.tipo_telefonos">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/7a6fe4f0-931a-48cf-bd89-1751a61de22c/console_2.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="19" selection-start-line="0" selection-start-column="0" selection-end-line="26" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/7a6fe4f0-931a-48cf-bd89-1751a61de22c/console_1.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_233328_create_ordens_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="16" column="39" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbroutine:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.NuevaOrden">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="51" selection-start-line="17" selection-start-column="51" selection-end-line="17" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7">
-          <caret line="138" column="20" selection-start-line="138" selection-start-column="20" selection-end-line="138" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Ordenes/listadoOrdenesPadre.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/seeds/EstadoOrdenSeeder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-492">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Ordenes/ListaOrdenesCliente.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="66" column="123" selection-start-line="66" selection-start-column="123" selection-end-line="66" selection-end-column="123" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/emails/OrdenEmail.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3525">
-          <caret line="235" column="25" selection-start-line="0" selection-start-column="0" selection-end-line="265" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3195">
-          <caret line="219" column="23" selection-start-line="219" selection-start-column="18" selection-end-line="219" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/Cliente.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="36" column="36" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.ordenes">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/Ordene.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="73" column="34" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.roles">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.rol_usuarios">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/LoginController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="75" column="93" selection-start-line="75" selection-start-column="80" selection-end-line="75" selection-end-column="93" />
         </state>
       </provider>
     </entry>
@@ -1067,14 +1149,14 @@
       </provider>
     </entry>
     <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.estado_solicitud">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
@@ -1085,39 +1167,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.usuarios">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.clientes">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.solicitud_registros">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
@@ -1184,18 +1242,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.estado_orden">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/seeds/TipoMensaje.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -1204,33 +1250,26 @@
       </provider>
     </entry>
     <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.bitacora">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
     <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.mensajes">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="116" column="96" selection-start-line="116" selection-start-column="82" selection-end-line="116" selection-end-column="96" />
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
@@ -1245,22 +1284,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-116">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegistroController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3915">
-          <caret line="280" column="42" selection-start-line="280" selection-start-column="42" selection-end-line="280" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1286,31 +1309,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2550">
-          <caret line="192" column="8" selection-start-line="192" selection-start-column="8" selection-end-line="192" selection-end-column="8" />
-          <folding>
-            <element signature="e#6999#11116#0#PHP" expanded="false" />
-            <element signature="e#11165#12713#0#PHP" expanded="false" />
-            <element signature="e#12900#15128#0#PHP" expanded="false" />
-            <element signature="e#15134#17043#0#PHP" expanded="false" />
-            <element signature="e#23403#23531#0#PHP" expanded="false" />
-            <element signature="e#23537#24639#0#PHP" expanded="false" />
-            <element signature="e#24645#30584#0#PHP" expanded="false" />
-            <element signature="e#31492#32504#0#PHP" expanded="false" />
-            <element signature="e#32842#33191#0#PHP" expanded="false" />
-            <element signature="e#33197#33417#0#PHP" expanded="false" />
-            <element signature="e#33423#34446#0#PHP" expanded="false" />
-            <element signature="e#34452#35258#0#PHP" expanded="false" />
-            <element signature="e#35264#36094#0#PHP" expanded="false" />
-            <element signature="e#36100#36209#0#PHP" expanded="false" />
-            <element signature="e#36267#37363#0#PHP" expanded="false" />
-            <element signature="e#37414#37870#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Models/Usuario.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="540">
@@ -1319,10 +1317,294 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbroutine:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.NuevaOrden">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Utilities/Action.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="28" column="20" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.organizacion">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_232301_create_usuarios_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1365">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1476305367000" expanded="true" signature="4313:4791" placeholder="select COUNT... usuarios" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Requests/RegistroRequest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="26" column="50" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_233328_create_ordens_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-15">
+          <caret line="16" column="43" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.departamentos">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.estado_orden">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Ordenes/ModificarOrden.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="39" column="77" selection-start-line="39" selection-start-column="77" selection-end-line="39" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.ordenes">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/bves/Usuarios/EditarUsuarioBolsa.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-292">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.clientes">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/7a6fe4f0-931a-48cf-bd89-1751a61de22c/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Ordenes/FormularioOrden/FormularioOrden.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1725">
+          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.roles">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-146">
+          <caret line="775" column="20" selection-start-line="773" selection-start-column="16" selection-end-line="775" selection-end-column="20" />
+          <folding>
+            <element signature="e#39#61#0#PHP" expanded="true" />
+            <element signature="e#1031#2390#0#PHP" expanded="false" />
+            <element signature="e#2396#2874#0#PHP" expanded="false" />
+            <element signature="e#2925#3612#0#PHP" expanded="false" />
+            <element signature="e#3649#4708#0#PHP" expanded="false" />
+            <element signature="e#4714#5412#0#PHP" expanded="false" />
+            <element signature="e#5442#6722#0#PHP" expanded="false" />
+            <element signature="e#6914#11031#0#PHP" expanded="false" />
+            <element signature="e#11080#12591#0#PHP" expanded="false" />
+            <element signature="e#12778#15006#0#PHP" expanded="false" />
+            <element signature="e#15012#16921#0#PHP" expanded="false" />
+            <element signature="e#17309#23467#0#PHP" expanded="false" />
+            <element signature="e#23474#23602#0#PHP" expanded="false" />
+            <element signature="e#23608#24710#0#PHP" expanded="false" />
+            <element signature="e#31051#31739#0#PHP" expanded="false" />
+            <element signature="e#31745#32757#0#PHP" expanded="false" />
+            <element signature="e#32763#33089#0#PHP" expanded="false" />
+            <element signature="e#33095#33444#0#PHP" expanded="false" />
+            <element signature="e#33450#33670#0#PHP" expanded="false" />
+            <element signature="e#33676#34699#0#PHP" expanded="false" />
+            <element signature="e#34705#35511#0#PHP" expanded="false" />
+            <element signature="e#35517#36347#0#PHP" expanded="false" />
+            <element signature="e#36353#36462#0#PHP" expanded="false" />
+            <element signature="e#36520#37616#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/bves/Casas/Formulario/FormularioCasa.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/alertas/errores.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.usuarios">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/bves/Casas/ListaCasas.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-540">
+          <caret line="23" column="43" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="59" column="115" selection-start-line="59" selection-start-column="94" selection-end-line="59" selection-end-column="115" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-45">
+          <caret line="56" column="71" selection-start-line="56" selection-start-column="23" selection-end-line="56" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegistroController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1372">
+          <caret line="101" column="41" selection-start-line="101" selection-start-column="22" selection-end-line="101" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BolsaController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="203" column="12" selection-start-line="203" selection-start-column="12" selection-end-line="203" selection-end-column="12" />
+        <state relative-caret-position="193">
+          <caret line="374" column="15" selection-start-line="374" selection-start-column="15" selection-end-line="374" selection-end-column="15" />
+          <folding>
+            <element signature="e#40#62#0#PHP" expanded="true" />
+            <element signature="e#860#3608#0#PHP" expanded="false" />
+            <element signature="e#3614#4137#0#PHP" expanded="false" />
+            <element signature="e#4143#5912#0#PHP" expanded="false" />
+            <element signature="e#5918#8291#0#PHP" expanded="false" />
+            <element signature="e#8297#8711#0#PHP" expanded="false" />
+            <element signature="e#8717#9048#0#PHP" expanded="false" />
+            <element signature="e#9075#12004#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/bves/Casas/RegistroCasas.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="75" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/bves/Casas/ModificarCasa.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
           <folding />
         </state>
       </provider>

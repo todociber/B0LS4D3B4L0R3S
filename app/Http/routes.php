@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('bolsa/EliminarRestaurarUsuario', 'UsuariosBolsaController@EliminarRestaurarUsuario')->name('eliminarrestaurar');
     Route::get('bolsa/RestaurarUsuario/{id}', 'UsuariosBolsaController@RestaurarUsuario')->name('restaurarusuario');
     Route::get('bolsa/RestaurarPassword/{id}', 'UsuariosBolsaController@resetPassword')->name('restaurarpassword');
+    Route::get('bolsa/ReinicarPasswordCasa/{id}', 'BolsaController@ResetPasswordCasa')->name('reiniciarpasswordcasa');
 
     Route::resource('UsuarioBolsa', 'UsuariosBolsaController');
 
