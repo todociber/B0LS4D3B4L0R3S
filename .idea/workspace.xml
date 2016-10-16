@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Cambios en Reasignacion de Usuario cuanto tiene Ordenes pentientes">
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Envio de Emails">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.env" afterPath="$PROJECT_DIR$/.env" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Utilities/Action.php" afterPath="$PROJECT_DIR$/app/Utilities/Action.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/mail.php" afterPath="$PROJECT_DIR$/config/mail.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/emails/AfiliacionAceptada.blade.php" afterPath="$PROJECT_DIR$/resources/views/emails/AfiliacionAceptada.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/emails/OperacionBolsa.blade.php" afterPath="$PROJECT_DIR$/resources/views/emails/OperacionBolsa.blade.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -93,32 +89,11 @@
       <file leaf-file-name="OrdenesController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.763637">
+            <state vertical-scroll-proportion="0.0">
               <caret line="294" column="140" selection-start-line="294" selection-start-column="140" selection-end-line="294" selection-end-column="140" />
               <folding>
-                <element signature="e#40#62#0#PHP" expanded="true" />
-                <marker date="1476500345582" expanded="true" signature="4339:4817" placeholder="select COUNT..usuarios..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MostrarUsuarios.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/MostrarUsuarios.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-32.576923">
-              <caret line="66" column="67" selection-start-line="66" selection-start-column="63" selection-end-line="66" selection-end-column="67" />
-              <folding>
-                <marker date="1475999571740" expanded="true" signature="600:859" placeholder="..." />
-                <marker date="1475999571740" expanded="true" signature="614:858" placeholder="..." />
-                <marker date="1475999571740" expanded="true" signature="2165:2433" placeholder="..." />
-                <marker date="1475999571740" expanded="true" signature="2179:2432" placeholder="..." />
-                <marker date="1475999571740" expanded="true" signature="2622:2890" placeholder="..." />
-                <marker date="1475999571740" expanded="true" signature="2636:2889" placeholder="..." />
-                <marker date="1475999571740" expanded="true" signature="3152:3357" placeholder="..." />
-                <marker date="1475999571740" expanded="true" signature="3165:3356" placeholder="..." />
-                <marker date="1475999571740" expanded="true" signature="3542:3826" placeholder="..." />
-                <marker date="1475999571740" expanded="true" signature="3556:3825" placeholder="..." />
+                <marker date="1476504398779" expanded="true" signature="40:361" placeholder="..." />
+                <marker date="1476504398779" expanded="true" signature="4339:4817" placeholder="select COUNT..usuarios..." />
               </folding>
             </state>
           </provider>
@@ -127,7 +102,7 @@
       <file leaf-file-name="Cliente.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Models/Cliente.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.961538">
+            <state vertical-scroll-proportion="0.0">
               <caret line="42" column="29" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="29" />
               <folding />
             </state>
@@ -137,7 +112,7 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.7454543">
+            <state vertical-scroll-proportion="0.0">
               <caret line="143" column="83" selection-start-line="143" selection-start-column="83" selection-end-line="143" selection-end-column="83" />
               <folding />
             </state>
@@ -147,9 +122,11 @@
       <file leaf-file-name="SolicitudesCasaCorredora.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.163636">
+            <state vertical-scroll-proportion="0.0">
               <caret line="342" column="85" selection-start-line="342" selection-start-column="76" selection-end-line="342" selection-end-column="85" />
-              <folding />
+              <folding>
+                <marker date="1476504398795" expanded="false" signature="40:252" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -158,8 +135,22 @@
         <entry file="file://$PROJECT_DIR$/app/Utilities/Action.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-19.615385">
-              <caret line="32" column="79" selection-start-line="32" selection-start-column="79" selection-end-line="32" selection-end-column="79" />
-              <folding />
+              <caret line="32" column="50" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
+              <folding>
+                <marker date="1476585857830" expanded="false" signature="34:126" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UsuarioCasaCorredoraController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.39363056">
+              <caret line="542" column="0" selection-start-line="542" selection-start-column="0" selection-end-line="542" selection-end-column="0" />
+              <folding>
+                <marker date="1476487937050" expanded="false" signature="40:420" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -167,7 +158,7 @@
       <file leaf-file-name="app.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/app.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="5.8846154">
+            <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -177,7 +168,7 @@
       <file leaf-file-name="services.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/services.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
+            <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -187,18 +178,18 @@
       <file leaf-file-name="mail.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/mail.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="7.8461537">
-              <caret line="57" column="51" selection-start-line="57" selection-start-column="51" selection-end-line="57" selection-end-column="51" />
+            <state vertical-scroll-proportion="-11.769231">
+              <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".env" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".env" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.50655544">
-              <caret line="25" column="19" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -280,9 +271,9 @@
         <option value="$PROJECT_DIR$/resources/views/emails/OperacionBolsa.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php" />
-        <option value="$PROJECT_DIR$/app/Utilities/Action.php" />
-        <option value="$PROJECT_DIR$/config/mail.php" />
         <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/config/mail.php" />
+        <option value="$PROJECT_DIR$/app/Utilities/Action.php" />
       </list>
     </option>
   </component>
@@ -552,6 +543,28 @@
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Providers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bolsaDeValores" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bolsaDeValores" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Policies" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -568,6 +581,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bolsaDeValores" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bolsaDeValores" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -613,8 +640,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -714,12 +741,6 @@
       <workItem from="1473189819530" duration="1161000" />
       <workItem from="1474399598355" duration="11756000" />
       <workItem from="1474753799824" duration="234000" />
-    </task>
-    <task id="LOCAL-00004" summary="Crear y editar Usuario&#10;">
-      <created>1467422972800</created>
-      <option name="number" value="00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1467422972800</updated>
     </task>
     <task id="LOCAL-00005" summary="Crear y editar Usuario&#10;">
       <created>1467423009677</created>
@@ -1009,7 +1030,13 @@
       <option name="project" value="LOCAL" />
       <updated>1476487947604</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Envio de Emails">
+      <created>1476504401425</created>
+      <option name="number" value="00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1476504401425</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -1020,7 +1047,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36488673" sideWeight="0.5096774" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3114887" sideWeight="0.4903226" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31634304" sideWeight="0.4903226" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3656286" sideWeight="0.50647247" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928804" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1058,7 +1085,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="correccion migraciones nuleable, Validacion Afiliacion y comienzo Ordenes Autorizador" />
     <MESSAGE value="loadin en botones y nueva pantalla de afiliaciones procesadas" />
     <MESSAGE value="cambio de relacion Usuario Cliente correccion de afiliaciones y formularios por el cambio" />
     <MESSAGE value="Asignar agente corredor a Ordenes" />
@@ -1083,7 +1109,8 @@
     <MESSAGE value="cambio a maligun y nuevas vistas de Emails" />
     <MESSAGE value="Seeder y migraciones de Trigger para proteger tablas Completo" />
     <MESSAGE value="Cambios en Reasignacion de Usuario cuanto tiene Ordenes pentientes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cambios en Reasignacion de Usuario cuanto tiene Ordenes pentientes" />
+    <MESSAGE value="Envio de Emails" />
+    <option name="LAST_COMMIT_MESSAGE" value="Envio de Emails" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1232,7 +1259,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1240,7 +1266,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
           <caret line="0" column="6" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1255,16 +1280,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="57" column="80" selection-start-line="57" selection-start-column="80" selection-end-line="57" selection-end-column="80" />
-          <folding>
-            <marker date="1475965381209" expanded="true" signature="778:1051" placeholder="..." />
-            <marker date="1475965381209" expanded="true" signature="792:1050" placeholder="..." />
-            <marker date="1475965381209" expanded="true" signature="1297:1502" placeholder="..." />
-            <marker date="1475965381209" expanded="true" signature="1310:1501" placeholder="..." />
-            <marker date="1475965381209" expanded="true" signature="2622:2871" placeholder="..." />
-            <marker date="1475965381209" expanded="true" signature="2636:2870" placeholder="..." />
-            <marker date="1475965381209" expanded="true" signature="2976:3236" placeholder="..." />
-            <marker date="1475965381209" expanded="true" signature="2990:3235" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1272,7 +1287,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="164" column="99" selection-start-line="164" selection-start-column="99" selection-end-line="164" selection-end-column="99" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1280,19 +1294,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
           <caret line="0" column="37" selection-start-line="0" selection-start-column="37" selection-end-line="0" selection-end-column="54" />
-          <folding>
-            <marker date="1470555459812" expanded="true" signature="513:710" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33290815">
-          <caret line="389" column="27" selection-start-line="389" selection-start-column="23" selection-end-line="389" selection-end-column="27" />
-          <folding>
-            <marker date="1476487937050" expanded="false" signature="40:420" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1300,7 +1301,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.210332">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1308,7 +1308,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-19.192308">
           <caret line="412" column="116" selection-start-line="407" selection-start-column="0" selection-end-line="412" selection-end-column="116" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1324,7 +1323,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.9230769">
           <caret line="6" column="81" selection-start-line="6" selection-start-column="64" selection-end-line="6" selection-end-column="81" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1332,7 +1330,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-20.26923">
           <caret line="38" column="37" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1340,7 +1337,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="78.472725">
           <caret line="18" column="8" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1348,12 +1344,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-22.5">
           <caret line="281" column="20" selection-start-line="281" selection-start-column="20" selection-end-line="281" selection-end-column="20" />
-          <folding>
-            <marker date="1476487937034" expanded="false" signature="40:251" placeholder="..." />
-            <marker date="1476487937034" expanded="true" signature="3283:3761" placeholder="select COUNT..usuarios..." />
-            <marker date="1476487937034" expanded="true" signature="5937:6415" placeholder="select COUNT..usuarios..." />
-            <marker date="1476487937034" expanded="true" signature="8158:8636" placeholder="select COUNT..usuarios..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1361,7 +1351,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="49.03846">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1369,7 +1358,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1377,7 +1365,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1385,10 +1372,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1475948507489" expanded="true" signature="198:466" placeholder="..." />
-            <marker date="1475948507489" expanded="true" signature="212:465" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1396,7 +1379,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.9230769">
           <caret line="6" column="66" selection-start-line="6" selection-start-column="49" selection-end-line="6" selection-end-column="66" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1410,7 +1392,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/MostrarUsuarios.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-32.576923">
+        <state vertical-scroll-proportion="0.0">
           <caret line="66" column="67" selection-start-line="66" selection-start-column="63" selection-end-line="66" selection-end-column="67" />
           <folding>
             <marker date="1475999571740" expanded="true" signature="600:859" placeholder="..." />
@@ -1431,13 +1413,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.505535">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.7454543">
+        <state vertical-scroll-proportion="0.0">
           <caret line="143" column="83" selection-start-line="143" selection-start-column="83" selection-end-line="143" selection-end-column="83" />
           <folding />
         </state>
@@ -1450,7 +1431,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Models/Cliente.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.961538">
+        <state vertical-scroll-proportion="0.0">
           <caret line="42" column="29" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="29" />
           <folding />
         </state>
@@ -1458,34 +1439,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.763637">
+        <state vertical-scroll-proportion="0.0">
           <caret line="294" column="140" selection-start-line="294" selection-start-column="140" selection-end-line="294" selection-end-column="140" />
           <folding>
-            <element signature="e#40#62#0#PHP" expanded="true" />
-            <marker date="1476500345582" expanded="true" signature="4339:4817" placeholder="select COUNT..usuarios..." />
+            <marker date="1476504398779" expanded="true" signature="40:361" placeholder="..." />
+            <marker date="1476504398779" expanded="true" signature="4339:4817" placeholder="select COUNT..usuarios..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.163636">
+        <state vertical-scroll-proportion="0.0">
           <caret line="342" column="85" selection-start-line="342" selection-start-column="76" selection-end-line="342" selection-end-column="85" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Utilities/Action.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.615385">
-          <caret line="32" column="79" selection-start-line="32" selection-start-column="79" selection-end-line="32" selection-end-column="79" />
-          <folding />
+          <folding>
+            <marker date="1476504398795" expanded="false" signature="40:252" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/app.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.8846154">
+        <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -1499,19 +1474,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/mail.php">
+    <entry file="file://$PROJECT_DIR$/.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="7.8461537">
-          <caret line="57" column="51" selection-start-line="57" selection-start-column="51" selection-end-line="57" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
+    <entry file="file://$PROJECT_DIR$/config/mail.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.50655544">
-          <caret line="25" column="19" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
+        <state vertical-scroll-proportion="-11.769231">
+          <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Utilities/Action.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-19.615385">
+          <caret line="32" column="50" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
+          <folding>
+            <marker date="1476585857830" expanded="false" signature="34:126" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39363056">
+          <caret line="542" column="0" selection-start-line="542" selection-start-column="0" selection-end-line="542" selection-end-column="0" />
+          <folding>
+            <marker date="1476487937050" expanded="false" signature="40:420" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
