@@ -152,6 +152,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         'Faytzel\LaravelLatch\LaravelLatchServiceProvider',
         Barryvdh\DomPDF\ServiceProvider::class,
+        'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
 
         /*
          * Application Service Providers...
@@ -211,6 +212,8 @@ return [
         'Flash' => Laracasts\Flash\Flash::class,
         'Latch' => 'Faytzel\LaravelLatch\Facades\LaravelLatch',
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth',
+        'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory',
 
 
     ],

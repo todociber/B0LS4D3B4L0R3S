@@ -293,7 +293,7 @@ class ClientesController extends Controller
                 flash('Orden generada con exito', 'success');
                 return redirect()->route('listadoordenesclienteV');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             flash('Ocurrior un error al procesar la orden', 'danger');
             return redirect()->route('nuevaOrden');
