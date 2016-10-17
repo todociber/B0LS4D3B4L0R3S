@@ -86,7 +86,6 @@ class BolsaController extends Controller
 
                         $bitacora->fill(
                             [
-                                'tipoCambio' => 'Creación',
                                 'idUsuario' => Auth::user()->id,
                                 'idOrganizacion' => Auth::user()->Organizacion->id,
                                 'descripcion' => 'Creación de la casa corredora ' . $organizacion->nombre,
@@ -213,7 +212,6 @@ class BolsaController extends Controller
 
                     $bitacora->fill(
                         [
-                            'tipoCambio' => 'Modifiación de estado de casa corredora',
                             'idUsuario' => Auth::user()->id,
                             'idOrganizacion' => Auth::user()->Organizacion->id,
                             'descripcion' => 'Casa' . $organizacion->nombre . ', cambio a estado innactivo ',
@@ -235,7 +233,6 @@ class BolsaController extends Controller
 
                 $bitacora->fill(
                     [
-                        'tipoCambio' => 'Modifiación de estado de casa corredora',
                         'idUsuario' => Auth::user()->id,
                         'idOrganizacion' => Auth::user()->Organizacion->id,
                         'descripcion' => 'Casa' . $organizacion->nombre . ', cambio a estado innactivo ',
@@ -328,7 +325,6 @@ class BolsaController extends Controller
 
                     $bitacora->fill(
                         [
-                            'tipoCambio' => 'Modificación',
                             'idUsuario' => Auth::user()->id,
                             'idOrganizacion' => Auth::user()->Organizacion->id,
                             'descripcion' => 'Renovación de contraseña de usuario admin casa corredora ' . $organizacion->nombre,
@@ -434,7 +430,6 @@ class BolsaController extends Controller
 
                         $bitacora->fill(
                             [
-                                'tipoCambio' => 'Modifiación de información de casa corredora',
                                 'idUsuario' => Auth::user()->id,
                                 'idOrganizacion' => Auth::user()->Organizacion->id,
                                 'descripcion' => 'Casa' . $organizacion->nombre . ', han cambiado su información',
@@ -480,6 +475,22 @@ class BolsaController extends Controller
 
 
         return View('bves.Casas.ListaCasas', ['organizaciones' => $organizaciones]);
+    }
+
+    //BITACORAS
+
+    public function bitacoras()
+    {
+        $bitacoras = DB::table("bitacora")
+            ->join("usuarios", "bitacora.idUsuario", "=", "usuarios.id")
+            ->where("bitacora.idOrganizacion", "=", Auth::user()->idOrganizacion)
+            ->orderBy("bitacora.created_at", "DESC")
+            ->select("usuarios.nombre", "usuarios.id", "bitacora.*")
+            ->get();
+
+        return view("bves.Bitacora.listadoBitacora", ["bitacoras" => $bitacoras]);
+
+
     }
 
 }
