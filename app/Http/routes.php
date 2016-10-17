@@ -163,6 +163,23 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 });
+
+//API
+Route::group(['middleware' => ['api'], 'prefix' => 'api'], function () {
+    Route::post('login', 'LoginAPI@LoginUser');
+
+    Route::group(['middleware' => 'jwt-auth'], function () {
+        Route::get('getOrdenes/{id}', 'OrdenesAPI@getOrdenes');
+        Route::get('getOrdenesPadre/{id}/{idCliente}', 'OrdenesAPI@getOrdenesPadre');
+        Route::post('makeOrder', 'OrdenesAPI@makeOrder');
+        Route::put('modifyOrder', 'OrdenesAPI@ModifyOrder');
+        Route::put('cancelOrder', 'OrdenesAPI@CancelOrder');
+        Route::put('executeOrder', 'OrdenesAPI@ExecuteOrder');
+        Route::post('makemessage', 'OrdenesAPI@makeMessage');
+    });
+});
+
+
 Route::get('/activacion/{tokenDeUsuario}/cuenta', 'Registrocontroller@activarCuenta')->name('Token.Activacion');
 Route::post('cambiar/password', 'Registrocontroller@cambiarPassword')->name('Cambiar.password');
 Route::auth();

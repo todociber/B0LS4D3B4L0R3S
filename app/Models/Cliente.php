@@ -16,6 +16,7 @@ class Cliente extends Model
         'dui',
         'nit',
         'fechaDeNacimiento',
+        'tokenPush',
         'idUsuario'
     ];
 
