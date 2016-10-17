@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Cedeval;
 use App\Models\Ordene;
+use App\Models\Organizacion;
 use App\Models\Usuario;
 use App\Utilities\Action;
 use Carbon\Carbon;
@@ -558,6 +560,45 @@ class OrdenesAPI extends Controller
             return response()->json(['ErrorCode' => '3', 'msg' => 'Ocurrio un problema al crear el mensaje']);
         }
 
+
+    }
+
+    public function getCasasAfiliado($idCliente)
+    {
+
+        try {
+            //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE
+            $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
+                $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 2);
+            })->select('id', 'nombre')->get();
+
+            if (count($casas) > 0) {
+                return response()->json(['ErrorCode' => '0', 'data' => $casas]);
+            } else {
+                return response()->json(['ErrorCode' => '2', 'msg' => 'No hay datos']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['ErrorCode' => '3', 'msg' => 'Ocurrio un problema al crear el mensaje']);
+
+
+        }
+
+
+    }
+
+    public function getCedevales($idCliente)
+    {
+        try {
+            $cedevales = Cedeval::where("idCliente", $idCliente)->select('id', 'cuenta')->get();
+            if (count($cedevales) > 0) {
+
+                return response()->json(['ErrorCode' => '0', 'data' => $cedevales]);
+            } else {
+                return response()->json(['ErrorCode' => '2', 'msg' => 'No hay datos']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['ErrorCode' => '3', 'msg' => 'Ocurrio un problema al crear el mensaje']);
+        }
 
     }
 

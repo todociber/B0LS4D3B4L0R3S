@@ -56,17 +56,23 @@ class ClientesController extends Controller
             Log::info($body->Titulos);
             if ($body->errorCode == 0) {
                 $titulos = $body->Titulos;
+                $res = $client->request('GET', 'http://e60e591e.ngrok.io/GetTipoMercado');
+                $bodyJ = $res->getBody();
+                $body = json_decode($bodyJ);
+                if ($body->errorCode == 0) {
+                    $tipoMercado = $body->tipoMercados;
+                    $idCliente = Auth::user()->ClienteN->id;
+                    $cedeval = Cedeval::where('idCliente', $idCliente)->lists('cuenta', 'id');
 
 
-                $idCliente = Auth::user()->ClienteN->id;
-                $cedeval = Cedeval::where('idCliente', $idCliente)->lists('cuenta', 'id');
-                //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE
-                $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
-                    $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 2);
-                })->lists('nombre', 'id');
-                $tipoOrden = TipoOrden::lists('nombre', 'id');
+                    //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE
+                    $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
+                        $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 2);
+                    })->lists('nombre', 'id');
+                    $tipoOrden = TipoOrden::lists('nombre', 'id');
 
-                return View('Clientes.Ordenes.NuevaOrden', ['cedeval' => $cedeval, 'casas' => $casas, 'Tipoorden' => $tipoOrden, 'titulos' => $titulos]);
+                    return View('Clientes.Ordenes.NuevaOrden', ['cedeval' => $cedeval, 'casas' => $casas, 'Tipoorden' => $tipoOrden, 'titulos' => $titulos, 'TipoMercado' => $tipoMercado]);
+                }
             } else {
                 return redirect()->back();
             }
@@ -930,7 +936,7 @@ class ClientesController extends Controller
     {
         try {
             $this->validate($request, [
-                'CuentaCedeval' => 'required|numeric|unique:cedevals,cuenta|digits:10|integer|min:0',
+                'CuentaCedeval' => 'required|numeric|unique:cedevals,cuenta|digits:10|min:0',
 
             ]);
 

@@ -176,6 +176,8 @@ Route::group(['middleware' => ['api'], 'prefix' => 'api'], function () {
         Route::put('cancelOrder', 'OrdenesAPI@CancelOrder');
         Route::put('executeOrder', 'OrdenesAPI@ExecuteOrder');
         Route::post('makemessage', 'OrdenesAPI@makeMessage');
+        Route::get('getCasasAfiliado/{idCliente}', 'OrdenesAPI@getCasasAfiliado');
+        Route::get('getCedevales/{idCliente}', 'OrdenesAPI@getCedevales');
     });
 });
 
