@@ -348,22 +348,25 @@ class SolicitudesCasaCorredora extends Controller
         }
         if ($solicitud[0]->idOrganizacion == Auth::user()->idOrganizacion) {
 
-            $ordenesVigentes = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganziacion)
-                ->where('idCliente', '=', $solicitud[0]->idCliente)->get();
-            $ordenVigente = false;
+            $ordenesVigentes = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idCliente', '=', $solicitud[0]->idCliente)
+                ->get();
+
+            $ordenVigente = 0;
+
+
             foreach ($ordenesVigentes as $orden) {
                 if ($orden->idEstadoOrden == 2) {
-                    $ordenVigente = true;
+                    $ordenVigente = 1;
                 } else if ($orden->idEstadoOrden == 5) {
-                    $ordenVigente = true;
+                    $ordenVigente = 1;
                 }
             }
 
-            if ($ordenVigente) {
+            if ($ordenVigente == 1) {
                 flash('Cliente con ordenes pentientes de terminacion', 'danger');
-                return redirect('/SolicitudAfiliacion');
-            }
-            if ($solicitud[0]->idEstadoSolicitud == 2) {
+                return redirect('/Afiliados');
+            } else if ($solicitud[0]->idEstadoSolicitud == 2) {
                 $solicitudAActualizar = SolicitudRegistro::find($id);
 
                 $solicitudAActualizar->fill([
@@ -377,7 +380,7 @@ class SolicitudesCasaCorredora extends Controller
                     'accionAfiliacion' => 'Eliminada'
                 ];
                 $action = new Action();
-                $action->sendEmail($data, $solicitud[0]->ClienteNSolicitud->UsuarioNC->emaiil, 'Cancelación de Afiliacion', 'Cancelación de Afiliacion', 'emails.AfiliacionAceptada');
+                //$action->sendEmail($data, , 'Cancelación de Afiliacion', 'Cancelación de Afiliacion', 'emails.AfiliacionAceptada');
                 $bitacora = new BitacoraUsuario();
                 $bitacora->fill(
                     [
@@ -395,11 +398,11 @@ class SolicitudesCasaCorredora extends Controller
 
             } else {
                 flash('Solicitud no pudo ser eliminado', 'danger');
-                return redirect('/SolicitudAfiliacion');
+                return redirect('/Afiliados');
             }
 
         } else {
-            return redirect('/home');
+            return redirect('/Afiliados');
         }
 
     }
