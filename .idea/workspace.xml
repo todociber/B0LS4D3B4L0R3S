@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Correccion Eliminacion de Afiliados">
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="merge">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SERO.iws" />
@@ -82,7 +82,17 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SolicitudesCasaCorredora.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="612">
+              <caret line="187" column="0" selection-start-line="187" selection-start-column="0" selection-end-line="187" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SolicitudesCasaCorredora.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1561">
@@ -189,10 +199,10 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/RegistroController.php" />
         <option value="$PROJECT_DIR$/app/Http/Kernel.php" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_06_17_232302_create_clientes_table.php" />
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
       </list>
     </option>
   </component>
@@ -464,14 +474,7 @@
       <workItem from="1476672776143" duration="3017000" />
       <workItem from="1476723098924" duration="1841000" />
       <workItem from="1476808347722" duration="2359000" />
-      <workItem from="1476812285635" duration="14000" />
-    </task>
-    <task id="LOCAL-00013" summary="Merge branch Gustavo con TodociberLocal2 funcional">
-      <created>1469419585070</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1469419585070</updated>
+      <workItem from="1476812285635" duration="341000" />
     </task>
     <task id="LOCAL-00014" summary="Solicitudes de Afiliacion Funcional">
       <created>1469431178641</created>
@@ -809,11 +812,18 @@
       <option name="project" value="LOCAL" />
       <updated>1476812219882</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="merge">
+      <created>1476812307224</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1476812307224</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="93108000" />
+    <option name="totallyTimeSpent" value="93435000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
@@ -878,12 +888,12 @@
     <MESSAGE value="Cambios en Reasignacion de Usuario cuanto tiene Ordenes pentientes" />
     <MESSAGE value="Envio de Emails" />
     <MESSAGE value="Envio de Emails con Gmaill" />
-    <MESSAGE value="merge" />
     <MESSAGE value="Correcciones de Documento Drive, Salida por GMAIL, Agregar Bitacoras," />
     <MESSAGE value="merge con API v1.0" />
     <MESSAGE value="Correccion Longitud de TokenPush" />
     <MESSAGE value="Correccion Eliminacion de Afiliados" />
-    <option name="LAST_COMMIT_MESSAGE" value="Correccion Eliminacion de Afiliados" />
+    <MESSAGE value="merge" />
+    <option name="LAST_COMMIT_MESSAGE" value="merge" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1191,14 +1201,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="120" column="79" selection-start-line="120" selection-start-column="79" selection-end-line="120" selection-end-column="79" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.env">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -1265,6 +1267,14 @@
           <folding>
             <element signature="e#40#62#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="187" column="0" selection-start-line="187" selection-start-column="0" selection-end-line="187" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
