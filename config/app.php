@@ -153,6 +153,7 @@ return [
         'Faytzel\LaravelLatch\LaravelLatchServiceProvider',
         Barryvdh\DomPDF\ServiceProvider::class,
         'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
+        'Asachanfbd\LaravelPushNotification\PushNotificationServiceProvider',
 
         /*
          * Application Service Providers...
@@ -214,6 +215,7 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth',
         'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory',
+        'PushNotification' => 'Asachanfbd\LaravelPushNotification\PushNotification',
 
 
     ],

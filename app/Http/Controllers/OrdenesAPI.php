@@ -40,8 +40,10 @@ class OrdenesAPI extends Controller
                     $arrOrden[$key]["titulo"] = $orden->titulo;
                     $arrOrden[$key]["tipo_ejecucion"] = $orden->idTipoEjecucion;
                     $arrOrden[$key]["valor_minimo"] = $orden->valorMinimo;
+                    $arrOrden[$key]["valor_maximo"] = $orden->valorMaximo;
                     $arrOrden[$key]["casa_corredora"] = $orden->OrganizacionOrdenN->nombre;
                     $arrOrden[$key]["fecha_creacion"] = Carbon::parse($orden->created_at)->format('m-d-Y');
+                    $arrOrden[$key]["fecha_vigencia"] = Carbon::parse($orden->FechaDeVigencia)->format('m-d-Y');
                     $arrOrden[$key]["monto"] = $orden->monto;
                     $arrOrden[$key]["tasa_interes"] = $orden->tasaDeInteres;
                     $arrOrden[$key]["comision"] = $orden->comision;
@@ -109,6 +111,7 @@ class OrdenesAPI extends Controller
                     $arrOrden[$key]["titulo"] = $orden->titulo;
                     $arrOrden[$key]["tipo_ejecucion"] = $orden->idTipoEjecucion;
                     $arrOrden[$key]["valor_minimo"] = $orden->valorMinimo;
+                    $arrOrden[$key]["valor_maximo"] = $orden->valorMaximo;
                     $arrOrden[$key]["casa_corredora"] = $orden->OrganizacionOrdenN->nombre;
                     $arrOrden[$key]["fecha_creacion"] = Carbon::parse($orden->created_at)->format('m-d-Y');
                     $arrOrden[$key]["monto"] = $orden->monto;
@@ -624,6 +627,7 @@ class OrdenesAPI extends Controller
                     $arrOrden[$key]["estado_orden"] = $orden->idEstadoOrden;
                     $arrOrden[$key]["titulo"] = $orden->titulo;
                     $arrOrden[$key]["tipo_ejecucion"] = $orden->idTipoEjecucion;
+                    $arrOrden[$key]["valor_maximo"] = $orden->valorMaximo;
                     $arrOrden[$key]["valor_minimo"] = $orden->valorMinimo;
                     $arrOrden[$key]["casa_corredora"] = $orden->OrganizacionOrdenN->nombre;
                     $arrOrden[$key]["fecha_creacion"] = Carbon::parse($orden->created_at)->format('m-d-Y');
