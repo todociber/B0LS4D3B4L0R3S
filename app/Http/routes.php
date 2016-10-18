@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('bolsa/NuevaCasa','BolsaController@NuevaCasa')->name('nuevaCasa');
     Route::get('bolsa/EditarCasa/{id}', 'BolsaController@editarCasa')->name('editarCasa');
     Route::get('bolsa/ListadoCasas','BolsaController@ListadoCasas')->name('listadoCasas');
+    Route::get('bolsa/bitacoras', 'BolsaController@bitacoras')->name('bitacoras');
     Route::post('bolsa/EliminarRestaurar', 'BolsaController@eliminarRestaurarCasa')->name('eliminarrestaurarcasas');
     Route::resource('Bolsa', 'BolsaController');
     Route::post('bolsa/Upload', 'BolsaController@Upload')->name('upload');
@@ -179,6 +180,9 @@ Route::group(['middleware' => ['api'], 'prefix' => 'api'], function () {
         Route::put('cancelOrder', 'OrdenesAPI@CancelOrder');
         Route::put('executeOrder', 'OrdenesAPI@ExecuteOrder');
         Route::post('makemessage', 'OrdenesAPI@makeMessage');
+        Route::get('getCasasAfiliado/{idCliente}', 'OrdenesAPI@getCasasAfiliado');
+        Route::get('getCedevales/{idCliente}', 'OrdenesAPI@getCedevales');
+        Route::get('getOrdenesByClienteCasa/{idCliente}/{idCasa}', 'OrdenesAPI@getOrdenesByCasa');
     });
 });
 

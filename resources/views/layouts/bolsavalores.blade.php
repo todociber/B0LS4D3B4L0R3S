@@ -122,6 +122,16 @@
                         <li id="registrar"><a href="{!! route('nuevaCasa') !!}"><i class="fa fa-circle-o"></i>Registrar Casa</a></li>
                     </ul>
                 </li>
+                <li id="bitacoras" class="treeview">
+                    <a href="#">
+                        <i class="fa fa-home"></i>
+                        <span>Bitacoras</span>
+                        <i class="fa fa-angle-left pull-right"></i> </a>
+                    <ul class="treeview-menu">
+                        <li id="bitacora"><a href="{!! route('bitacoras') !!}"><i class="fa fa-circle-o"></i> Lista de
+                                bitacoras</a></li>
+                    </ul>
+                </li>
                 <li id="perfil"  class="treeview">
                     <a href="{!! route('miPerfil') !!}">
                         <i class="fa fa-th-list"></i>
@@ -156,6 +166,7 @@
         <!-- Main content -->
         <section class="content">
         @yield('content')
+            <section>
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">

@@ -107,8 +107,7 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">Menu</li>
-                <?php $count = \App\Models\SolicitudRegistro::where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", 2)->count();?>
-                @if($count> 0)
+
                     <li id="ordenes" class=" treeview">
                         <a href="#">
                             <i class="fa fa-archive"></i> <span>Ordenes</span> <i
@@ -117,12 +116,14 @@
                         <ul class="treeview-menu">
                             <li id="listadoOrdenes"><a href="{{route('listadoordenesclienteV')}}"><i
                                             class="fa fa-circle-o"></i>Ordenes</a></li>
+                            <?php $count = \App\Models\SolicitudRegistro::where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", 2)->count();?>
+                            @if($count> 0)
                             <li id="nuevaOrden"><a href="{{route('nuevaOrden')}}"><i class="fa fa-circle-o"></i> Nueva
                                     orden</a></li>
+                            @endif
                         </ul>
                     </li>
 
-                @endif
 
                 <li id="afiliaciones">
                     <a href="#">

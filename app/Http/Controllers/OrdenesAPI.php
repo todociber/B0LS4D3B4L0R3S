@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Cedeval;
 use App\Models\Ordene;
+use App\Models\Organizacion;
 use App\Models\Usuario;
 use App\Utilities\Action;
 use Carbon\Carbon;
@@ -558,6 +560,112 @@ class OrdenesAPI extends Controller
             return response()->json(['ErrorCode' => '3', 'msg' => 'Ocurrio un problema al crear el mensaje']);
         }
 
+
+    }
+
+    public function getCasasAfiliado($idCliente)
+    {
+
+        try {
+            //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE
+            $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
+                $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 2);
+            })->select('id', 'nombre')->get();
+
+            if (count($casas) > 0) {
+                return response()->json(['ErrorCode' => '0', 'data' => $casas]);
+            } else {
+                return response()->json(['ErrorCode' => '2', 'msg' => 'No hay datos']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['ErrorCode' => '3', 'msg' => 'Ocurrio un problema al crear el mensaje']);
+
+
+        }
+
+
+    }
+
+    public function getCedevales($idCliente)
+    {
+        try {
+            $cedevales = Cedeval::where("idCliente", $idCliente)->select('id', 'cuenta')->get();
+            if (count($cedevales) > 0) {
+
+                return response()->json(['ErrorCode' => '0', 'data' => $cedevales]);
+            } else {
+                return response()->json(['ErrorCode' => '2', 'msg' => 'No hay datos']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['ErrorCode' => '3', 'msg' => 'Ocurrio un problema al crear el mensaje']);
+        }
+
+    }
+
+    public function getOrdenesByCasa($idCliente, $idCasa)
+    {
+        try {
+
+            $ordenes = Ordene::with("EstadoOrden", "MensajesN_Orden", "MensajesN_Orden.UsuarioMensaje",
+                "Operaiones_ordenes", "Corredor_UsuarioN",
+                "OrganizacionOrdenN", "CuentaCedeval")
+                ->where("idCliente", $idCliente)
+                ->where("idOrganizacion", $idCasa)
+                ->where("idEstadoOrden", "!=", 4)->get();
+
+            if (count($ordenes) > 0) {
+                foreach ($ordenes as $key => $orden) {
+                    $arrOrden[$key]["id"] = $orden->id;
+                    $arrOrden[$key]["correlativo"] = $orden->correlativo;
+                    $arrOrden[$key]["FechaDeVigencia"] = Carbon::parse($orden->FechaDeVigencia)->format('m-d-Y');
+                    $arrOrden[$key]["agente_corredor"] = $nombre = isset($orden->Corredor_UsuarioN->nombre) ? $orden->Corredor_UsuarioN->nombre . ' ' . $orden->Corredor_UsuarioN->apellido : null;
+                    $arrOrden[$key]["Tipo_orden"] = $orden->idTipoOrden;
+                    $arrOrden[$key]["idOrden"] = $orden->idOrden;
+                    $arrOrden[$key]["estado_orden"] = $orden->idEstadoOrden;
+                    $arrOrden[$key]["titulo"] = $orden->titulo;
+                    $arrOrden[$key]["tipo_ejecucion"] = $orden->idTipoEjecucion;
+                    $arrOrden[$key]["valor_minimo"] = $orden->valorMinimo;
+                    $arrOrden[$key]["casa_corredora"] = $orden->OrganizacionOrdenN->nombre;
+                    $arrOrden[$key]["fecha_creacion"] = Carbon::parse($orden->created_at)->format('m-d-Y');
+                    $arrOrden[$key]["monto"] = $orden->monto;
+                    $arrOrden[$key]["tasa_interes"] = $orden->tasaDeInteres;
+                    $arrOrden[$key]["comision"] = $orden->comision;
+                    $arrOrden[$key]["cuenta_cedeval"] = $orden->CuentaCedeval->cuenta;
+                    $arrOrden[$key]["emisor"] = $orden->emisor;
+                    $arrOrden[$key]["tipo_mercado"] = $orden->TipoMercado;
+                    $mensajes = [];
+                    foreach ($orden->MensajesN_Orden as $key2 => $mensaje) {
+                        $mensajes[$key]["id"] = $mensaje->id;
+                        $mensajes[$key]["id_Tipo"] = $mensaje->idTipoMensaje;
+                        $mensajes[$key]["idUsuario"] = $mensaje->idUsuario;
+                        $mensajes[$key]["nombre_usuario"] = $mensaje->UsuarioMensaje->nombre;
+                        $mensajes[$key]["mensaje"] = $mensaje->contenido;
+
+                    }
+                    $arrOrden[$key]["mensajes"] = $mensajes;
+                    $operaciones = [];
+                    foreach ($orden->Operaiones_ordenes as $key3 => $operacion) {
+                        $operaciones[$key]["id"] = $operacion->id;
+                        $operaciones[$key]["monto"] = $operacion->monto;
+
+                    }
+                    $arrOrden[$key]["operaciones"] = $operaciones;
+
+
+                }
+
+                return response()->json(['ErrorCode' => '0', 'msg' => '', 'data' => $arrOrden]);
+
+            } else {
+
+                return response()->json(['ErrorCode' => '4', 'msg' => 'No hay datos']);
+            }
+
+
+        } catch (Exception $e) {
+            return response()->json(['ErrorCode' => '2', 'msg' => 'Error en ejecucion de servicio']);
+
+        }
 
     }
 

@@ -220,13 +220,13 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Anular orden</h4>
                 </div>
-                {{Form::open(['route'=>['anularorden', $orden->id],'method' =>'PUT', 'id'=>'form','role' => 'form'])  }}
+                {{Form::open(['route'=>['anularorden', $orden->id],'method' =>'PUT', 'id'=>'form','role' => 'form','onsubmit'=>'animatedLoading()'])  }}
                 <div class="modal-body">
 
 
                     <div class="form-group" id="monto">
                         {{ Form::label('Ingrese el motivo de la anulación de la orden') }}
-                        {{ Form::text('motivo',null,['class'=>'form-control','placeholder'=>'Ingrese el motivo de la anulación']) }}
+                        {{ Form::text('motivo',null,['class'=>'form-control','required','placeholder'=>'Ingrese el motivo de la anulación']) }}
                     </div>
 
 

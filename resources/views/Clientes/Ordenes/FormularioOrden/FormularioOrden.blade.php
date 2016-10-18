@@ -1,8 +1,10 @@
 <script>
             <?php
             $tituloAct = '';
+            $tipomercado = '';
             if (isset($orden)) {
                 $tituloAct = $orden->titulo;
+                $tipomercado = $orden->TipoMercado;
 
             }?>
     var titulos = <?php echo json_encode($titulos); ?>;
@@ -95,9 +97,9 @@
 <div class="form-group">
     <label for="exampleInputEmail1">Seleccione el mercado</label>
     <select type="text" class="form-control" required id="mercado" name="mercado">
-        <option>Accion Primario</option>
-        <option>Accion Secundario</option>
-        <option>Primario</option>
+        @foreach($TipoMercado as $tipo_mercado)
+            <option {{$tp = $tipomercado == $tipo_mercado->nombreMercado ? 'selected':''}} value="{{$tipo_mercado->nombreMercado}}">{{$tipo_mercado->nombreMercado}}</option>
+        @endforeach
     </select>
 </div>
 <br>
