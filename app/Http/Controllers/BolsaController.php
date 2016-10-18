@@ -177,7 +177,7 @@ class BolsaController extends Controller
             'nombre' => 'Se ha registrado la casa corredora ' . $organizacion->nombre,
             'usuario' => $usuario->email,
             'ruta' => 'Token.Activacion',
-            'subtitulo' => 'Ingresa a la siguiente dirección para activar tu cuenta'
+            'subtitulo' => 'Ingresa al siguiente enlace para activar tu cuenta'
         ];
         $token->fill([
                 'token' => $tokenDeUsuario,
@@ -305,7 +305,7 @@ class BolsaController extends Controller
                         'nombre' => 'Se ha activado la casa corredora ' . $organizacion->nombre,
                         'usuario' => $Usuarios[0]->email,
                         'ruta' => 'Token.Activacion',
-                        'subtitulo' => 'Ingresa a la siguiente dirección para activar tu cuenta'
+                        'subtitulo' => 'Ingresa al siguiente enlace para activar tu cuenta'
                     ];
                     $token->fill([
                             'token' => $tokenDeUsuario,

@@ -89,7 +89,7 @@ class Ordene extends Model
 
     public function CuentaCedeval()
     {
-        return $this->belongsTo(Cedeval::class, 'idCuentaCedeval', 'id');
+        return $this->belongsTo(Cedeval::class, 'idCuentaCedeval', 'id')->withTrashed();
     }
 
     public function OrdenPadre()

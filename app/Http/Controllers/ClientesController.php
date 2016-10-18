@@ -104,20 +104,15 @@ class ClientesController extends Controller
     public function ListadoOrdenes()
     {
 
-        $count = SolicitudRegistro::where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", 2)->count();
-        Log::info($count);
-        if ($count > 0) {
-            $idCliente = Auth::user()->ClienteN->id;
+
+        $idCliente = Auth::user()->ClienteN->id;
 
             $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN')->where('idCliente', $idCliente)->where("idEstadoOrden", 1)->get();
             $estadoOrdenes = EstadoOrden::lists('estado', 'id');
 
             return View('Clientes.Ordenes.ListaOrdenesCliente', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes]);
-        } else {
-
-            return redirect()->back();
-        }
     }
+
 
 
     //DETALLE DE ORDEN POR ID
@@ -125,7 +120,9 @@ class ClientesController extends Controller
     {
         try {
             \Session::put('idOrden', $id);
-            $orden = Ordene::orderBy('FechaDevigencia', 'desc')->where('id', $id)->where('idCliente', Auth::user()->ClienteN->id)->first();
+            $orden = Ordene::with("EstadoOrden", "MensajesN_Orden", "MensajesN_Orden.UsuarioMensaje",
+                "Operaiones_ordenes", "Corredor_UsuarioN",
+                "OrganizacionOrdenN", "CuentaCedeval")->where('id', $id)->where('idCliente', Auth::user()->ClienteN->id)->withTrashed()->first();
             if (count($orden) > 0) {
 
                 $motivoCancel = '';
@@ -809,6 +806,7 @@ class ClientesController extends Controller
     {
         DB::table('solicitud_registros')
             ->where('idCliente', $idCliente)
+            ->where('idEstadoSolicitud', "!=", 3)
             ->update(['idEstadoSolicitud' => 5]);
 
 
@@ -912,7 +910,7 @@ class ClientesController extends Controller
 
             ]);
             $countOrden = Ordene::where("idCuentaCedeval", $request["idCedeval"])
-                ->whereNotIn("idEstadoOrden", [1, 2, 4, 5, 6])->count();
+                ->whereIn("idEstadoOrden", [1, 2, 5])->count();
             Log::info($countOrden);
             if ($countOrden == 0) {
 
@@ -921,7 +919,7 @@ class ClientesController extends Controller
                 return redirect()->route('cuentascedevales');
             } else {
 
-                flash('Hay orden que aun no ha finalizado, asociado a esta cuenta.', 'info');
+                flash('Hay ordenes que aun no han finalizado asociadas a esta cuenta.', 'info');
                 return redirect()->route('cuentascedevales');
             }
 
