@@ -380,7 +380,7 @@ class SolicitudesCasaCorredora extends Controller
                     'accionAfiliacion' => 'Eliminada'
                 ];
                 $action = new Action();
-                //$action->sendEmail($data, , 'Cancelación de Afiliacion', 'Cancelación de Afiliacion', 'emails.AfiliacionAceptada');
+                $action->sendEmail($data, $solicitud[0]->ClienteNSolicitud->UsuarioNC->email, 'Cancelación de Afiliacion', 'Cancelación de Afiliacion', 'emails.AfiliacionAceptada');
                 $bitacora = new BitacoraUsuario();
                 $bitacora->fill(
                     [
