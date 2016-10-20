@@ -40,8 +40,10 @@ class OrdenesAPI extends Controller
                     $arrOrden[$key]["titulo"] = $orden->titulo;
                     $arrOrden[$key]["tipo_ejecucion"] = $orden->idTipoEjecucion;
                     $arrOrden[$key]["valor_minimo"] = $orden->valorMinimo;
+                    $arrOrden[$key]["valor_maximo"] = $orden->valorMaximo;
                     $arrOrden[$key]["casa_corredora"] = $orden->OrganizacionOrdenN->nombre;
                     $arrOrden[$key]["fecha_creacion"] = Carbon::parse($orden->created_at)->format('m-d-Y');
+                    $arrOrden[$key]["fecha_vigencia"] = Carbon::parse($orden->FechaDeVigencia)->format('m-d-Y');
                     $arrOrden[$key]["monto"] = $orden->monto;
                     $arrOrden[$key]["tasa_interes"] = $orden->tasaDeInteres;
                     $arrOrden[$key]["comision"] = $orden->comision;
@@ -50,18 +52,18 @@ class OrdenesAPI extends Controller
                     $arrOrden[$key]["tipo_mercado"] = $orden->TipoMercado;
                     $mensajes = [];
                     foreach ($orden->MensajesN_Orden as $key2 => $mensaje) {
-                        $mensajes[$key]["id"] = $mensaje->id;
-                        $mensajes[$key]["id_Tipo"] = $mensaje->idTipoMensaje;
-                        $mensajes[$key]["idUsuario"] = $mensaje->idUsuario;
-                        $mensajes[$key]["nombre_usuario"] = $mensaje->UsuarioMensaje->nombre;
-                        $mensajes[$key]["mensaje"] = $mensaje->contenido;
+                        $mensajes[$key2]["id"] = $mensaje->id;
+                        $mensajes[$key2]["id_Tipo"] = $mensaje->idTipoMensaje;
+                        $mensajes[$key2]["idUsuario"] = $mensaje->idUsuario;
+                        $mensajes[$key2]["nombre_usuario"] = $mensaje->UsuarioMensaje->nombre;
+                        $mensajes[$key2]["mensaje"] = $mensaje->contenido;
 
                     }
                     $arrOrden[$key]["mensajes"] = $mensajes;
                     $operaciones = [];
                     foreach ($orden->Operaiones_ordenes as $key3 => $operacion) {
-                        $operaciones[$key]["id"] = $operacion->id;
-                        $operaciones[$key]["monto"] = $operacion->monto;
+                        $operaciones[$key3]["id"] = $operacion->id;
+                        $operaciones[$key3]["monto"] = $operacion->monto;
 
                     }
                     $arrOrden[$key]["operaciones"] = $operaciones;
@@ -109,6 +111,7 @@ class OrdenesAPI extends Controller
                     $arrOrden[$key]["titulo"] = $orden->titulo;
                     $arrOrden[$key]["tipo_ejecucion"] = $orden->idTipoEjecucion;
                     $arrOrden[$key]["valor_minimo"] = $orden->valorMinimo;
+                    $arrOrden[$key]["valor_maximo"] = $orden->valorMaximo;
                     $arrOrden[$key]["casa_corredora"] = $orden->OrganizacionOrdenN->nombre;
                     $arrOrden[$key]["fecha_creacion"] = Carbon::parse($orden->created_at)->format('m-d-Y');
                     $arrOrden[$key]["monto"] = $orden->monto;
@@ -119,18 +122,18 @@ class OrdenesAPI extends Controller
                     $arrOrden[$key]["tipo_mercado"] = $orden->TipoMercado;
                     $mensajes = [];
                     foreach ($orden->MensajesN_Orden as $key2 => $mensaje) {
-                        $mensajes[$key]["id"] = $mensaje->id;
-                        $mensajes[$key]["id_Tipo"] = $mensaje->idTipoMensaje;
-                        $mensajes[$key]["idUsuario"] = $mensaje->idUsuario;
-                        $mensajes[$key]["nombre_usuario"] = $mensaje->UsuarioMensaje->nombre;
-                        $mensajes[$key]["mensaje"] = $mensaje->contenido;
+                        $mensajes[$key2]["id"] = $mensaje->id;
+                        $mensajes[$key2]["id_Tipo"] = $mensaje->idTipoMensaje;
+                        $mensajes[$key2]["idUsuario"] = $mensaje->idUsuario;
+                        $mensajes[$key2]["nombre_usuario"] = $mensaje->UsuarioMensaje->nombre;
+                        $mensajes[$key2]["mensaje"] = $mensaje->contenido;
 
                     }
                     $arrOrden[$key]["mensajes"] = $mensajes;
                     $operaciones = [];
                     foreach ($orden->Operaiones_ordenes as $key3 => $operacion) {
-                        $operaciones[$key]["id"] = $operacion->id;
-                        $operaciones[$key]["monto"] = $operacion->monto;
+                        $operaciones[$key3]["id"] = $operacion->id;
+                        $operaciones[$key3]["monto"] = $operacion->monto;
 
                     }
                     $arrOrden[$key]["operaciones"] = $operaciones;
@@ -420,7 +423,7 @@ class OrdenesAPI extends Controller
                 $idrol = 3;
                 $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                     $query->where('idRol', $idrol);
-                })->where("idOrganizacion", $request["casacorredora"])->get();
+                })->where("idOrganizacion", $orden->idOrganizacion)->get();
                 $emails = [];
                 $i = 0;
                 $band = false;
@@ -483,7 +486,7 @@ class OrdenesAPI extends Controller
                 $idrol = 3;
                 $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                     $query->where('idRol', $idrol);
-                })->where("idOrganizacion", $request["casacorredora"])->get();
+                })->where("idOrganizacion", $orden->idOrganizacion)->get();
                 $emails = [];
                 $i = 0;
                 $band = false;
@@ -624,6 +627,7 @@ class OrdenesAPI extends Controller
                     $arrOrden[$key]["estado_orden"] = $orden->idEstadoOrden;
                     $arrOrden[$key]["titulo"] = $orden->titulo;
                     $arrOrden[$key]["tipo_ejecucion"] = $orden->idTipoEjecucion;
+                    $arrOrden[$key]["valor_maximo"] = $orden->valorMaximo;
                     $arrOrden[$key]["valor_minimo"] = $orden->valorMinimo;
                     $arrOrden[$key]["casa_corredora"] = $orden->OrganizacionOrdenN->nombre;
                     $arrOrden[$key]["fecha_creacion"] = Carbon::parse($orden->created_at)->format('m-d-Y');
@@ -635,18 +639,18 @@ class OrdenesAPI extends Controller
                     $arrOrden[$key]["tipo_mercado"] = $orden->TipoMercado;
                     $mensajes = [];
                     foreach ($orden->MensajesN_Orden as $key2 => $mensaje) {
-                        $mensajes[$key]["id"] = $mensaje->id;
-                        $mensajes[$key]["id_Tipo"] = $mensaje->idTipoMensaje;
-                        $mensajes[$key]["idUsuario"] = $mensaje->idUsuario;
-                        $mensajes[$key]["nombre_usuario"] = $mensaje->UsuarioMensaje->nombre;
-                        $mensajes[$key]["mensaje"] = $mensaje->contenido;
+                        $mensajes[$key2]["id"] = $mensaje->id;
+                        $mensajes[$key2]["id_Tipo"] = $mensaje->idTipoMensaje;
+                        $mensajes[$key2]["idUsuario"] = $mensaje->idUsuario;
+                        $mensajes[$key2]["nombre_usuario"] = $mensaje->UsuarioMensaje->nombre;
+                        $mensajes[$key2]["mensaje"] = $mensaje->contenido;
 
                     }
                     $arrOrden[$key]["mensajes"] = $mensajes;
                     $operaciones = [];
                     foreach ($orden->Operaiones_ordenes as $key3 => $operacion) {
-                        $operaciones[$key]["id"] = $operacion->id;
-                        $operaciones[$key]["monto"] = $operacion->monto;
+                        $operaciones[$key3]["id"] = $operacion->id;
+                        $operaciones[$key3]["monto"] = $operacion->monto;
 
                     }
                     $arrOrden[$key]["operaciones"] = $operaciones;
