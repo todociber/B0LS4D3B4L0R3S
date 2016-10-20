@@ -26,6 +26,8 @@
     {!! Html::style('assets/css/ladda-themeless.min.css') !!}
             <!--  SERO CSS -->
     {!! Html::style('assets/css/SERO.css') !!}
+
+    {!! Html::style('assets/css/Login.css') !!}
             <!-- jQuery 2.1.4 -->
     {!! Html::script('assets/plugins/jQuery/jQuery-2.1.4.min.js') !!}
             <!-- Bootstrap 3.3.5 -->

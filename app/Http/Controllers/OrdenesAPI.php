@@ -11,6 +11,7 @@ use App\Utilities\Action;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Mockery\CountValidator\Exception;
 
 class OrdenesAPI extends Controller
@@ -385,9 +386,9 @@ class OrdenesAPI extends Controller
         try {
             $rules = [
                 'motivo' => 'required',
-                'idCliente' => 'required|number',
-                'idOrden' => 'required|number',
-                'idUsuario' => 'required|number',
+                'idCliente' => 'required|numeric',
+                'idOrden' => 'required|numeric',
+                'idUsuario' => 'required|numeric',
                 'nombreCliente' => 'required',
                 'apellidoCliente' => 'required',
 
@@ -458,19 +459,23 @@ class OrdenesAPI extends Controller
 
     public function ExecuteOrder(Request $request)
     {
-        try {
+
             $rules = [
-                'idCliente' => 'required|number',
-                'idOrden' => 'required|number',
-                'nombreCliente' => 'required',
-                'apellidoCliente' => 'required',
+                "idCliente" => 'required|numeric',
+                "idOrden" => 'required|numeric',
+                "nombreCliente" => 'required',
+                "apellidoCliente" => 'required'
 
             ];
+
             $validator = \Validator::make($request->all(), $rules);
+
             if ($validator->fails()) {
-                return response()->json(['ErrorCode' => '5', 'msg' => $validator->errors()->all(),]);
+                return response()->json(['ErrorCode' => '5', 'msg' => $validator->errors()->all()]);
             } else {
+
                 $idCliente = $request['idCliente'];
+
                 $orden = Ordene::where("id", $request['idOrden'])
                     ->where("idCliente", $idCliente)
                     ->where("idEstadoOrden", "=", 2)
@@ -491,9 +496,14 @@ class OrdenesAPI extends Controller
                 $i = 0;
                 $band = false;
                 foreach ($usuarios as $user) {
-                    if ($orden->Corredor_UsuarioN->email == $user->email) {
+                    if (isset($orden->Corredor_UsuarioN)) {
+                        if ($orden->Corredor_UsuarioN->email == $user->email) {
 
+                            $band = true;
+                        }
+                    } else {
                         $band = true;
+
                     }
                     $emails[$i] = $user->email;
                     $i++;
@@ -505,16 +515,13 @@ class OrdenesAPI extends Controller
 
 
                 $data = [
-                    'titulo' => 'El cliente ' . $request["nombreCliente"] . ' ' . $request["apellidoCliente"] . ' ha ejecutado una orden de inversión, con el correlativo ' . $orden->correlativo,
+                    'titulo' => 'El cliente ' . $request['nombreCliente'] . ' ' . $request['apellidoCliente'] . ' ha ejecutado una orden de inversión, con el correlativo ' . $orden->correlativo,
                 ];
                 $action = new Action();
                 $action->sendEmail($data, $emails, 'Ejecución de orden', 'Ejecución de orden', 'emails.OrdenEmail');
                 return response()->json(['ErrorCode' => '0', 'msg' => 'Orden ejecutada con exito',]);
 
             }
-        } catch (\Exception $e) {
-            return response()->json(['ErrorCode' => '3', 'msg' => 'Ocurrio un problema al ejecutar la orden']);
-        }
 
     }
 
