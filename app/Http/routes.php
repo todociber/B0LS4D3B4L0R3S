@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return redirect('/login');
 });
 
 
@@ -41,9 +41,6 @@ Route::group(['middleware' => 'auth'], function () {
     //-----BOLSA DE VALORES ROUTES---//
 
 
-    Route::group(['middleware' => 'bolsa'], function () {
-
-        //bolsa
 //------CASAS CRUD------//
     Route::get('bolsa/NuevaCasa','BolsaController@NuevaCasa')->name('nuevaCasa');
     Route::get('bolsa/EditarCasa/{id}', 'BolsaController@editarCasa')->name('editarCasa');
@@ -67,41 +64,34 @@ Route::group(['middleware' => 'auth'], function () {
 
 //------BOLSA DE VALORES ROUTES--//
 
-    });
 //------CLIENTES ROUTES--//
 
-    //cliente
+    Route::get('Cliente/NuevaOrden', 'ClientesController@NuevaOrden')->name('nuevaOrden');
+    Route::get('Cliente/ListadoOrdenesV', 'ClientesController@ListadoOrdenes')->name('listadoordenesclienteV');
+    Route::get('Cliente/getOrdenes/{id}', 'ClientesController@OrdenesByID')->name('getOrdenes');
+    Route::get('Cliente/ModificarOrden/{id}', 'ClientesController@modificarOrden')->name('modificarorden');
+    Route::post('Cliente/setMensaje', 'ClientesController@storeMensajes')->name('setMensaje');
+    Route::put('Cliente/AnularOrden/{id}', 'ClientesController@AnularOrden')->name('anularorden');
+    Route::put('Cliente/EjecutarOrden', 'ClientesController@ejecutarOrden')->name('ejecutarorden');
+    Route::get('Cliente/FiltrarOrden', 'ClientesController@ordenesbyEstado')->name('filtrarOrden');
+    Route::get('Cliente/OrdenesPadre/{id}', 'ClientesController@ListadoOrdenesPadre')->name('listadordenespadre');
+    Route::get('Cliente/Miperfil', 'ClientesController@miPerfilUsuario')->name('perfilcliente');
+    Route::get('Cliente/ModificarPerfil', 'ClientesController@modificarPerfil')->name('modificarperfilCliente');
+    Route::post('Cliente/setModificarPerfil', 'ClientesController@modificarPerfilCliente')->name('setmodificarperfil');
+    Route::get('Cliente/AfiliarseCasa', 'ClientesController@AfiliacionCliente')->name('afiliarsecasa');
+    Route::post('Cliente/AfiliarseCasaStore', 'ClientesController@AfiliacionClienteStore')->name('afiliacioncasastore');
+    Route::get('Cliente/ListadoAfiliaciones', 'ClientesController@ListadoAfiliaciones')->name('listadoafiliaciones');
+    Route::get('Cliente/ListadoSolicitudes', 'ClientesController@ListadoSolicitudes')->name('listadsolicitudes');
+    Route::get('Cliente/CuentasCedevales', 'ClientesController@CuentasCedevales')->name('cuentascedevales');
+    Route::delete('Cliente/eliminarCedeval', 'ClientesController@EliminarCedeval')->name('eliminarcedeval');
+    Route::post('Cliente/agregarCedeval', 'ClientesController@AgregarCedeval')->name('agregarcedeval');
+    Route::get('Cliente/cambiarPassword', 'ClientesController@modificarPassword')->name('modificarpassword');
+    Route::put('Cliente/cambiarPasswordUpdate', 'ClientesController@modificarPasswordUpdate')->name('modificarpasswordupdate');
+    Route::get('Cliente/getEmisor/{id}', 'ClientesController@getEmisor')->name('getemisor');
 
-    Route::group(['middleware' => 'cliente'], function () {
-
-        Route::get('Cliente/NuevaOrden', 'ClientesController@NuevaOrden')->name('nuevaOrden');
-        Route::get('Cliente/ListadoOrdenesV', 'ClientesController@ListadoOrdenes')->name('listadoordenesclienteV');
-        Route::get('Cliente/getOrdenes/{id}', 'ClientesController@OrdenesByID')->name('getOrdenes');
-        Route::get('Cliente/ModificarOrden/{id}', 'ClientesController@modificarOrden')->name('modificarorden');
-        Route::post('Cliente/setMensaje', 'ClientesController@storeMensajes')->name('setMensaje');
-        Route::put('Cliente/AnularOrden/{id}', 'ClientesController@AnularOrden')->name('anularorden');
-        Route::put('Cliente/EjecutarOrden', 'ClientesController@ejecutarOrden')->name('ejecutarorden');
-        Route::get('Cliente/FiltrarOrden', 'ClientesController@ordenesbyEstado')->name('filtrarOrden');
-        Route::get('Cliente/OrdenesPadre/{id}', 'ClientesController@ListadoOrdenesPadre')->name('listadordenespadre');
-        Route::get('Cliente/Miperfil', 'ClientesController@miPerfilUsuario')->name('perfilcliente');
-        Route::get('Cliente/ModificarPerfil', 'ClientesController@modificarPerfil')->name('modificarperfilCliente');
-        Route::post('Cliente/setModificarPerfil', 'ClientesController@modificarPerfilCliente')->name('setmodificarperfil');
-        Route::get('Cliente/AfiliarseCasa', 'ClientesController@AfiliacionCliente')->name('afiliarsecasa');
-        Route::post('Cliente/AfiliarseCasaStore', 'ClientesController@AfiliacionClienteStore')->name('afiliacioncasastore');
-        Route::get('Cliente/ListadoAfiliaciones', 'ClientesController@ListadoAfiliaciones')->name('listadoafiliaciones');
-        Route::get('Cliente/ListadoSolicitudes', 'ClientesController@ListadoSolicitudes')->name('listadsolicitudes');
-        Route::get('Cliente/CuentasCedevales', 'ClientesController@CuentasCedevales')->name('cuentascedevales');
-        Route::delete('Cliente/eliminarCedeval', 'ClientesController@EliminarCedeval')->name('eliminarcedeval');
-        Route::post('Cliente/agregarCedeval', 'ClientesController@AgregarCedeval')->name('agregarcedeval');
-        Route::get('Cliente/cambiarPassword', 'ClientesController@modificarPassword')->name('modificarpassword');
-        Route::put('Cliente/cambiarPasswordUpdate', 'ClientesController@modificarPasswordUpdate')->name('modificarpasswordupdate');
-        Route::get('Cliente/getEmisor/{id}', 'ClientesController@getEmisor')->name('getemisor');
-
-        //
-        Route::resource('Clientes', 'ClientesController');
-        //------CLIENTES ROUTES--//
-
-    });
+    //
+    Route::resource('Clientes', 'ClientesController');
+    //------CLIENTES ROUTES--//
 
 
 });
@@ -117,6 +107,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('Parear', 'LatchController@pair')->name('Latch.parear');
             Route::get('Desenparejar', 'LatchController@unpair')->name('Latch.desenparejar');
             Route::get('Perfil', 'UsuarioCasaCorredoraController@perfil')->name('Perfil.UsuarioCasa');
+            Route::get('Ordenes/Reasignacion', 'OrdenesController@reasignar')->name('Ordenes.Reasignacion');
+            Route::put('Ordenes/{id}/ReAceptar', 'OrdenesCasaCorredoraAutorizador@ReAceptar')->name('Ordenes.ReAceptar');
+
+            Route::get('Ordenes/{id}/detallesEliminar/', 'OrdenesCasaCorredoraAutorizador@detallesEliminar')->name('Ordenes.detallesEliminar');
         });
         Route::group(['middleware' => 'OperadorCasaCorredora'], function () {
             Route::get('SolicitudAfiliacion/{id}/detalle', 'SolicitudesCasaCorredora@detalle')->name('SolicitudAfiliacion.detalle');
@@ -138,7 +132,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::put('Ordenes/{id}/actualizar', 'OrdenesController@Actualizar')->name('Ordenes.actualizar');
             Route::get('Ordenes/{id}/Operaciones', 'OrdenesController@Operaciones')->name('Ordenes.operaciones');
             Route::post('Ordenes/{id}/Operaciones/Guardar', 'OrdenesController@OperacionesGuardar')->name('Ordenes.operacionesGuardar');
-
+            Route::get('Ordenes/Reasignacion', 'OrdenesController@reasignar')->name('Ordenes.Reasignacion');
             Route::get('Ordenes/{id}/DetallePDF', 'OrdenesController@DetalleOrdenPDF')->name('OrdenesDetalles.PDF');
             Route::get('Ordenes/Reporte', 'OrdenesController@ReporteFecha')->name('OrdenesReporte.Fecha');
             Route::post('Ordenes/ReporteFecha', 'OrdenesController@ReporteFechaBuscar')->name('OrdenesReporte.FechaBuscar');
@@ -178,7 +172,6 @@ Route::group(['middleware' => 'auth'], function () {
 //API
 Route::group(['middleware' => ['api'], 'prefix' => 'api'], function () {
     Route::post('login', 'LoginAPI@LoginUser');
-
     Route::group(['middleware' => 'jwt-auth'], function () {
         Route::get('getOrdenes/{id}', 'OrdenesAPI@getOrdenes');
         Route::get('getOrdenesPadre/{id}/{idCliente}', 'OrdenesAPI@getOrdenesPadre');
@@ -193,12 +186,8 @@ Route::group(['middleware' => ['api'], 'prefix' => 'api'], function () {
     });
 });
 
-
-Route::get('/activacion/{tokenDeUsuario}/cuenta', 'Registrocontroller@activarCuenta')->name('Token.Activacion');
-Route::post('cambiar/password', 'Registrocontroller@cambiarPassword')->name('Cambiar.password');
+Route::group(['middleware' => 'UsuarioNoLogueado'], function () {
+    Route::get('/activacion/{tokenDeUsuario}/cuenta', 'Registrocontroller@activarCuenta')->name('Token.Activacion');
+    Route::post('cambiar/password', 'Registrocontroller@cambiarPassword')->name('Cambiar.password');
+});
 Route::auth();
-Route::get('admin', 'HomeController@index');
-Route::get('/home', 'HomeController@index');
-Route::get('/NoPermitido', function () {
-    return view('errors.NotAllowed');
-})->name("nopermitido");

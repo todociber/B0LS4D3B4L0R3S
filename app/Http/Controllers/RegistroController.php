@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Requests\RegistroRequest;
+use App\Models\BitacoraUsuario;
 use App\Models\Cedeval;
 use App\Models\Cliente;
 use App\Models\Departamento;
@@ -174,6 +175,10 @@ class RegistroController extends Controller
                 ]);
                 $solicitud->save();
 
+                $tokenActivos = token::where('idUsuario', '=', $usuario->id)->get();
+                foreach ($tokenActivos as $tokens) {
+                    $tokens->delete();
+                }
                 $token = new token();
                 $gentoken = new GenerarToken();
                 $tokenDeUsuario = $gentoken->tokengenerador();
@@ -192,12 +197,24 @@ class RegistroController extends Controller
 
                 Mail::send('emails.ActivacionCliente', $data, function ($message) use ($usuario) {
 
-                    $message->from('todociber100@gmail.com', 'Activacion de cuenta');
+                    $message->from('bolsadevalores@bves.com', 'Activacion de cuenta');
 
                     $message->to($usuario->email)->subject('Activar cuenta de sistema de Ordenes ');
 
                 });
 
+
+                $bitacora = new BitacoraUsuario();
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'Creacion',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                        'descripcion' => 'Creacion de usuario cliente' . $usuario->nombre . ' ' . $usuario->apellido . ' idClientes: ' . $clientes->id,
+
+                    ]
+                );
+                $bitacora->save();
                 flash('Cliente registrado exitosamente', 'success');
                 return redirect()->route('Afiliados.index');
             }

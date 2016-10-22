@@ -21,6 +21,11 @@ class AgenteCorredorMiddleware
         $rol = new RolIdentificador;
         $AgenteCorredor = $rol->AgenteCorredor(Auth::user());
         if (!$AgenteCorredor) {
+            if ($rol->Autorizador(Auth::user())) {
+                return redirect()->route('SolicitudAfiliacion.index');
+            } else if ($rol->Administrador(Auth::user())) {
+                return redirect()->route('UsuarioCasaCorredora.index');
+            }
             return redirect('/login');
         }
         return $next($request);

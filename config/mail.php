@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'todocyber100@gmail.com', 'name' => 'Bolsa de Valores El Salvador '],
+    'from' => ['address' => 'todociber100@gmail.com', 'name' => 'Bolsa de Valores El Salvador '],
 
     /*
     |--------------------------------------------------------------------------

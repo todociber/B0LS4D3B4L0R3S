@@ -151,6 +151,13 @@ class OrdenesCasaCorredoraAutorizador extends Controller
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
         }
+        $rol = new RolIdentificador();
+        if (!$rol->Autorizador(Auth::user())) {
+            if ($ordenes[0]->idCorredor != Auth::user()->id) {
+                flash('Error en consulta', 'danger');
+                return redirect('Ordenes');
+            }
+        }
 
         if ($ordenes[0]->idOrganizacion != Auth::user()->idOrganizacion) {
             flash('Error en consulta', 'danger');
@@ -217,6 +224,8 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                     'idEstadoOrden' => '2'
                 ]);
                 $orden->save();
+
+
                 flash('Agente corredor asignado exitosamente', 'success');
                 return redirect('/Ordenes');
             } else {
@@ -295,17 +304,28 @@ class OrdenesCasaCorredoraAutorizador extends Controller
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
         } else {
+            $agenteC = Usuario::ofid($request['AgenteCorredor'])->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
+            if ($agenteC->count() == 0) {
+                return redirect()->back()->withInput()->withErrors('Agente Corredor no disponible');
+            }
 
             if (\Session::has('UsuarioEliminar')) {
                 $orden = Ordene::find($id);
-                $orden->fill([
-                    'idCorredor' => $request['AgenteCorredor'],
-                    'comision' => $request['Comision'],
-                    'idEstadoOrden' => '2'
-                ]);
+                if ($request['Comision'] == null) {
+                    $orden->fill([
+                        'idCorredor' => $request['AgenteCorredor'],
+                        'idEstadoOrden' => '2'
+                    ]);
+                } else {
+                    $orden->fill([
+                        'idCorredor' => $request['AgenteCorredor'],
+                        'comision' => $request['Comision'],
+                        'idEstadoOrden' => '2'
+                    ]);
+                }
                 $orden->save();
                 flash('Agente corredor asignado exitosamente', 'success');
-                return redirect("/UsuarioCasaCorredora/" . \Session::get('UsuarioEliminar') . "/editar");
+                return redirect("Ordenes/Reasignacion");
             } else {
                 flash('Error en consulta', 'danger');
                 return redirect('/Ordenes');

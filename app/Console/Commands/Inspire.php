@@ -30,7 +30,11 @@ class Inspire extends Command
      */
     public function handle()
     {
-        $ordenes = Ordene::where('FechaDeVigencia', '=', date('Y-m-d'))->where('idEstadoOrden', '=', 5)->get();
+        $ordenes = Ordene::where('FechaDeVigencia', '=', date('Y-m-d'))
+            ->where('idEstadoOrden', '=', 1)
+            ->orwhere('idEstadoOrden', '=', 2)
+            ->orwhere('idEstadoOrden', '=', 5)
+            ->get();
         foreach ($ordenes as $orden) {
             $orden->fill([
                 'idEstadoOrden' => 6,
@@ -38,7 +42,7 @@ class Inspire extends Command
             $orden->save();
             Log::info('Orden actualizada ' . $orden->id);
         }
-        Log::info('Numero de ordenes encontradas: ' . $ordenes->count() . 'el dia 3' . date('Y-m-d'));
+        Log::info('Numero de ordenes encontradas: ' . $ordenes->count() . 'el dia ' . date('Y-m-d'));
         $this->comment(PHP_EOL.Inspiring::quote().PHP_EOL);
     }
 }

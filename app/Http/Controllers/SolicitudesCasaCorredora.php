@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\BitacoraUsuario;
 use App\Models\Cliente;
+use App\Models\Ordene;
 use App\Models\SolicitudRegistro;
+use App\Utilities\Action;
 use Auth;
 use ErrorException;
 use Exception;
 use Illuminate\Http\Request;
+use Log;
 
 class SolicitudesCasaCorredora extends Controller
 {
@@ -98,6 +102,18 @@ class SolicitudesCasaCorredora extends Controller
                 );
 
                 $solicitudAActualizar->save();
+                $bitacora = new BitacoraUsuario();
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'Rechazo',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                        'descripcion' => 'Rechazo de afiliacion id' . $solicitudAActualizar->id,
+
+                    ]
+                );
+                $bitacora->save();
+
                 flash('Solicitud rechazada', 'warning');
                 return redirect('/SolicitudAfiliacion');
 
@@ -187,6 +203,18 @@ class SolicitudesCasaCorredora extends Controller
                 );
 
                 $solicitudAActualizar->save();
+
+                $bitacora = new BitacoraUsuario();
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'Aceptar',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                        'descripcion' => 'Aceptacion de afiliacion id' . $solicitudAActualizar->id,
+
+                    ]
+                );
+                $bitacora->save();
                 flash('Solicitud aceptada', 'success');
                 return redirect('/SolicitudAfiliacion');
 
@@ -256,6 +284,18 @@ class SolicitudesCasaCorredora extends Controller
                 );
 
                 $solicitudAActualizar->save();
+                $bitacora = new BitacoraUsuario();
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'ProcesoAfiliacion',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                        'descripcion' => 'Afiliacion en proceso id' . $solicitudAActualizar->id,
+
+                    ]
+                );
+                $bitacora->save();
+
                 flash('Solicitud procesada', 'success');
                 return redirect('/SolicitudAfiliacion');
 
@@ -308,23 +348,61 @@ class SolicitudesCasaCorredora extends Controller
         }
         if ($solicitud[0]->idOrganizacion == Auth::user()->idOrganizacion) {
 
-            if ($solicitud[0]->idEstadoSolicitud == 2) {
+            $ordenesVigentes = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idCliente', '=', $solicitud[0]->idCliente)
+                ->get();
+
+            $ordenVigente = 0;
+
+
+            foreach ($ordenesVigentes as $orden) {
+                if ($orden->idEstadoOrden == 2) {
+                    $ordenVigente = 1;
+                } else if ($orden->idEstadoOrden == 5) {
+                    $ordenVigente = 1;
+                }
+            }
+
+            if ($ordenVigente == 1) {
+                flash('Cliente con ordenes pentientes de terminacion', 'danger');
+                return redirect('/Afiliados');
+            } else if ($solicitud[0]->idEstadoSolicitud == 2) {
                 $solicitudAActualizar = SolicitudRegistro::find($id);
 
                 $solicitudAActualizar->fill([
                     'idEstadoSolicitud' => '3'
                 ]);
                 $solicitudAActualizar->save();
+
+
+                $data = [
+                    'nombreCasa' => Auth::user()->Organizacion->nombre,
+                    'accionAfiliacion' => 'Eliminada'
+                ];
+                $action = new Action();
+                $action->sendEmail($data, $solicitud[0]->ClienteNSolicitud->UsuarioNC->email, 'Cancelación de Afiliacion', 'Cancelación de Afiliacion', 'emails.AfiliacionAceptada');
+                $bitacora = new BitacoraUsuario();
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'Eliminacion',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                        'descripcion' => 'Eliminacion de afiliacion id' . $solicitudAActualizar->id,
+
+                    ]
+                );
+                $bitacora->save();
+
                 flash('Afiliado Eliminado ', 'success');
                 return redirect('/Afiliados');
 
             } else {
-                flash('Solicitud no pudo ser aceptada', 'danger');
-                return redirect('/SolicitudAfiliacion');
+                flash('Solicitud no pudo ser eliminado', 'danger');
+                return redirect('/Afiliados');
             }
 
         } else {
-            return redirect('/home');
+            return redirect('/Afiliados');
         }
 
     }
@@ -339,12 +417,20 @@ class SolicitudesCasaCorredora extends Controller
     public function buscarClientePost(Requests\BuscarClienteRequest $request)
     {
         $cliente = Cliente::withTrashed()->where('DUI', '=', $request['dui'])->get();
+
+
         if ($cliente->count() > 0) {
             flash('Cliente encontrado', 'success');
+            $solicitudAceptada = SolicitudRegistro::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idCliente', '=', $cliente[0]->id)->where('idEstadoSolicitud', '=', 2)->count();
             \Session::remove('cliente');
+            \Session::remove('solicitud');
             \Session::push('cliente', $cliente[0]);
+            \Session::push('solicitud', $solicitudAceptada);
+
         } else {
             flash('No se encontró al cliente', 'warning');
+            \Session::remove('solicitud');
             \Session::remove('cliente');
         }
         return view('CasaCorredora.SolicitudesAfiliacion.BuscarAfiliado');
@@ -370,6 +456,14 @@ class SolicitudesCasaCorredora extends Controller
                         ]);
 
                         $nuevaSolicitud->save();
+                        $data = [
+                            'nombreCasa' => Auth::user()->Organizacion->nombre,
+                            'accionAfiliacion' => 'Aceptada'
+                        ];
+                        $action = new Action();
+                        Log::info('Email de afiliado a Eliminar' . $cliente[0]->UsuarioNC->email);
+                        $action->sendEmail($data, $cliente[0]->UsuarioNC->email, 'Afiliacion', ' Afiliacion', 'emails.AfiliacionAceptada');
+
                         flash('Cliente Afiliado Exitosamente', 'success');
                         return redirect('/Afiliados');
                     } else {
@@ -377,6 +471,18 @@ class SolicitudesCasaCorredora extends Controller
                             'idEstadoSolicitud' => 2
                         ]);
                         $buscarSolicitudPendiente[0]->save();
+
+                        $bitacora = new BitacoraUsuario();
+                        $bitacora->fill(
+                            [
+                                'tipoCambio' => 'Afiliacion',
+                                'idUsuario' => Auth::user()->id,
+                                'idOrganizacion' => Auth::user()->idOrganizacion,
+                                'descripcion' => 'Aceptacion de afiliacion id' . $buscarSolicitudPendiente[0]->id,
+
+                            ]
+                        );
+                        $bitacora->save();
                         flash('Cliente Afiliado Exitosamente', 'success');
                         return redirect('/Afiliados');
                     }
