@@ -417,11 +417,12 @@ class SolicitudesCasaCorredora extends Controller
     public function buscarClientePost(Requests\BuscarClienteRequest $request)
     {
         $cliente = Cliente::withTrashed()->where('DUI', '=', $request['dui'])->get();
-        $solicitudAceptada = SolicitudRegistro::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
-            ->where('idCliente', '=', $cliente[0]->id)->where('idEstadoSolicitud', '=', 2)->count();
+
 
         if ($cliente->count() > 0) {
             flash('Cliente encontrado', 'success');
+            $solicitudAceptada = SolicitudRegistro::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idCliente', '=', $cliente[0]->id)->where('idEstadoSolicitud', '=', 2)->count();
             \Session::remove('cliente');
             \Session::remove('solicitud');
             \Session::push('cliente', $cliente[0]);

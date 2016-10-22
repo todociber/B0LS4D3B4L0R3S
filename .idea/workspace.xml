@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="merge">
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="BuscarAfiliado Correjido&#10;">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -104,17 +103,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SolicitudesCasaCorredora.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SolicitudesCasaCorredora.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="568">
-              <caret line="427" column="37" selection-start-line="427" selection-start-column="28" selection-end-line="427" selection-end-column="37" />
-              <folding />
+            <state relative-caret-position="653">
+              <caret line="432" column="36" selection-start-line="432" selection-start-column="36" selection-end-line="432" selection-end-column="36" />
+              <folding>
+                <element signature="e#40#62#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BuscarAfiliado.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BuscarAfiliado.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="918">
@@ -211,8 +212,8 @@
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/resources/views/auth/login.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/Clientes/Ordenes/FormularioOrden/FormularioOrden.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php" />
       </list>
     </option>
   </component>
@@ -547,14 +548,7 @@
       <workItem from="1477068768081" duration="3438000" />
       <workItem from="1477083121122" duration="201000" />
       <workItem from="1477084555648" duration="912000" />
-      <workItem from="1477110629341" duration="2169000" />
-    </task>
-    <task id="LOCAL-00016" summary="loadin en botones y nueva pantalla de afiliaciones procesadas">
-      <created>1469929085656</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1469929085656</updated>
+      <workItem from="1477110629341" duration="2917000" />
     </task>
     <task id="LOCAL-00017" summary="correccion migraciones nuleable, Validacion Afiliacion y comienzo Ordenes Autorizador">
       <created>1469950577067</created>
@@ -892,11 +886,18 @@
       <option name="project" value="LOCAL" />
       <updated>1477083140997</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="BuscarAfiliado Correjido&#10;">
+      <created>1477112900824</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1477112900824</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="108412000" />
+    <option name="totallyTimeSpent" value="109160000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
@@ -985,7 +986,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Usuarios Casa Corredora" />
     <MESSAGE value="Usuarios Casa Corredora funcionando" />
     <MESSAGE value="nueva tabla de tokens, latch funcional nuevamente ,nueva forma de registro de clientes, envio de emal, validaciones, y activacion de cuentas aun con bugs por solucionar" />
     <MESSAGE value="Nuevo Sistema de Afilacion Funcional" />
@@ -1010,7 +1010,8 @@
     <MESSAGE value="Correccion Longitud de TokenPush" />
     <MESSAGE value="Correccion Eliminacion de Afiliados" />
     <MESSAGE value="merge" />
-    <option name="LAST_COMMIT_MESSAGE" value="merge" />
+    <MESSAGE value="BuscarAfiliado Correjido&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="BuscarAfiliado Correjido&#10;" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1373,19 +1374,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="568">
-          <caret line="427" column="37" selection-start-line="427" selection-start-column="28" selection-end-line="427" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="918">
           <caret line="54" column="47" selection-start-line="54" selection-start-column="47" selection-end-line="54" selection-end-column="47" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="653">
+          <caret line="432" column="36" selection-start-line="432" selection-start-column="36" selection-end-line="432" selection-end-column="36" />
+          <folding>
+            <element signature="e#40#62#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
