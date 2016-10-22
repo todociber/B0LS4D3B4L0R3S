@@ -60,7 +60,8 @@
                                     @endif
                                 </td>
 
-                                <td><a class="btn btn-primary background-pencil"
+                                <td>
+                                    <a class="btn btn-primary background-pencil"
                                        href="{!! route('editarCasa',['id'=>$organizacion->id])!!}"><em
                                                 class="fa fa-pencil"></em></a>
                                     @if($organizacion->deleted_at == null)

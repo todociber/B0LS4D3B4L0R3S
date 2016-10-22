@@ -53,7 +53,6 @@ class ClientesController extends Controller
             $res = $client->request('GET', 'http://e60e591e.ngrok.io/GetTitulos');
             $bodyJ = $res->getBody();
             $body = json_decode($bodyJ);
-            Log::info($body->Titulos);
             if ($body->errorCode == 0) {
                 $titulos = $body->Titulos;
                 $res = $client->request('GET', 'http://e60e591e.ngrok.io/GetTipoMercado');
@@ -324,16 +323,22 @@ class ClientesController extends Controller
             Log::info($body->Titulos);
             if ($body->errorCode == 0) {
                 $titulos = $body->Titulos;
-                $fechaVigencia = Carbon::parse($orden->FechaDeVigencia)->format('m/d/Y');
-                $orden->FechaDeVigencia = $fechaVigencia;
-                $cedeval = Cedeval::where('idCliente', $idCliente)->lists('cuenta', 'id');
-                //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE
-                $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
-                    $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 2);
-                })->lists('nombre', 'id');
-                $tipoOrden = TipoOrden::lists('nombre', 'id');
-                return view('Clientes.Ordenes.ModificarOrden', ['orden' => $orden, 'cedeval' => $cedeval, 'casas' => $casas, 'Tipoorden' => $tipoOrden, 'titulos' => $titulos]);
+                $res = $client->request('GET', 'http://e60e591e.ngrok.io/GetTipoMercado');
+                $bodyJ = $res->getBody();
+                $body = json_decode($bodyJ);
+                if ($body->errorCode == 0) {
+                    $tipoMercado = $body->tipoMercados;
+                    $fechaVigencia = Carbon::parse($orden->FechaDeVigencia)->format('m/d/Y');
+                    $orden->FechaDeVigencia = $fechaVigencia;
+                    $cedeval = Cedeval::where('idCliente', $idCliente)->lists('cuenta', 'id');
+                    //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE
+                    $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
+                        $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 2);
+                    })->lists('nombre', 'id');
+                    $tipoOrden = TipoOrden::lists('nombre', 'id');
+                    return view('Clientes.Ordenes.ModificarOrden', ['orden' => $orden, 'cedeval' => $cedeval, 'casas' => $casas, 'Tipoorden' => $tipoOrden, 'titulos' => $titulos, 'TipoMercado' => $tipoMercado]);
 
+                }
             }
         } else {
             return redirect()->route('ListadoOrdenesV');
