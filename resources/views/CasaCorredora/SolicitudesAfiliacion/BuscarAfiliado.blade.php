@@ -37,6 +37,11 @@
 
                             <?php $clientes = \Session::get('cliente')?>
 
+                            @if(Session::has('solicitud'))
+
+                                <?php $solicitud = \Session::get('solicitud')?>
+                            @endif
+
                             @foreach($clientes as $cliente)
                                 <h3>Datos del Cliente</h3>
                                 <b>Nombre: </b>  {{ $cliente->UsuarioNC->nombre}} {{ $cliente->UsuarioNC->apellido}}
@@ -47,8 +52,12 @@
                                 <br>
                                 <b>NIT</b>  {{$cliente->nit}}
                                 <br><br>
-                                @include('CasaCorredora.SolicitudesAfiliacion.formularios.AfiliarCliente')
+                                @if($solicitud>0)
+                                    <h2> El Cliente ya se encuentra Afiliado</h2>
+                                @else
 
+                                @include('CasaCorredora.SolicitudesAfiliacion.formularios.AfiliarCliente')
+                                @endif
                             @endforeach
 
                         @endif
