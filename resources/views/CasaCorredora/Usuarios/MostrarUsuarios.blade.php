@@ -10,8 +10,15 @@
 
 @section('content')
     <script>
-        function ShowModal(texto) {
-            $('#')
+        function ShowModalDesactivar(id, texto) {
+            $('#modalbody').text(texto);
+            $('#idusuario').val(id);
+            $('#desactivarUsuario').modal('show');
+        }
+        function ShowModalActivar(id, texto) {
+            $('#modalbodyR').text(texto);
+            $('#idrestaurar').val(id);
+            $('#activarUsuario').modal('show');
         }
 
     </script>
@@ -65,22 +72,24 @@
                                         </td>
                                         <td>
 
+                                            <a class="btn btn-primary background-pencil"
+                                               href="{{route('UsuarioCasaCorredora.edit',["id"=>$users->id])}}"><em
+                                                        class="fa fa-pencil"></em></a>
                                             @if($users->deleted_at == null)
 
 
-                                                <a class="btn btn-primary background-pencil"
-                                                   href="{{route('UsuarioCasaCorredora.edit',["id"=>$users->id])}}"><em
-                                                            class="fa fa-pencil"></em></a>
 
 
-                                                {!!Form::open(['route'=>['UsuarioCasaCorredora.destroy', $users->id], 'method'=>'DELETE'])!!}
+
                                                 <button type="submit" onclick="">
-                                                    <span class="glyphicon glyphicon-remove p-red"></span></button>
-                                                {!!Form::close()!!}
+                                                    <span class="glyphicon glyphicon-remove p-red"
+                                                          onclick="ShowModalDesactivar('{{$users->id}}','¿Desea desactivar al usuario {{$users->nombre}}?')"></span>
+                                                </button>
+
 
                                             @else
 
-                                                <button onclick="{!! route('UsuarioCasaCorredora.restaurar',["id"=>$users->id]) !!}">
+                                                <button onclick="ShowModalActivar('{{$users->id}}','¿Desea activar al usuario {{$users->nombre}}?')">
                                                     <span class="glyphicon glyphicon-ok p-green"></span>
                                                 </button>
 
@@ -105,15 +114,44 @@
             </div>
         </div>
 
-        <div class="modal fade" id="modalUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Mensaje</h4>
-                    </div>
+    </div>
+
+    <div class="modal fade" id="desactivarUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Mensaje</h4>
+                </div>
+                {{Form::open(['route'=>'UsuarioCasaCorredora.desactivar','method' =>'DELETE', 'id'=>'form','role' => 'form', 'onsubmit'=>'animatedLoading()']) }}
+
+                {{ Form::hidden('id',null,['id'=>'idusuario','class'=>'form-control','required']) }}
+                <div class="modal-body">
                     <p id="modalbody"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">Cancelar</button>
+                </div>
+                {{Form::close()}}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="activarUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Mensaje</h4>
+                </div>
+                {{Form::open(['route'=>'UsuarioCasaCorredora.restaurar','method' =>'PUT', 'id'=>'form','role' => 'form', 'onsubmit'=>'animatedLoading()']) }}
+
+                {{ Form::hidden('id',null,['id'=>'idrestaurar','class'=>'form-control','required']) }}
+                <div class="modal-body">
+                    <p id="modalbodyR"></p>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Aceptar</button>

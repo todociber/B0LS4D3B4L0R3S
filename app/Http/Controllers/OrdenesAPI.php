@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Cedeval;
+use App\Models\Mensaje;
 use App\Models\Ordene;
 use App\Models\Organizacion;
 use App\Models\Usuario;
@@ -542,6 +543,7 @@ class OrdenesAPI extends Controller
                 return response()->json(['ErrorCode' => '5', 'msg' => $validator->errors()->all(),]);
             } else {
                 $idOrden = $request["idOrden"];
+                $orden = Ordene::find($idOrden);
                 $mensaje = new Mensaje();
                 $mensaje->fill(
                     [
@@ -553,9 +555,32 @@ class OrdenesAPI extends Controller
                     ]
                 );
                 $mensaje->save();
+
+                $emails = [];
+                $idrol = 3;
+                $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                    $query->where('idRol', $idrol);
+                })->where("idOrganizacion", $request["casacorredora"])->get();
                 $emails = [];
                 $i = 0;
                 $band = false;
+                foreach ($usuarios as $user) {
+                    if (isset($orden->Corredor_UsuarioN)) {
+                        if ($orden->Corredor_UsuarioN->email == $user->email) {
+
+                            $band = true;
+                        }
+                    } else {
+                        $band = true;
+                    }
+                    $emails[$i] = $user->email;
+                    $i++;
+                }
+                if (!$band) {
+                    $i++;
+                    $emails[$i] = $orden->Corredor_UsuarioN->email;
+                }
+
 
 
                 $data = [

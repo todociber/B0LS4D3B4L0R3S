@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\EstadoOrden;
 use App\Models\Mensaje;
 use App\Models\Ordene;
+use App\Models\SolicitudRegistro;
 use App\Models\Usuario;
 use App\Utilities\RolIdentificador;
 use Auth;
+use Carbon\Carbon;
 use DB;
 use ErrorException;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OrdenesCasaCorredoraAutorizador extends Controller
 {
@@ -24,18 +28,99 @@ class OrdenesCasaCorredoraAutorizador extends Controller
     {
         $rolIdentificador = new RolIdentificador;
 
+        $titulo = '';
+        
         if ($rolIdentificador->Autorizador(Auth::user())) {
-            $ordenes = Ordene::where('idEstadoOrden', '!=', '4')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
-            return view('CasaCorredora.OrdenesAutorizador.MostrarOrdenes', compact('ordenes'));
-        } elseif ($rolIdentificador->Administrador(Auth::user())) {
-            $ordenes = Ordene::where('idEstadoOrden', '!=', '4')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
-            return view('CasaCorredora.OrdenesAutorizador.MostrarOrdenes', compact('ordenes'));
+            $ordenes = Ordene::where('idEstadoOrden', '!=', '4')
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idEstadoOrden', '=', 1)
+                ->get();
+
+            $ordenesCount = Ordene::where('idEstadoOrden', '!=', '4')
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idEstadoOrden', '=', 2)
+                ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                ->count();
+
+            $ordenesVencer = Ordene::where('idEstadoOrden', '!=', '4')
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idEstadoOrden', '=', 2)
+                ->whereBetween('FechaDeVigencia', [Carbon::now()->addDay(1)->format('Y-m-d'), Carbon::now()->addDay(6)->format('Y-m-d')])
+                ->count();
+            $CountSolicitudes = SolicitudRegistro::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where("idEstadoSolicitud", 1)
+                ->count();
+
+            $titulo = 'Ordenes pendiente de asignar';
+            return view('CasaCorredora.OrdenesAutorizador.MostrarOrdenes', compact(['ordenes', 'ordenesCount', 'titulo', 'ordenesVencer', 'CountSolicitudes']));
+
         } else {
-            $ordenes = Ordene::where('idEstadoOrden', '!=', '4')->where('idCorredor', '=', Auth::user()->id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
-            return view('CasaCorredora.OrdenesAutorizador.MostrarOrdenes', compact('ordenes'));
+            $ordenes = Ordene::where('idEstadoOrden', '!=', '4')
+                ->where('idCorredor', '=', Auth::user()->id)
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
+            $ordenesAsignadas = count($ordenes);
+
+            $ordenesVencer = Ordene::where('idEstadoOrden', '!=', '4')
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idEstadoOrden', '=', 2)
+                ->where('idCorredor', '=', Auth::user()->id)
+                ->whereBetween('FechaDeVigencia', [Carbon::now()->addDay(1)->format('Y-m-d'), Carbon::now()->addDay(6)->format('Y-m-d')])
+                ->count();
+
+            return view('CasaCorredora.OrdenesAgente.ordenesAsignadas', compact(['ordenes', 'ordenesAsignadas', 'ordenesVencer']));
         }
 
     }
+
+    //AGENTE CORREDOR
+    public function OrdenesAsignadasAgente()
+    {
+
+
+        $ordenes = Ordene::where('idEstadoOrden', '!=', '4')
+            ->where('idCorredor', '=', Auth::user()->id)
+            ->where('idEstadoOrden', '=', 2)
+            ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->get();
+
+        $ordenesAsignadas = Ordene::where('idEstadoOrden', '!=', '4')
+            ->where('idCorredor', '=', Auth::user()->id)
+            ->where('idEstadoOrden', '=', 2)
+            ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->count();
+        Log::info($ordenesAsignadas);
+
+        $ordenesEjecutadas = Ordene::where('idEstadoOrden', '!=', '4')
+            ->where('idCorredor', '=', Auth::user()->id)
+            ->where('idEstadoOrden', '=', 5)
+            ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->count();
+
+
+        $ordenesVencer = Ordene::where('idEstadoOrden', '!=', '4')
+            ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->where('idEstadoOrden', '=', 2)
+            ->where('idCorredor', '=', Auth::user()->id)
+            ->whereBetween('FechaDeVigencia', [Carbon::now()->addDay(1)->format('Y-m-d'), Carbon::now()->addDay(6)->format('Y-m-d')])
+            ->count();
+
+        return view('CasaCorredora.OrdenesAgente.ordenesAsignadas', ['ordenes' => $ordenes, 'ordenesAsignadas' => $ordenesAsignadas, 'ordenesVencer' => $ordenesVencer, 'ordenesEjecutadas' => $ordenesEjecutadas]);
+
+    }
+
+    public function ListadoGeneralOrdenesAgente()
+    {
+
+        $idCorredor = Auth::user()->id;
+
+        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN')->where('idCorredor', $idCorredor)->get();
+        $estadoOrdenes = EstadoOrden::lists('estado', 'id');
+        $estadoOrdenes['0'] = 'Todas';
+        return view('CasaCorredora.OrdenesAgente.listadoOrdenes', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes]);
+
+    }
+    
+
 
     /**
      * Show the form for creating a new resource.

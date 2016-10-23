@@ -176,6 +176,7 @@ class ClientesController extends Controller
 
             ]);
             $idOrden = \Session::get('idOrden');
+            $orden = Ordene::find($idOrden);
             $mensaje = new Mensaje();
             $mensaje->fill(
                 [
@@ -187,10 +188,29 @@ class ClientesController extends Controller
                 ]
             );
             $mensaje->save();
+            $idrol = 3;
+            $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                $query->where('idRol', $idrol);
+            })->where("idOrganizacion", $request["casacorredora"])->get();
             $emails = [];
             $i = 0;
             $band = false;
-        
+            foreach ($usuarios as $user) {
+                if (isset($orden->Corredor_UsuarioN)) {
+                    if ($orden->Corredor_UsuarioN->email == $user->email) {
+
+                        $band = true;
+                    }
+                }
+                $emails[$i] = $user->email;
+                $i++;
+            }
+            if (!$band) {
+                $i++;
+                $emails[$i] = $orden->Corredor_UsuarioN->email;
+            }
+
+
 
             $data = [
                 'titulo' => 'El cliente ' . Auth::user()->nombre . ' ' . Auth::user()->apellido . 'Ha enviado un nuevo mensaje',
@@ -536,7 +556,8 @@ class ClientesController extends Controller
                 flash('El valor minimo no debe ser mayor al monto', 'info');
                 return redirect()->route('modificarorden', ["id" => $id]);
             } else if ($request['valorMaximo'] >= $request['monto']) {
-                // Log::info((int)Carbon::parse($request['FechaDeVigencia'])->diffInDays(Carbon::now(),false));
+
+
                 flash('El valor máximo no debe ser mayor al monto', 'info');
                 return redirect()->route('modificarorden', ["id" => $id]);
 

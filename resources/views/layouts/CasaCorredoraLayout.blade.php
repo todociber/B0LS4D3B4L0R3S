@@ -57,6 +57,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
 
     {!! Html::style('assets/plugins/datepicker/datepicker3.css') !!}
     {!! Html::script('assets/js/loading.js') !!}
+    {!! Html::script('assets/js/SERO.js') !!}
     {!! Html::style('assets/css/SERO.css') !!}
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -153,21 +154,40 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
 
                     </li>
                 @endif
-                @if($autorizador || $agenteCorredor)
+                @if($autorizador )
 
                 <li id="ordenes" class=" treeview">
                     <a href="#">
-                        <i class="fa fa-archive"></i> <span>Ordenes</span> <i class="fa fa-angle-left pull-right"></i>
+                        <i class="fa fa-archive"></i> <span>Autorizador</span> <i
+                                class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
                         <li id="listadoOrdenes"><a href="{{route('Ordenes.index')}}"><i
-                                        class="fa fa-circle-o"></i>Ordenes Vigentes</a></li>
+                                        class="fa fa-circle-o"></i>Ordenes por asignar</a></li>
                         <li id="listadoOrdenes2"><a href="{{route('OrdenesReporte.Fecha')}}"><i
                                         class="fa fa-circle-o"></i>Reporte de Ordenes</a></li>
 
                     </ul>
                 </li>
                 @endif
+
+                @if($agenteCorredor)
+                    <li id="ordenes" class=" treeview">
+                        <a href="#">
+                            <i class="fa fa-archive"></i> <span>Agente Corredor</span> <i
+                                    class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li id="listadoOrdenesAsignadas"><a href="{{route('ordenesagenteasignar')}}"><i
+                                            class="fa fa-circle-o"></i>Ordenes Asignadas</a></li>
+                            <li id="listadoOrdenesGeneralAgente"><a href="{{route('ordenesagente')}}"><i
+                                            class="fa fa-circle-o"></i>Listado general de ordenes</a></li>
+
+
+                        </ul>
+                    </li>
+                @endif
+
                 @if($autorizador)
                 <li id="Afiliaciones" class=" treeview">
                     <a href="#">

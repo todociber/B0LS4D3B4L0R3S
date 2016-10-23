@@ -442,6 +442,88 @@ class UsuarioCasaCorredoraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function desactivarUsuario(Request $request)
+    {
+
+        $this->validate($request, [
+            'id' => 'required',
+
+        ]);
+
+        $id = $request["id"];
+        $Usuario = Usuario::find($id);
+
+
+        try {
+            $Usuario->id;
+        } catch (ErrorException $i) {
+            return redirect('/home');
+        } catch (Exception $e) {
+            return redirect('/home');
+        }
+        $ordenesVigentes = 0;
+        foreach ($Usuario->OrdenesUsuario as $ordenes) {
+            if ($ordenes->idEstadoOrden == 2) {
+                $ordenesVigentes = 1;
+            } elseif ($ordenes->idEstadoOrden == 5) {
+                $ordenesVigentes = 1;
+            }
+        }
+
+        if ($ordenesVigentes == 0) {
+            if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
+                flash('Error en consulta', 'danger');
+                return redirect('/UsuarioCasaCorredora');
+            } elseif ($id == Auth::user()->id) {
+                flash('Error en consulta', 'danger');
+                return redirect('/UsuarioCasaCorredora');
+            } else {
+
+                foreach ($Usuario->UsuarioAsignado as $solicitudes) {
+
+                    if ($solicitudes->idEstadoSolicitud == 4) {
+                        $solicitudes->fill([
+                            'idUsuario' => NULL,
+                            'idEstadoSolicitud' => '1'
+                        ]);
+                        $solicitudes->save();
+                    }
+
+                }
+
+                $LatchTokenExiste = LatchModel::where('idUsuario', '=', $Usuario->id)->count();
+                if ($LatchTokenExiste > 0) {
+                    $accountId = LatchModel::where('idUsuario', '=', $Usuario->id)->first();
+                    if (Latch::unpair($accountId->tokenLatch)) {
+                        $accountId->delete();
+                    }
+                }
+                $bitacora = new BitacoraUsuario();
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'Desactivacion',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                        'descripcion' => 'Desactivacion de usuario Casa Corredora' . $Usuario->nombre . ' ' . $Usuario->apellido . ' id: ' . $Usuario->id,
+
+                    ]
+                );
+                $bitacora->save();
+                $Usuario->delete();
+                if (\Session::has('UsuarioEliminar')) {
+                    \Session::remove('UsuarioEliminar');
+                }
+                flash('El usuario se desactivo exitosamente', 'danger');
+                return redirect('/UsuarioCasaCorredora');
+            }
+        } else {
+
+            \Session::set('UsuarioEliminar', $id);
+            return redirect('/Ordenes/Reasignacion');
+        }
+
+    }
+
     public function destroy($id)
     {
 
@@ -520,9 +602,16 @@ class UsuarioCasaCorredoraController extends Controller
 
     }
 
-    public function restaurar($id)
+    public function restaurar(Request $request)
     {
 
+        $this->validate($request, [
+            'id' => 'required',
+
+        ]);
+
+        $id = $request["id"];
+        
 
         $Usuario = Usuario::withTrashed()->find($id);
 
@@ -611,7 +700,7 @@ class UsuarioCasaCorredoraController extends Controller
             ]
         );
         $bitacora->save();
-        flash('Contraseña resteada exitosamente ', 'info');
+        flash('Contraseña restaurada exitosamente ', 'info');
         return redirect('/UsuarioCasaCorredora');
 
 

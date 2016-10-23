@@ -40,57 +40,60 @@ Route::post('getMunicipios', 'RegistroController@getMunicipios')->name('getMun')
 Route::group(['middleware' => 'auth'], function () {
     //-----BOLSA DE VALORES ROUTES---//
 
-
+    Route::group(['middleware' => 'bolsa'], function () {
+        //bolsa
 //------CASAS CRUD------//
-    Route::get('bolsa/NuevaCasa','BolsaController@NuevaCasa')->name('nuevaCasa');
-    Route::get('bolsa/EditarCasa/{id}', 'BolsaController@editarCasa')->name('editarCasa');
-    Route::get('bolsa/ListadoCasas','BolsaController@ListadoCasas')->name('listadoCasas');
-    Route::get('bolsa/bitacoras', 'BolsaController@bitacoras')->name('bitacoras');
-    Route::post('bolsa/EliminarRestaurar', 'BolsaController@eliminarRestaurarCasa')->name('eliminarrestaurarcasas');
-    Route::resource('Bolsa', 'BolsaController');
-    Route::post('bolsa/Upload', 'BolsaController@Upload')->name('upload');
-
+        Route::get('bolsa/NuevaCasa', 'BolsaController@NuevaCasa')->name('nuevaCasa');
+        Route::get('bolsa/EditarCasa/{id}', 'BolsaController@editarCasa')->name('editarCasa');
+        Route::get('bolsa/ListadoCasas', 'BolsaController@ListadoCasas')->name('listadoCasas');
+        Route::get('bolsa/bitacoras', 'BolsaController@bitacoras')->name('bitacoras');
+        Route::post('bolsa/EliminarRestaurar', 'BolsaController@eliminarRestaurarCasa')->name('eliminarrestaurarcasas');
+        Route::resource('Bolsa', 'BolsaController');
+        Route::post('bolsa/Upload', 'BolsaController@Upload')->name('upload');
 //------USUARIOS BOLSA CRUD------//
-    Route::get('bolsa/CatalogoUsuarios', 'UsuariosBolsaController@ListadoUsuario')->name('catalogoUsuarios');
-    Route::get('bolsa/NuevoUsuario', 'UsuariosBolsaController@NuevoUsuario')->name('nuevoUsuario');
-    Route::get('bolsa/ModificarUsuario/{id}', 'UsuariosBolsaController@ModificarUsuario')->name('modificarusuario');
-    Route::get('bolsa/MiPerfil', 'UsuariosBolsaController@MiPerfil')->name('miPerfil');
-    Route::post('bolsa/EliminarRestaurarUsuario', 'UsuariosBolsaController@EliminarRestaurarUsuario')->name('eliminarrestaurar');
-    Route::get('bolsa/RestaurarUsuario/{id}', 'UsuariosBolsaController@RestaurarUsuario')->name('restaurarusuario');
-    Route::get('bolsa/RestaurarPassword/{id}', 'UsuariosBolsaController@resetPassword')->name('restaurarpassword');
-    Route::get('bolsa/ReinicarPasswordCasa/{id}', 'BolsaController@ResetPasswordCasa')->name('reiniciarpasswordcasa');
-
-    Route::resource('UsuarioBolsa', 'UsuariosBolsaController');
-
+        Route::get('bolsa/CatalogoUsuarios', 'UsuariosBolsaController@ListadoUsuario')->name('catalogoUsuarios');
+        Route::get('bolsa/NuevoUsuario', 'UsuariosBolsaController@NuevoUsuario')->name('nuevoUsuario');
+        Route::get('bolsa/ModificarUsuario/{id}', 'UsuariosBolsaController@ModificarUsuario')->name('modificarusuario');
+        Route::get('bolsa/MiPerfil', 'UsuariosBolsaController@MiPerfil')->name('miPerfil');
+        Route::post('bolsa/EliminarRestaurarUsuario', 'UsuariosBolsaController@EliminarRestaurarUsuario')->name('eliminarrestaurar');
+        Route::get('bolsa/RestaurarUsuario/{id}', 'UsuariosBolsaController@RestaurarUsuario')->name('restaurarusuario');
+        Route::get('bolsa/RestaurarPassword/{id}', 'UsuariosBolsaController@resetPassword')->name('restaurarpassword');
+        Route::get('bolsa/ReinicarPasswordCasa/{id}', 'BolsaController@ResetPasswordCasa')->name('reiniciarpasswordcasa');
+        Route::resource('UsuarioBolsa', 'UsuariosBolsaController');
 //------BOLSA DE VALORES ROUTES--//
+    });
+
 
 //------CLIENTES ROUTES--//
 
-    Route::get('Cliente/NuevaOrden', 'ClientesController@NuevaOrden')->name('nuevaOrden');
-    Route::get('Cliente/ListadoOrdenesV', 'ClientesController@ListadoOrdenes')->name('listadoordenesclienteV');
-    Route::get('Cliente/getOrdenes/{id}', 'ClientesController@OrdenesByID')->name('getOrdenes');
-    Route::get('Cliente/ModificarOrden/{id}', 'ClientesController@modificarOrden')->name('modificarorden');
-    Route::post('Cliente/setMensaje', 'ClientesController@storeMensajes')->name('setMensaje');
-    Route::put('Cliente/AnularOrden/{id}', 'ClientesController@AnularOrden')->name('anularorden');
-    Route::put('Cliente/EjecutarOrden', 'ClientesController@ejecutarOrden')->name('ejecutarorden');
-    Route::get('Cliente/FiltrarOrden', 'ClientesController@ordenesbyEstado')->name('filtrarOrden');
-    Route::get('Cliente/OrdenesPadre/{id}', 'ClientesController@ListadoOrdenesPadre')->name('listadordenespadre');
-    Route::get('Cliente/Miperfil', 'ClientesController@miPerfilUsuario')->name('perfilcliente');
-    Route::get('Cliente/ModificarPerfil', 'ClientesController@modificarPerfil')->name('modificarperfilCliente');
-    Route::post('Cliente/setModificarPerfil', 'ClientesController@modificarPerfilCliente')->name('setmodificarperfil');
-    Route::get('Cliente/AfiliarseCasa', 'ClientesController@AfiliacionCliente')->name('afiliarsecasa');
-    Route::post('Cliente/AfiliarseCasaStore', 'ClientesController@AfiliacionClienteStore')->name('afiliacioncasastore');
-    Route::get('Cliente/ListadoAfiliaciones', 'ClientesController@ListadoAfiliaciones')->name('listadoafiliaciones');
-    Route::get('Cliente/ListadoSolicitudes', 'ClientesController@ListadoSolicitudes')->name('listadsolicitudes');
-    Route::get('Cliente/CuentasCedevales', 'ClientesController@CuentasCedevales')->name('cuentascedevales');
-    Route::delete('Cliente/eliminarCedeval', 'ClientesController@EliminarCedeval')->name('eliminarcedeval');
-    Route::post('Cliente/agregarCedeval', 'ClientesController@AgregarCedeval')->name('agregarcedeval');
-    Route::get('Cliente/cambiarPassword', 'ClientesController@modificarPassword')->name('modificarpassword');
-    Route::put('Cliente/cambiarPasswordUpdate', 'ClientesController@modificarPasswordUpdate')->name('modificarpasswordupdate');
-    Route::get('Cliente/getEmisor/{id}', 'ClientesController@getEmisor')->name('getemisor');
+    Route::group(['middleware' => 'cliente'], function () {
+        Route::get('Cliente/NuevaOrden', 'ClientesController@NuevaOrden')->name('nuevaOrden');
+        Route::get('Cliente/ListadoOrdenesV', 'ClientesController@ListadoOrdenes')->name('listadoordenesclienteV');
+        Route::get('Cliente/getOrdenes/{id}', 'ClientesController@OrdenesByID')->name('getOrdenes');
+        Route::get('Cliente/ModificarOrden/{id}', 'ClientesController@modificarOrden')->name('modificarorden');
+        Route::post('Cliente/setMensaje', 'ClientesController@storeMensajes')->name('setMensaje');
+        Route::put('Cliente/AnularOrden/{id}', 'ClientesController@AnularOrden')->name('anularorden');
+        Route::put('Cliente/EjecutarOrden', 'ClientesController@ejecutarOrden')->name('ejecutarorden');
+        Route::get('Cliente/FiltrarOrden', 'ClientesController@ordenesbyEstado')->name('filtrarOrden');
+        Route::get('Cliente/OrdenesPadre/{id}', 'ClientesController@ListadoOrdenesPadre')->name('listadordenespadre');
+        Route::get('Cliente/Miperfil', 'ClientesController@miPerfilUsuario')->name('perfilcliente');
+        Route::get('Cliente/ModificarPerfil', 'ClientesController@modificarPerfil')->name('modificarperfilCliente');
+        Route::post('Cliente/setModificarPerfil', 'ClientesController@modificarPerfilCliente')->name('setmodificarperfil');
+        Route::get('Cliente/AfiliarseCasa', 'ClientesController@AfiliacionCliente')->name('afiliarsecasa');
+        Route::post('Cliente/AfiliarseCasaStore', 'ClientesController@AfiliacionClienteStore')->name('afiliacioncasastore');
+        Route::get('Cliente/ListadoAfiliaciones', 'ClientesController@ListadoAfiliaciones')->name('listadoafiliaciones');
+        Route::get('Cliente/ListadoSolicitudes', 'ClientesController@ListadoSolicitudes')->name('listadsolicitudes');
+        Route::get('Cliente/CuentasCedevales', 'ClientesController@CuentasCedevales')->name('cuentascedevales');
+        Route::delete('Cliente/eliminarCedeval', 'ClientesController@EliminarCedeval')->name('eliminarcedeval');
+        Route::post('Cliente/agregarCedeval', 'ClientesController@AgregarCedeval')->name('agregarcedeval');
+        Route::get('Cliente/cambiarPassword', 'ClientesController@modificarPassword')->name('modificarpassword');
+        Route::put('Cliente/cambiarPasswordUpdate', 'ClientesController@modificarPasswordUpdate')->name('modificarpasswordupdate');
+        Route::get('Cliente/getEmisor/{id}', 'ClientesController@getEmisor')->name('getemisor');
+        //
+        Route::resource('Clientes', 'ClientesController');
+        //------CLIENTES ROUTES--//
+    });
 
-    //
-    Route::resource('Clientes', 'ClientesController');
     //------CLIENTES ROUTES--//
 
 
@@ -100,8 +103,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['middleware' => 'administradorCasaCorredora'], function () {
             Route::get('UsuarioCasaCorredora/crear', 'UsuarioCasaCorredoraController@crear')->name('UsuarioCasaCorredora.crear');
             Route::get('UsuarioCasaCorredora/{id}/editar', 'UsuarioCasaCorredoraController@editar')->name('UsuarioCasaCorredora.editar');
-            Route::get('UsuarioCasaCorredora/{id}/restaurar', 'UsuarioCasaCorredoraController@restaurar')->name('UsuarioCasaCorredora.restaurar');
+            Route::put('UsuarioCasaCorredora/restaurar', 'UsuarioCasaCorredoraController@restaurar')->name('UsuarioCasaCorredora.restaurar');
             Route::get('UsuarioCasaCorredora/{id}/resetear', 'UsuarioCasaCorredoraController@resetar')->name('UsuarioCasaCorredora.resetearpassword');
+            Route::delete('UsuarioCasaCorredora/desactivarusuario', 'UsuarioCasaCorredoraController@desactivarUsuario')->name('UsuarioCasaCorredora.desactivar');
             Route::resource('UsuarioCasaCorredora', 'UsuarioCasaCorredoraController');
             Route::get('LatchSolicitud', 'LatchController@LatchSolicitud')->name('Latch.index');
             Route::post('Parear', 'LatchController@pair')->name('Latch.parear');
@@ -160,7 +164,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('Ordenes/{id}/Operaciones', 'OrdenesController@Operaciones')->name('Ordenes.operaciones');
             Route::post('Ordenes/{id}/Operaciones/Guardar', 'OrdenesController@OperacionesGuardar')->name('Ordenes.operacionesGuardar');
             Route::get('Ordenes/{id}/editarOrden', 'OrdenesController@Editar')->name('Ordenes.editar');
-
+            Route::get('Order/OrdenesAgente', 'OrdenesCasaCorredoraAutorizador@OrdenesAsignadasAgente')->name('ordenesagenteasignar');
+            Route::get('Order/FiltrarOrden', 'OrdenesController@ordenesbyEstado')->name('ordenesbyestadoagent');
+            Route::get('Order/ListadoGeneralAgente', 'OrdenesCasaCorredoraAutorizador@ListadoGeneralOrdenesAgente')->name('ordenesagente');
             Route::get('Ordenes/{id}/DetallePDF', 'OrdenesController@DetalleOrdenPDF')->name('OrdenesDetalles.PDF');
 
             Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
@@ -191,3 +197,7 @@ Route::group(['middleware' => 'UsuarioNoLogueado'], function () {
     Route::post('cambiar/password', 'Registrocontroller@cambiarPassword')->name('Cambiar.password');
 });
 Route::auth();
+
+Route::get('/NoPermitido', function () {
+    return view('errors.NotAllowed');
+})->name("nopermitido");
