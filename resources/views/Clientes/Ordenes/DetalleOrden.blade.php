@@ -25,7 +25,7 @@
 
 
                 <b>Casa corredora: </b> {{$orden->OrganizacionOrdenN->nombre}}<br>
-                <b>Tipo de mercado: </b>Reportos<br>
+                <b>Tipo de mercado: </b>{{$orden->TipoMercado}}<br>
                 <b>Tipo de orden: </b> {{$orden->TipoOrdenN->nombre}} <br>
                 <b>Titulo: </b>{{$orden->titulo}}<br>
                 <b>Cuenta cedeval: </b>{{$orden->CuentaCedeval->cuenta}} <br>
