@@ -530,8 +530,8 @@ class OrdenesAPI extends Controller
     {
         try {
             $rules = [
-                'idUsuario' => 'required|number',
-                'idOrden' => 'required|number',
+                'idUsuario' => 'required|numeric',
+                'idOrden' => 'required|numeric',
                 'nombreCliente' => 'required',
                 'apellidoCliente' => 'required',
                 'comentario' => 'required',

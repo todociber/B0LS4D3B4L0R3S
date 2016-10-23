@@ -2,46 +2,28 @@
 
 <html>
 <head>
-    <style>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-        html {
-            margin: 0;
-        }
+    <!-- Bootstrap 3.3.5 -->
+    {!! Html::style('assets/css/bootstrap.css') !!}
+            <!-- Font Awesome -->
+    {!! Html::style('assets/css/font-awesome.css') !!}
+            <!-- Ionicons -->
+    <!-- Theme style -->
+    {!! Html::style('assets/dist/css/AdminLTE.css') !!}
+            <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    {!! Html::style('assets/dist/css/skins/_all-skins.css') !!}
 
-        body {
-            font-family: "Times New Roman", serif;
-            margin: 15mm 8mm 2mm 8mm;
-        }
+            <!--  SERO CSS -->
+    {!! Html::style('assets/css/SERO.css') !!}
+            <!-- jQuery 2.1.4 -->
 
-        hr {
-            page-break-after: always;
-            border: 0;
-            margin: 0;
-            padding: 0;
-        }
 
-    </style>
 </head>
 <body>
-<style>
 
-    html {
-        margin: 0;
-    }
-
-    body {
-        font-family: "Times New Roman", serif;
-        margin: 15mm 8mm 2mm 8mm;
-    }
-
-    hr {
-        page-break-after: always;
-        border: 0;
-        margin: 0;
-        padding: 0;
-    }
-
-</style>
 <div class="col-xs-12">
     <div class="invoice">
         <h2 class="page-header">

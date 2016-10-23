@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="cambio for merge">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/assets/img/bolsa_logo.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAgente/listadoOrdenes.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAgente/ordenesAsignadas.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.env" afterPath="$PROJECT_DIR$/.env" />
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Api arreglada, parte del diseño en casas correjido">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.lock" afterPath="$PROJECT_DIR$/composer.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/EditarUsuario.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/EditarUsuario.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/Formularios/formularioUsuario.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/Formularios/formularioUsuario.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/MostrarUsuarios.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/MostrarUsuarios.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/NuevoUsuario.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/NuevoUsuario.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/OrdenReportePDF.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/OrdenReportePDF.blade.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,54 +27,6 @@
     <option name="SORT_POSITIONED" value="false" />
     <option name="SHOW_TABLE_DETAILS" value="true" />
     <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" />
-        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="MySQL - @69.87.218.215" />
-        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
-      </PATH_ELEMENT>
-    </PATH>
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" />
-        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="MySQL - @69.87.218.215" />
-        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" />
-        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$GroupNode" />
-      </PATH_ELEMENT>
-    </PATH>
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" />
-        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="MySQL - @69.87.218.215" />
-        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" />
-        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$GroupNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="ordenes" />
-        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
-      </PATH_ELEMENT>
-    </PATH>
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" />
-        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
-      </PATH_ELEMENT>
-    </PATH>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -96,28 +34,58 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="OrdenesController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="OrdenesController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="526" column="68" selection-start-line="526" selection-start-column="68" selection-end-line="526" selection-end-column="68" />
+            <state relative-caret-position="2115">
+              <caret line="376" column="16" selection-start-line="376" selection-start-column="12" selection-end-line="376" selection-end-column="16" />
               <folding>
-                <element signature="e#1265#1313#0#PHP" expanded="false" />
-                <element signature="e#1464#1512#0#PHP" expanded="false" />
-                <element signature="e#1705#1773#0#PHP" expanded="false" />
-                <element signature="e#1976#2672#0#PHP" expanded="false" />
-                <element signature="e#2694#3073#0#PHP" expanded="false" />
-                <element signature="e#3079#5459#0#PHP" expanded="false" />
-                <element signature="e#5466#7363#0#PHP" expanded="false" />
-                <element signature="e#7369#7948#0#PHP" expanded="false" />
-                <element signature="e#7954#11408#0#PHP" expanded="false" />
-                <element signature="e#11415#12386#0#PHP" expanded="false" />
-                <element signature="e#12393#13090#0#PHP" expanded="false" />
-                <element signature="e#13096#13352#0#PHP" expanded="false" />
-                <element signature="e#13358#15616#0#PHP" expanded="false" />
-                <element signature="e#15623#18359#0#PHP" expanded="false" />
-                <marker date="1477245467000" expanded="true" signature="4523:5001" placeholder="select COUNT... usuarios" />
+                <element signature="e#40#62#0#PHP" expanded="true" />
+                <element signature="e#1168#1216#0#PHP" expanded="false" />
+                <element signature="e#1367#1415#0#PHP" expanded="false" />
+                <element signature="e#1608#1676#0#PHP" expanded="false" />
+                <element signature="e#1879#2575#0#PHP" expanded="false" />
+                <element signature="e#2582#2961#0#PHP" expanded="false" />
+                <element signature="e#2967#5347#0#PHP" expanded="false" />
+                <element signature="e#5354#7251#0#PHP" expanded="false" />
+                <element signature="e#7257#7836#0#PHP" expanded="false" />
+                <element signature="e#7842#11296#0#PHP" expanded="false" />
+                <element signature="e#12984#13240#0#PHP" expanded="false" />
+                <element signature="e#13246#15504#0#PHP" expanded="false" />
+                <element signature="e#15511#18247#0#PHP" expanded="false" />
+                <element signature="e#18253#19169#0#PHP" expanded="false" />
+                <marker date="1477260114000" expanded="true" signature="4411:4889" placeholder="select COUNT... usuarios" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="composer.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/composer.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OrdenReportePDF.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/OrdenReportePDF.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="33" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bolsavalores.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/layouts/bolsavalores.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-615">
+              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="51" selection-end-column="45" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -125,39 +93,63 @@
       <file leaf-file-name="OrdenesCasaCorredoraAutorizador.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="241">
-              <caret line="89" column="37" selection-start-line="89" selection-start-column="37" selection-end-line="89" selection-end-column="37" />
+            <state relative-caret-position="125">
+              <caret line="462" column="10" selection-start-line="462" selection-start-column="8" selection-end-line="462" selection-end-column="10" />
               <folding>
-                <element signature="e#539#2860#0#PHP" expanded="false" />
-                <element signature="e#4413#4859#0#PHP" expanded="false" />
-                <element signature="e#4985#7745#0#PHP" expanded="false" />
-                <element signature="e#7751#10109#0#PHP" expanded="false" />
-                <element signature="e#10115#12748#0#PHP" expanded="false" />
-                <element signature="e#12754#14259#0#PHP" expanded="false" />
-                <element signature="e#14265#15852#0#PHP" expanded="false" />
-                <element signature="e#15858#17652#0#PHP" expanded="false" />
-                <element signature="e#17658#17696#0#PHP" expanded="false" />
-                <element signature="e#17865#17927#0#PHP" expanded="false" />
-                <element signature="e#18059#18097#0#PHP" expanded="false" />
-                <element signature="e#18247#18295#0#PHP" expanded="false" />
-                <element signature="e#18486#18554#0#PHP" expanded="false" />
-                <element signature="e#18698#18749#0#PHP" expanded="false" />
-                <marker date="1477245426000" expanded="true" signature="6753:7231" placeholder="select COUNT... usuarios" />
-                <marker date="1477245426000" expanded="true" signature="9407:9885" placeholder="select COUNT... usuarios" />
-                <marker date="1477245426000" expanded="true" signature="11900:12378" placeholder="select COUNT... usuarios" />
+                <element signature="e#40#62#0#PHP" expanded="true" />
+                <element signature="e#539#2873#0#PHP" expanded="false" />
+                <element signature="e#4411#4862#0#PHP" expanded="false" />
+                <element signature="e#4988#7748#0#PHP" expanded="false" />
+                <element signature="e#7754#10112#0#PHP" expanded="false" />
+                <element signature="e#12757#14262#0#PHP" expanded="false" />
+                <element signature="e#14268#15855#0#PHP" expanded="false" />
+                <element signature="e#15861#17655#0#PHP" expanded="false" />
+                <element signature="e#17661#17699#0#PHP" expanded="false" />
+                <element signature="e#17868#17930#0#PHP" expanded="false" />
+                <element signature="e#18062#18100#0#PHP" expanded="false" />
+                <element signature="e#18250#18298#0#PHP" expanded="false" />
+                <element signature="e#18489#18557#0#PHP" expanded="false" />
+                <element signature="e#18701#18752#0#PHP" expanded="false" />
+                <marker date="1477246319000" expanded="true" signature="6756:7234" placeholder="select COUNT... usuarios" />
+                <marker date="1477246319000" expanded="true" signature="9410:9888" placeholder="select COUNT... usuarios" />
+                <marker date="1477246319000" expanded="true" signature="11903:12381" placeholder="select COUNT... usuarios" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ordenesAsignadas.blade.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAgente/ordenesAsignadas.blade.php">
+      <file leaf-file-name="DetalleOrden.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
+            <state relative-caret-position="105">
+              <caret line="255" column="0" selection-start-line="255" selection-start-column="0" selection-end-line="255" selection-end-column="0" />
               <folding>
-                <marker date="1477245340000" expanded="true" signature="3395:3646" placeholder="..." />
-                <marker date="1477245340000" expanded="true" signature="3409:3645" placeholder="..." />
+                <element signature="e#329#1745#0#HTML" expanded="false" />
+                <element signature="e#10758#10778#0#HTML" expanded="true" />
+                <marker date="1477249267000" expanded="true" signature="7833:8093" placeholder="..." />
+                <marker date="1477249267000" expanded="true" signature="7847:8092" placeholder="..." />
+                <marker date="1477249267000" expanded="true" signature="8198:8447" placeholder="..." />
+                <marker date="1477249267000" expanded="true" signature="8212:8446" placeholder="..." />
+                <marker date="1477249267000" expanded="true" signature="8591:8842" placeholder="..." />
+                <marker date="1477249267000" expanded="true" signature="8605:8841" placeholder="..." />
+                <marker date="1477249267000" expanded="true" signature="9113:9382" placeholder="..." />
+                <marker date="1477249267000" expanded="true" signature="9127:9381" placeholder="..." />
+                <marker date="1477249267000" expanded="true" signature="9861:10079" placeholder="..." />
+                <marker date="1477249267000" expanded="true" signature="9873:10078" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AsignarAgenteCorredorForm.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/formularios/AsignarAgenteCorredorForm.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="30" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
+              <folding>
+                <element signature="e#612#632#0#HTML" expanded="true" />
+                <marker date="1476305367000" expanded="true" signature="3:221" placeholder="..." />
+                <marker date="1476305367000" expanded="true" signature="15:220" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -178,47 +170,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="listadoOrdenes.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAgente/listadoOrdenes.blade.php">
+      <file leaf-file-name="validation.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/lang/es/validation.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
-              <folding>
-                <marker date="1477244771000" expanded="true" signature="2976:3227" placeholder="..." />
-                <marker date="1477244771000" expanded="true" signature="2990:3226" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ListaOrdenesCliente.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Ordenes/ListaOrdenesCliente.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MostrarOrdenes.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="52" column="39" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="39" />
-              <folding>
-                <marker date="1477182960000" expanded="true" signature="3478:3729" placeholder="..." />
-                <marker date="1477182960000" expanded="true" signature="3492:3728" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="65">
-              <caret line="168" column="22" selection-start-line="168" selection-start-column="22" selection-end-line="168" selection-end-column="22" />
+            <state relative-caret-position="225">
+              <caret line="55" column="12" selection-start-line="55" selection-start-column="5" selection-end-line="55" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -227,8 +183,8 @@
       <file leaf-file-name="CasaCorredoraLayout.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2475">
-              <caret line="180" column="88" selection-start-line="180" selection-start-column="88" selection-end-line="180" selection-end-column="88" />
+            <state relative-caret-position="192">
+              <caret line="387" column="7" selection-start-line="387" selection-start-column="7" selection-end-line="413" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -264,9 +220,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/database/migrations/2016_06_17_232301_create_usuarios_table.php" />
-        <option value="$PROJECT_DIR$/database/migrations/2016_06_17_232302_create_clientes_table.php" />
-        <option value="$PROJECT_DIR$/app/Models/Usuario.php" />
         <option value="$PROJECT_DIR$/app/Models/Cliente.php" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/VerifyCsrfToken.php" />
         <option value="$PROJECT_DIR$/app/Exceptions/Handler.php" />
@@ -307,13 +260,16 @@
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/NuevoUsuario.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php" />
         <option value="$PROJECT_DIR$/.env" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAgente/listadoOrdenes.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAgente/ordenesAsignadas.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" />
+        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAgente/ordenesAsignadas.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/formularios/AsignarAgenteCorredorForm.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php" />
+        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/OrdenReportePDF.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
       </list>
     </option>
@@ -823,7 +779,7 @@
       <workItem from="1477152193539" duration="6240000" />
       <workItem from="1477159191078" duration="587000" />
       <workItem from="1477168859339" duration="16204000" />
-      <workItem from="1477242660105" duration="2820000" />
+      <workItem from="1477242660105" duration="6456000" />
     </task>
     <task id="LOCAL-00001" summary="Crear y editar Usuario&#10;">
       <created>1467422376103</created>
@@ -1105,11 +1061,18 @@
       <option name="project" value="LOCAL" />
       <updated>1477159124802</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Api arreglada, parte del diseño en casas correjido">
+      <created>1477246327901</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1477246327901</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="277090000" />
+    <option name="totallyTimeSpent" value="280726000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -1125,10 +1088,11 @@
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29644588" sideWeight="0.4890411" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21001616" sideWeight="0.4890411" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26712328" sideWeight="0.503231" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21243942" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21243942" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12295082" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1136,7 +1100,6 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2714055" sideWeight="0.5109589" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32802126" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1189,7 +1152,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="correccion migraciones nuleable, Validacion Afiliacion y comienzo Ordenes Autorizador" />
     <MESSAGE value="loadin en botones y nueva pantalla de afiliaciones procesadas" />
     <MESSAGE value="cambio de relacion Usuario Cliente correccion de afiliaciones y formularios por el cambio" />
     <MESSAGE value="Asignar agente corredor a Ordenes" />
@@ -1214,7 +1176,8 @@
     <MESSAGE value="API correjida y middlewares agregados" />
     <MESSAGE value="solucion API y rediseño de login" />
     <MESSAGE value="cambio for merge" />
-    <option name="LAST_COMMIT_MESSAGE" value="cambio for merge" />
+    <MESSAGE value="Api arreglada, parte del diseño en casas correjido" />
+    <option name="LAST_COMMIT_MESSAGE" value="Api arreglada, parte del diseño en casas correjido" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1226,46 +1189,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="dbDummy://dbtable:/43adfab9/7a6fe4f0-931a-48cf-bd89-1751a61de22c/bolsadevalores.roles">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Utilities/RolIdentificador.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1005">
-          <caret line="68" column="21" selection-start-line="68" selection-start-column="21" selection-end-line="68" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/ClienteMiddleware.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="24" column="31" selection-start-line="19" selection-start-column="7" selection-end-line="24" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/BolsaMiddleware.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="870">
-          <caret line="58" column="14" selection-start-line="58" selection-start-column="9" selection-end-line="58" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/assets/css/SEROCustom.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -1403,13 +1326,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/lang/es/validation.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-750">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/assets/css/SERO.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -1464,6 +1380,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="139" column="1" selection-start-line="139" selection-start-column="1" selection-end-line="160" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1471,6 +1388,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-466">
           <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1493,9 +1411,9 @@
         <state relative-caret-position="170">
           <caret line="33" column="97" selection-start-line="33" selection-start-column="97" selection-end-line="33" selection-end-column="97" />
           <folding>
-            <marker date="1477174157000" expanded="true" signature="650:877" placeholder="..." />
-            <marker date="1477174157000" expanded="true" signature="662:876" placeholder="..." />
-            <marker date="1477174157000" expanded="true" signature="674:875" placeholder="..." />
+            <marker date="1477246319000" expanded="true" signature="650:877" placeholder="..." />
+            <marker date="1477246319000" expanded="true" signature="662:876" placeholder="..." />
+            <marker date="1477246319000" expanded="true" signature="674:875" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1550,6 +1468,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-135">
           <caret line="213" column="6" selection-start-line="213" selection-start-column="6" selection-end-line="213" selection-end-column="6" />
+          <folding>
+            <element signature="e#642#941#0#PHP" expanded="false" />
+            <element signature="e#1061#1153#0#PHP" expanded="false" />
+            <element signature="e#1159#1375#0#PHP" expanded="false" />
+            <element signature="e#1563#4344#0#PHP" expanded="false" />
+            <element signature="e#4477#4525#0#PHP" expanded="false" />
+            <element signature="e#4676#5027#0#PHP" expanded="false" />
+            <element signature="e#5033#5798#0#PHP" expanded="false" />
+            <element signature="e#5991#14110#0#PHP" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1558,21 +1486,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="11" selection-start-line="0" selection-start-column="11" selection-end-line="0" selection-end-column="11" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="574" column="37" selection-start-line="574" selection-start-column="37" selection-end-line="574" selection-end-column="37" />
-          <folding>
-            <element signature="e#415#3915#0#PHP" expanded="false" />
-            <element signature="e#3921#7312#0#PHP" expanded="false" />
-            <element signature="e#7318#11796#0#PHP" expanded="false" />
-            <element signature="e#11802#18329#0#PHP" expanded="false" />
-            <element signature="e#18335#21213#0#PHP" expanded="false" />
-            <element signature="e#21219#23606#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1604,29 +1517,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2475">
-          <caret line="180" column="88" selection-start-line="180" selection-start-column="88" selection-end-line="180" selection-end-column="88" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="65">
-          <caret line="168" column="22" selection-start-line="168" selection-start-column="22" selection-end-line="168" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
-          <caret line="52" column="39" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="39" />
+          <caret line="52" column="47" selection-start-line="52" selection-start-column="47" selection-end-line="52" selection-end-column="47" />
           <folding>
-            <marker date="1477182960000" expanded="true" signature="3478:3729" placeholder="..." />
-            <marker date="1477182960000" expanded="true" signature="3492:3728" placeholder="..." />
+            <marker date="1477246319000" expanded="true" signature="3710:3961" placeholder="..." />
+            <marker date="1477246319000" expanded="true" signature="3724:3960" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1634,60 +1531,10 @@
     <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAgente/listadoOrdenes.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
-          <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
+          <caret line="31" column="17" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
           <folding>
-            <marker date="1477244771000" expanded="true" signature="2976:3227" placeholder="..." />
-            <marker date="1477244771000" expanded="true" signature="2990:3226" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="89" column="37" selection-start-line="89" selection-start-column="37" selection-end-line="89" selection-end-column="37" />
-          <folding>
-            <element signature="e#539#2860#0#PHP" expanded="false" />
-            <element signature="e#4413#4859#0#PHP" expanded="false" />
-            <element signature="e#4985#7745#0#PHP" expanded="false" />
-            <element signature="e#7751#10109#0#PHP" expanded="false" />
-            <element signature="e#10115#12748#0#PHP" expanded="false" />
-            <element signature="e#12754#14259#0#PHP" expanded="false" />
-            <element signature="e#14265#15852#0#PHP" expanded="false" />
-            <element signature="e#15858#17652#0#PHP" expanded="false" />
-            <element signature="e#17658#17696#0#PHP" expanded="false" />
-            <element signature="e#17865#17927#0#PHP" expanded="false" />
-            <element signature="e#18059#18097#0#PHP" expanded="false" />
-            <element signature="e#18247#18295#0#PHP" expanded="false" />
-            <element signature="e#18486#18554#0#PHP" expanded="false" />
-            <element signature="e#18698#18749#0#PHP" expanded="false" />
-            <marker date="1477245426000" expanded="true" signature="6753:7231" placeholder="select COUNT... usuarios" />
-            <marker date="1477245426000" expanded="true" signature="9407:9885" placeholder="select COUNT... usuarios" />
-            <marker date="1477245426000" expanded="true" signature="11900:12378" placeholder="select COUNT... usuarios" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="526" column="68" selection-start-line="526" selection-start-column="68" selection-end-line="526" selection-end-column="68" />
-          <folding>
-            <element signature="e#1265#1313#0#PHP" expanded="false" />
-            <element signature="e#1464#1512#0#PHP" expanded="false" />
-            <element signature="e#1705#1773#0#PHP" expanded="false" />
-            <element signature="e#1976#2672#0#PHP" expanded="false" />
-            <element signature="e#2694#3073#0#PHP" expanded="false" />
-            <element signature="e#3079#5459#0#PHP" expanded="false" />
-            <element signature="e#5466#7363#0#PHP" expanded="false" />
-            <element signature="e#7369#7948#0#PHP" expanded="false" />
-            <element signature="e#7954#11408#0#PHP" expanded="false" />
-            <element signature="e#11415#12386#0#PHP" expanded="false" />
-            <element signature="e#12393#13090#0#PHP" expanded="false" />
-            <element signature="e#13096#13352#0#PHP" expanded="false" />
-            <element signature="e#13358#15616#0#PHP" expanded="false" />
-            <element signature="e#15623#18359#0#PHP" expanded="false" />
-            <marker date="1477245467000" expanded="true" signature="4523:5001" placeholder="select COUNT... usuarios" />
+            <marker date="1477246319000" expanded="true" signature="3381:3632" placeholder="..." />
+            <marker date="1477246319000" expanded="true" signature="3395:3631" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1701,26 +1548,113 @@
             <element signature="e#1031#2711#0#PHP" expanded="false" />
             <element signature="e#2717#3195#0#PHP" expanded="false" />
             <element signature="e#3724#4950#0#PHP" expanded="false" />
-            <element signature="e#5684#7691#0#PHP" expanded="false" />
-            <element signature="e#7883#12001#0#PHP" expanded="false" />
-            <element signature="e#12050#13926#0#PHP" expanded="false" />
-            <element signature="e#14113#16341#0#PHP" expanded="false" />
-            <element signature="e#16347#18256#0#PHP" expanded="false" />
-            <element signature="e#18644#24711#0#PHP" expanded="false" />
-            <element signature="e#24852#25954#0#PHP" expanded="false" />
-            <element signature="e#25960#32081#0#PHP" expanded="false" />
-            <element signature="e#32087#32339#0#PHP" expanded="false" />
-            <element signature="e#32345#33033#0#PHP" expanded="false" />
-            <element signature="e#33039#34051#0#PHP" expanded="false" />
-            <element signature="e#34057#34383#0#PHP" expanded="false" />
-            <element signature="e#34389#34738#0#PHP" expanded="false" />
-            <element signature="e#34744#34964#0#PHP" expanded="false" />
-            <element signature="e#34970#35987#0#PHP" expanded="false" />
-            <element signature="e#35993#36791#0#PHP" expanded="false" />
-            <element signature="e#36797#37627#0#PHP" expanded="false" />
-            <element signature="e#37633#37742#0#PHP" expanded="false" />
-            <element signature="e#37800#38896#0#PHP" expanded="false" />
-            <element signature="e#38947#39440#0#PHP" expanded="false" />
+            <element signature="e#5684#7696#0#PHP" expanded="false" />
+            <element signature="e#7888#12006#0#PHP" expanded="false" />
+            <element signature="e#12055#13931#0#PHP" expanded="false" />
+            <element signature="e#14118#16346#0#PHP" expanded="false" />
+            <element signature="e#16352#18261#0#PHP" expanded="false" />
+            <element signature="e#18649#24700#0#PHP" expanded="false" />
+            <element signature="e#24841#25943#0#PHP" expanded="false" />
+            <element signature="e#25949#32070#0#PHP" expanded="false" />
+            <element signature="e#32076#32328#0#PHP" expanded="false" />
+            <element signature="e#32334#33022#0#PHP" expanded="false" />
+            <element signature="e#33028#34040#0#PHP" expanded="false" />
+            <element signature="e#34046#34372#0#PHP" expanded="false" />
+            <element signature="e#34378#34727#0#PHP" expanded="false" />
+            <element signature="e#34733#34953#0#PHP" expanded="false" />
+            <element signature="e#34959#35976#0#PHP" expanded="false" />
+            <element signature="e#35982#36780#0#PHP" expanded="false" />
+            <element signature="e#36786#37616#0#PHP" expanded="false" />
+            <element signature="e#37622#37731#0#PHP" expanded="false" />
+            <element signature="e#37789#38885#0#PHP" expanded="false" />
+            <element signature="e#38936#39429#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="155" column="86" selection-start-line="155" selection-start-column="86" selection-end-line="155" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="387" column="7" selection-start-line="387" selection-start-column="7" selection-end-line="413" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAgente/ordenesAsignadas.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-60">
+          <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
+          <folding>
+            <marker date="1477246319000" expanded="true" signature="3383:3634" placeholder="..." />
+            <marker date="1477246319000" expanded="true" signature="3397:3633" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/lang/es/validation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="55" column="12" selection-start-line="55" selection-start-column="5" selection-end-line="55" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/formularios/AsignarAgenteCorredorForm.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="30" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
+          <folding>
+            <element signature="e#612#632#0#HTML" expanded="true" />
+            <marker date="1476305367000" expanded="true" signature="3:221" placeholder="..." />
+            <marker date="1476305367000" expanded="true" signature="15:220" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="255" column="0" selection-start-line="255" selection-start-column="0" selection-end-line="255" selection-end-column="0" />
+          <folding>
+            <element signature="e#329#1745#0#HTML" expanded="false" />
+            <element signature="e#10758#10778#0#HTML" expanded="true" />
+            <marker date="1477249267000" expanded="true" signature="7833:8093" placeholder="..." />
+            <marker date="1477249267000" expanded="true" signature="7847:8092" placeholder="..." />
+            <marker date="1477249267000" expanded="true" signature="8198:8447" placeholder="..." />
+            <marker date="1477249267000" expanded="true" signature="8212:8446" placeholder="..." />
+            <marker date="1477249267000" expanded="true" signature="8591:8842" placeholder="..." />
+            <marker date="1477249267000" expanded="true" signature="8605:8841" placeholder="..." />
+            <marker date="1477249267000" expanded="true" signature="9113:9382" placeholder="..." />
+            <marker date="1477249267000" expanded="true" signature="9127:9381" placeholder="..." />
+            <marker date="1477249267000" expanded="true" signature="9861:10079" placeholder="..." />
+            <marker date="1477249267000" expanded="true" signature="9873:10078" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="528" column="49" selection-start-line="528" selection-start-column="49" selection-end-line="528" selection-end-column="49" />
+          <folding>
+            <element signature="e#415#3915#0#PHP" expanded="false" />
+            <element signature="e#3921#7312#0#PHP" expanded="false" />
+            <element signature="e#7318#11796#0#PHP" expanded="false" />
+            <element signature="e#11802#18329#0#PHP" expanded="false" />
+            <element signature="e#18335#21213#0#PHP" expanded="false" />
+            <element signature="e#21219#23606#0#PHP" expanded="false" />
+            <element signature="e#23612#26247#0#PHP" expanded="false" />
+            <element signature="e#26253#27040#0#PHP" expanded="false" />
+            <element signature="e#27046#27615#0#PHP" expanded="false" />
+            <element signature="e#27621#31087#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1738,13 +1672,76 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAgente/ordenesAsignadas.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/bolsavalores.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
+        <state relative-caret-position="-615">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="51" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="462" column="10" selection-start-line="462" selection-start-column="8" selection-end-line="462" selection-end-column="10" />
           <folding>
-            <marker date="1477245340000" expanded="true" signature="3395:3646" placeholder="..." />
-            <marker date="1477245340000" expanded="true" signature="3409:3645" placeholder="..." />
+            <element signature="e#40#62#0#PHP" expanded="true" />
+            <element signature="e#539#2873#0#PHP" expanded="false" />
+            <element signature="e#4411#4862#0#PHP" expanded="false" />
+            <element signature="e#4988#7748#0#PHP" expanded="false" />
+            <element signature="e#7754#10112#0#PHP" expanded="false" />
+            <element signature="e#12757#14262#0#PHP" expanded="false" />
+            <element signature="e#14268#15855#0#PHP" expanded="false" />
+            <element signature="e#15861#17655#0#PHP" expanded="false" />
+            <element signature="e#17661#17699#0#PHP" expanded="false" />
+            <element signature="e#17868#17930#0#PHP" expanded="false" />
+            <element signature="e#18062#18100#0#PHP" expanded="false" />
+            <element signature="e#18250#18298#0#PHP" expanded="false" />
+            <element signature="e#18489#18557#0#PHP" expanded="false" />
+            <element signature="e#18701#18752#0#PHP" expanded="false" />
+            <marker date="1477246319000" expanded="true" signature="6756:7234" placeholder="select COUNT... usuarios" />
+            <marker date="1477246319000" expanded="true" signature="9410:9888" placeholder="select COUNT... usuarios" />
+            <marker date="1477246319000" expanded="true" signature="11903:12381" placeholder="select COUNT... usuarios" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/OrdenReportePDF.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="33" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2115">
+          <caret line="376" column="16" selection-start-line="376" selection-start-column="12" selection-end-line="376" selection-end-column="16" />
+          <folding>
+            <element signature="e#40#62#0#PHP" expanded="true" />
+            <element signature="e#1168#1216#0#PHP" expanded="false" />
+            <element signature="e#1367#1415#0#PHP" expanded="false" />
+            <element signature="e#1608#1676#0#PHP" expanded="false" />
+            <element signature="e#1879#2575#0#PHP" expanded="false" />
+            <element signature="e#2582#2961#0#PHP" expanded="false" />
+            <element signature="e#2967#5347#0#PHP" expanded="false" />
+            <element signature="e#5354#7251#0#PHP" expanded="false" />
+            <element signature="e#7257#7836#0#PHP" expanded="false" />
+            <element signature="e#7842#11296#0#PHP" expanded="false" />
+            <element signature="e#12984#13240#0#PHP" expanded="false" />
+            <element signature="e#13246#15504#0#PHP" expanded="false" />
+            <element signature="e#15511#18247#0#PHP" expanded="false" />
+            <element signature="e#18253#19169#0#PHP" expanded="false" />
+            <marker date="1477260114000" expanded="true" signature="4411:4889" placeholder="select COUNT... usuarios" />
           </folding>
         </state>
       </provider>
