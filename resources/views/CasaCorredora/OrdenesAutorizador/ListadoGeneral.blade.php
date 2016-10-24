@@ -5,7 +5,7 @@
 
 @stop
 @section('NombrePantalla')
-    Ordenes asignadas
+    Listado de ordenes
 @stop
 @section('content')
 

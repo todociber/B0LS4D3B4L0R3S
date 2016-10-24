@@ -27,7 +27,7 @@ use Redirect;
 class RegistroController extends Controller
 {
     public $emailE = "";
-
+//AIzaSyC4mkkCpUSj2HiUxbYfWsMkxp9txPP1WZ4
     /**
      * Display a listing of the resource.
      *

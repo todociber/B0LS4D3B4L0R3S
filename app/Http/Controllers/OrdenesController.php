@@ -531,6 +531,33 @@ class OrdenesController extends Controller
 
     }
 
+    public function ordenesbyEstadoAu(Request $request)
+    {
+
+        try {
+
+
+            $idusuario = Auth::user()->id;
+            if ($request["estado"] != 0) {
+                $ordenes = Ordene::with('TipoOrdenN')->where('idCorredor', $idusuario)->where('idEstadoOrden', $request['estado'])->get();
+            } else {
+                $ordenes = Ordene::with('TipoOrdenN')->where('idCliente', $idusuario)->get();
+
+            }
+            $mensaje = '';
+            $estadoOrdenes = EstadoOrden::lists('estado', 'id');
+            $estadoOrdenes['0'] = 'Todas';
+            return View('CasaCorredora.OrdenesAutorizador.ListadoGeneral', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes, 'selected' => $request['estado']]);
+        } catch (Exception $e) {
+
+            flash('Hubo un problema al filtrar las ordenes', 'danger');
+            return redirect()->route('listadoordenesclienteV');
+
+        }
+
+
+    }
+
 
 }
 

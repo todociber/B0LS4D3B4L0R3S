@@ -27,7 +27,7 @@
                 </small>
                 <br>
                 <small class="pull-right"><strong>Fecha de
-                        Vigencia:</strong><?php echo Carbon::createFromFormat('Y-m-d', $orden->FechaDeVigencia)->toDateString();?>
+                        Vencimiento:</strong><?php echo Carbon::createFromFormat('Y-m-d', $orden->FechaDeVigencia)->toDateString();?>
                 </small>
                 <br>
         </h2>

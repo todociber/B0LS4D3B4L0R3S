@@ -119,6 +119,19 @@ class OrdenesCasaCorredoraAutorizador extends Controller
         return view('CasaCorredora.OrdenesAgente.listadoOrdenes', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes]);
 
     }
+
+    public function ListadoGeneralAutorizador()
+    {
+
+        $idCorredor = Auth::user()->id;
+
+        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN')->get();
+        $estadoOrdenes = EstadoOrden::lists('estado', 'id');
+        $estadoOrdenes['0'] = 'Todas';
+        return view('CasaCorredora.OrdenesAutorizador.ListadoGeneral', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes]);
+
+    }
+    
     
 
 

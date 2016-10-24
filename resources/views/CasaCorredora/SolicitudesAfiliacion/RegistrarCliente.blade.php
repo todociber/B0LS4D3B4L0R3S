@@ -5,13 +5,10 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $(".js-example-basic-single").select2();
-        });
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
             $(".js-example-basic-single2").select2();
         });
     </script>
+
     <script>
         var contador = 0;
         var clonar;
@@ -115,14 +112,19 @@
             $('#t' + id).remove();
         }
     </script>
-
-    <div class="form-box">
-        <div class="login-logo">
-            <a href="#"><b>Registro de</b> Cliente</a>
-        </div><!-- /.login-logo -->
-        <div class="login-box-body">
-            <p class="login-box-msg">Complete los siguientes datos, este formulario enviara automaticamente la solitud
-                a la Casa Corredora Seleccionada</p>
+    <title>Registro de clientes</title>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Registro de cliente</h3>
+                        </div>
+                        <!-- /.login-logo -->
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
             @include('alertas.errores')
             @include('alertas.flash')
             {{Form::open(['route'=>'Registro.store','method' =>'POST', 'id'=>'form','onsubmit'=>'animatedLoading()'])  }}
@@ -188,14 +190,11 @@
 
 
             <div class="form-group">
-
                 {{ Form::label('Cuenta cedeval') }}
                 <a type="button" onclick="addCedeval()">
                     <i class="fa fa-plus-circle plus-button" aria-hidden="true"></i>
                 </a>
-
                 <div id="cedeval" class="cdv">
-
                     <div class="row pivot" id="numeroCuenta">
                         <div class="col-md-8 ">
                             <br/>
@@ -216,13 +215,18 @@
                 {{ Form::text('numeroafiliacion',null,['class'=>'form-control','placeholder'=>'Ingrese el código de afiliación','required','id'=>'numeroafiliacion','pattern'=>'[0-9]{5}','maxlength'=>'5', 'title'=>'Numero de afiliacion']) }}
             </div>
 
+                                    <div class="box-footer">
+                                        {!!Form::submit('Registrar', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit'])!!}
+                                    </div>
 
-            {!!Form::submit('Registrar', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit'])!!}
             {{Form::close()}}
-
-        </div><!-- /.login-box-body -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
     </div>
-
+        </div>
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

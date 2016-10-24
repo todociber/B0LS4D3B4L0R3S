@@ -164,6 +164,8 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                     <ul class="treeview-menu">
                         <li id="listadoOrdenes"><a href="{{route('Ordenes.index')}}"><i
                                         class="fa fa-circle-o"></i>Ordenes por asignar</a></li>
+                        <li id="listadoOrdenes2"><a href="{{route('ordenesautorizador')}}"><i
+                                        class="fa fa-circle-o"></i>Listado general de ordenes</a></li>
                         <li id="listadoOrdenes2"><a href="{{route('OrdenesReporte.Fecha')}}"><i
                                         class="fa fa-circle-o"></i>Reporte de Ordenes</a></li>
 
@@ -205,8 +207,8 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
 
                         <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.index')}}"><i
                                         class="fa fa-circle-o"></i>Solicitudes en revision</a></li>
-                        <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.proceso')}}"><i
-                                        class="fa fa-circle-o"></i>Solicitudes en procceso</a></li>
+                        <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.canceladas')}}"><i
+                                        class="fa fa-circle-o"></i>Solicitudes Canceladas</a></li>
 
 
                     </ul>

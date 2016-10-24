@@ -40,13 +40,10 @@
                                 </thead>
                                 <tbody>
                                 @foreach($solicitudes as $solicitud)
-
-
-
-
-
                                     <tr>
                                         <td>
+
+
                                             {!!link_to_route('SolicitudAfiliacion.detalle', $title = 'Detalle Solicitud ', $parameters = $solicitud->id, $attributes = ['class'=>'btn btn-success','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                         </td>
                                         <td>

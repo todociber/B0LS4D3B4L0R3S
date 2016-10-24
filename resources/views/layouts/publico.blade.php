@@ -60,26 +60,9 @@
 
 
 </head>
-<body class="hold-transition skin-black-light sidebar-mini">
-<div class="wrapper">
+<body class="hold-transition login-page">
 
-
-    <!-- Content Wrapper. Contains page content -->
-
-    <!-- Content Header (Page header) -->
-        <section class="content-header">
-
-
-        </section>
-
-
-        <!-- Main content -->
-        <section class="content">
-            @yield('content')
-        </section>
-
-
-</div>
+@yield('content')
 
 <script>
 
