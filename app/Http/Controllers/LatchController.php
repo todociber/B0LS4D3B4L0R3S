@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\LatchModel;
-use App\Utilities\RolIdentificador;
 use Auth;
 use DB;
 use ErrorException;
@@ -96,17 +95,14 @@ class LatchController extends Controller
     public function LatchSolicitud()
     {
 
-        $rolAdmin = new RolIdentificador();
-        if ($rolAdmin->Administrador(Auth::user())) {
-            $latch = LatchModel::where('idUsuario', '=', Auth::user()->id)->count();
+
+        $latch = LatchModel::where('idUsuario', '=', Auth::user()->id)->count();
             if ($latch > 0) {
                 flash('Su cuenta ya se encuentra protegida por Latch', 'danger');
             } else {
 
             }
             return view('auth.latch');
-        } else {
-            return redirect()->back()->withErrors('Opcion permitida solo a administradores');
-        }
+
     }
 }
