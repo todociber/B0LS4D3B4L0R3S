@@ -19,7 +19,7 @@ class UsuarioNoLogueado
 
 
         if (Auth::check()) {
-            return redirect('/login');
+            return redirect('/NoPermitido');
         }
         return $next($request);
     }

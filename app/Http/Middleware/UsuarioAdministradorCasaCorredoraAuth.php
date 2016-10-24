@@ -25,7 +25,7 @@ class UsuarioAdministradorCasaCorredoraAuth
             } else if ($rol->AgenteCorredor(Auth::user())) {
                 return redirect()->route('Ordenes.index');
             }
-            return redirect('/login');
+            return redirect('/NoPermitido');
         }
         return $next($request);
 
