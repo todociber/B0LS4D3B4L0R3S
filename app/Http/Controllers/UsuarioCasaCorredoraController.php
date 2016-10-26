@@ -370,13 +370,7 @@ class UsuarioCasaCorredoraController extends Controller
 
                                 } else if ($RolUsuarioABorrar->idRol == 2) {
 
-                                    $LatchTokenExiste = LatchModel::where('idUsuario', '=', $id)->count();
-                                    if ($LatchTokenExiste > 0) {
-                                        $accountId = LatchModel::where('idUsuario', '=', $id)->first();
-                                        if (Latch::unpair($accountId->tokenLatch)) {
-                                            $accountId->delete();
-                                        }
-                                    }
+
                                     $RolUsuarioABorrar->delete();
 
                                 } else {
@@ -491,13 +485,7 @@ class UsuarioCasaCorredoraController extends Controller
 
                 }
 
-                $LatchTokenExiste = LatchModel::where('idUsuario', '=', $Usuario->id)->count();
-                if ($LatchTokenExiste > 0) {
-                    $accountId = LatchModel::where('idUsuario', '=', $Usuario->id)->first();
-                    if (Latch::unpair($accountId->tokenLatch)) {
-                        $accountId->delete();
-                    }
-                }
+
                 $bitacora = new BitacoraUsuario();
                 $bitacora->fill(
                     [

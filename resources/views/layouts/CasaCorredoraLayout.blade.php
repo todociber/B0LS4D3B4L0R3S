@@ -214,10 +214,10 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                 @endif
 
                 <li class="header">OTRAS OPCIONES</li>
-                @if($administrador)
+
                 <li><a href={{route('Latch.index')}}><i class="fa fa-circle-o text-red"></i> <span>Vincular Latch</span></a>
                 </li>
-                @endif
+
                 <li><a href="{{route('Perfil.UsuarioCasa')}}"><i class="fa fa-circle-o text-yellow"></i>
                         <span>Perfil</span></a></li>
 
