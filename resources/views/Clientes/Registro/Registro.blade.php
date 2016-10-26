@@ -190,7 +190,7 @@
 
 <div class="form-box">
     <div class="login-logo">
-        <a href="#"><b>Registro de</b> Cliente</a>
+        <a href="#"><b>Registro de</b> Cddliente</a>
     </div><!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">Complete los siguientes datos, este formulario enviara automaticamente la solitud

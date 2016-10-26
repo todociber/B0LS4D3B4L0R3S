@@ -1,11 +1,22 @@
-<html>
-<head>
-    <title>Operacion de Bolsa</title>
+@extends('beautymail::templates.minty')
 
-</head>
-<h3>
-    Una Operacion de bolsa respecto a la orden {{$correlativoOrden}} ha sido registrada.
-    <br> En la casa corredora {{$nombreCasa}}
+@section('content')
 
+    @include('beautymail::templates.minty.contentStart')
+    <tr>
+        <td class="title">
+            Operación de bolsa
+        </td>
+    </tr>
 
-</html>
+    <tr>
+        <td class="paragraph">
+            Una Operacion de bolsa respecto a la orden {{$correlativoOrden}} ha sido registrada.
+            <br> En la casa corredora {{$nombreCasa}}
+        </td>
+    </tr>
+    <br/>
+
+    @include('beautymail::templates.minty.contentEnd')
+
+@stop

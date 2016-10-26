@@ -52,10 +52,13 @@
                                 <br>
                                 <b>NIT</b>  {{$cliente->nit}}
                                 <br><br>
-                                @if($solicitud>0)
+
+                                    @if($solicitud[0]>0)
+
                                     <h2> El Cliente ya se encuentra Afiliado</h2>
                                 @else
-
+                                        <?php $info = \Session::get('clienteInfo')?>
+                                        <h4>{{$info[0]}}</h4>
                                 @include('CasaCorredora.SolicitudesAfiliacion.formularios.AfiliarCliente')
                                 @endif
                             @endforeach

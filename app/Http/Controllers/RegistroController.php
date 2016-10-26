@@ -27,7 +27,7 @@ use Redirect;
 class RegistroController extends Controller
 {
     public $emailE = "";
-
+//AIzaSyC4mkkCpUSj2HiUxbYfWsMkxp9txPP1WZ4
     /**
      * Display a listing of the resource.
      *
@@ -301,6 +301,35 @@ class RegistroController extends Controller
 
             return view('auth.passwords.reset');
         }
+
+    }
+
+
+    public function aceptarCambio($tokenDeUsuario)
+    {
+        // Log::info('TESTT FFF '.$tokenDeUsuario);
+
+        $tokenE = token::where('token', '=', $tokenDeUsuario)->first();
+
+        if (!$tokenE) {
+            flash('Token incorrecto', 'danger');
+            return view('auth.login');
+        } else {
+            $usuario = Usuario::where("id", $tokenE->idUsuario)->first();
+            $usuario->fill(
+                [
+                    'email' => $tokenE->email_change,
+
+
+                ]
+            );
+            $usuario->save();
+
+            token::destroy($tokenE->id);
+
+            return view('AcceptChanges');
+        }
+
 
     }
 

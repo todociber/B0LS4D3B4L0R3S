@@ -5,13 +5,13 @@
 
 @stop
 @section('NombrePantalla')
-    Ordenes asignadas
+    Listado de ordenes
 @stop
 @section('content')
 
     <div class="row">
         <div class="col-xs-4">
-            {{Form::open(['route'=>'ordenesbyestadoagent','method' =>'GET', 'id'=>'form'])  }}
+            {{Form::open(['route'=>'ordenesbyestadoauth','method' =>'GET', 'id'=>'form'])  }}
             <div class="form-group">
                 {{ Form::label('Filtra tus ordenes segun su estado') }}
                 {!! Form::select('estado',$estadoOrdenes,$seleccionado=isset($selected) ? $selected: 0,['class'=>'form-control', 'id'=>'casa']) !!}

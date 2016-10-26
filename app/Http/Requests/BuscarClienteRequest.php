@@ -22,7 +22,7 @@ class BuscarClienteRequest extends Request
     public function rules()
     {
         return [
-            'dui' => 'required|numeric|integer|digits:9|min:0',
+            'dui' => 'required|size:9|regex:/^([0-9])+$/i',
         ];
     }
 }

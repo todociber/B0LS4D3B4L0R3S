@@ -188,7 +188,7 @@ class BolsaController extends Controller
 
         Mail::send('emails.EmailSend', $data, function ($message) use ($usuario) {
 
-            $message->from('todociber100@gmail.com', 'Activacion de cuenta');
+            $message->from('todocyber100@gmail.com', 'Activacion de cuenta');
 
             $message->to($usuario->email)->subject('Activar su cuenta para uso del sistema SERO');
 
@@ -316,7 +316,7 @@ class BolsaController extends Controller
                     $usuario = $Usuarios[0];
                     Mail::send('emails.EmailSend', $data, function ($message) use ($usuario) {
 
-                        $message->from('todociber100@gmail.com', 'Activacion de cuenta');
+                        $message->from('todocyber100@gmail.com', 'Activacion de cuenta');
 
                         $message->to($usuario->email)->subject('Activar su cuenta para uso del sistema SERO');
 
@@ -367,7 +367,7 @@ class BolsaController extends Controller
                 'correo' => 'required|email|unique:organizacion,correo',
                 'direccion' => 'required',
                 'telefono' => 'required|numeric|digits:8|min:1',
-                'codigo' => 'required|numeric|digits:5|min:1',
+                'codigo' => 'required|size:5|regex:/^([0-9])+$/i',
                 'file' => 'required',
             ]);
             if (!$validator->fails()) {

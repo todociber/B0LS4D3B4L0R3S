@@ -9,25 +9,27 @@
 
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Reset Password</div>
-                    @include('alertas.flash')
+    <div class="login-box">
+        <div class="login-logo">
+            <p><b>Reset Password</b></p>
+        </div>
+        <div class="login-box-body">
+
+
+            @include('alertas.flash')
                     @include('alertas.errores')
 
                     @if (Session::has('flash_notification.message'))
 
                     @else
-                        <div class="panel-body">
+
                             {!!Form::open(['route'=>'Cambiar.password', 'method'=>'POST'])!!}
 
-                            {!!Form::label('Cambia tu contraseña para terminar el proceso')!!}<br>
+                {!!Form::label('Ingresa tu nuevas credenciales')!!}<br>
 
                             <div id="pswd_info">
-                                <h4>La contraseña debería cumplir con los siguientes requerimientos:</h4>
-                                <ul>
+                                <h5>La contraseña debería cumplir con los siguientes requisitos:</h5>
+                                <ul class="list-group">
                                     <li id="letter">Al menos debería tener <strong>una letra</strong></li>
                                     <li id="capital">Al menos debería tener <strong>una letra en mayúsculas</strong>
                                     </li>
@@ -36,19 +38,24 @@
                                 </ul>
                             </div>
 
-                            <input name="password" type="password" value="" id="password"><br>
-                            <br>
+                <div class="form-group">
+                    {!!Form::label('Escriba la contraseña')!!}
+                    <input name="password" type="password" value="" class="form-control" id="password"><br>
+                </div>
+                <div class="form-group">
                             {!!Form::label('Repite la contraseña')!!}<br>
-                            <input name="password2" type="password" value="" id="password2"><br>
-                            <br><br>
+                    <input name="password2" type="password" class="form-control" value="" id="password2"><br>
+                </div>
+
+                <div class="form-group">
                             {!!Form::submit('Cambiar Contraseña', ['class'=>'btn btn-primary btn-flat','name'=>'btnCrearUsuario', 'onclick'=>"waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                             {!!Form::close()!!}
-                        </div>
-                    @endif
+                </div>
+
+            @endif
 
                 </div>
-            </div>
-        </div>
+
     </div>
 
 

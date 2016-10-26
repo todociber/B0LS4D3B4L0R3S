@@ -12,7 +12,13 @@
 @stop
 @section('content')
 
+    <script>
 
+        function desafiliarCliente(id, texto) {
+            $('#idAfi').val(id);
+            $('#modalbody').text("¿Desea desafiliar al cliente " + texto + "?");
+        }
+    </script>
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title">Afiliados</h3>
@@ -49,7 +55,9 @@
 
                                     <tr>
                                         <td>
-                                            {!!link_to_route('Afiliado.eliminar', $title = 'Eliminar Afiliacion ', $parameters = $solicitud->id, $attributes = ['class'=>'btn btn-danger','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                                            <button onclick="desafiliarCliente('{{$solicitud->id}}','{{ $solicitud->ClienteNSolicitud->UsuarioNC->nombre}}'); "
+                                                    data-toggle="modal" data-target="#desactivarActivarCasa">
+                                                <span class="glyphicon glyphicon-remove p-red"></span></button>
                                         </td>
                                         <td>
 
@@ -81,6 +89,30 @@
 
                     <!-- /.box -->
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="desactivarActivarCasa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Mensaje</h4>
+                </div>
+                {{Form::open(['route'=>'Afiliado.eliminar','method' =>'POST', 'id'=>'form','role' => 'form', 'onsubmit'=>'animatedLoading()']) }}
+
+                {{ Form::hidden('id',null,['id'=>'idAfi','class'=>'form-control','required']) }}
+
+                <div class="modal-body">
+                    <p id="modalbody"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">Cancelar</button>
+                </div>
+                {{Form::close()}}
             </div>
         </div>
     </div>

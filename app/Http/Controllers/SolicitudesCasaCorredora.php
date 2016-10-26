@@ -336,8 +336,9 @@ class SolicitudesCasaCorredora extends Controller
     }
 
 
-    public function eliminar($id)
+    public function eliminar(Request $request)
     {
+        $id = $request["id"];
         $solicitud = SolicitudRegistro::ofid($id)->get();
         try {
             $solicitud[0]->id;
@@ -364,7 +365,7 @@ class SolicitudesCasaCorredora extends Controller
             }
 
             if ($ordenVigente == 1) {
-                flash('Cliente con ordenes pentientes de terminacion', 'danger');
+                flash('Cliente aun tiene ordenes pendientes', 'danger');
                 return redirect('/Afiliados');
             } else if ($solicitud[0]->idEstadoSolicitud == 2) {
                 $solicitudAActualizar = SolicitudRegistro::find($id);
@@ -423,10 +424,29 @@ class SolicitudesCasaCorredora extends Controller
             flash('Cliente encontrado', 'success');
             $solicitudAceptada = SolicitudRegistro::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
                 ->where('idCliente', '=', $cliente[0]->id)->where('idEstadoSolicitud', '=', 2)->count();
+
+
+            $clienteInfo = '';
+            if ($solicitudAceptada == 0) {
+                $solicitudN = SolicitudRegistro::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                    ->where('idCliente', '=', $cliente[0]->id)->first();
+                $clienteInfo = 'El cliente ya estuvo afiliado en la casa';
+            }
+
             \Session::remove('cliente');
+            \Session::remove('clienteInfo');
             \Session::remove('solicitud');
             \Session::push('cliente', $cliente[0]);
+            \Session::push('clienteInfo', $clienteInfo);
             \Session::push('solicitud', $solicitudAceptada);
+            if (isset($solicitudN)) {
+                \Session::push('solicitudN', $solicitudN);
+            } else {
+
+                Log::info('FDSDFSDF');
+                \Session::remove('solicitudN');
+            }
+            
 
         } else {
             flash('No se encontró al cliente', 'warning');
@@ -495,6 +515,16 @@ class SolicitudesCasaCorredora extends Controller
         } else {
             return redirect()->back()->withErrors('Cliente no encontrado');
         }
+
+    }
+
+    public function AfiliacionesCanceladas()
+    {
+
+        $afiliaciones = SolicitudRegistro::where("idOrganizacion", Auth::user()->idOrganizacion)
+            ->where("idEstadoSolicitud", 3)->get();
+
+        return view('CasaCorredora.SolicitudesAfiliacion.AfiliacionesCanceladas', ["solicitudes" => $afiliaciones]);
 
     }
 

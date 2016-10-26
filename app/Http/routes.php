@@ -78,7 +78,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('Cliente/OrdenesPadre/{id}', 'ClientesController@ListadoOrdenesPadre')->name('listadordenespadre');
         Route::get('Cliente/Miperfil', 'ClientesController@miPerfilUsuario')->name('perfilcliente');
         Route::get('Cliente/ModificarPerfil', 'ClientesController@modificarPerfil')->name('modificarperfilCliente');
+        Route::get('Cliente/ModificarInformacion', 'ClientesController@CambiarInfoNVpage')->name('modificarnorerelevante');
+        Route::get('Cliente/ModificarEmail', 'ClientesController@modificarCorreoView')->name('modificaremailV');
         Route::post('Cliente/setModificarPerfil', 'ClientesController@modificarPerfilCliente')->name('setmodificarperfil');
+        Route::put('Cliente/setModificarInformacion', 'ClientesController@modifcarInfoNVP')->name('modificarinfo.store');
+        Route::put('Cliente/ModificarCorreo', 'ClientesController@modificarCorreoUpdate')->name('modificarcorreo.update');
         Route::get('Cliente/AfiliarseCasa', 'ClientesController@AfiliacionCliente')->name('afiliarsecasa');
         Route::post('Cliente/AfiliarseCasaStore', 'ClientesController@AfiliacionClienteStore')->name('afiliacioncasastore');
         Route::get('Cliente/ListadoAfiliaciones', 'ClientesController@ListadoAfiliaciones')->name('listadoafiliaciones');
@@ -123,8 +127,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('SolicitudAfiliacion/procesando', 'SolicitudesCasaCorredora@Procesando')->name('SolicitudAfiliacion.proceso');
             Route::get('SolicitudAfiliacion/procesadas', 'SolicitudesCasaCorredora@Procesadas');
             Route::get('SolicitudAfiliacion/{id}/procesar', 'SolicitudesCasaCorredora@Procesar')->name('SolicitudAfiliacion.procesar');
+            Route::get('SolicitudAfiliacion/AfiliacionesCanceladas', 'SolicitudesCasaCorredora@AfiliacionesCanceladas')->name('SolicitudAfiliacion.canceladas');
             Route::get('Afiliados', 'SolicitudesCasaCorredora@afiliados')->name('Afiliados.index');
-            Route::get('Afiliados/{id}/eliminar', 'SolicitudesCasaCorredora@eliminar')->name('Afiliado.eliminar');
+            Route::post('Afiliados/eliminar', 'SolicitudesCasaCorredora@eliminar')->name('Afiliado.eliminar');
             Route::resource('SolicitudAfiliacion', 'SolicitudesCasaCorredora');
             Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
             Route::get('Ordenes/{id}/detalles', 'OrdenesCasaCorredoraAutorizador@detalles')->name('Ordenes.detalles');
@@ -142,8 +147,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('Ordenes/Reporte', 'OrdenesController@ReporteFecha')->name('OrdenesReporte.Fecha');
             Route::post('Ordenes/ReporteFecha', 'OrdenesController@ReporteFechaBuscar')->name('OrdenesReporte.FechaBuscar');
             Route::get('Ordenes/ReportePDF', 'OrdenesController@DetallesOrdenesPDF')->name('OrdenesReporte.PDF');
-
-
+            Route::get('Order/ListadoGeneralAutorizador', 'OrdenesCasaCorredoraAutorizador@ListadoGeneralAutorizador')->name('ordenesautorizador');
+            Route::get('Order/FiltrarOrdenAu', 'OrdenesController@ordenesbyEstadoAu')->name('ordenesbyestadoauth');
             Route::get('Ordenes/{id}/editarOrden', 'OrdenesController@Editar')->name('Ordenes.editar');
             Route::get('RegistrarClientes', 'RegistroController@index')->name('Registrar.Clientes');
             Route::get('BuscarCliente', 'SolicitudesCasaCorredora@buscarCliente')->name('Buscar.Cliente');
@@ -151,6 +156,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('Afiliar/{id}/Cliente', 'SolicitudesCasaCorredora@afiliarCliente')->name('Afiliar.Cliente');
             Route::get('Perfil', 'UsuarioCasaCorredoraController@perfil')->name('Perfil.UsuarioCasa');
             Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
+
         });
         Route::group(['middleware' => 'AgenteCorredor'], function () {
             Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
@@ -188,6 +194,7 @@ Route::group(['middleware' => ['api'], 'prefix' => 'api'], function () {
         Route::put('executeOrder', 'OrdenesAPI@ExecuteOrder');
         Route::post('makemessage', 'OrdenesAPI@makeMessage');
         Route::get('getCasasAfiliado/{idCliente}', 'OrdenesAPI@getCasasAfiliado');
+        Route::get('getCasasProceso/{idCliente}', 'OrdenesAPI@getCasasAfiliadoProcess');
         Route::get('getCedevales/{idCliente}', 'OrdenesAPI@getCedevales');
         Route::get('getOrdenesByClienteCasa/{idCliente}/{idCasa}', 'OrdenesAPI@getOrdenesByCasa');
     });
@@ -198,7 +205,7 @@ Route::group(['middleware' => 'UsuarioNoLogueado'], function () {
     Route::post('cambiar/password', 'Registrocontroller@cambiarPassword')->name('Cambiar.password');
 });
 Route::auth();
-
+Route::get('confirmacionEmail/{tokenDeUsuario}', 'Registrocontroller@aceptarCambio')->name('Token.cambioemail');
 Route::get('/NoPermitido', function () {
     return view('errors.NotAllowed');
 })->name("nopermitido");

@@ -50,6 +50,10 @@
                                 <a href="{{url('/logout')}}" class="btn btn-danger">Cerrar sesión</a>
                                 <a href="{{route('modificarperfilCliente')}}" class="btn btn-info margin-leftB">Modificar
                                     información</a>
+                                <a href="{{route('modificarnorerelevante')}}" class="btn btn-info margin-leftB">Modificar
+                                    información no relevante</a>
+                                <a href="{{route('modificaremailV')}}" class="btn btn-info margin-leftB">Modificar
+                                    correo</a>
                                 <a href="{{route('cuentascedevales')}}" class="btn btn-info margin-leftB">Cuentas
                                     cedevales</a>
                             </div>
