@@ -104,7 +104,7 @@ class UsuariosBolsaController extends Controller
 
                 Mail::send('emails.ResetPasswordBolsa', $data, function ($message) use ($usuario) {
 
-                    $message->from('bolsadevalores@bves.com', 'Activación de cuenta');
+                    $message->from('todocyber100@gmail.com', 'Activación de cuenta');
 
                     $message->to($usuario->email)->subject('Activación de cuenta');
 
@@ -271,7 +271,7 @@ class UsuariosBolsaController extends Controller
 
                 Mail::send('emails.ResetPasswordBolsa', $data, function ($message) use ($user) {
 
-                    $message->from('bolsadevalores@bves.com', 'Reinicio de contraseña');
+                    $message->from('todocyber100@gmail.com', 'Reinicio de contraseña');
 
                     $message->to($user->email)->subject('Reinicio de contraseña');
 

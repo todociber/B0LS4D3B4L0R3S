@@ -304,6 +304,35 @@ class RegistroController extends Controller
 
     }
 
+
+    public function aceptarCambio($tokenDeUsuario)
+    {
+        // Log::info('TESTT FFF '.$tokenDeUsuario);
+
+        $tokenE = token::where('token', '=', $tokenDeUsuario)->first();
+
+        if (!$tokenE) {
+            flash('Token incorrecto', 'danger');
+            return view('auth.login');
+        } else {
+            $usuario = Usuario::where("id", $tokenE->idUsuario)->first();
+            $usuario->fill(
+                [
+                    'email' => $tokenE->email_change,
+
+
+                ]
+            );
+            $usuario->save();
+
+            token::destroy($tokenE->id);
+
+            return view('AcceptChanges');
+        }
+
+
+    }
+
     public function cambiarPassword(Requests\CambioPasswordRequest $request)
     {
         if ($request['password'] == $request['password2']) {

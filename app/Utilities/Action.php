@@ -5,7 +5,7 @@ namespace App\Utilities;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
+use Snowfire\Beautymail\Beautymail;
 
 class Action
 {
@@ -28,9 +28,10 @@ class Action
 
     public function sendEmail($data, $email, $tema, $subject, $page)
     {
-        Mail::send($page, $data, function ($message) use ($email, $tema, $subject) {
+        $beautymail = app()->make(Beautymail::class);
+        $beautymail->send($page, $data, function ($message) use ($email, $tema, $subject) {
 
-            $message->from('todociber100@gmail.com', $tema);
+            $message->from('todocyber100@gmail.com', $tema);
 
             $message->to($email)->subject($subject);
 

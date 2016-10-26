@@ -13,8 +13,10 @@ use App\Models\Organizacion;
 use App\Models\SolicitudRegistro;
 use App\Models\Telefono;
 use App\Models\TipoOrden;
+use App\Models\token;
 use App\Models\Usuario;
 use App\Utilities\Action;
+use App\Utilities\GenerarToken;
 use Carbon\Carbon;
 use GuzzleHttp;
 use Illuminate\Http\Request;
@@ -701,11 +703,6 @@ class ClientesController extends Controller
                 'nit' => 'required|numeric|digits:14|min:0',
                 'fechaDeNacimiento' => 'required|date',
                 'numeroCasa' => 'required|numeric|digits:8|min:0',
-                'numeroCelular' => 'required|numeric|digits:8|min:0',
-                'departamento' => 'required',
-                'municipio' => 'required',
-                'direccion' => 'required',
-                'email' => 'required|email',
             ]);
 
             $usuario = Auth::user();
@@ -725,11 +722,6 @@ class ClientesController extends Controller
                 flash('El NIT ingresado ya pertenece a un usuario', 'danger');
                 return redirect()->route('modificarperfilCliente');
 
-            } else if ($countEmail > 0) {
-
-                flash('El email ingresado ya pertenece a un usuario', 'danger');
-                return redirect()->route('modificarperfilCliente');
-
             } else if (Carbon::parse($request['fechaDeNacimiento'])->diffInYears(Carbon::now(), false) < 18) {
 
                 flash('Debe ser mayor de de 18 años', 'danger');
@@ -743,7 +735,6 @@ class ClientesController extends Controller
                     [
                         'nombre' => $request['nombre'],
                         'apellido' => $request['apellido'],
-                        'email' => $request['email'],
                     ]
                 );
                 $usuario->save();
@@ -758,42 +749,42 @@ class ClientesController extends Controller
                     ]
                 );
                 $clientes->save();
-                $telefonos = Telefono::with('TipoTelefonoN')->where('idCliente', $clientes->id)->get();
-                foreach ($telefonos as $telefono) {
+                /*  $telefonos = Telefono::with('TipoTelefonoN')->where('idCliente', $clientes->id)->get();
+                  foreach ($telefonos as $telefono) {
+  
+                      $reqName = $telefono->TipoTelefonoN->id == 1 ? 'numeroCasa' : 'numeroCelular';
+                      if ($telefono->TipoTelefonoN->numero != $request[$reqName]) {
+                          $tel = new Telefono();
+                          $tel->fill(
+                              [
+                                  'idTipoTelefono' => $telefono->TipoTelefonoN->id,
+                                  'numero' => $request[$reqName],
+                                  'idCliente' => $clientes->id,
+  
+                              ]
+                          );
+                          $tel->save();
+                          Telefono::destroy($telefono->id);
+  
+                      }
+                  }*/
 
-                    $reqName = $telefono->TipoTelefonoN->id == 1 ? 'numeroCasa' : 'numeroCelular';
-                    if ($telefono->TipoTelefonoN->numero != $request[$reqName]) {
-                        $tel = new Telefono();
-                        $tel->fill(
-                            [
-                                'idTipoTelefono' => $telefono->TipoTelefonoN->id,
-                                'numero' => $request[$reqName],
-                                'idCliente' => $clientes->id,
 
-                            ]
-                        );
-                        $tel->save();
-                        Telefono::destroy($telefono->id);
-
-                    }
-                }
-
-
-                $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('id', $clientes->id)->get();
-                if ($direcciones[0]->detalle != $request['direccion']) {
-                    $direccion = new Direccione();
-                    $direccion->fill(
-                        [
-                            'idMunicipio' => $request['municipio'],
-                            'idCliente' => $clientes->id,
-                            'detalle' => $request['direccion'],
-
-                        ]
-                    );
-                    $direccion->save();
-                    Direccione::destroy($direcciones[0]->id);
-
-                }
+                /*  $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('id', $clientes->id)->get();
+                  if ($direcciones[0]->detalle != $request['direccion']) {
+                      $direccion = new Direccione();
+                      $direccion->fill(
+                          [
+                              'idMunicipio' => $request['municipio'],
+                              'idCliente' => $clientes->id,
+                              'detalle' => $request['direccion'],
+  
+                          ]
+                      );
+                      $direccion->save();
+                      Direccione::destroy($direcciones[0]->id);
+  
+                  }*/
                 $idCliente = $clientes->id;
                 $this->modificarEstadoSolicitud($clientes->id);
                 $idrol = 3;
@@ -1085,8 +1076,7 @@ class ClientesController extends Controller
     }
 
 
-
-    /**
+    /*
      *
      * Remove the specified resource from storage.
      *
@@ -1097,4 +1087,148 @@ class ClientesController extends Controller
     {
         //
     }
+
+
+    public function CambiarInfoNVpage()
+    {
+        $user = Auth::user();
+        $idCliente = Auth::user()->ClienteN->id;
+        $departamentos = Departamento::orderBy('nombre', 'ASC')->lists('nombre', 'id');
+        $telefonos = Telefono::with('TipoTelefonoN')->where('idCliente', $idCliente)->get();
+        $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('id', $idCliente)->get();
+        $municipios = Municipio::where('id_departamento', $direcciones[0]->MunicipioDireccion->Departamento->id)->lists('nombre', 'id');
+        $telefonoCasa = '';
+        $telefonoCelular = '';
+        foreach ($telefonos as $telefono) {
+
+            if ($telefono->TipoTelefonoN->id == 1) {
+
+                $telefonoCasa = $telefono->numero;
+
+            } else {
+
+                $telefonoCelular = $telefono->numero;
+            }
+
+
+        }
+        return view('Clientes.Perfil.modificarInfo', ['user' => Auth::user(), 'departamentos' => $departamentos, 'numeroCasa' => $telefonoCasa, 'numeroCelular' => $telefonoCelular, 'direccion' => $direcciones[0], 'municipios' => $municipios]);
+
+
+    }
+
+
+    public function modifcarInfoNVP(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'numeroCasa' => 'required|numeric|digits:8|min:0',
+                'numeroCelular' => 'required|numeric|digits:8|min:0',
+                'departamento' => 'required',
+                'municipio' => 'required',
+                'direccion' => 'required',
+
+            ]);
+
+            $usuario = Auth::user();
+            $clientes = $usuario->ClienteN;
+            $countEmail = Usuario::where('email', $request['email'])->where('id', '!=', $usuario->id)->count();
+            if ($countEmail > 0) {
+                flash('El email ingresado ya pertenece a un usuario', 'danger');
+                return back()->withInput();
+
+            } else {
+                $telefonos = Telefono::with('TipoTelefonoN')->where('idCliente', $clientes->id)->get();
+                foreach ($telefonos as $telefono) {
+
+                    $reqName = $telefono->TipoTelefonoN->id == 1 ? 'numeroCasa' : 'numeroCelular';
+                    if ($telefono->TipoTelefonoN->numero != $request[$reqName]) {
+                        $tel = new Telefono();
+                        $tel->fill(
+                            [
+                                'idTipoTelefono' => $telefono->TipoTelefonoN->id,
+                                'numero' => $request[$reqName],
+                                'idCliente' => $clientes->id,
+
+                            ]
+                        );
+                        $tel->save();
+                        Telefono::destroy($telefono->id);
+
+                    }
+                }
+
+
+                $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('id', $clientes->id)->get();
+                if ($direcciones[0]->detalle != $request['direccion']) {
+                    $direccion = new Direccione();
+                    $direccion->fill(
+                        [
+                            'idMunicipio' => $request['municipio'],
+                            'idCliente' => $clientes->id,
+                            'detalle' => $request['direccion'],
+
+                        ]
+                    );
+                    $direccion->save();
+                    Direccione::destroy($direcciones[0]->id);
+
+                }
+
+
+            }
+            $token = new token();
+            $gentoken = new GenerarToken();
+            $tokenDeUsuario = $gentoken->tokengenerador();
+
+            $token->fill([
+                    'token' => $tokenDeUsuario,
+                    'idUsuario' => $usuario->id,
+                    'email_change' => $request["email"]
+                ]
+            );
+            flash('Información cambiada con éxito', 'success');
+            return redirect()->route('perfilcliente');
+        } catch (\Exception $e) {
+            flash('Ocurrio un problema al modificar la información', 'danger');
+            return back()->withInput();
+
+        }
+
+
+    }
+
+    public function modificarCorreoView()
+    {
+
+
+        return view('Clientes.Perfil.modificarCorreo', ["user" => Auth::user()]);
+    }
+
+    public function modificarCorreoUpdate(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email',
+
+        ]);
+        $usuario = Auth::user();
+        $token = new token();
+        $gentoken = new GenerarToken();
+        $tokenDeUsuario = $gentoken->tokengenerador();
+
+        $token->fill([
+                'token' => $tokenDeUsuario,
+                'idUsuario' => $usuario->id,
+                'email_change' => $request["email"]
+            ]
+        );
+        $token->save();
+        $action = new Action();
+        $action->sendEmail(["titulo" => "Modificación de correo", "token" => $tokenDeUsuario], $usuario->email, 'Cambio de correo', 'Cambio de correo', 'emails.emailConfirmChange');
+        flash('Se enviara un email a su cuenta para la confirmación del cambio de correo electrónico', 'success');
+        return redirect()->route('perfilcliente');
+
+    }
+    
+    
 }

@@ -1,10 +1,19 @@
-<html>
-<head>
-    <title>Afiliacion </title>
+@extends('beautymail::templates.minty')
 
-</head>
-<h3>
-    Tu Afiliacion a la casa corredora {{$nombreCasa}} ha sido {{$accionAfiliacion}} </h3><br><br>
+@section('content')
 
+    @include('beautymail::templates.minty.contentStart')
+    <tr>
+        <td class="title">
+            Respuesta de afiliación
+        </td>
+    </tr>
 
-</html>
+    <tr>
+        <td class="paragraph">
+            Tu Afiliacion a la casa corredora {{$nombreCasa}} ha sido {{$accionAfiliacion}}
+        </td>
+    </tr>
+    @include('beautymail::templates.minty.contentEnd')
+
+@stop

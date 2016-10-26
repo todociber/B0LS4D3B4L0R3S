@@ -7,14 +7,16 @@
 
 @section('content')
     <script>
-        $('#dui').mask('000000000');
-        $('#nit').mask('00000000000000');
+        $('#casa').mask('00000000');
+        $('#celular').mask('00000000');
         var contador = 0;
         var clonar;
-
+        var departamento = '<?php echo $direccion->MunicipioDireccion->Departamento->id;?>';
+        var municipio = '<?php echo $direccion->MunicipioDireccion->id;?>';
         $(function () {
 
-          
+            $('#department').val(departamento);
+            $('#municipio').val(municipio);
             //$.fn.datepicker.defaults.language = 'es';
             $('#datepicker').datepicker({
                 pickTime: false,
@@ -156,45 +158,39 @@
 
             @include('alertas.errores')
             @include('alertas.flash')
-            {{Form::model($user,['route'=>'setmodificarperfil','method' =>'POST', 'id'=>'formulario'])  }}
+            {{Form::model($user,['route'=>'modificarinfo.store','method' =>'PUT', 'id'=>'formulario','onsubmit'=>'animatedLoading()'])  }}
+
             <div class="form-group">
-                {!!   Form::label('Nombre')!!}
-                {!!   Form::text('nombre',null,['class'=>'form-control','placeholder'=>'Ingresa el nombre del usuario','required']) !!}
-            </div>
-            <div class="form-group">
-                {{ Form::label('Apellido') }}
-                {{ Form::text('apellido',null,['class'=>'form-control','placeholder'=>'Ingresa el apellido del usuario','required']) }}
+                {{ Form::label('Número de teléfono casa') }}
+                {{ Form::number('numeroCasa',$numeroCasa,['class'=>'form-control','placeholder'=>'Ingrese el número de casa','required','id'=>'casa']) }}
             </div>
 
             <div class="form-group">
-                {{ Form::label('DUI') }}
-                {{ Form::text('dui',$user->ClienteN->dui,['class'=>'form-control','placeholder'=>'Ingresa número de DUI','required', 'id'=>'dui']) }}
+                {{ Form::label('Número de teléfono  celular') }}
+                {{ Form::number('numeroCelular',$numeroCelular,['class'=>'form-control','placeholder'=>'Número de celular','required','id'=>'celular']) }}
             </div>
 
             <div class="form-group">
-                {{ Form::label('NIT') }}
-                {{ Form::text('nit',$user->ClienteN->nit,['class'=>'form-control','placeholder'=>'Ingresa número de NIT','required','id'=>'nit']) }}
+                {{ Form::label('Departamento') }}
+                {!! Form::select('departamento',$departamentos,$direccion->MunicipioDireccion->Departamento->nombre,['class'=>'form-control', 'id'=>'department', 'onchange'=>'GetMunicipios(this)']) !!}
+
             </div>
 
+            <div id="divmun" class="form-group">
+                {{ Form::label('Municipio') }}
+                {!! Form::select('municipio',$municipios,$direccion->MunicipioDireccion->nombre,['class'=>'form-control', 'id'=>'municipio']) !!}
+            </div>
             <div class="form-group">
-
-                {{ Form::label('Fecha de nacimiento') }}
-                <div class="input-group date">
-                    <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                    </div>
-                    {{ Form::text('fechaDeNacimiento',\Carbon\Carbon::parse($user->ClienteN->fechaDeNacimiento)->format("m/d/Y"),['class'=>'form-control input-pointer','placeholder'=>'Ingresa tu fecha de nacimiento (dd/mm/yyyy)', 'id'=>'datepicker']) }}
-                </div>
+                {{ Form::label('Dirección') }}
+                {{ Form::text('direccion',$direccion->detalle,['class'=>'form-control','placeholder'=>'Ingrese la dirección','hidden','required']) }}
             </div>
 
-
-
-
-            {!!Form::button('Modificar', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit','onclick'=>'openModalInfo()'])!!}
+            {!!Form::submit('Modificar', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit'])!!}
             {{Form::close()}}
 
         </div><!-- /.login-box-body -->
     </div>
+
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -224,7 +220,7 @@
                 </div>
                 <div id="mdbText" class="modal-body">
                     <p>
-                        <b>Recuerda, si cambias esta información, tus afiliaciónes
+                        <b>Recuerda, si cambias tu información, tus afiliaciónes
                             quedaran deshabilitadas, mientras las casas corredoras verifican
                             La nueva información, por lo tanto no podras seguir realizando ordenes de inversión</b>
 

@@ -1,10 +1,23 @@
-<html>
-<head>
-    <title>Activacion de Cuenta</title>
+@extends('beautymail::templates.minty')
 
-</head>
-<h3>
-    La orden con correlativo : {{$corrletaivo}} ha cambiado de estado a: {{$estadoOrden}}
+@section('content')
 
+    @include('beautymail::templates.minty.contentStart')
+    <tr>
+        <td class="title">
+            Cambio de estado de orden
+        </td>
+    </tr>
 
-</html>
+    <tr>
+        <td class="paragraph">
+            La orden con correlativo : {{$corrletaivo}} ha cambiado de estado a: {{$estadoOrden}}
+        </td>
+    </tr>
+    <br/>
+    <tr>
+        <td width="100%" height="25"></td>
+    </tr>
+    @include('beautymail::templates.minty.contentEnd')
+
+@stop

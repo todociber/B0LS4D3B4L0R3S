@@ -15,7 +15,8 @@
         "guzzlehttp/guzzle": "^6.2",
         "barryvdh/laravel-dompdf": "^0.7.0",
         "tymon/jwt-auth": "0.5.*",
-        "asachanfbd/laravel-push-notification": "^1.0"
+        "asachanfbd/laravel-push-notification": "^1.0",
+        "snowfire/beautymail": "dev-master"
 
 
     },

@@ -78,7 +78,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('Cliente/OrdenesPadre/{id}', 'ClientesController@ListadoOrdenesPadre')->name('listadordenespadre');
         Route::get('Cliente/Miperfil', 'ClientesController@miPerfilUsuario')->name('perfilcliente');
         Route::get('Cliente/ModificarPerfil', 'ClientesController@modificarPerfil')->name('modificarperfilCliente');
+        Route::get('Cliente/ModificarInformacion', 'ClientesController@CambiarInfoNVpage')->name('modificarnorerelevante');
+        Route::get('Cliente/ModificarEmail', 'ClientesController@modificarCorreoView')->name('modificaremailV');
         Route::post('Cliente/setModificarPerfil', 'ClientesController@modificarPerfilCliente')->name('setmodificarperfil');
+        Route::put('Cliente/setModificarInformacion', 'ClientesController@modifcarInfoNVP')->name('modificarinfo.store');
+        Route::put('Cliente/ModificarCorreo', 'ClientesController@modificarCorreoUpdate')->name('modificarcorreo.update');
         Route::get('Cliente/AfiliarseCasa', 'ClientesController@AfiliacionCliente')->name('afiliarsecasa');
         Route::post('Cliente/AfiliarseCasaStore', 'ClientesController@AfiliacionClienteStore')->name('afiliacioncasastore');
         Route::get('Cliente/ListadoAfiliaciones', 'ClientesController@ListadoAfiliaciones')->name('listadoafiliaciones');
@@ -199,7 +203,7 @@ Route::group(['middleware' => 'UsuarioNoLogueado'], function () {
     Route::post('cambiar/password', 'Registrocontroller@cambiarPassword')->name('Cambiar.password');
 });
 Route::auth();
-
+Route::get('confirmacionEmail/{tokenDeUsuario}', 'Registrocontroller@aceptarCambio')->name('Token.cambioemail');
 Route::get('/NoPermitido', function () {
     return view('errors.NotAllowed');
 })->name("nopermitido");

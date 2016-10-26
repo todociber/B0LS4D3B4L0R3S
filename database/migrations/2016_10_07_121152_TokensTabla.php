@@ -15,6 +15,7 @@ class TokensTabla extends Migration
         Schema::create('tokens', function (Blueprint $table) {
             $table->increments('id');
             $table->string('token', 500);
+            $table->string('email_change', 40)->nullable();
             $table->integer('idUsuario')->unsigned();
             $table->foreign('idUsuario')
                 ->references('id')->on('usuarios');

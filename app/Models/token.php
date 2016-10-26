@@ -10,7 +10,8 @@ class token extends Model
     protected $table = 'tokens';
     protected $fillable = [
         'token',
-        'idUsuario'
+        'idUsuario',
+        'email_change',
     ];
 
     protected $guarded = [];
