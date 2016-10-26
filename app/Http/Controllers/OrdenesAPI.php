@@ -343,6 +343,8 @@ class OrdenesAPI extends Controller
                         ]
                     );
                     $orden->save();
+                    DB::table('mensajes')->where('idOrden', $orden->id)
+                        ->update(['idOrden' => $nuevaOrden->id]);
                     $idrol = 3;
                     $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                         $query->where('idRol', $idrol);
@@ -606,6 +608,29 @@ class OrdenesAPI extends Controller
             $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
                 $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 2);
             })->select('id', 'nombre')->get();
+
+            if (count($casas) > 0) {
+                return response()->json(['ErrorCode' => '0', 'data' => $casas]);
+            } else {
+                return response()->json(['ErrorCode' => '2', 'msg' => 'No hay datos']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['ErrorCode' => '3', 'msg' => 'Ocurrio un problema al crear el mensaje']);
+
+
+        }
+
+
+    }
+
+    public function getCasasAfiliadoProcess($idCliente)
+    {
+
+        try {
+            //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE EN ESTADO 5 O 4
+            $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
+                $query->where('idCliente', $idCliente)->whereIn('idEstadoSolicitud', [5, 4]);
+            })->select('id', 'nombre', 'idEstadoSolicitud')->get();
 
             if (count($casas) > 0) {
                 return response()->json(['ErrorCode' => '0', 'data' => $casas]);

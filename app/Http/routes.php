@@ -193,6 +193,7 @@ Route::group(['middleware' => ['api'], 'prefix' => 'api'], function () {
         Route::put('executeOrder', 'OrdenesAPI@ExecuteOrder');
         Route::post('makemessage', 'OrdenesAPI@makeMessage');
         Route::get('getCasasAfiliado/{idCliente}', 'OrdenesAPI@getCasasAfiliado');
+        Route::get('getCasasProceso/{idCliente}', 'OrdenesAPI@getCasasAfiliadoProcess');
         Route::get('getCedevales/{idCliente}', 'OrdenesAPI@getCedevales');
         Route::get('getOrdenesByClienteCasa/{idCliente}/{idCasa}', 'OrdenesAPI@getOrdenesByCasa');
     });

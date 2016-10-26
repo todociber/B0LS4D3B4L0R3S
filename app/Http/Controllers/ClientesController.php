@@ -617,7 +617,11 @@ class ClientesController extends Controller
 
                     ]
                 );
+
                 $orden->save();
+                DB::table('mensajes')->where('idOrden', $orden->id)
+                    ->update(['idOrden' => $nuevaOrden->id]);
+                
                 $idrol = 3;
                 $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                     $query->where('idRol', $idrol);
@@ -697,13 +701,14 @@ class ClientesController extends Controller
     {
         try {
             $this->validate($request, [
-                'nombre' => 'required',
-                'apellido' => 'required',
-                'dui' => 'required|numeric|digits:9|min:0',
-                'nit' => 'required|numeric|digits:14|min:0',
+                    'nombre' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+                    'apellido' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+                    'dui' => 'required|unique:clientes,dui|size:9|regex:/^([0-9])+$/i',
+                    'nit' => 'required|unique:clientes,nit|size:14|regex:/^([0-9])+$/i',
                 'fechaDeNacimiento' => 'required|date',
                 'numeroCasa' => 'required|numeric|digits:8|min:0',
-            ]);
+                ]
+            );
 
             $usuario = Auth::user();
             $clientes = $usuario->ClienteN;
