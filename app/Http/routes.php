@@ -101,6 +101,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'UsuarioCasaCorredora'], function () {
         Route::group(['middleware' => 'administradorCasaCorredora'], function () {
+            Route::get('Bitacora', 'BitacoraCasaCorredora@index')->name('bitacora');
             Route::get('UsuarioCasaCorredora/crear', 'UsuarioCasaCorredoraController@crear')->name('UsuarioCasaCorredora.crear');
             Route::get('UsuarioCasaCorredora/{id}/editar', 'UsuarioCasaCorredoraController@editar')->name('UsuarioCasaCorredora.editar');
             Route::put('UsuarioCasaCorredora/restaurar', 'UsuarioCasaCorredoraController@restaurar')->name('UsuarioCasaCorredora.restaurar');

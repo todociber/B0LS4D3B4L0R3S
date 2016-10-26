@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class BitacoraUsuario
@@ -22,9 +21,10 @@ class BitacoraUsuario extends Model
     protected $guarded = [];
 
 
-    use SoftDeletes;
-    protected $dates = ['deleted_at'];
-
+    public function usuarioRelacion()
+    {
+        $this->belongsTo(Usuario::class, 'idUsuario', 'id');
+    }
 
 
     public function scopeOfid($query, $id)
