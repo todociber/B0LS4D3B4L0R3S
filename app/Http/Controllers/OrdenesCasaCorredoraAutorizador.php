@@ -15,7 +15,6 @@ use DB;
 use ErrorException;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class OrdenesCasaCorredoraAutorizador extends Controller
 {
@@ -67,7 +66,12 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                 ->whereBetween('FechaDeVigencia', [Carbon::now()->addDay(1)->format('Y-m-d'), Carbon::now()->addDay(6)->format('Y-m-d')])
                 ->count();
 
-            return view('CasaCorredora.OrdenesAgente.ordenesAsignadas', compact(['ordenes', 'ordenesAsignadas', 'ordenesVencer']));
+            $ordenesEjecutadas = Ordene::where('idEstadoOrden', '!=', '4')
+                ->where('idCorredor', '=', Auth::user()->id)
+                ->where('idEstadoOrden', '=', 5)
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->count();
+            return view('CasaCorredora.OrdenesAgente.ordenesAsignadas', compact(['ordenes', 'ordenesAsignadas', 'ordenesVencer', 'ordenesEjecutadas']));
         }
 
     }
@@ -79,8 +83,8 @@ class OrdenesCasaCorredoraAutorizador extends Controller
 
         $ordenes = Ordene::where('idEstadoOrden', '!=', '4')
             ->where('idCorredor', '=', Auth::user()->id)
-            ->where('idEstadoOrden', '=', 2)
             ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->orderBy("created_at", "ASC")
             ->get();
 
         $ordenesAsignadas = Ordene::where('idEstadoOrden', '!=', '4')
@@ -88,7 +92,6 @@ class OrdenesCasaCorredoraAutorizador extends Controller
             ->where('idEstadoOrden', '=', 2)
             ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
             ->count();
-        Log::info($ordenesAsignadas);
 
         $ordenesEjecutadas = Ordene::where('idEstadoOrden', '!=', '4')
             ->where('idCorredor', '=', Auth::user()->id)

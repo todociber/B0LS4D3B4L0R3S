@@ -514,7 +514,7 @@ class OrdenesController extends Controller
             if ($request["estado"] != 0) {
                 $ordenes = Ordene::with('TipoOrdenN')->where('idCorredor', $idusuario)->where('idEstadoOrden', $request['estado'])->get();
             } else {
-                $ordenes = Ordene::with('TipoOrdenN')->where('idCliente', $idusuario)->get();
+                $ordenes = Ordene::with('TipoOrdenN')->where('idCorredor', $idusuario)->get();
 
             }
             $mensaje = '';
