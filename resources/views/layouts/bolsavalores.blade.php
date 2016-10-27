@@ -4,18 +4,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     @yield('title')
-    <!-- Tell the browser to be responsive to screen width -->
+            <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
     {!! Html::style('assets/css/bootstrap.css') !!}
-    <!-- Font Awesome -->
+            <!-- Font Awesome -->
     {!! Html::style('assets/css/font-awesome.css') !!}
-    <!-- Ionicons -->
+            <!-- Ionicons -->
     <!-- DataTables -->
     {!! Html::style('assets/plugins/datatables/dataTables.bootstrap.css') !!}
-    <!-- Theme style -->
+            <!-- Theme style -->
     {!! Html::style('assets/dist/css/AdminLTE.css') !!}
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
+            <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     {!! Html::style('assets/dist/css/skins/_all-skins.css') !!}
 
@@ -45,10 +45,12 @@
             <!--  loading JS -->
     {!! Html::script('assets/js/loading.js') !!}
 
+    {!! Html::script('assets/js/jquery.mask.min.js') !!}
+
 
             <!--  SERO JS -->
     {!! Html::script('assets/js/SERO.js') !!}
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+            <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <![endif]-->
@@ -75,9 +77,9 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
                         <div class="margin-Div">
-                        <a href="{{url('/logout')}}" class="btn btn-danger">
-                           Cerrar Sesión
-                        </a>
+                            <a href="{{url('/logout')}}" class="btn btn-danger">
+                                Cerrar Sesión
+                            </a>
                         </div>
 
                     </li>
@@ -94,8 +96,8 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left info">
-                    <p>Rigoberto Gómez</p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    <p>{{Auth::user()->nombre}}</p>
+
                 </div>
             </div>
             <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -118,6 +120,16 @@
                     <ul class="treeview-menu">
                         <li id="catalogoCasas" ><a href="{!! route('listadoCasas') !!}"><i class="fa fa-circle-o"></i> Catalogo</a></li>
                         <li id="registrar"><a href="{!! route('nuevaCasa') !!}"><i class="fa fa-circle-o"></i>Registrar Casa</a></li>
+                    </ul>
+                </li>
+                <li id="bitacoras" class="treeview">
+                    <a href="#">
+                        <i class="fa fa-home"></i>
+                        <span>Bitacoras</span>
+                        <i class="fa fa-angle-left pull-right"></i> </a>
+                    <ul class="treeview-menu">
+                        <li id="bitacora"><a href="{!! route('bitacoras') !!}"><i class="fa fa-circle-o"></i> Lista de
+                                bitacoras</a></li>
                     </ul>
                 </li>
                 <li id="perfil"  class="treeview">
@@ -153,7 +165,8 @@
 
         <!-- Main content -->
         <section class="content">
-          @yield('content')
+        @yield('content')
+            <section>
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">

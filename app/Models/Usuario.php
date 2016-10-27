@@ -74,7 +74,12 @@ class Usuario extends Model implements AuthenticatableContract,
 
     public function UsuariosLatchs()
     {
-        return $this->hasMany(Usuario::class, 'idUsuario', 'id');
+        return $this->hasMany(LatchModel::class, 'idUsuario', 'id');
+    }
+
+    public function TokensUsuario()
+    {
+        return $this->hasMany(token::class, 'idUsuario', 'id');
     }
 
 

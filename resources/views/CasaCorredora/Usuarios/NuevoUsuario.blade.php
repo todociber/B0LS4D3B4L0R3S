@@ -29,7 +29,6 @@
                             {!!Form::close()!!}
 
 
-                            <br><br>
                     </div>
                 </div><!--row-->
 

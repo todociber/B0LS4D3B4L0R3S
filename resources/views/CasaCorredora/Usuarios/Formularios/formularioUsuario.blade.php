@@ -1,12 +1,19 @@
-
+<div class="form-group">
     {!!Form::label('Nombre')!!}
     {!!Form::text('nombre',null, ['class'=>'form-control', 'placeholder'=>'Ingrese el  Nombre del Usuario', 'required'=>'true'])!!}
+</div>
+<div class="form-group">
     {!!Form::label('Apellido')!!}
     {!!Form::text('apellido',null, ['class'=>'form-control', 'placeholder'=>'Ingrese el  Apellido del Usuario'])!!}
+</div>
+<div class="form-group">
     {!!Form::label('Correo')!!}
     {!!Form::email('email',null, ['class'=>'form-control', 'placeholder'=>'Ingrese el  correo del Usuario'])!!}
+</div>
+<div class="form-group">
 
-    {!! Form::label('Rol del usuario') !!}
+    <label>Roles a asignar</label><br/>
+    <ul class="list-inline">
 
     @if(isset($rolSeleccionados))
 
@@ -28,9 +35,9 @@
             @endforeach
             <br>
             @if($existe==1)
-                {!!  Form::checkbox('rolUsuario[]', $rol->id,true)!!}
-            @else
-                {!!  Form::checkbox('rolUsuario[]', $rol->id)!!}
+                    <li>{!!  Form::checkbox('rolUsuario[]', $rol->id,true)!!}</li>
+                @else
+                    <li>{!!  Form::checkbox('rolUsuario[]', $rol->id)!!}</li>
             @endif
 
 
@@ -41,12 +48,14 @@
 
         @foreach($roles as $rol)
             <br>
-            {!!  Form::checkbox('rolUsuario[]', $rol->id)!!}
+                <li> {!!  Form::checkbox('rolUsuario[]', $rol->id)!!}
             {!! Form::label($rol->nombre) !!}
+                </li>
             <br>
         @endforeach
     @endif
+    </ul>
     <br>
 
-
+</div>
 

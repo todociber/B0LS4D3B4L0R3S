@@ -49,6 +49,7 @@
     {!! Html::script('assets/js/loading.js') !!}
     {!! Html::script('assets/js/SERO.js') !!}
     {!! Html::style('assets/css/SERO.css') !!}
+    {!! Html::script('assets/js/jquery.mask.min.js') !!}
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -98,28 +99,31 @@
         <section class="sidebar">
             <div class="user-panel">
                 <div class="pull-left info">
-                    <p>Rigoberto Gómez</p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    <p>{{Auth::user()->nombre}}</p>
+
                 </div>
             </div>
 
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">Menu</li>
-                <?php $count = \App\Models\SolicitudRegistro::where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", 2)->count();?>
-                @if($count> 0)
-                <li id="ordenes" class=" treeview">
-                    <a href="#">
-                        <i class="fa fa-archive"></i> <span>Ordenes</span> <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li id="listadoOrdenes"><a href="{{route('listadoordenesclienteV')}}"><i
-                                        class="fa fa-circle-o"></i>Ordenes</a></li>
-                        <li id="nuevaOrden"><a href="{{route('nuevaOrden')}}"><i class="fa fa-circle-o"></i> Nueva orden</a></li>
-                    </ul>
-                </li>
 
-                @endif
+                    <li id="ordenes" class=" treeview">
+                        <a href="#">
+                            <i class="fa fa-archive"></i> <span>Ordenes</span> <i
+                                    class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li id="listadoOrdenes"><a href="{{route('listadoordenesclienteV')}}"><i
+                                            class="fa fa-circle-o"></i>Ordenes</a></li>
+                            <?php $count = \App\Models\SolicitudRegistro::where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", 2)->count();?>
+                            @if($count> 0)
+                            <li id="nuevaOrden"><a href="{{route('nuevaOrden')}}"><i class="fa fa-circle-o"></i> Nueva
+                                    orden</a></li>
+                            @endif
+                        </ul>
+                    </li>
+
 
                 <li id="afiliaciones">
                     <a href="#">
@@ -129,10 +133,9 @@
 
                     </a>
                     <ul class="treeview-menu">
-                        <li id="listadosolicitudes"><a href="{{route("listadoafiliaciones")}}"><i
-                                        class="fa fa-circle-o"></i>Solicitudes de afiliación</a></li>
-                        <li id="afiliarse"><a href="{{route("afiliarsecasa")}}"><i class="fa fa-circle-o"></i> Afiliarse
-                                a una casa</a></li>
+                        <li id="listadosolicitudes"><a href="{{route("listadsolicitudes")}}"><i
+                                        class="fa fa-circle-o"></i>Pendiente de aprobación <br/> de cambio</a></li>
+
                         <li id="afiliacionesC"><a href="{{route("listadoafiliaciones")}}"><i class="fa fa-circle-o"></i>
                                 Listado de afiliaciones
                             </a></li>
@@ -184,7 +187,7 @@
     </footer>
 
 
- </div>
+</div>
 
 <script>
     $(function () {

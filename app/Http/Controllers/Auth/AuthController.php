@@ -7,13 +7,15 @@ use App\Models\LatchModel;
 use App\Models\Usuario;
 use App\User;
 use App\Utilities\RolIdentificador;
+use Auth;
 use ErrorException;
+use Exception;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Latch;
-use Mockery\CountValidator\Exception;
 use Validator;
 
 class AuthController extends Controller
@@ -68,6 +70,7 @@ class AuthController extends Controller
     {
         Log::info('TESTT');
 
+
         $rolIdentificador = new RolIdentificador();
         /*
          * 1- ADMNISTRADOR BOLSA DE VALORES
@@ -80,33 +83,33 @@ class AuthController extends Controller
 
 
         $LatchTokenExiste = LatchModel::where('idUsuario', '=', Auth::user()->id)->count();
+ 
+         if ($LatchTokenExiste > 0) {
+ 
+             try {
+                 $userIDLatch = LatchModel::where('idUsuario', '=', Auth::user()->id)->first();
+                 $accountId = $userIDLatch->tokenLatch;
+                 $locked = false;
+ 
+                 if (Latch::locked($accountId)) {
+                     $locked = true;
+                 }
+ 
+ 
+                 if ($locked) {
+ 
+                     Auth::logout();
+                 }
+             } catch (ErrorException $i) {
+ 
+             } catch (Exception $e) {
+ 
+             }
 
-        if ($LatchTokenExiste > 0) {
-
-            try {
-                $userIDLatch = LatchModel::where('idUsuario', '=', Auth::user()->id)->first();
-                $accountId = $userIDLatch->tokenLatch;
-                $locked = false;
-
-                if (Latch::locked($accountId)) {
-                    $locked = true;
-                }
+         }
 
 
-                if ($locked) {
-
-                    Auth::logout();
-                }
-            } catch (ErrorException $i) {
-
-            } catch (Exception $e) {
-
-            }
-
-        }
-
-
-
+        $this->deleteOldSession($usuario->id);
 
         $userType=$usuario->UsuarioRoles[0]->RolN->id;
 
@@ -130,7 +133,7 @@ class AuthController extends Controller
         }
         else {
             //CLIENTE
-            return redirect()->route('listadoordenesclienteV');
+            return redirect()->route('perfilcliente');
 
 
         }
@@ -139,6 +142,14 @@ class AuthController extends Controller
         //return redirect()->route('listadoCasas'); //redirect to standard user homepage
     }
 
+    public function deleteOldSession($id)
+    {
+        //  ELIMINANDO SESIONES ANTERIORES
+
+        DB::table("sessions")->where("id", "!=", Session::getId())
+            ->where("user_id", $id)
+            ->delete();
+    }
 
     /**
      * Create a new user instance after a valid registration.

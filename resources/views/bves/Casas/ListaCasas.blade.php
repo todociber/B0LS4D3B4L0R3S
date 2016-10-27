@@ -9,6 +9,13 @@
         $('#catalogoCasas').addClass('active');
 
 
+        function desactivarActivarCasa(nombre, activar, id, accion) {
+            $('#modalbody').text("¿Desea " + activar + "la casa " + nombre + " ?");
+            $('#idcasa').val(id);
+            $('#tipo').val(accion);
+
+        }
+
     </script>
     <div class="row">
         <div class="col-xs-12">
@@ -53,17 +60,20 @@
                                     @endif
                                 </td>
 
-                                <td><a class="btn btn-primary background-pencil"
+                                <td>
+                                    <a class="btn btn-primary background-pencil"
                                        href="{!! route('editarCasa',['id'=>$organizacion->id])!!}"><em
                                                 class="fa fa-pencil"></em></a>
                                     @if($organizacion->deleted_at == null)
 
-                                        <button onclick="window.location.href='{!! route('eliminarCasa',['id'=>$organizacion->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'});">
+                                        <button onclick="desactivarActivarCasa('{{$organizacion->nombre}}','Desactivar','{{$organizacion->id}}',0); "
+                                                data-toggle="modal" data-target="#desactivarActivarCasa">
                                             <span class="glyphicon glyphicon-remove p-red"></span></button>
 
                                     @else
 
-                                        <button onclick="window.location.href='{!! route('restaurarcasa',['id'=>$organizacion->id]) !!}';  waitingDialog.show('Procesando... ',{ progressType: 'info'}); ">
+                                        <button onclick="desactivarActivarCasa('{{$organizacion->nombre}}','Activar','{{$organizacion->id}}',1);"
+                                                data-toggle="modal" data-target="#desactivarActivarCasa">
                                             <span class="glyphicon glyphicon-ok p-green"></span></button>
 
 
@@ -80,4 +90,28 @@
             </div><!-- /.box -->
         </div>
     </div><!-- /.col -->
+
+    <div class="modal fade" id="desactivarActivarCasa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Mensaje</h4>
+                </div>
+                {{Form::open(['route'=>'eliminarrestaurarcasas','method' =>'POST', 'id'=>'form','role' => 'form', 'onsubmit'=>'animatedLoading()']) }}
+
+                {{ Form::hidden('id',null,['id'=>'idcasa','class'=>'form-control','required']) }}
+                {{ Form::hidden('tipo',null,['id'=>'tipo','class'=>'form-control', 'required']) }}
+                <div class="modal-body">
+                    <p id="modalbody"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">Cancelar</button>
+                </div>
+                {{Form::close()}}
+            </div>
+        </div>
+    </div>
 @stop

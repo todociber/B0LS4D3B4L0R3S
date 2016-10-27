@@ -14,13 +14,10 @@ class CreateBitacoraUsuariosTable extends Migration
     {
         Schema::create('bitacora', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('idUsuario')->unsigned();
-            $table->integer('idUsuarioAfectado')->unsigned();
-            $table->integer('idOrden')->unsigned();
-            $table->integer('idModuloAfectado')->unsigned();
-            $table->foreign('idModuloAfectado')
-                ->references('id')->on('ModuloAfectado');
-            $table->softDeletes();
+            $table->string('tipoCambio', 20);
+            $table->integer('idUsuario');
+            $table->integer('idOrganizacion');
+            $table->string('descripcion', 100);
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateBitacoraUsuariosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('bitacora_usuarios');
+        Schema::drop('bitacora');
     }
 }

@@ -12,7 +12,7 @@ class LatchData extends Migration
      */
     public function up()
     {
-        Schema::create('LatchDataToken', function (Blueprint $table) {
+        Schema::create('latchdatatoken', function (Blueprint $table) {
             $table->increments('id');
             $table->string('tokenLatch', 500);
             $table->integer('idUsuario')->unsigned();

@@ -2,7 +2,7 @@
 
 return array(
 
-    'app_id' => '2zkDky74ninmvEBHCFrM',
-    'app_secret' => 'ZRKK3EBpYiPQPLTMqy3kpeMXJAEkWwz6QYfMuDzQ',
+    'app_id' => 'iVXfmUiTXc6ctNf3srRr',
+    'app_secret' => 'bGYNvR3jFYWW6iTmAdy7x2iNkJwjwpsenG44fkcD',
 
 );

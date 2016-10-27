@@ -9,6 +9,8 @@
         $(document).ready(function () {
             $('#casas').addClass('active');
             $('#registrar').addClass('active');
+            $('#telefono').mask('00000000');
+            $('#codigo').mask('00000');
             var buttonLada;
             var dataError;
             $('#modal').on('hidden.bs.modal', function () {
@@ -70,7 +72,7 @@
                     }
                     else if (data.error == '2') {
 
-                        $('#modalbody').text('Faltan datos, asegure de llenar todos los campos del formulario o de escribir una dirección de correo eléctronica correctamente');
+                        $('#modalbody').text('Faltan datos, asegure de llenar todos los campos del formulario, de escribir una dirección de correo eléctronica valida, y escribir un código no menor a 5 digitos');
                     }
                     else if (data.error == '3') {
 

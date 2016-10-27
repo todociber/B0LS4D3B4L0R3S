@@ -44,12 +44,22 @@
 
 {!! Html::style('assets/plugins/datepicker/datepicker3.css') !!}
 {!! Html::script('assets/js/loading.js') !!}
+{!! Html::script('assets/js/jquery.mask.min.js') !!}
 
 
 <script>
     var contador = 0;
     var clonar;
+
+
     $(function () {
+        $('#dui').mask('000000000');
+        $('#nit').mask('00000000000000');
+        $('#casa').mask('00000000');
+        $('#celular').mask('00000000');
+        $('.inputNumber').mask('0000000000');
+        //$('.inputNumber').mask('00000000');
+        $('#numeroafiliacion').mask('00000');
 
         //$.fn.datepicker.defaults.language = 'es';
         $('#datepicker').datepicker({
@@ -136,7 +146,7 @@
 /*<a type="button">
  <i class="fa fa-minus-circle min-button" aria-hidden="true"></i>
  </a>*/
-        console.log('addcedeval ' + contador);
+        if (contador < 4) {
         var numeroCuenta = $('.pivot');
         var general = $('.cdv');
 
@@ -151,7 +161,6 @@
 
         }
         contador++;
-
         var inputNumber = $('.inputNumber');
         $(inputNumber[contador]).val('');
         var aPivot = $('.aPivot');
@@ -160,7 +169,11 @@
         $(numeroCuenta[contador]).attr('id','t'+contador);
         $(aPivot[contador-1]).attr('onclick','removeCedeval('+contador+')');
 
-
+        }
+        else {
+            $('#modalbody').text("Solo puede agregar 5 cuentas cedevales");
+            $('#modal').modal('show');
+        }
     }
 
     function removeCedeval(id) {
@@ -177,35 +190,35 @@
 
 <div class="form-box">
     <div class="login-logo">
-        <a href="#"><b>Registro de</b> Cliente</a>
+        <a href="#"><b>Registro de</b> Cddliente</a>
     </div><!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">Complete los siguientes datos, este formulario enviara automaticamente la solitud
             a la Casa Corredora Seleccionada</p>
         @include('alertas.errores')
         @include('alertas.flash')
-        {{Form::open(['route'=>'Registro.store','method' =>'POST', 'id'=>'form'])  }}
+        {{Form::open(['route'=>'Registro.store','method' =>'POST', 'id'=>'form','onsubmit'=>'animatedLoading()'])  }}
         <div class="form-group">
             {!!   Form::label('Nombre')!!}
-            {!!   Form::text('nombre',null,['class'=>'form-control','placeholder'=>'Ingresa el nombre del usuario']) !!}
+            {!!   Form::text('nombre',null,['class'=>'form-control','placeholder'=>'Ingresa el nombre del usuario','required']) !!}
         </div>
         <div class="form-group">
             {{ Form::label('Apellido') }}
-            {{ Form::text('apellido',null,['class'=>'form-control','placeholder'=>'Ingresa el apellido del usuario']) }}
+            {{ Form::text('apellido',null,['class'=>'form-control','placeholder'=>'Ingresa el apellido del usuario','required']) }}
         </div>
 
         <div class="form-group">
             {{ Form::label('DUI') }}
-            {{ Form::text('dui',null,['class'=>'form-control','placeholder'=>'Ingresa número de DUI']) }}
+            {{ Form::text('dui',null,['class'=>'form-control','placeholder'=>'Ingresa número de DUI','required','id'=>'dui']) }}
         </div>
 
         <div class="form-group">
             {{ Form::label('NIT') }}
-            {{ Form::text('nit',null,['class'=>'form-control','placeholder'=>'Ingresa número de NIT']) }}
+            {{ Form::text('nit',null,['class'=>'form-control','placeholder'=>'Ingresa número de NIT','required','id'=>'nit']) }}
         </div>
         <div class="form-group">
             {{ Form::label('Email') }}
-            {{ Form::text('email',null,['class'=>'form-control','placeholder'=>'Ingresa número de NIT']) }}
+            {{ Form::email('email',null,['class'=>'form-control','placeholder'=>'Ingresa tu email']) }}
         </div>
 
 
@@ -216,24 +229,24 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                {{ Form::text('nacimiento',null,['class'=>'form-control input-pointer','placeholder'=>'Ingresa tu fecha de nacimiento (dd/mm/yyyy)', 'id'=>'datepicker']) }}
+                {{ Form::text('nacimiento',null,['class'=>'form-control input-pointer','placeholder'=>'Ingresa tu fecha de nacimiento (dd/mm/yyyy)', 'id'=>'datepicker','required']) }}
             </div>
         </div>
 
 
         <div class="form-group">
             {{ Form::label('Número de teléfono casa') }}
-            {{ Form::text('numeroCasa',null,['class'=>'form-control','placeholder'=>'Ingrese el número de casa']) }}
+            {{ Form::number('numeroCasa',null,['class'=>'form-control','placeholder'=>'Ingrese el número de casa','required','id'=>'casa']) }}
         </div>
 
         <div class="form-group">
             {{ Form::label('Número de teléfono  celular') }}
-            {{ Form::text('numeroCelular',null,['class'=>'form-control','placeholder'=>'Número de celular']) }}
+            {{ Form::number('numeroCelular',null,['class'=>'form-control','placeholder'=>'Número de celular','required', 'id'=>'celular']) }}
         </div>
 
         <div class="form-group">
             {{ Form::label('Departamento') }}
-            {!! Form::select('departamento',$departamentos,null,['class'=>'form-control', 'id'=>'department', 'onchange'=>'GetMunicipios(this)']) !!}
+            {!! Form::select('departamento',$departamentos,null,['class'=>'form-control','required', 'id'=>'department', 'onchange'=>'GetMunicipios(this)']) !!}
 
         </div>
 
@@ -245,7 +258,7 @@
         </div>
         <div class="form-group">
             {{ Form::label('Dirección') }}
-            {{ Form::text('direccion',null,['class'=>'form-control','placeholder'=>'Ingrese la dirección']) }}
+            {{ Form::text('direccion',null,['class'=>'form-control','placeholder'=>'Ingrese la dirección', 'required']) }}
         </div>
 
 
@@ -260,7 +273,7 @@
                 <div class="row pivot" id="numeroCuenta">
                     <div class="col-md-8 ">
                         <br/>
-                        {{ Form::text('cedeval[][cuenta]',null,['class'=>'form-control inputNumber','placeholder'=>'Ingrese su cuenta cedeval']) }}
+                        {{ Form::text('cedeval[][cuenta]',null,['class'=>'form-control inputNumber','placeholder'=>'Ingrese su cuenta cedeval','required']) }}
                     </div>
                     <div class="col-md-4 margin-TopDiv">
 
@@ -280,20 +293,20 @@
 
         <div class="form-group">
             {{ Form::label('Número de afiliación') }}
-            {{ Form::text('numeroafiliacion',null,['class'=>'form-control','placeholder'=>'Ingrese el código de afiliación']) }}
+            {{ Form::number('numeroafiliacion',null,['class'=>'form-control','placeholder'=>'Ingrese el código de afiliación','required','id'=>'numeroafiliacion']) }}
         </div>
 
         <div class="form-group">
             {{ Form::label('Contraseña') }}
-            {{ Form::password('password',['class'=>'form-control','placeholder'=>'Ingrese su contraseña']) }}
+            {{ Form::password('password',['class'=>'form-control','placeholder'=>'Ingrese su contraseña','required']) }}
         </div>
 
         <div class="form-group">
             {{ Form::label('Repita la contraseña') }}
-            {{ Form::password('password2',['class'=>'form-control','placeholder'=>'Repita la contraseña']) }}
+            {{ Form::password('password2',['class'=>'form-control','placeholder'=>'Repita la contraseña','required']) }}
         </div>
 
-        {!!Form::submit('Registrar', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit', 'onclick'=>"waitingDialog.show('Procesando... ',{ progressType: 'info'})"])!!}
+        {!!Form::submit('Registrar', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'btnSubmit'])!!}
         {{Form::close()}}
 
     </div><!-- /.login-box-body -->

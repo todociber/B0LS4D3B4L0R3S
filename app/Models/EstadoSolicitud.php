@@ -16,7 +16,7 @@ class EstadoSolicitud extends Model
     ];
     protected $guarded = [];
 
-    public function Municipio()
+    public function SolicitudRegistroR()
     {
         return $this->hasMany(SolicitudRegistro::class, 'idEstadoSolicitud', 'id');
     }

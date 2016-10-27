@@ -13,6 +13,39 @@
 
         $(document).ready(function () {
             $('#agentes').select2();
+            //example1
+            $('#AgentesC').DataTable({
+                "paging": true,
+                "ordering": true,
+                "info": false,
+                "language": {
+
+
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Ãšltimo",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+
+                }
+            });
         });
     </script>
     <script>
@@ -28,6 +61,20 @@
 
 
     </script>
+
+
+    <div id="modalRechazar" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                @include('CasaCorredora.OrdenesAutorizador.formularios.RechazarOrden')
+
+            </div>
+
+        </div>
+    </div>
+
 
     <?php use Carbon\Carbon;?>
 
@@ -47,13 +94,14 @@
                     </button>
                     <h4 class="modal-title" id="gridModalLabel">Seleccion Agente Corredor</h4>
                 </div>
-                <table id="example1" class="table table-hover">
+                <div class="modal-body">
+                    <table id="AgentesC" class="table table-hover">
                     <thead>
                     <tr>
 
                         <th><p class="text-center">Nombre</p></th>
                         <th><p class="text-center">email</p></th>
-                        <th><p class="text-center">Numero de Ordenes</p></th>
+                        <th><p class="text-center">Nº Ordenes asignadas</p></th>
                         <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
                     </tr>
                     </thead>
@@ -64,7 +112,8 @@
 
                             <td>{{$usuarioA->nombre}}  {{$usuarioA->apellido}}</td>
                             <td>{{$usuarioA->email}}</td>
-                            <td>
+                            <td class="text-center">
+
                                 <?php
                                 $existenordenes = 0;
 
@@ -82,7 +131,7 @@
                                 }
 
 
-                                ?> ordenes asignadas
+                                ?>
                             </td>
 
 
@@ -98,6 +147,7 @@
 
                     </tbody>
                 </table>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 
@@ -153,6 +203,7 @@
                                 <b>Estado:</b><span style="color:orangered"> {{$orden->EstadoOrden->estado}}</span>
                                 <br><br>
 
+                                {!!link_to_route('OrdenesDetalles.PDF', $title = 'Descargar Reporte', $parameters = $orden->id, $attributes = ['class'=>'btn btn-info','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                 @if($orden->idEstadoOrden==2)
                                     {!!link_to_route('Ordenes.editar', $title = 'Editar', $parameters = $orden->id, $attributes = ['class'=>'btn btn-warning','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'danger'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                 @endif
@@ -179,11 +230,32 @@
                             <div class="form-group col-md-6">
                                 @if($orden->idEstadoOrden==1)
 
-                                    @include('CasaCorredora.OrdenesAutorizador.formularios.AsignarAgenteCorredorForm')
-                                    <div>
-                                        <br>
-                                        {!!link_to_route('Ordenes.rechazar', $title = 'Rechazar', $parameters = $orden->id, $attributes = ['class'=>'btn btn-danger','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'danger'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                                    {!!Form::model($agentes, ['route'=>['Ordenes.aceptar', $orden->id], 'method'=>'PUT','onsubmit'=>"waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                                    <label>Agente Corredor: </label>
+                                    <label id="AgenteSeleccionado" value="Sin Seleccionar">Sin Seleccionar </label>
+                                    <div class="bs-example bs-example-padded-bottom">
+                                        <button type="button" class="btn btn-info" data-toggle="modal"
+                                                data-target="#SeleccionAgente">
+                                            Seleccionar Agente Corredor
+                                        </button>
                                     </div>
+                                    <input name="AgenteCorredor" id="AgenteCorredor" value="" size="40"
+                                           style="display:none">
+                                    <br>
+                                    {!!Form::label('Comision')!!}
+                                    {!!Form::number('Comision',null, ['class'=>'form-control', 'placeholder'=>'Ingrese la Comision  a cobrar ','min'=>'0','step'=>'any', 'max'=>'100'])!!}
+                                    <br>
+                                    <ul class="list-inline">
+
+                                        <li>{!!Form::submit('Completar', ['class'=>'btn btn-info btn-flat'])!!}</li>
+
+                                        <li><a data-toggle="modal" data-target="#modalRechazar"
+                                           class="btn btn-danger btn-flat">Rechazar</a>
+                                        </li>
+                                        {!!Form::close()!!}
+                                    </ul>
+
+
 
                                 @else
                                     {!!Form::label('Agente Corredor: ')!!} {{$orden->Corredor_UsuarioN->nombre}} {{$orden->Corredor_UsuarioN->apellido}}
@@ -271,7 +343,7 @@
             </div>
         </div>
 
-        @if($ordenes[0]->idEstadoOrden == 2)
+        @if($ordenes[0]->idEstadoOrden == 2 ||$ordenes[0]->idEstadoOrden == 1||$ordenes[0]->idEstadoOrden == 5  )
             <div class="row">
 
                 <div class="col-md-12">

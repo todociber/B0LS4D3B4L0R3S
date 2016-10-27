@@ -11,7 +11,12 @@
         "barryvdh/laravel-ide-helper": "^2.2",
         "nesbot/carbon": "^1.21",
         "laracasts/flash": "^2.0",
-        "faytzel/laravel-latch": "1.*"
+        "faytzel/laravel-latch": "1.*",
+        "guzzlehttp/guzzle": "^6.2",
+        "barryvdh/laravel-dompdf": "^0.7.0",
+        "tymon/jwt-auth": "0.5.*",
+        "asachanfbd/laravel-push-notification": "^1.0",
+        "snowfire/beautymail": "dev-master"
 
 
     },

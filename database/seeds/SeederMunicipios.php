@@ -18,8 +18,6 @@ class SeederMunicipios extends Seeder
             'created_at' => new DateTime,
             'updated_at' => new DateTime
         ));
-
-
         DB::table('municipios')->insert(array(
             'nombre' => 'Chalchuapa',
             'id_departamento' => '1',
@@ -37,7 +35,12 @@ class SeederMunicipios extends Seeder
             'id_departamento' => '1',
             'created_at' => new DateTime,
             'updated_at' => new DateTime
-
+        ));
+        DB::table('municipios')->insert(array(
+            'nombre' => 'El Porvenir',
+            'id_departamento' => '1',
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime
         ));
         DB::table('municipios')->insert(array(
             'nombre' => 'Masahuat',
@@ -283,25 +286,19 @@ class SeederMunicipios extends Seeder
             'updated_at' => new DateTime
         ));
         DB::table('municipios')->insert(array(
-            'nombre' => 'Cancasque',
-            'id_departamento' => '4',
-            'created_at' => new DateTime,
-            'updated_at' => new DateTime
-        ));
-        DB::table('municipios')->insert(array(
             'nombre' => 'Chalatenango',
             'id_departamento' => '4',
             'created_at' => new DateTime,
             'updated_at' => new DateTime
         ));
         DB::table('municipios')->insert(array(
-            'nombre' => 'Citalá',
+            'nombre' => 'Comalapa',
             'id_departamento' => '4',
             'created_at' => new DateTime,
             'updated_at' => new DateTime
         ));
         DB::table('municipios')->insert(array(
-            'nombre' => 'Comapala',
+            'nombre' => 'Citalá',
             'id_departamento' => '4',
             'created_at' => new DateTime,
             'updated_at' => new DateTime
@@ -349,19 +346,7 @@ class SeederMunicipios extends Seeder
             'updated_at' => new DateTime
         ));
         DB::table('municipios')->insert(array(
-            'nombre' => 'Las Flores',
-            'id_departamento' => '4',
-            'created_at' => new DateTime,
-            'updated_at' => new DateTime
-        ));
-        DB::table('municipios')->insert(array(
             'nombre' => 'Las Vueltas',
-            'id_departamento' => '4',
-            'created_at' => new DateTime,
-            'updated_at' => new DateTime
-        ));
-        DB::table('municipios')->insert(array(
-            'nombre' => 'Nombre de Jesús',
             'id_departamento' => '4',
             'created_at' => new DateTime,
             'updated_at' => new DateTime
@@ -374,6 +359,12 @@ class SeederMunicipios extends Seeder
         ));
         DB::table('municipios')->insert(array(
             'nombre' => 'Nueva Trinidad',
+            'id_departamento' => '4',
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime
+        ));
+        DB::table('municipios')->insert(array(
+            'nombre' => 'Nombre de Jesús',
             'id_departamento' => '4',
             'created_at' => new DateTime,
             'updated_at' => new DateTime
@@ -428,6 +419,18 @@ class SeederMunicipios extends Seeder
         ));
         DB::table('municipios')->insert(array(
             'nombre' => 'San Isidro Labrador',
+            'id_departamento' => '4',
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime
+        ));
+        DB::table('municipios')->insert(array(
+            'nombre' => 'San José Cancasque',
+            'id_departamento' => '4',
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime
+        ));
+        DB::table('municipios')->insert(array(
+            'nombre' => 'San José Las Flores',
             'id_departamento' => '4',
             'created_at' => new DateTime,
             'updated_at' => new DateTime
@@ -1141,6 +1144,14 @@ class SeederMunicipios extends Seeder
 
         DB::table('municipios')->insert(array(
             'nombre' => 'San Lorenzo',
+            'id_departamento' => '10',
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime
+
+        ));
+
+        DB::table('municipios')->insert(array(
+            'nombre' => 'San Sebastián',
             'id_departamento' => '10',
             'created_at' => new DateTime,
             'updated_at' => new DateTime

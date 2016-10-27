@@ -1,6 +1,4 @@
-<?php
-
-namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Cedeval;
@@ -15,8 +13,12 @@ use App\Models\Organizacion;
 use App\Models\SolicitudRegistro;
 use App\Models\Telefono;
 use App\Models\TipoOrden;
+use App\Models\token;
 use App\Models\Usuario;
+use App\Utilities\Action;
+use App\Utilities\GenerarToken;
 use Carbon\Carbon;
+use GuzzleHttp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -49,40 +51,69 @@ class ClientesController extends Controller
 
         $count = SolicitudRegistro::where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", 2)->count();
         if ($count > 0) {
+            $client = new GuzzleHttp\Client();
+            $res = $client->request('GET', 'http://e60e591e.ngrok.io/GetTitulos');
+            $bodyJ = $res->getBody();
+            $body = json_decode($bodyJ);
+            if ($body->errorCode == 0) {
+                $titulos = $body->Titulos;
+                $res = $client->request('GET', 'http://e60e591e.ngrok.io/GetTipoMercado');
+                $bodyJ = $res->getBody();
+                $body = json_decode($bodyJ);
+                if ($body->errorCode == 0) {
+                    $tipoMercado = $body->tipoMercados;
+                    $idCliente = Auth::user()->ClienteN->id;
+                    $cedeval = Cedeval::where('idCliente', $idCliente)->lists('cuenta', 'id');
 
-        $idCliente = Auth::user()->ClienteN->id;
-        $cedeval = Cedeval::where('idCliente', $idCliente)->lists('cuenta', 'id');
-        //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE
-        $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
-            $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 2);
-        })->lists('nombre', 'id');
-        $tipoOrden = TipoOrden::lists('nombre', 'id');
 
-        return View('Clientes.Ordenes.NuevaOrden', ['cedeval' => $cedeval, 'casas' => $casas, 'Tipoorden' => $tipoOrden]);
+                    //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE
+                    $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
+                        $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 2);
+                    })->lists('nombre', 'id');
+                    $tipoOrden = TipoOrden::lists('nombre', 'id');
 
+                    return View('Clientes.Ordenes.NuevaOrden', ['cedeval' => $cedeval, 'casas' => $casas, 'Tipoorden' => $tipoOrden, 'titulos' => $titulos, 'TipoMercado' => $tipoMercado]);
+                }
+            } else {
+                return redirect()->back();
+            }
         } else {
 
-            return redirect()->route("afiliarsecasa");
+            return redirect()->back();
         }
+    }
+
+    public function getEmisor($id)
+    {
+        try {
+
+            $client = new GuzzleHttp\Client();
+            $res = $client->request('GET', "http://e60e591e.ngrok.io//GetEmisores/$id/titulo");
+            $bodyJ = $res->getBody();
+            $body = json_decode($bodyJ);
+
+            return response()->json(["error" => 0, "datos" => $body], 200);
+
+        } catch (Exception $e) {
+            return response()->json(["error" => 1, "datos" => $body], 200);
+
+        }
+
     }
 
     //LISTADO DE ORDENES SIN IMPORTAR ESTADO
     public function ListadoOrdenes()
     {
 
-        $count = SolicitudRegistro::where("idCliente", Auth::user()->ClienteN)->where("idEstadoSolicitud", 2)->count();
-        if ($count > 0) {
+
         $idCliente = Auth::user()->ClienteN->id;
 
-        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN')->where('idCliente', $idCliente)->where("idEstadoOrden", 1)->get();
-        $estadoOrdenes = EstadoOrden::lists('estado', 'id');
+            $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN')->where('idCliente', $idCliente)->where("idEstadoOrden", 1)->get();
+            $estadoOrdenes = EstadoOrden::lists('estado', 'id');
 
-        return View('Clientes.Ordenes.ListaOrdenesCliente', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes]);
-        } else {
-
-            return redirect()->route("afiliarsecasa");
-        }
+            return View('Clientes.Ordenes.ListaOrdenesCliente', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes]);
     }
+
 
 
     //DETALLE DE ORDEN POR ID
@@ -90,13 +121,21 @@ class ClientesController extends Controller
     {
         try {
             \Session::put('idOrden', $id);
-            $orden = Ordene::orderBy('FechaDevigencia', 'desc')->where('id', $id)->where('idCliente', Auth::user()->ClienteN->id)->first();
+            $orden = Ordene::with("EstadoOrden", "MensajesN_Orden", "MensajesN_Orden.UsuarioMensaje",
+                "Operaiones_ordenes", "Corredor_UsuarioN",
+                "OrganizacionOrdenN", "CuentaCedeval")->where('id', $id)->where('idCliente', Auth::user()->ClienteN->id)->withTrashed()->first();
             if (count($orden) > 0) {
 
+                $motivoCancel = '';
+                if ($orden->idEstadoOrden == 8) {
+
+                    $motivoCancel = Mensaje::where("idOrden", $orden->id)->where("idTipoMensaje", 2)->first();
+
+                }
                 // var_dump($orden);
                 // $timestamp = Carbon::parse($orden->created_at)->timestamp;
                 $ordenDate = $orden->created_at->format('m-d-Y'); //date('m-d-Y',Carbon::createFromFormat('Y-d-m H:i:s', $orden->created_at)->timestamp);
-                return view('Clientes.Ordenes.DetalleOrden', ['orden' => $orden, 'ordenDate' => $ordenDate]);
+                return view('Clientes.Ordenes.DetalleOrden', ['orden' => $orden, 'ordenDate' => $ordenDate, 'motivoCancel' => $motivoCancel]);
             } else {
 
                 return redirect()->route('listadoordenesclienteV');
@@ -116,6 +155,7 @@ class ClientesController extends Controller
 
             $idCliente = Auth::user()->ClienteN->id;
             $ordenes = Ordene::with('TipoOrdenN')->where('idCliente', $idCliente)->where('idEstadoOrden', $request['estado'])->get();
+            $mensaje = '';
             $estadoOrdenes = EstadoOrden::lists('estado', 'id');
             return View('Clientes.Ordenes.ListaOrdenesCliente', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes, 'selected' => $request['estado']]);
         } catch (Exception $e) {
@@ -138,6 +178,7 @@ class ClientesController extends Controller
 
             ]);
             $idOrden = \Session::get('idOrden');
+            $orden = Ordene::find($idOrden);
             $mensaje = new Mensaje();
             $mensaje->fill(
                 [
@@ -149,6 +190,35 @@ class ClientesController extends Controller
                 ]
             );
             $mensaje->save();
+            $idrol = 3;
+            $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                $query->where('idRol', $idrol);
+            })->where("idOrganizacion", $request["casacorredora"])->get();
+            $emails = [];
+            $i = 0;
+            $band = false;
+            foreach ($usuarios as $user) {
+                if (isset($orden->Corredor_UsuarioN)) {
+                    if ($orden->Corredor_UsuarioN->email == $user->email) {
+
+                        $band = true;
+                    }
+                }
+                $emails[$i] = $user->email;
+                $i++;
+            }
+            if (!$band) {
+                $i++;
+                $emails[$i] = $orden->Corredor_UsuarioN->email;
+            }
+
+
+
+            $data = [
+                'titulo' => 'El cliente ' . Auth::user()->nombre . ' ' . Auth::user()->apellido . 'Ha enviado un nuevo mensaje',
+            ];
+            $action = new Action();
+            $action->sendEmail($data, $emails, 'Mensaje', 'Nuevo mensaje de cliente', 'emails.OrdenEmail');
             flash('Mensaje agregado con exito', 'success');
             return redirect()->route('getOrdenes', ['id' => $idOrden]);
         } catch (Exception $e) {
@@ -168,16 +238,17 @@ class ClientesController extends Controller
     {
         try {
             $this->validate($request, [
-                'cuentacedeval' => 'required',
+                'cuentacedeval' => 'required|integer',
                 'casacorredora' => 'required',
-                'tipodeorden' => 'required|numeric',
+                'tipodeorden' => 'required|numeric|integer',
                 'mercado' => 'required',
                 'titulo' => 'required',
                 'emisor' => 'required',
-                'valorMinimo' => 'required|numeric',
-                'valorMaximo' => 'required|numeric',
-                'monto' => 'required|numeric',
+                'valorMinimo' => 'required|numeric|min:1',
+                'valorMaximo' => 'required|numeric|min:1',
+                'monto' => 'required|numeric|min:1',
                 'FechaDeVigencia' => 'required|date',
+                'tasaDeInteres' => 'required|numeric|min:0',
 
             ]);
 
@@ -211,7 +282,7 @@ class ClientesController extends Controller
                 flash('La fecha de vigencia no debe ser mayor a 2 meses', 'info');
                 return redirect()->route('nuevaOrden');
             } else {
-                $result = DB::statement('call NuevaOrden(?,?,?,?,?,?,?,?,?,?,?)',
+                $result = DB::statement('call NuevaOrden(?,?,?,?,?,?,?,?,?,?,?,?)',
                     array(Auth::user()->ClienteN->id,
                         Carbon::parse($request['FechaDeVigencia'])->format('Y-m-d'),
                         $request['tipodeorden'],
@@ -222,14 +293,31 @@ class ClientesController extends Controller
                         number_format((float)$request['monto'], 2, '.', ''),
                         $request['cuentacedeval'],
                         $request['emisor'],
-                        $request['mercado'])
+                        $request['mercado'],
+                        $request['tasaDeInteres'])
                 );
 
+                $idrol = 3;
+                $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                    $query->where('idRol', $idrol);
+                })->where("idOrganizacion", $request["casacorredora"])->get();
+                $emails = [];
+                $i = 0;
+                foreach ($usuarios as $user) {
+                    $emails[$i] = $user->email;
+                    $i++;
+                }
 
+                $data = [
+                    'titulo' => 'El cliente ' . Auth::user()->nombre . ' ha realizado una orden de inversión',
+                ];
+                $action = new Action();
+                $action->sendEmail($data, $emails, 'Nueva orden de inversión', 'Nueva orden de inversión', 'emails.OrdenEmail');
+                
                 flash('Orden generada con exito', 'success');
                 return redirect()->route('listadoordenesclienteV');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             flash('Ocurrior un error al procesar la orden', 'danger');
             return redirect()->route('nuevaOrden');
@@ -247,19 +335,33 @@ class ClientesController extends Controller
         $idCliente = Auth::user()->ClienteN->id;
         $orden = Ordene::where("id", $id)
             ->where("idCliente", $idCliente)
-            ->where("idEstadoOrden", "=", 2)
-            ->orwhere("idEstadoOrden", 1)->first();
-        if (count($orden) > 0) {
+            ->whereIn("idEstadoOrden", [1, 2])->first();
 
-            $fechaVigencia = Carbon::parse($orden->FechaDeVigencia)->format('m/d/Y');
-            $orden->FechaDeVigencia = $fechaVigencia;
-            $cedeval = Cedeval::where('idCliente', $idCliente)->lists('cuenta', 'id');
-            //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE
-            $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
-                $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 2);
-            })->lists('nombre', 'id');
-            $tipoOrden = TipoOrden::lists('nombre', 'id');
-            return view('Clientes.Ordenes.ModificarOrden', ['orden' => $orden, 'cedeval' => $cedeval, 'casas' => $casas, 'Tipoorden' => $tipoOrden]);
+        if (count($orden) > 0) {
+            $client = new GuzzleHttp\Client();
+            $res = $client->request('GET', 'http://e60e591e.ngrok.io/GetTitulos');
+            $bodyJ = $res->getBody();
+            $body = json_decode($bodyJ);
+            Log::info($body->Titulos);
+            if ($body->errorCode == 0) {
+                $titulos = $body->Titulos;
+                $res = $client->request('GET', 'http://e60e591e.ngrok.io/GetTipoMercado');
+                $bodyJ = $res->getBody();
+                $body = json_decode($bodyJ);
+                if ($body->errorCode == 0) {
+                    $tipoMercado = $body->tipoMercados;
+                    $fechaVigencia = Carbon::parse($orden->FechaDeVigencia)->format('m/d/Y');
+                    $orden->FechaDeVigencia = $fechaVigencia;
+                    $cedeval = Cedeval::where('idCliente', $idCliente)->lists('cuenta', 'id');
+                    //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE
+                    $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
+                        $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 2);
+                    })->lists('nombre', 'id');
+                    $tipoOrden = TipoOrden::lists('nombre', 'id');
+                    return view('Clientes.Ordenes.ModificarOrden', ['orden' => $orden, 'cedeval' => $cedeval, 'casas' => $casas, 'Tipoorden' => $tipoOrden, 'titulos' => $titulos, 'TipoMercado' => $tipoMercado]);
+
+                }
+            }
         } else {
             return redirect()->route('ListadoOrdenesV');
 
@@ -311,6 +413,32 @@ class ClientesController extends Controller
                 ]
             );
             $mensajes->save();
+            $idrol = 3;
+            $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                $query->where('idRol', $idrol);
+            })->where("idOrganizacion", $request["casacorredora"])->get();
+            $emails = [];
+            $i = 0;
+            $band = false;
+            foreach ($usuarios as $user) {
+                if ($orden->Corredor_UsuarioN->email == $user->email) {
+
+                    $band = true;
+                }
+                $emails[$i] = $user->email;
+                $i++;
+            }
+            if (!$band) {
+                $i++;
+                $emails[$i] = $orden->Corredor_UsuarioN->email;
+            }
+
+
+            $data = [
+                'titulo' => 'El cliente ' . Auth::user()->nombre . ' ha cancelado una orden de inversión, con el correlativo ' . $orden->correlativo,
+            ];
+            $action = new Action();
+            $action->sendEmail($data, $emails, 'Cancelación de orden', 'Cancelación de orden', 'emails.OrdenEmail');
             flash('Orden anulada con exito', 'success');
             return redirect()->route('listadoordenesclienteV');
         } catch (Exception $e) {
@@ -343,7 +471,32 @@ class ClientesController extends Controller
                 ]
             );
             $orden->save();
+            $idrol = 3;
+            $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                $query->where('idRol', $idrol);
+            })->where("idOrganizacion", $request["casacorredora"])->get();
+            $emails = [];
+            $i = 0;
+            $band = false;
+            foreach ($usuarios as $user) {
+                if ($orden->Corredor_UsuarioN->email == $user->email) {
 
+                    $band = true;
+                }
+                $emails[$i] = $user->email;
+                $i++;
+            }
+            if (!$band) {
+                $i++;
+                $emails[$i] = $orden->Corredor_UsuarioN->email;
+            }
+
+
+            $data = [
+                'titulo' => 'El cliente ' . Auth::user()->nombre . ' ha ejecutado una orden de inversión, con el correlativo ' . $orden->correlativo,
+            ];
+            $action = new Action();
+            $action->sendEmail($data, $emails, 'Ejecución de orden', 'Ejecución de orden', 'emails.OrdenEmail');
             flash('Orden ejecutada con exito', 'success');
             return redirect()->route('getOrdenes', ["id" => $request["id"]]);
 
@@ -376,15 +529,16 @@ class ClientesController extends Controller
         try {
 
             $this->validate($request, [
-                'cuentacedeval' => 'required',
-                'tipodeorden' => 'required|numeric',
+                'cuentacedeval' => 'required|integer',
+                'tipodeorden' => 'required|numeric|integer',
                 'mercado' => 'required',
                 'titulo' => 'required',
                 'emisor' => 'required',
-                'valorMinimo' => 'required|numeric',
-                'valorMaximo' => 'required|numeric',
-                'monto' => 'required|numeric',
+                'valorMinimo' => 'required|numeric|min:1',
+                'valorMaximo' => 'required|numeric|min:1',
+                'monto' => 'required|numeric|min:0',
                 'FechaDeVigencia' => 'required|date',
+                'tasaDeInteres' => 'required|numeric|min:0',
 
             ]);
 
@@ -404,13 +558,14 @@ class ClientesController extends Controller
                 flash('El valor minimo no debe ser mayor al monto', 'info');
                 return redirect()->route('modificarorden', ["id" => $id]);
             } else if ($request['valorMaximo'] >= $request['monto']) {
-                // Log::info((int)Carbon::parse($request['FechaDeVigencia'])->diffInDays(Carbon::now(),false));
+
+
                 flash('El valor máximo no debe ser mayor al monto', 'info');
                 return redirect()->route('modificarorden', ["id" => $id]);
 
             } else if (Carbon::now()->diffInDays(Carbon::parse($request['FechaDeVigencia']), false) < 2) {
 
-
+                /**/
                 flash('La fecha de vigencia no debe ser menor a 2 días', 'info');
 
                 return redirect()->route('modificarorden', ["id" => $id]);
@@ -423,20 +578,23 @@ class ClientesController extends Controller
                 $idCliente = Auth::user()->ClienteN->id;
                 $orden = Ordene::where("id", $id)
                     ->where("idCliente", $idCliente)
-                    ->where("idEstadoOrden", "=", 2)
-                    ->orwhere("idEstadoOrden", 1)->first();
-
+                    ->whereIn("idEstadoOrden", [1, 2])->first();
                 $idOrden = $orden->idOrden ? $orden->idOrden : $orden->id;
+                $idor = $orden->idOrden ? "idOrden" : "id";
+                $count = Ordene::where($idor, $idOrden)->count() + 1;
+                $correlativoPadre = DB::table('ordenes')->where('id', $idOrden)->value('correlativo');
+                Log::info($count);
+                $correlativo = $correlativoPadre . '-' . $count;
                 $nuevaOrden = new Ordene();
                 $nuevaOrden->fill(
                     [
-                        'correlativo' => $orden->correlativo,
+                        'correlativo' => $correlativo,
                         'idCliente' => $idCliente,
                         'FechaDeVigencia' => Carbon::parse($request['FechaDeVigencia'])->format('Y-m-d'),
                         'idCorredor' => $orden->idCorredor,
                         'idTipoOrden' => $request["tipodeorden"],
                         'titulo' => $request['titulo'],
-                        'idEstadoOrden' => $orden->idEstadoOrden,
+                        'idEstadoOrden' => 1,
                         'valorMinimo' => number_format((float)$request['valorMinimo'], 2, '.', ''),
                         'idOrganizacion' => $orden->idOrganizacion,
                         'valorMaximo' => number_format((float)$request['valorMaximo'], 2, '.', ''),
@@ -445,17 +603,54 @@ class ClientesController extends Controller
                         'idCuentaCedeval' => $request['cuentacedeval'],
                         'emisor' => $request['emisor'],
                         'TipoMercado' => $request['mercado'],
+                        'tasaDeInteres' => $request['tasaDeInteres'],
+                        'idTipoEjecucion' => $orden->idTipoEjecucion,
 
                     ]
                 );
                 $nuevaOrden->save();
+
+
                 $orden->fill(
                     [
                         'idEstadoOrden' => 4,
 
                     ]
                 );
+
                 $orden->save();
+                DB::table('mensajes')->where('idOrden', $orden->id)
+                    ->update(['idOrden' => $nuevaOrden->id]);
+                
+                $idrol = 3;
+                $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                    $query->where('idRol', $idrol);
+                })->where("idOrganizacion", $request["casacorredora"])->get();
+                $emails = [];
+                $i = 0;
+                $band = false;
+                foreach ($usuarios as $user) {
+                    if ($orden->Corredor_UsuarioN->email == $user->email) {
+
+                        $band = true;
+                    }
+                    $emails[$i] = $user->email;
+                    $i++;
+                }
+                if (!$band) {
+                    $i++;
+                    if ($orden->Corredor_UsuarioN) {
+                        $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    }
+
+                }
+
+
+                $data = [
+                    'titulo' => 'El cliente ' . Auth::user()->nombre . ' ' . Auth::user()->apellido . ' ha modificado una orden de inversión, con el correlativo ' . $nuevaOrden->correlativo,
+                ];
+                $action = new Action();
+                $action->sendEmail($data, $emails, 'Modificación de orden de inversión', 'Modificación de orden de inversión', 'emails.OrdenEmail');
 
                 flash('Orden modificada con exito', 'success');
                 return redirect()->route('listadoordenesclienteV');
@@ -506,18 +701,14 @@ class ClientesController extends Controller
     {
         try {
             $this->validate($request, [
-                'nombre' => 'required',
-                'apellido' => 'required',
-                'dui' => 'required|numeric',
-                'nit' => 'required|numeric',
+                    'nombre' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+                    'apellido' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+                    'dui' => 'required|unique:clientes,dui|size:9|regex:/^([0-9])+$/i',
+                    'nit' => 'required|unique:clientes,nit|size:14|regex:/^([0-9])+$/i',
                 'fechaDeNacimiento' => 'required|date',
-                'numeroCasa' => 'required|numeric',
-                'numeroCelular' => 'required|numeric',
-                'departamento' => 'required',
-                'municipio' => 'required',
-                'direccion' => 'required',
-                'email' => 'required|email',
-            ]);
+                'numeroCasa' => 'required|numeric|digits:8|min:0',
+                ]
+            );
 
             $usuario = Auth::user();
             $clientes = $usuario->ClienteN;
@@ -525,6 +716,7 @@ class ClientesController extends Controller
             $countDui = Cliente::where('dui', $request['dui'])->where('id', '!=', $clientes->id)->count();
             $countNIT = Cliente::where('nit', $request['nit'])->where('id', '!=', $clientes->id)->count();
             $countEmail = Usuario::where('email', $request['email'])->where('id', '!=', $usuario->id)->count();
+            $countOrdenes = Ordene::where('idCliente', $clientes->id)->whereIn("idEstadoOrden", [1, 2, 5])->count();
             if ($countDui > 0) {
 
                 flash('El DUI ingresado ya pertenece a un usuario', 'danger');
@@ -535,22 +727,19 @@ class ClientesController extends Controller
                 flash('El NIT ingresado ya pertenece a un usuario', 'danger');
                 return redirect()->route('modificarperfilCliente');
 
-            } else if ($countEmail > 0) {
-
-                flash('El email ingresado ya pertenece a un usuario', 'danger');
-                return redirect()->route('modificarperfilCliente');
-
-            } else if (Carbon::now()->diffInDays(Carbon::parse($request['fechaDeNacimiento']), false) < 18) {
-
+            } else if (Carbon::parse($request['fechaDeNacimiento'])->diffInYears(Carbon::now(), false) < 18) {
 
                 flash('Debe ser mayor de de 18 años', 'danger');
+                return redirect()->route('modificarperfilCliente');
+            } else if ($countOrdenes != 0) {
+
+                flash('Tiene ordenes en curso, no puede modificar su información', 'danger');
                 return redirect()->route('modificarperfilCliente');
             } else {
                 $usuario->fill(
                     [
                         'nombre' => $request['nombre'],
                         'apellido' => $request['apellido'],
-                        'email' => $request['email'],
                     ]
                 );
                 $usuario->save();
@@ -560,48 +749,70 @@ class ClientesController extends Controller
                         'idUsuario' => $usuario->id,
                         'dui' => $request['dui'],
                         'nit' => $request['nit'],
-                        'fechaDeNacimiento' => Carbon::parse($request['nacimiento'])->format('Y-m-d'),
+                        'fechaDeNacimiento' => Carbon::parse($request['fechaDeNacimiento'])->format('Y-m-d'),
 
                     ]
                 );
                 $clientes->save();
-                $telefonos = Telefono::with('TipoTelefonoN')->where('idCliente', $clientes->id)->get();
-                foreach ($telefonos as $telefono) {
+                /*  $telefonos = Telefono::with('TipoTelefonoN')->where('idCliente', $clientes->id)->get();
+                  foreach ($telefonos as $telefono) {
+  
+                      $reqName = $telefono->TipoTelefonoN->id == 1 ? 'numeroCasa' : 'numeroCelular';
+                      if ($telefono->TipoTelefonoN->numero != $request[$reqName]) {
+                          $tel = new Telefono();
+                          $tel->fill(
+                              [
+                                  'idTipoTelefono' => $telefono->TipoTelefonoN->id,
+                                  'numero' => $request[$reqName],
+                                  'idCliente' => $clientes->id,
+  
+                              ]
+                          );
+                          $tel->save();
+                          Telefono::destroy($telefono->id);
+  
+                      }
+                  }*/
 
-                    $reqName = $telefono->TipoTelefonoN->id == 1 ? 'numeroCasa' : 'numeroCelular';
-                    if ($telefono->TipoTelefonoN->numero != $request[$reqName]) {
-                        $tel = new Telefono();
-                        $tel->fill(
-                            [
-                                'idTipoTelefono' => $telefono->TipoTelefonoN->id,
-                                'numero' => $request[$reqName],
-                                'idCliente' => $clientes->id,
 
-                            ]
-                        );
-                        $tel->save();
-                        Telefono::destroy($telefono->id);
-
-                    }
+                /*  $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('id', $clientes->id)->get();
+                  if ($direcciones[0]->detalle != $request['direccion']) {
+                      $direccion = new Direccione();
+                      $direccion->fill(
+                          [
+                              'idMunicipio' => $request['municipio'],
+                              'idCliente' => $clientes->id,
+                              'detalle' => $request['direccion'],
+  
+                          ]
+                      );
+                      $direccion->save();
+                      Direccione::destroy($direcciones[0]->id);
+  
+                  }*/
+                $idCliente = $clientes->id;
+                $this->modificarEstadoSolicitud($clientes->id);
+                $idrol = 3;
+                /*OBTENIENDO USUARIOS DE ROL AUTORIZADOR DE TODAS LAS CASAS DONDE EL CLIENTE
+                ESTA AFILIADO PARA NOTIFICAR DEL CAMBIO DE INFORMACIÓN.
+              */
+                $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                    $query->where('idRol', $idrol);
+                })->whereIn("idOrganizacion", Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
+                    $query->where('idCliente', $idCliente)->where('idEstadoSolicitud', 5);
+                })->pluck('id')->toArray())->get();
+                $emails = [];
+                $i = 0;
+                foreach ($usuarios as $user) {
+                    $emails[$i] = $user->email;
+                    $i++;
                 }
 
-
-                $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('id', $clientes->id)->get();
-                if ($direcciones[0]->detalle != $request['direccion']) {
-                    $direccion = new Direccione();
-                    $direccion->fill(
-                        [
-                            'idMunicipio' => $request['municipio'],
-                            'idCliente' => $clientes->id,
-                            'detalle' => $request['direccion'],
-
-                        ]
-                    );
-                    $direccion->save();
-                    Direccione::destroy($direcciones[0]->id);
-
-                }
-
+                $data = [
+                    'titulo' => 'El cliente ' . Auth::user()->nombre . ' ' . Auth::user()->apellido . ' ha cambiado su información'
+                ];
+                $action = new Action();
+                $action->sendEmail($data, $emails, 'Cambio de información', 'Cambio de información', 'emails.cambioInformacion');
                 flash('Datos ingresados con exito', 'success');
                 return redirect()->route('perfilcliente');
             }
@@ -610,6 +821,16 @@ class ClientesController extends Controller
 
             return redirect()->route('modificarperfilCliente');
         }
+
+    }
+
+    public function modificarEstadoSolicitud($idCliente)
+    {
+        DB::table('solicitud_registros')
+            ->where('idCliente', $idCliente)
+            ->where('idEstadoSolicitud', "!=", 3)
+            ->update(['idEstadoSolicitud' => 5]);
+
 
     }
 
@@ -639,14 +860,13 @@ class ClientesController extends Controller
 
     }
 
-
     public function AfiliacionClienteStore(Request $request)
     {
 
         try {
             $this->validate($request, [
                 'casas' => 'required',
-                'afiliacion' => 'required',
+                'numeroafiliacion' => 'required|numeric|digits:5|integer|min:0',
 
             ]);
             $afiliacion = new SolicitudRegistro();
@@ -654,7 +874,7 @@ class ClientesController extends Controller
                 [
                     'idCliente' => Auth::user()->ClienteN->id,
                     'idOrganizacion' => $request["casas"],
-                    'numeroDeAfiliado' => $request["afiliacion"],
+                    'numeroDeAfiliado' => $request["numeroafiliacion"],
                     'comentarioDeRechazo' => '',
                     'idEstadoSolicitud' => 1,
 
@@ -673,7 +893,6 @@ class ClientesController extends Controller
 
     }
 
-
     public function ListadoAfiliaciones()
     {
 
@@ -689,7 +908,7 @@ class ClientesController extends Controller
     {
 
         $solicitudes = SolicitudRegistro::with("OrganizacionN", "EstadoSolicitudN")
-            ->where("idCliente", Auth::user()->ClienteN->id)->get();
+            ->where("idCliente", Auth::user()->ClienteN->id)->where("idEstadoSolicitud", "!=", 2)->get();
         return view("Clientes.Afiliaciones.ListadoSolicitudesAfiliacion", ["solicitudes" => $solicitudes]);
 
 
@@ -713,7 +932,7 @@ class ClientesController extends Controller
 
             ]);
             $countOrden = Ordene::where("idCuentaCedeval", $request["idCedeval"])
-                ->whereNotIn("idEstadoOrden", [1, 2, 4, 5, 6])->count();
+                ->whereIn("idEstadoOrden", [1, 2, 5])->count();
             Log::info($countOrden);
             if ($countOrden == 0) {
 
@@ -722,7 +941,7 @@ class ClientesController extends Controller
                 return redirect()->route('cuentascedevales');
             } else {
 
-                flash('Hay orden que aun no ha finalizado, asociado a esta cuenta.', 'info');
+                flash('Hay ordenes que aun no han finalizado asociadas a esta cuenta.', 'info');
                 return redirect()->route('cuentascedevales');
             }
 
@@ -737,7 +956,7 @@ class ClientesController extends Controller
     {
         try {
             $this->validate($request, [
-                'CuentaCedeval' => 'required|numeric|unique:cedevals,cuenta',
+                'CuentaCedeval' => 'required|numeric|unique:cedevals,cuenta|digits:10|min:0',
 
             ]);
 
@@ -796,6 +1015,9 @@ class ClientesController extends Controller
 
     }
 
+
+    //CAMBIANDO LAS SOLICITUDES A ESTADO REVISIÓN
+
     public function modificarPasswordUpdate(Request $request)
     {
 
@@ -836,10 +1058,30 @@ class ClientesController extends Controller
 
     }
 
+    //LISTADO DE ORDENES RELACION RECURSIVA
 
-    
-    
-    /**
+    public function ListadoOrdenesPadre($id)
+    {
+
+        try {
+
+            $ordenes = Ordene::with("EstadoOrden")->where("idOrden", $id)
+                ->orWhere("id", $id)
+                ->where("idCliente", Auth::user()->ClienteN->id)
+                ->orderBy("created_at", 'DESC')
+                ->get();
+
+            return view('Clientes.Ordenes.listadoOrdenesPadre', ["ordenes" => $ordenes]);
+        } catch (Exception $e) {
+            return redirect()->back();
+
+        }
+
+
+    }
+
+
+    /*
      *
      * Remove the specified resource from storage.
      *
@@ -850,4 +1092,148 @@ class ClientesController extends Controller
     {
         //
     }
+
+
+    public function CambiarInfoNVpage()
+    {
+        $user = Auth::user();
+        $idCliente = Auth::user()->ClienteN->id;
+        $departamentos = Departamento::orderBy('nombre', 'ASC')->lists('nombre', 'id');
+        $telefonos = Telefono::with('TipoTelefonoN')->where('idCliente', $idCliente)->get();
+        $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('id', $idCliente)->get();
+        $municipios = Municipio::where('id_departamento', $direcciones[0]->MunicipioDireccion->Departamento->id)->lists('nombre', 'id');
+        $telefonoCasa = '';
+        $telefonoCelular = '';
+        foreach ($telefonos as $telefono) {
+
+            if ($telefono->TipoTelefonoN->id == 1) {
+
+                $telefonoCasa = $telefono->numero;
+
+            } else {
+
+                $telefonoCelular = $telefono->numero;
+            }
+
+
+        }
+        return view('Clientes.Perfil.modificarInfo', ['user' => Auth::user(), 'departamentos' => $departamentos, 'numeroCasa' => $telefonoCasa, 'numeroCelular' => $telefonoCelular, 'direccion' => $direcciones[0], 'municipios' => $municipios]);
+
+
+    }
+
+
+    public function modifcarInfoNVP(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'numeroCasa' => 'required|numeric|digits:8|min:0',
+                'numeroCelular' => 'required|numeric|digits:8|min:0',
+                'departamento' => 'required',
+                'municipio' => 'required',
+                'direccion' => 'required',
+
+            ]);
+
+            $usuario = Auth::user();
+            $clientes = $usuario->ClienteN;
+            $countEmail = Usuario::where('email', $request['email'])->where('id', '!=', $usuario->id)->count();
+            if ($countEmail > 0) {
+                flash('El email ingresado ya pertenece a un usuario', 'danger');
+                return back()->withInput();
+
+            } else {
+                $telefonos = Telefono::with('TipoTelefonoN')->where('idCliente', $clientes->id)->get();
+                foreach ($telefonos as $telefono) {
+
+                    $reqName = $telefono->TipoTelefonoN->id == 1 ? 'numeroCasa' : 'numeroCelular';
+                    if ($telefono->TipoTelefonoN->numero != $request[$reqName]) {
+                        $tel = new Telefono();
+                        $tel->fill(
+                            [
+                                'idTipoTelefono' => $telefono->TipoTelefonoN->id,
+                                'numero' => $request[$reqName],
+                                'idCliente' => $clientes->id,
+
+                            ]
+                        );
+                        $tel->save();
+                        Telefono::destroy($telefono->id);
+
+                    }
+                }
+
+
+                $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('id', $clientes->id)->get();
+                if ($direcciones[0]->detalle != $request['direccion']) {
+                    $direccion = new Direccione();
+                    $direccion->fill(
+                        [
+                            'idMunicipio' => $request['municipio'],
+                            'idCliente' => $clientes->id,
+                            'detalle' => $request['direccion'],
+
+                        ]
+                    );
+                    $direccion->save();
+                    Direccione::destroy($direcciones[0]->id);
+
+                }
+
+
+            }
+            $token = new token();
+            $gentoken = new GenerarToken();
+            $tokenDeUsuario = $gentoken->tokengenerador();
+
+            $token->fill([
+                    'token' => $tokenDeUsuario,
+                    'idUsuario' => $usuario->id,
+                    'email_change' => $request["email"]
+                ]
+            );
+            flash('Información cambiada con éxito', 'success');
+            return redirect()->route('perfilcliente');
+        } catch (\Exception $e) {
+            flash('Ocurrio un problema al modificar la información', 'danger');
+            return back()->withInput();
+
+        }
+
+
+    }
+
+    public function modificarCorreoView()
+    {
+
+
+        return view('Clientes.Perfil.modificarCorreo', ["user" => Auth::user()]);
+    }
+
+    public function modificarCorreoUpdate(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email',
+
+        ]);
+        $usuario = Auth::user();
+        $token = new token();
+        $gentoken = new GenerarToken();
+        $tokenDeUsuario = $gentoken->tokengenerador();
+
+        $token->fill([
+                'token' => $tokenDeUsuario,
+                'idUsuario' => $usuario->id,
+                'email_change' => $request["email"]
+            ]
+        );
+        $token->save();
+        $action = new Action();
+        $action->sendEmail(["titulo" => "Modificación de correo", "token" => $tokenDeUsuario], $usuario->email, 'Cambio de correo', 'Cambio de correo', 'emails.emailConfirmChange');
+        flash('Se enviara un email a su cuenta para la confirmación del cambio de correo electrónico', 'success');
+        return redirect()->route('perfilcliente');
+
+    }
+    
+    
 }

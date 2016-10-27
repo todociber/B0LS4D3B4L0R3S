@@ -151,7 +151,9 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         'Faytzel\LaravelLatch\LaravelLatchServiceProvider',
-
+        Barryvdh\DomPDF\ServiceProvider::class,
+        'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
+        'Asachanfbd\LaravelPushNotification\PushNotificationServiceProvider',
 
         /*
          * Application Service Providers...
@@ -160,6 +162,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Snowfire\Beautymail\BeautymailServiceProvider::class,
 
     ],
 
@@ -210,6 +213,10 @@ return [
         'Html' => 'Collective\Html\HtmlFacade',
         'Flash' => Laracasts\Flash\Flash::class,
         'Latch' => 'Faytzel\LaravelLatch\Facades\LaravelLatch',
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth',
+        'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory',
+        'PushNotification' => 'Asachanfbd\LaravelPushNotification\PushNotification',
 
 
     ],

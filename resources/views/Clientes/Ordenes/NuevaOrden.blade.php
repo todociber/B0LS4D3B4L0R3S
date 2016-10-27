@@ -34,7 +34,7 @@
                     <div class="col-md-12">
                         @include('alertas.errores')
                         @include('alertas.flash')
-                        {{Form::open(['route'=>'Clientes.store','method' =>'POST', 'id'=>'form','role' => 'form'])  }}
+                        {{Form::open(['route'=>'Clientes.store','method' =>'POST', 'id'=>'form','role' => 'form','onsubmit'=>'animatedLoading()'])  }}
                         @include('Clientes.Ordenes.FormularioOrden.FormularioOrden')
 
                         <div class="box-footer">

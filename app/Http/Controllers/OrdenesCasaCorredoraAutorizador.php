@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\EstadoOrden;
+use App\Models\Mensaje;
 use App\Models\Ordene;
+use App\Models\SolicitudRegistro;
+use App\Models\Usuario;
 use App\Utilities\RolIdentificador;
 use Auth;
+use Carbon\Carbon;
 use DB;
 use ErrorException;
 use Exception;
@@ -22,18 +27,116 @@ class OrdenesCasaCorredoraAutorizador extends Controller
     {
         $rolIdentificador = new RolIdentificador;
 
+        $titulo = '';
+        
         if ($rolIdentificador->Autorizador(Auth::user())) {
-            $ordenes = Ordene::where('idEstadoOrden', '!=', '4')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
-            return view('CasaCorredora.OrdenesAutorizador.MostrarOrdenes', compact('ordenes'));
-        } elseif ($rolIdentificador->Administrador(Auth::user())) {
-            $ordenes = Ordene::where('idEstadoOrden', '!=', '4')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
-            return view('CasaCorredora.OrdenesAutorizador.MostrarOrdenes', compact('ordenes'));
+            $ordenes = Ordene::where('idEstadoOrden', '!=', '4')
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idEstadoOrden', '=', 1)
+                ->get();
+
+            $ordenesCount = Ordene::where('idEstadoOrden', '!=', '4')
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idEstadoOrden', '=', 2)
+                ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                ->count();
+
+            $ordenesVencer = Ordene::where('idEstadoOrden', '!=', '4')
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idEstadoOrden', '=', 2)
+                ->whereBetween('FechaDeVigencia', [Carbon::now()->addDay(1)->format('Y-m-d'), Carbon::now()->addDay(6)->format('Y-m-d')])
+                ->count();
+            $CountSolicitudes = SolicitudRegistro::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where("idEstadoSolicitud", 1)
+                ->count();
+
+            $titulo = 'Ordenes pendiente de asignar';
+            return view('CasaCorredora.OrdenesAutorizador.MostrarOrdenes', compact(['ordenes', 'ordenesCount', 'titulo', 'ordenesVencer', 'CountSolicitudes']));
+
         } else {
-            $ordenes = Ordene::where('idEstadoOrden', '!=', '4')->where('idCorredor', '=', Auth::user()->id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
-            return view('CasaCorredora.OrdenesAutorizador.MostrarOrdenes', compact('ordenes'));
+            $ordenes = Ordene::where('idEstadoOrden', '!=', '4')
+                ->where('idCorredor', '=', Auth::user()->id)
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
+            $ordenesAsignadas = count($ordenes);
+
+            $ordenesVencer = Ordene::where('idEstadoOrden', '!=', '4')
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idEstadoOrden', '=', 2)
+                ->where('idCorredor', '=', Auth::user()->id)
+                ->whereBetween('FechaDeVigencia', [Carbon::now()->addDay(1)->format('Y-m-d'), Carbon::now()->addDay(6)->format('Y-m-d')])
+                ->count();
+
+            $ordenesEjecutadas = Ordene::where('idEstadoOrden', '!=', '4')
+                ->where('idCorredor', '=', Auth::user()->id)
+                ->where('idEstadoOrden', '=', 5)
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->count();
+            return view('CasaCorredora.OrdenesAgente.ordenesAsignadas', compact(['ordenes', 'ordenesAsignadas', 'ordenesVencer', 'ordenesEjecutadas']));
         }
 
     }
+
+    //AGENTE CORREDOR
+    public function OrdenesAsignadasAgente()
+    {
+
+
+        $ordenes = Ordene::where('idEstadoOrden', '!=', '4')
+            ->where('idCorredor', '=', Auth::user()->id)
+            ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->orderBy("created_at", "ASC")
+            ->get();
+
+        $ordenesAsignadas = Ordene::where('idEstadoOrden', '!=', '4')
+            ->where('idCorredor', '=', Auth::user()->id)
+            ->where('idEstadoOrden', '=', 2)
+            ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->count();
+
+        $ordenesEjecutadas = Ordene::where('idEstadoOrden', '!=', '4')
+            ->where('idCorredor', '=', Auth::user()->id)
+            ->where('idEstadoOrden', '=', 5)
+            ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->count();
+
+
+        $ordenesVencer = Ordene::where('idEstadoOrden', '!=', '4')
+            ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->where('idEstadoOrden', '=', 2)
+            ->where('idCorredor', '=', Auth::user()->id)
+            ->whereBetween('FechaDeVigencia', [Carbon::now()->addDay(1)->format('Y-m-d'), Carbon::now()->addDay(6)->format('Y-m-d')])
+            ->count();
+
+        return view('CasaCorredora.OrdenesAgente.ordenesAsignadas', ['ordenes' => $ordenes, 'ordenesAsignadas' => $ordenesAsignadas, 'ordenesVencer' => $ordenesVencer, 'ordenesEjecutadas' => $ordenesEjecutadas]);
+
+    }
+
+    public function ListadoGeneralOrdenesAgente()
+    {
+
+        $idCorredor = Auth::user()->id;
+
+        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN')->where('idCorredor', $idCorredor)->get();
+        $estadoOrdenes = EstadoOrden::lists('estado', 'id');
+        $estadoOrdenes['0'] = 'Todas';
+        return view('CasaCorredora.OrdenesAgente.listadoOrdenes', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes]);
+
+    }
+
+    public function ListadoGeneralAutorizador()
+    {
+
+        $idCorredor = Auth::user()->id;
+
+        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN')->get();
+        $estadoOrdenes = EstadoOrden::lists('estado', 'id');
+        $estadoOrdenes['0'] = 'Todas';
+        return view('CasaCorredora.OrdenesAutorizador.ListadoGeneral', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes]);
+
+    }
+    
+    
+
 
     /**
      * Show the form for creating a new resource.
@@ -149,6 +252,13 @@ class OrdenesCasaCorredoraAutorizador extends Controller
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
         }
+        $rol = new RolIdentificador();
+        if (!$rol->Autorizador(Auth::user())) {
+            if ($ordenes[0]->idCorredor != Auth::user()->id) {
+                flash('Error en consulta', 'danger');
+                return redirect('Ordenes');
+            }
+        }
 
         if ($ordenes[0]->idOrganizacion != Auth::user()->idOrganizacion) {
             flash('Error en consulta', 'danger');
@@ -187,6 +297,10 @@ class OrdenesCasaCorredoraAutorizador extends Controller
 
     public function aceptar(Requests\RequestOrdenAutorizador $request, $id)
     {
+        $agenteC = Usuario::ofid($request['AgenteCorredor'])->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
+        if ($agenteC->count() == 0) {
+            return redirect()->back()->withInput()->withErrors('Agente Corredor no disponible');
+        }
 
         $ordenes = Ordene::ofid($id)->get();
         try {
@@ -211,6 +325,8 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                     'idEstadoOrden' => '2'
                 ]);
                 $orden->save();
+
+
                 flash('Agente corredor asignado exitosamente', 'success');
                 return redirect('/Ordenes');
             } else {
@@ -223,7 +339,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
 
     }
 
-    public function rechazar($id)
+    public function rechazar(Requests\RequestComenatiosCasaCorredora $request, $id)
     {
         $ordenes = Ordene::ofid($id)->get();
         try {
@@ -245,10 +361,21 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                 $ordenAEliminar->fill(
                     [
                         'idCorredor' => Auth::user()->id,
-                        'idEstadoOrden' => '3'
+                        'idEstadoOrden' => '8'
                     ]
                 );
                 $ordenAEliminar->save();
+
+                $mensaje = new Mensaje([
+                    'contenido' => $request['comentario'],
+                    'idTipoMensaje' => '2',
+                    'idOrden' => $id,
+                    'idUsuario' => Auth::user()->id
+                ]);
+                flash('Comentario enviado exitosamente', 'success');
+                $mensaje->save();
+
+
                 flash('Orden rechazada ', 'success');
                 return redirect('/Ordenes');
             } else {
@@ -278,17 +405,28 @@ class OrdenesCasaCorredoraAutorizador extends Controller
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
         } else {
+            $agenteC = Usuario::ofid($request['AgenteCorredor'])->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
+            if ($agenteC->count() == 0) {
+                return redirect()->back()->withInput()->withErrors('Agente Corredor no disponible');
+            }
 
             if (\Session::has('UsuarioEliminar')) {
                 $orden = Ordene::find($id);
-                $orden->fill([
-                    'idCorredor' => $request['AgenteCorredor'],
-                    'comision' => $request['Comision'],
-                    'idEstadoOrden' => '2'
-                ]);
+                if ($request['Comision'] == null) {
+                    $orden->fill([
+                        'idCorredor' => $request['AgenteCorredor'],
+                        'idEstadoOrden' => '2'
+                    ]);
+                } else {
+                    $orden->fill([
+                        'idCorredor' => $request['AgenteCorredor'],
+                        'comision' => $request['Comision'],
+                        'idEstadoOrden' => '2'
+                    ]);
+                }
                 $orden->save();
                 flash('Agente corredor asignado exitosamente', 'success');
-                return redirect()->back();
+                return redirect("Ordenes/Reasignacion");
             } else {
                 flash('Error en consulta', 'danger');
                 return redirect('/Ordenes');

@@ -24,5 +24,17 @@ class rolUsuario extends Seeder
             'created_at' => new DateTime,
             'updated_at' => new DateTime
         ));
+        DB::table('rol_usuarios')->insert(array(
+            'idUsuario' => 2,
+            'idRol' => '3',
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime
+        ));
+        DB::table('rol_usuarios')->insert(array(
+            'idUsuario' => 2,
+            'idRol' => '4',
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime
+        ));
     }
 }

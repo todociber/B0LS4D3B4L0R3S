@@ -3,16 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\BitacoraUsuario;
+use App\Models\Ordene;
 use App\Models\Organizacion;
 use App\Models\RolUsuario;
+use App\Models\token;
 use App\Models\Usuario;
+use App\Utilities\Action;
+use App\Utilities\GenerarToken;
 use Carbon\Carbon;
 use DB;
 use Flash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Mockery\CountValidator\Exception;
+use Snowfire\Beautymail\Beautymail;
 use Validator;
 
 class BolsaController extends Controller
@@ -31,8 +38,6 @@ class BolsaController extends Controller
     public function index()
     {
 
-
-        $organizacion = new Organizacion;
         return View('bves.Casas.RegistroCasas');
     }
 
@@ -44,11 +49,11 @@ class BolsaController extends Controller
 
         try {
             $validator = Validator::make($request->all(), [
-                'nombre' => 'required',
-                'correo' => 'required|email',
+                'nombre' => 'required|unique:organizacion,nombre',
+                'correo' => 'required|email|unique:organizacion,correo',
                 'direccion' => 'required',
-                'telefono' => 'required',
-                'codigo' => 'required',
+                'telefono' => 'required|numeric|digits:8|min:1',
+                'codigo' => 'required|numeric|digits:5|min:1',
                 'file' => 'required',
             ]);
             if (!$validator->fails()) {
@@ -58,8 +63,8 @@ class BolsaController extends Controller
 
                     $path = $this->Upload($request);
                     if ($path != 'error') {
-                        $date = Carbon::now();
-                        $activo = ($request['estado'] == 0) ? $date : null;
+
+
                         $organizacion = new Organizacion();
                         $organizacion->nombre = $request->input('nombre');
                         $organizacion->logo = $path;
@@ -70,14 +75,24 @@ class BolsaController extends Controller
                         $organizacion->idTipoOrganizacion = 1;
                         $organizacion->save();
 
-                        if ($activo != null) {
+                        if ($request['Estado'] == 0) {
                             $organizacion->delete();
 
                         }
 
                         $this->makeUser($request['codigo'], $organizacion, $request['correo']);
 
-                        //errir 0 todo bien, error 1, no se guardo la imagen, error 3 ya existe una casa con ese codigo
+                        $bitacora = new BitacoraUsuario();
+
+                        $bitacora->fill(
+                            [
+                                'idUsuario' => Auth::user()->id,
+                                'idOrganizacion' => Auth::user()->Organizacion->id,
+                                'descripcion' => 'Creación de la casa corredora ' . $organizacion->nombre,
+
+                            ]
+                        );
+                        $bitacora->save();
                         return response()->json(['error' => '0']);
                     } else {
 
@@ -135,7 +150,7 @@ class BolsaController extends Controller
                 'apellido' => 'admin',
                 'email' => $correo,
                 'idOrganizacion' => $organizacion->id,
-                'password' => Hash::make('12345'),
+                'password' => bcrypt($pass),
             ]
         );
         $usuario->save();
@@ -150,18 +165,101 @@ class BolsaController extends Controller
         );
         $rolUsuario->save();
 
+        $token = new token();
+        $gentoken = new GenerarToken();
+        $tokenDeUsuario = $gentoken->tokengenerador();
+
+
+        $data = [
+            'tokenDeUsuario' => $tokenDeUsuario,
+            'objetoToken' => $token,
+            'titulo' => 'Activación de cuenta',
+            'nombre' => 'Se ha registrado la casa corredora ' . $organizacion->nombre,
+            'usuario' => $usuario->email,
+            'ruta' => 'Token.Activacion',
+            'subtitulo' => 'Ingresa al siguiente enlace para activar tu cuenta'
+        ];
+        $token->fill([
+                'token' => $tokenDeUsuario,
+                'idUsuario' => $usuario->id
+            ]
+        );
+        $token->save();
+        $beautymail = app()->make(Beautymail::class);
+        $beautymail->send('emails.EmailSend', $data, function ($message) use ($usuario) {
+
+            $message->from('todocyber100@gmail.com', 'Activacion de cuenta');
+
+            $message->to($usuario->email)->subject('Activar su cuenta para uso del sistema SERO');
+
+        });
+
+
     }
 
-    public function eliminarCasa($id)
+    public function eliminarRestaurarCasa(Request $request)
     {
         try {
-            Organizacion::destroy($id);
-            flash('Estado cambiado con éxito', 'success');
+
+            if ($request["tipo"] == 0) {
+                $countOrden = Ordene::where("idOrganizacion", $request["id"])
+                    ->whereNotIn("idEstadoOrden", [1, 2, 5])->count();
+                $organizacion = Organizacion::where("id", $request["id"])->first();
+                if ($countOrden == 0) {
+                    DB::table('usuarios')->where("idOrganizacion", $request["id"])->update(["deleted_at" => Carbon::now()]);
+                    $usuarios = Usuario::where("idOrganizacion", $request["id"])->select("id")->get();
+                    $this->killAllSesionHouse($request["id"]);
+                    Organizacion::destroy($request["id"]);
+                    $bitacora = new BitacoraUsuario();
+
+                    $bitacora->fill(
+                        [
+                            'idUsuario' => Auth::user()->id,
+                            'idOrganizacion' => Auth::user()->Organizacion->id,
+                            'descripcion' => 'Casa' . $organizacion->nombre . ', cambio a estado innactivo ',
+
+                        ]
+                    );
+                    $bitacora->save();
+                    flash('Estado cambiado con éxito', 'success');
+                } else {
+
+                    flash('La casa no puede ser removida porque tiene ordenes en curso', 'success');
+
+
+                }
+            } else {
+                $organizacion = Organizacion::withTrashed()->where('id', '=', $request["id"])->first();
+                $organizacion->restore();
+                $bitacora = new BitacoraUsuario();
+
+                $bitacora->fill(
+                    [
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->Organizacion->id,
+                        'descripcion' => 'Casa' . $organizacion->nombre . ', cambio a estado activo ',
+
+                    ]
+                );
+                $bitacora->save();
+                DB::table('usuarios')->where("idOrganizacion", $request["id"])->update(["deleted_at" => null]);
+
+                flash('Estado cambiado con éxito', 'success');
+            }
         } catch (Exception $e) {
             flash('Ocurrio un problema para cambiar el estado', 'danger');
 
         }
         return redirect()->route('listadoCasas');
+
+    }
+
+    function killAllSesionHouse($idCasa)
+    {
+
+        $usuarios = Usuario::where("idOrganizacion", $idCasa)->select("id")->get();
+        $action = new Action();
+        $action->killAllSessionsHouse($usuarios);
 
     }
 
@@ -179,6 +277,8 @@ class BolsaController extends Controller
 
     }
 
+    //RESET PASSWORD
+
     public function editarCasa($id)
     {
         //'id'=>'my-dropzone','class' => 'dropzone',
@@ -195,23 +295,106 @@ class BolsaController extends Controller
 
     //UPLOAD IMAGE
 
+    public function ResetPasswordCasa($id)
+    {
+        if ($id) {
+            try {
+
+                $idrol = 2;
+                $Usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                    $query->where('idRol', $idrol);
+                })->where("idOrganizacion", $id)->get();
+                Log::info($Usuarios);
+                if (count($Usuarios) > 1) {
+
+                    flash('La casa tiene ya mas de un usuario administrador, por ende no puede reinicar la contraseña', 'info');
+                    return redirect()->back();
+                } else {
+                    $organizacion = Organizacion::where("id", $id)->first();
+                    $token = new token();
+                    $gentoken = new GenerarToken();
+                    $tokenDeUsuario = $gentoken->tokengenerador();
+
+                    $data = [
+                        'tokenDeUsuario' => $tokenDeUsuario,
+                        'objetoToken' => $token,
+                        'titulo' => 'Activación de cuenta',
+                        'nombre' => 'Se ha activado la casa corredora ' . $organizacion->nombre,
+                        'usuario' => $Usuarios[0]->email,
+                        'ruta' => 'Token.Activacion',
+                        'subtitulo' => 'Ingresa al siguiente enlace para activar tu cuenta'
+                    ];
+                    $token->fill([
+                            'token' => $tokenDeUsuario,
+                            'idUsuario' => $Usuarios[0]->id
+                        ]
+                    );
+                    $token->save();
+                    $usuario = $Usuarios[0];
+                    $beautymail = app()->make(Beautymail::class);
+                    $beautymail->send('emails.EmailSend', $data, function ($message) use ($usuario) {
+
+                        $message->from('todocyber100@gmail.com', 'Activacion de cuenta');
+
+                        $message->to($usuario->email)->subject('Activar su cuenta para uso del sistema SERO');
+
+                    });
+                    $bitacora = new BitacoraUsuario();
+
+                    $bitacora->fill(
+                        [
+                            'idUsuario' => Auth::user()->id,
+                            'idOrganizacion' => Auth::user()->Organizacion->id,
+                            'descripcion' => 'Renovación de contraseña de usuario admin casa corredora ' . $organizacion->nombre,
+
+                        ]
+                    );
+                    $bitacora->save();
+
+                    flash('Contraseña reiniciada con exito', 'success');
+                    return redirect()->route('listadoCasas');
+
+                }
+
+            } catch (Exception $e) {
+                flash('Ocurrio un error al reiniciar la contraseña', 'danger');
+                return redirect()->back();
+
+            }
+
+        } else {
+            return redirect()->route('listadoCasas');
+
+        }
+
+
+    }
+
+
+    //MAKEUSER
+
     public function update(Request $request, $id)
     {
 
         try {
 
             $validator = Validator::make($request->all(), [
-                'nombre' => 'required',
-                'correo' => 'required|email',
+                'nombre' => 'required|unique:organizacion,nombre',
+                'correo' => 'required|email|unique:organizacion,correo',
                 'direccion' => 'required',
-                'telefono' => 'required',
-                'codigo' => 'required',
+                'telefono' => 'required|numeric|digits:8|min:1',
+                'codigo' => 'required|size:5|regex:/^([0-9])+$/i',
                 'file' => 'required',
             ]);
             if (!$validator->fails()) {
                 $codCasa = DB::table('organizacion')->where('organizacion.codigo', '=', $request['codigo'])->where('organizacion.id', '!=', $id)->count();
 
                 if ($codCasa == 0) {
+                    $countOrden = Ordene::where("idOrganizacion", $id)
+                        ->whereNotIn("idEstadoOrden", [1, 2, 5])->count();
+
+                    if ($countOrden == 0) {
+
                     $organizacion = Organizacion::withTrashed()->where('id', $id)->first();
                     $path = $this->Upload($request);
                     if ($path != 'error') {
@@ -230,16 +413,58 @@ class BolsaController extends Controller
                         $organizacion->save();
                         if ($activo != null) {
                             $organizacion->delete();
+                            $this->killAllSesionHouse($organizacion->id);
 
                         } else {
                             $organizacion->restore();
 
                         }
+
+
+                        $data = [
+                            'titulo' => 'La bolsa de valores ha modificado información de la casa corredora ',
+                            'usuario' => $organizacion->email,
+                            'ruta' => 'Token.Activacion',
+                            'subtitulo' => 'Ingresa al siguiente enlace par activar tu usuario',
+                            'nombre' => $organizacion->nombre,
+
+                        ];
+                        $idrol = 2;
+                        $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                            $query->where('idRol', $idrol);
+                        })->where("idOrganizacion", $organizacion->id)->get();
+                        $emails = [];
+                        $i = 0;
+                        foreach ($usuarios as $user) {
+                            $emails[$i] = $user->email;
+                            $i++;
+                        }
+                        $action = new Action();
+                        $action->sendEmail($data, $emails, 'Modificación de información', 'Modificación de información', 'emails.emailUpdateCasa');
+
+
+                        $bitacora = new BitacoraUsuario();
+
+                        $bitacora->fill(
+                            [
+                                'idUsuario' => Auth::user()->id,
+                                'idOrganizacion' => Auth::user()->Organizacion->id,
+                                'descripcion' => 'Casa' . $organizacion->nombre . ', han cambiado su información',
+
+                            ]
+                        );
+                        $bitacora->save();
                         // $this->makeUser($request['codigo'],$organizacion,$request['correo']);
                         return response()->json(['error' => '0']);
                     } else {
 
                         return response()->json(['error' => '1']);
+
+                    }
+
+                    } else {
+
+                        return response()->json(['error' => '5']);
 
                     }
                 } else {
@@ -258,15 +483,28 @@ class BolsaController extends Controller
         }
     }
 
-
-    //MAKEUSER
+    //BITACORAS
 
     public function ListadoCasas()
     {
-        $organizaciones = Organizacion::withTrashed()->get();
+        $organizaciones = Organizacion::withTrashed()->where("idTipoOrganizacion", "!=", 2)->get();
 
 
         return View('bves.Casas.ListaCasas', ['organizaciones' => $organizaciones]);
+    }
+
+    public function bitacoras()
+    {
+        $bitacoras = DB::table("bitacora")
+            ->join("usuarios", "bitacora.idUsuario", "=", "usuarios.id")
+            ->where("bitacora.idOrganizacion", "=", Auth::user()->idOrganizacion)
+            ->orderBy("bitacora.created_at", "DESC")
+            ->select("usuarios.nombre", "usuarios.id", "bitacora.*")
+            ->get();
+
+        return view("bves.Bitacora.listadoBitacora", ["bitacoras" => $bitacoras]);
+
+
     }
 
 }

@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\BitacoraUsuario;
 use App\Models\RolUsuario;
+use App\Models\token;
 use App\Models\Usuario;
 use App\Utilities\Action;
+use App\Utilities\GenerarToken;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Mockery\CountValidator\Exception;
 
 class UsuariosBolsaController extends Controller
@@ -48,7 +52,7 @@ class UsuariosBolsaController extends Controller
             'nombre' => 'required',
             'apellido' => 'required',
             'email' => 'required|email',
-            'Estado' => 'required|Numeric',
+            'Estado' => 'required|numeric',
         ]);
         try{
             $emailUser = DB::table('usuarios')->where('usuarios.email', '=', $request['email'])->where('usuarios.idOrganizacion', '=',17)->count();
@@ -73,6 +77,50 @@ class UsuariosBolsaController extends Controller
                     $usuario->restore();
 
                 }
+
+                $tokenActivos = token::where('idUsuario', '=', $usuario->id)->get();
+                foreach ($tokenActivos as $tokens) {
+                    $tokens->delete();
+                }
+                $token = new token();
+                $gentoken = new GenerarToken();
+                $tokenDeUsuario = $gentoken->tokengenerador();
+
+
+                $data = [
+                    'tokenDeUsuario' => $tokenDeUsuario,
+                    'objetoToken' => $token,
+                    'titulo' => 'Activación de cuenta',
+                    'nombre' => 'Activación de cuenta, para: ' . $usuario->nombre,
+                    'usuario' => $usuario->email,
+                    'ruta' => 'Token.Activacion',
+                    'subtitulo' => 'Ingresa al siguiente enlace par activar tu usuario'
+                ];
+                $token->fill([
+                    'token' => $tokenDeUsuario,
+                    'idUsuario' => $usuario->id
+                ]);
+                $token->save();
+
+                Mail::send('emails.ResetPasswordBolsa', $data, function ($message) use ($usuario) {
+
+                    $message->from('todocyber100@gmail.com', 'Activación de cuenta');
+
+                    $message->to($usuario->email)->subject('Activación de cuenta');
+
+                });
+                $bitacora = new BitacoraUsuario();
+
+                $bitacora->fill(
+                    [
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->Organizacion->id,
+                        'descripcion' => 'Creación del usuario' . $usuario->nombre,
+
+                    ]
+                );
+                $bitacora->save();
+                
                 flash('Usuario guardado con éxito', 'success');
                 return redirect()->route('catalogoUsuarios');
             }
@@ -130,23 +178,55 @@ class UsuariosBolsaController extends Controller
       //  return response()->json(['error' => $usuario]);
     }
 
-    public function EliminarUsuario($id)
+    public function EliminarRestaurarUsuario(Request $request)
     {
-        try{
-            $message ='';
+        try {
+            $message = '';
             $state = '';
-            if($id!=Auth::user()->id){
-                Usuario::destroy($id);
-                $message = 'Estado cambiado con éxito';
-                $state = 'success';
+            if ($request["tipo"] == 0) {
+                if ($request["id"] != Auth::user()->id) {
+                    Usuario::destroy($request["id"]);
+                    $message = 'Estado cambiado con éxito';
+                    $state = 'success';
+                } else {
+
+                    $message = 'No puede modificar el estado de este usuario';
+                    $state = 'info';
+                }
+                $usuario = Usuario::withTrashed()->where("id", $request["id"])->first();
+                $bitacora = new BitacoraUsuario();
+
+                $bitacora->fill(
+                    [
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->Organizacion->id,
+                        'descripcion' => 'Desactivación de  usuario: ' . $usuario->nombre,
+
+                    ]
+                );
+                $bitacora->save();
+                $action = new Action();
+                $action->killSession($request["id"]);
+
             }
             else {
 
-                $message = 'No puede modificar el estado de este usuario';
-                $state = 'info';
+                $usuario = Usuario::withTrashed()->where('id', '=', $request["id"])->first();
+                $usuario->restore();
+                $bitacora = new BitacoraUsuario();
+
+                $bitacora->fill(
+                    [
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->Organizacion->id,
+                        'descripcion' => 'Activación de usuario: ' . $usuario->nombre,
+
+                    ]
+                );
+                $bitacora->save();
+
+                flash('Estado cambiado con éxito', 'success');
             }
-
-
         }
         catch (Exception $e){
             $message = 'Ocurrio un problema para cambiar el estado';
@@ -169,15 +249,58 @@ class UsuariosBolsaController extends Controller
                 $pass = $action->makePassword($user->id);
                 $user->password = Hash::make($pass);
                 $user->save();
+
+                $token = new token();
+                $gentoken = new GenerarToken();
+                $tokenDeUsuario = $gentoken->tokengenerador();
+
+
+                $data = [
+                    'tokenDeUsuario' => $tokenDeUsuario,
+                    'objetoToken' => $token,
+                    'titulo' => 'Activación de cuenta',
+                    'nombre' => 'Cambio de contraseña, para: ' . $user->nombre,
+                    'usuario' => $user->email,
+                    'ruta' => 'Token.Activacion',
+                    'subtitulo' => 'Tu contraseña ha sido reiniciada, ingresa a la siguiente dirección para cambiar su contraseña'
+                ];
+                $token->fill([
+                    'token' => $tokenDeUsuario,
+                    'idUsuario' => $user->id
+                ]);
+                $token->save();
+                $beautymail = app()->make(Beautymail::class);
+                $beautymail->send('emails.ResetPasswordBolsa', $data, function ($message) use ($user) {
+
+                    $message->from('todocyber100@gmail.com', 'Reinicio de contraseña');
+
+                    $message->to($user->email)->subject('Reinicio de contraseña');
+
+                });
                 //Usuario::destroy($id);
                 $message = 'Contraseña reiniciada con éxito';
                 $state = 'success';
+                $action = new Action();
+                $action->killSession($id);
             }
             else {
 
                 $message = 'No puede reiniciar la contraseña  de este usuario';
                 $state = 'info';
             }
+
+            $bitacora = new BitacoraUsuario();
+
+            $bitacora->fill(
+                [
+                    'idUsuario' => Auth::user()->id,
+                    'idOrganizacion' => Auth::user()->Organizacion->id,
+                    'descripcion' => 'Reinicio de contraseña: ' . $user->nombre,
+
+                ]
+            );
+            $bitacora->save();
+
 
 
         }
@@ -230,7 +353,7 @@ class UsuariosBolsaController extends Controller
             'nombre' => 'required',
             'apellido' => 'required',
             'email' => 'required|email',
-            'Estado' => 'required|Numeric',
+            'Estado' => 'required|numeric',
         ]);
 
 
@@ -249,12 +372,27 @@ class UsuariosBolsaController extends Controller
                 $usuario->save();
                 if ($activo != null) {
                     $usuario->delete();
+                    $action = new Action();
+                    $action->killSession($usuario->id);
 
                 } else {
                     $usuario->restore();
 
                 }
                 flash('Usuario modificado con éxito', 'success');
+
+                $bitacora = new BitacoraUsuario();
+
+                $bitacora->fill(
+                    [
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->Organizacion->id,
+                        'descripcion' => 'Modifiación de  usuario: ' . $usuario->nombre,
+
+                    ]
+                );
+                $bitacora->save();
+
                 return redirect()->route('catalogoUsuarios');
             }
             else{

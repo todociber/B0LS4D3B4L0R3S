@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\BitacoraUsuario;
+use App\Models\LatchModel;
 use App\Models\Ordene;
 use App\Models\Role;
 use App\Models\RolUsuario;
+use App\Models\token;
 use App\Models\Usuario;
+use App\Utilities\GenerarToken;
 use Auth;
 use DB;
 use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Latch;
+use Mail;
 use Mockery\CountValidator\Exception;
 use Redirect;
 
@@ -33,7 +39,7 @@ class UsuarioCasaCorredoraController extends Controller
     {
 
 
-        $Usuarios = Usuario::with('UsuarioRoles')->withTrashed()->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
+        $Usuarios = Usuario::with('UsuarioRoles')->withTrashed()->where('id', '!=', Auth::user()->id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
 
 
         return view('CasaCorredora.Usuarios.MostrarUsuarios', ['Usuarios' => $Usuarios]);
@@ -81,12 +87,11 @@ class UsuarioCasaCorredoraController extends Controller
             $cadena .= substr($caracteres, rand(0, strlen($caracteres)), 1);
         }
 
-//COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
 
         $cadena = 'todociber';
 
 
-//COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
+
         $Usuario = new Usuario(
             [
                 'nombre' => $request['nombre'],
@@ -99,14 +104,56 @@ class UsuarioCasaCorredoraController extends Controller
 
         $Usuario->save();
 
+
         foreach ($request['rolUsuario'] as $roles) {
             $RolUsuario = new RolUsuario([
                 'idUsuario' => $Usuario->id,
                 'idRol' => $roles,
             ]);
             $RolUsuario->save();
-        }
 
+
+        }
+        $tokenActivos = token::where('idUsuario', '=', $Usuario->id)->get();
+        foreach ($tokenActivos as $tokens) {
+            $tokens->delete();
+        }
+        $token = new token();
+        $gentoken = new GenerarToken();
+        $tokenDeUsuario = $gentoken->tokengenerador();
+
+        $data = array(
+            'tokenDeUsuario' => $tokenDeUsuario,
+            'objetoToken' => $token
+        );
+        $token->fill([
+                'token' => $tokenDeUsuario,
+                'idUsuario' => $Usuario->id
+            ]
+        );
+        $token->save();
+
+        Mail::send('emails.ActivacionCliente', $data, function ($message) use ($Usuario) {
+
+            $message->from('todociber100@gmail.com', 'Activacion de cuenta');
+
+            $message->to($Usuario->email)->subject('Activar cuenta de sistema de Ordenes ');
+
+        });
+
+
+        $bitacora = new BitacoraUsuario();
+
+        $bitacora->fill(
+            [
+                'tipoCambio' => 'Creación',
+                'idUsuario' => Auth::user()->id,
+                'idOrganizacion' => Auth::user()->idOrganizacion,
+                'descripcion' => 'Creacion de usuario Casa Corredora' . $Usuario->nombre . ' ' . $Usuario->apellido . ' id: ' . $Usuario->id,
+
+            ]
+        );
+        $bitacora->save();
         flash('El usuario  se registro exitosamente', 'success');
         return redirect('/UsuarioCasaCorredora');
     }
@@ -173,8 +220,8 @@ class UsuarioCasaCorredoraController extends Controller
     {
 
         $rules = array(
-            'nombre' => 'required',
-            'apellido' => 'required',
+            'nombre' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+            'apellido' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'email' => 'required|unique:usuarios,email,' . $id,
             'rolUsuario' => 'required|exists:roles,id'
 
@@ -211,15 +258,73 @@ class UsuarioCasaCorredoraController extends Controller
             }
 
 
-            $usuario->fill(
-                [
-                    'nombre' => $request['nombre'],
-                    'apellido' => $request['apellido'],
-                    'email' => $request['email'],
-                    'idOrganizacion' => Auth::user()->idOrganizacion,
-                ]
-            );
-            $usuario->save();
+            if ($usuario->email != $request['email']) {
+                if ($ordenesVigentes == 1) {
+                    $usuario = Usuario::ofid($id)->get();
+                    $ordenes = Ordene::where('idCorredor', '=', $id)
+                        ->where('idEstadoOrden', '=', 2)
+                        ->orWhere('idEstadoOrden', '=', 5)
+                        ->get();
+                    \Session::set('UsuarioEliminar', $id);
+                    \Session::set('EditarUsuario', $id);
+
+
+                    return redirect('Ordenes/Reasignacion');
+                } else {
+                    $usuario->fill(
+                        [
+                            'nombre' => $request['nombre'],
+                            'apellido' => $request['apellido'],
+                            'email' => $request['email'],
+                            'idOrganizacion' => Auth::user()->idOrganizacion,
+                        ]
+                    );
+
+                    $usuario->save();
+
+                    $tokenActivos = token::where('idUsuario', '=', $usuario->id)->get();
+                    foreach ($tokenActivos as $tokens) {
+                        $tokens->delete();
+                    }
+                    $token = new token();
+                    $gentoken = new GenerarToken();
+                    $tokenDeUsuario = $gentoken->tokengenerador();
+
+                    $data = array(
+                        'tokenDeUsuario' => $tokenDeUsuario,
+                        'objetoToken' => $token
+                    );
+                    $token->fill([
+                            'token' => $tokenDeUsuario,
+                            'idUsuario' => $usuario->id
+                        ]
+                    );
+                    $token->save();
+
+                    Mail::send('emails.ActivacionCliente', $data, function ($message) use ($usuario) {
+
+                        $message->from('bolsadevalores@bves.com', 'Activacion de cuenta');
+
+                        $message->to($usuario->email)->subject('Activar cuenta de sistema de Ordenes ');
+
+                    });
+
+
+                }
+            } else {
+                $usuario->fill(
+                    [
+                        'nombre' => $request['nombre'],
+                        'apellido' => $request['apellido'],
+                        'email' => $request['email'],
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                    ]
+                );
+
+                $usuario->save();
+            }
+
+
 
             $rolesDisponibles = Role::all();
 
@@ -242,12 +347,15 @@ class UsuarioCasaCorredoraController extends Controller
                     }
                     if ($existeId == 0) {
                         if (Auth::user()->id == $id && $idRolDisponible == 2) {
+
                         } else {
                             $RolUsuarioABorrar = RolUsuario::where('idUsuario', $id)
                                 ->where('idRol', $idRolDisponible)->first();
 
 
                             if ($ordenesVigentes == 1) {
+
+
                                 if ($RolUsuarioABorrar->idRol == 4) {
                                     $usuario = Usuario::ofid($id)->get();
                                     $ordenes = Ordene::where('idCorredor', '=', $id)
@@ -258,11 +366,16 @@ class UsuarioCasaCorredoraController extends Controller
                                     \Session::set('EditarUsuario', $id);
 
 
-                                    flash('Usuario tiene ordenes pendientes', 'danger');
-                                    return view('CasaCorredora.OrdenesAutorizador.ReAsignarOrdenes', compact('ordenes', 'usuario'));
+                                    return redirect('Ordenes/Reasignacion');
+
+                                } else if ($RolUsuarioABorrar->idRol == 2) {
+
+
+                                    $RolUsuarioABorrar->delete();
 
                                 } else {
                                     $RolUsuarioABorrar->delete();
+
                                 }
                             } else {
                                 \Session::remove('EditarUsuario');
@@ -296,6 +409,20 @@ class UsuarioCasaCorredoraController extends Controller
                 }
 
             }
+
+            $bitacora = new BitacoraUsuario();
+
+            $bitacora->fill(
+                [
+                    'tipoCambio' => 'Edicion',
+                    'idUsuario' => Auth::user()->id,
+                    'idOrganizacion' => Auth::user()->idOrganizacion,
+                    'descripcion' => 'Edicion de usuario Casa Corredora' . $usuario->nombre . ' ' . $usuario->apellido . ' id: ' . $usuario->id,
+
+                ]
+            );
+            $bitacora->save();
+
             flash('El usuario se edito exitosamente', 'success');
             return redirect('/UsuarioCasaCorredora');
         }
@@ -309,6 +436,82 @@ class UsuarioCasaCorredoraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function desactivarUsuario(Request $request)
+    {
+
+        $this->validate($request, [
+            'id' => 'required',
+
+        ]);
+
+        $id = $request["id"];
+        $Usuario = Usuario::find($id);
+
+
+        try {
+            $Usuario->id;
+        } catch (ErrorException $i) {
+            return redirect('/home');
+        } catch (Exception $e) {
+            return redirect('/home');
+        }
+        $ordenesVigentes = 0;
+        foreach ($Usuario->OrdenesUsuario as $ordenes) {
+            if ($ordenes->idEstadoOrden == 2) {
+                $ordenesVigentes = 1;
+            } elseif ($ordenes->idEstadoOrden == 5) {
+                $ordenesVigentes = 1;
+            }
+        }
+
+        if ($ordenesVigentes == 0) {
+            if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
+                flash('Error en consulta', 'danger');
+                return redirect('/UsuarioCasaCorredora');
+            } elseif ($id == Auth::user()->id) {
+                flash('Error en consulta', 'danger');
+                return redirect('/UsuarioCasaCorredora');
+            } else {
+
+                foreach ($Usuario->UsuarioAsignado as $solicitudes) {
+
+                    if ($solicitudes->idEstadoSolicitud == 4) {
+                        $solicitudes->fill([
+                            'idUsuario' => NULL,
+                            'idEstadoSolicitud' => '1'
+                        ]);
+                        $solicitudes->save();
+                    }
+
+                }
+
+
+                $bitacora = new BitacoraUsuario();
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'Desactivacion',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                        'descripcion' => 'Desactivacion de usuario Casa Corredora' . $Usuario->nombre . ' ' . $Usuario->apellido . ' id: ' . $Usuario->id,
+
+                    ]
+                );
+                $bitacora->save();
+                $Usuario->delete();
+                if (\Session::has('UsuarioEliminar')) {
+                    \Session::remove('UsuarioEliminar');
+                }
+                flash('El usuario se desactivo exitosamente', 'danger');
+                return redirect('/UsuarioCasaCorredora');
+            }
+        } else {
+
+            \Session::set('UsuarioEliminar', $id);
+            return redirect('/Ordenes/Reasignacion');
+        }
+
+    }
+
     public function destroy($id)
     {
 
@@ -332,7 +535,6 @@ class UsuarioCasaCorredoraController extends Controller
             }
         }
 
-
         if ($ordenesVigentes == 0) {
             if ($Usuario->idOrganizacion != Auth::user()->idOrganizacion) {
                 flash('Error en consulta', 'danger');
@@ -353,6 +555,25 @@ class UsuarioCasaCorredoraController extends Controller
                     }
 
                 }
+
+                $LatchTokenExiste = LatchModel::where('idUsuario', '=', $Usuario->id)->count();
+                if ($LatchTokenExiste > 0) {
+                    $accountId = LatchModel::where('idUsuario', '=', $Usuario->id)->first();
+                    if (Latch::unpair($accountId->tokenLatch)) {
+                        $accountId->delete();
+                    }
+                }
+                $bitacora = new BitacoraUsuario();
+                $bitacora->fill(
+                    [
+                        'tipoCambio' => 'Desactivacion',
+                        'idUsuario' => Auth::user()->id,
+                        'idOrganizacion' => Auth::user()->idOrganizacion,
+                        'descripcion' => 'Desactivacion de usuario Casa Corredora' . $Usuario->nombre . ' ' . $Usuario->apellido . ' id: ' . $Usuario->id,
+
+                    ]
+                );
+                $bitacora->save();
                 $Usuario->delete();
                 if (\Session::has('UsuarioEliminar')) {
                     \Session::remove('UsuarioEliminar');
@@ -361,21 +582,24 @@ class UsuarioCasaCorredoraController extends Controller
                 return redirect('/UsuarioCasaCorredora');
             }
         } else {
-            $usuario = Usuario::ofid($id)->get();
-            $ordenes = Ordene::where('idCorredor', '=', $id)
-                ->where('idEstadoOrden', '=', 2)
-                ->orWhere('idEstadoOrden', '=', 5)
-                ->get();
+
             \Session::set('UsuarioEliminar', $id);
-            return view('CasaCorredora.OrdenesAutorizador.ReAsignarOrdenes', compact('ordenes', 'usuario'));
+            return redirect('/Ordenes/Reasignacion');
         }
 
 
     }
 
-    public function restaurar($id)
+    public function restaurar(Request $request)
     {
 
+        $this->validate($request, [
+            'id' => 'required',
+
+        ]);
+
+        $id = $request["id"];
+        
 
         $Usuario = Usuario::withTrashed()->find($id);
 
@@ -399,6 +623,18 @@ class UsuarioCasaCorredoraController extends Controller
         } else {
 
             $Usuario->restore();
+
+            $bitacora = new BitacoraUsuario();
+            $bitacora->fill(
+                [
+                    'tipoCambio' => 'ReActivacion',
+                    'idUsuario' => Auth::user()->id,
+                    'idOrganizacion' => Auth::user()->idOrganizacion,
+                    'descripcion' => 'ReActivacion de usuario Casa Corredora' . $Usuario->nombre . ' ' . $Usuario->apellido . ' id: ' . $Usuario->id,
+
+                ]
+            );
+            $bitacora->save();
             flash('El usuario se activo exitosamente', 'warning');
             return redirect('/UsuarioCasaCorredora');
         }
@@ -411,31 +647,56 @@ class UsuarioCasaCorredoraController extends Controller
 
         $Usuario->restore();
 
-
-        $caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //posibles caracteres a usar
-        $numerodeletras = 8; //numero de letras para generar el texto
-        $cadena = ""; //variable para almacenar la cadena generada
-        for ($i = 0; $i < $numerodeletras; $i++) {
-            $cadena .= substr($caracteres, rand(0, strlen($caracteres)), 1);
+        $tokenActivos = token::where('idUsuario', '=', $Usuario->id)->get();
+        foreach ($tokenActivos as $tokens) {
+            $tokens->delete();
         }
+        $token = new token();
+        $gentoken = new GenerarToken();
+        $tokenDeUsuario = $gentoken->tokengenerador();
 
-//COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
-
-        $cadena = 'todociber';
-
-
-//COTNRASEÑA DE  PRUEBA RECORDAR QUITARLA
-        $Usuario->fill(
-            [
-                'password' => bcrypt($cadena),
+        $data = array(
+            'tokenDeUsuario' => $tokenDeUsuario,
+            'objetoToken' => $token
+        );
+        $token->fill([
+                'token' => $tokenDeUsuario,
+                'idUsuario' => $Usuario->id
             ]
         );
-        $Usuario->save();
+        $token->save();
 
-        flash('Se envio una nueva contraseña al correo del usuario', 'info');
+        Mail::send('emails.NuevoPasswordCasa', $data, function ($message) use ($Usuario) {
+
+            $message->from('todociber100@gmail.com', 'Restauracion de password');
+
+            $message->to($Usuario->email)->subject('Restauracion de password');
+
+        });
+
+
+        $Usuario->restore();
+
+        $bitacora = new BitacoraUsuario();
+        $bitacora->fill(
+            [
+                'tipoCambio' => 'Reseteo',
+                'idUsuario' => Auth::user()->id,
+                'idOrganizacion' => Auth::user()->idOrganizacion,
+                'descripcion' => 'Reseteo de contrseña  de usuario Casa Corredora' . $Usuario->nombre . ' ' . $Usuario->apellido . ' id: ' . $Usuario->id,
+
+            ]
+        );
+        $bitacora->save();
+        flash('Contraseña restaurada exitosamente ', 'info');
         return redirect('/UsuarioCasaCorredora');
 
 
+    }
+
+    public function perfil()
+    {
+        return View('CasaCorredora.Usuarios.Perfil', ['user' => Auth::user()]);
     }
 
 

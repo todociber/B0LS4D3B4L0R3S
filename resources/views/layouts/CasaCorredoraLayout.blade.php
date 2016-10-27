@@ -18,6 +18,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
     <!-- Bootstrap 3.3.5 -->
     {!! Html::style('assets/css/bootstrap.css') !!}
             <!-- Font Awesome -->
+
     {!! Html::style('assets/css/font-awesome.css') !!}
     {!! Html::style('dist/css/select2.css') !!}
             <!-- Ionicons -->
@@ -34,7 +35,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
             <!-- jQuery 2.1.4 -->
     {!! Html::script('assets/plugins/jQuery/jQuery-2.1.4.min.js') !!}
 
-    {!! Html::script('dist/js/select2.js') !!}
+    {!! Html::script('dist/js/select2.full.js') !!}
             <!-- Bootstrap 3.3.5 -->
     {!! Html::script('assets/js/bootstrap.min.js') !!}
             <!-- DataTables -->
@@ -56,6 +57,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
 
     {!! Html::style('assets/plugins/datepicker/datepicker3.css') !!}
     {!! Html::script('assets/js/loading.js') !!}
+    {!! Html::script('assets/js/SERO.js') !!}
     {!! Html::style('assets/css/SERO.css') !!}
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -112,7 +114,8 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                                    <a href="{{route('Perfil.UsuarioCasa')}}"
+                                       class="btn btn-default btn-flat">Perfil</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="{{url('/logout')}}" class="btn btn-default btn-flat">Cerrar Sesión</a>
@@ -151,43 +154,74 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
 
                     </li>
                 @endif
-                @if($autorizador || $agenteCorredor)
+                @if($autorizador )
 
+                <li id="ordenes" class=" treeview">
+                    <a href="#">
+                        <i class="fa fa-archive"></i> <span>Autorizador</span> <i
+                                class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li id="listadoOrdenes"><a href="{{route('Ordenes.index')}}"><i
+                                        class="fa fa-circle-o"></i>Ordenes por asignar</a></li>
+                        <li id="listadoOrdenes2"><a href="{{route('ordenesautorizador')}}"><i
+                                        class="fa fa-circle-o"></i>Listado general de ordenes</a></li>
+                        <li id="listadoOrdenes2"><a href="{{route('OrdenesReporte.Fecha')}}"><i
+                                        class="fa fa-circle-o"></i>Reporte de Ordenes</a></li>
+
+                    </ul>
+                </li>
+                @endif
+
+                @if($agenteCorredor)
                     <li id="ordenes" class=" treeview">
                         <a href="#">
-                            <i class="fa fa-archive"></i> <span>Ordenes</span> <i
+                            <i class="fa fa-archive"></i> <span>Agente Corredor</span> <i
                                     class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li id="listadoOrdenes"><a href="{{route('Ordenes.index')}}"><i
-                                            class="fa fa-circle-o"></i>Ordenes Vigentes</a></li>
+                            <li id="listadoOrdenesAsignadas"><a href="{{route('ordenesagenteasignar')}}"><i
+                                            class="fa fa-circle-o"></i>Ordenes Asignadas</a></li>
+                            <li id="listadoOrdenesGeneralAgente"><a href="{{route('ordenesagente')}}"><i
+                                            class="fa fa-circle-o"></i>Listado general de ordenes</a></li>
+
 
                         </ul>
                     </li>
                 @endif
-                @if($autorizador)
-                    <li id="Afiliaciones" class=" treeview">
-                        <a href="#">
-                            <i class="fa fa-archive"></i> <span>Afiliaciones</span> <i
-                                    class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.index')}}"><i
-                                            class="fa fa-circle-o"></i>Solicitudes de Afiliacion</a></li>
-                            <li id="listadoOrdenes"><a href="{{route('Afiliados.index')}}"><i
-                                            class="fa fa-circle-o"></i>Afiliados</a></li>
 
-                        </ul>
-                    </li>
+                @if($autorizador)
+                <li id="Afiliaciones" class=" treeview">
+                    <a href="#">
+                        <i class="fa fa-archive"></i> <span>Afiliaciones</span> <i
+                                class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li id="listadoOrdenes"><a href="{{route('Registrar.Clientes')}}"><i
+                                        class="fa fa-circle-o"></i>Registrar Clientes</a></li>
+                        <li id="listadoOrdenes"><a href="{{route('Afiliados.index')}}"><i
+                                        class="fa fa-circle-o"></i>Afiliados</a></li>
+
+                        <li id="listadoOrdenes"><a href="{{route('Buscar.Cliente')}}"><i
+                                        class="fa fa-circle-o"></i>Buscar Cliente</a></li>
+
+                        <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.index')}}"><i
+                                        class="fa fa-circle-o"></i>Solicitudes en revision</a></li>
+                        <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.canceladas')}}"><i
+                                        class="fa fa-circle-o"></i>Solicitudes Canceladas</a></li>
+
+
+                    </ul>
+                </li>
                 @endif
 
                 <li class="header">OTRAS OPCIONES</li>
-                @if($administrador)
-                    <li><a href={{route('Latch.index')}}><i class="fa fa-circle-o text-red"></i>
-                            <span>Vincular Latch</span></a>
-                    </li>
-                @endif
-                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Perfil</span></a></li>
+
+                <li><a href={{route('Latch.index')}}><i class="fa fa-circle-o text-red"></i> <span>Vincular Latch</span></a>
+                </li>
+
+                <li><a href="{{route('Perfil.UsuarioCasa')}}"><i class="fa fa-circle-o text-yellow"></i>
+                        <span>Perfil</span></a></li>
 
             </ul>
         </section>
@@ -241,7 +275,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                         "sProcessing": "Procesando...",
                         "sLengthMenu": "Mostrar _MENU_ registros",
                         "sZeroRecords": "No se encontraron resultados",
-                        "sEmptyTable": "NingÃºn dato disponible en esta tabla",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
                         "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                         "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
                         "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
@@ -281,7 +315,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",
             "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "NingÃºn dato disponible en esta tabla",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
             "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
             "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
@@ -320,7 +354,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",
             "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "NingÃºn dato disponible en esta tabla",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
             "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
             "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
@@ -359,7 +393,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",
             "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "NingÃºn dato disponible en esta tabla",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
             "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
             "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",

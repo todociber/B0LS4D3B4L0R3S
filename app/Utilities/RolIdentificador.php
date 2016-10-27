@@ -45,6 +45,30 @@ class RolIdentificador
         return $AgenteCorredor;
     }
 
+    public function Cliente($usuario)
+    {
+        $cliente = false;
+        $roles = $usuario->UsuarioRoles;
+        foreach ($roles as $rol) {
+            if ($rol->idRol == 5) {
+                $cliente = true;
+            }
+        }
+        return $cliente;
+    }
+
+    public function Bolsa($usuario)
+    {
+        $bolsa = false;
+        $roles = $usuario->UsuarioRoles;
+        foreach ($roles as $rol) {
+            if ($rol->idRol == 1) {
+                $bolsa = true;
+            }
+        }
+        return $bolsa;
+    }
+
 
 }
 

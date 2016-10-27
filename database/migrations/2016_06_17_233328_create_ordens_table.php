@@ -14,7 +14,7 @@ class CreateOrdensTable extends Migration
     {
         Schema::create('ordenes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('correlativo')->unique();
+            $table->string('correlativo', 5)->unique();
             $table->date('FechaDeVigencia');
             $table->string('titulo',100);
             $table->decimal('valorMinimo', 65, 2);
@@ -22,8 +22,8 @@ class CreateOrdensTable extends Migration
             $table->decimal('monto', 65, 2);
             $table->decimal('tasaDeInteres', 65, 2)->nullable();
             $table->decimal('comision', 65, 2)->nullable();
-            $table->string('emisor');
-            $table->string('TipoMercado');
+            $table->string('emisor', 50);
+            $table->string('TipoMercado', 30);
             $table->integer('idCliente')->unsigned();
             $table->integer('idCorredor')->unsigned()->nullable();
             $table->integer('idTipoOrden')->unsigned();
@@ -48,7 +48,6 @@ class CreateOrdensTable extends Migration
                 ->references('id')->on('cedevals');
             $table->foreign('idOrden')
                 ->references('id')->on('ordenes');
-
             $table->timestamps();
             $table->softDeletes();
         });

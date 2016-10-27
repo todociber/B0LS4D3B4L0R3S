@@ -29,6 +29,7 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
+
         ],
 
         'api' => [
@@ -52,6 +53,10 @@ class Kernel extends HttpKernel
         'UsuarioCasaCorredora' => \App\Http\Middleware\UsuarioCasaCorredora::class,
         'administradorCasaCorredora' => \App\Http\Middleware\UsuarioAdministradorCasaCorredoraAuth::class,
         'OperadorCasaCorredora' => \App\Http\Middleware\UsuarioOperadorCasaCorredora::class,
-        'AgenteCorredor' => \App\Http\Middleware\AgenteCorredorMiddleware::class
+        'AgenteCorredor' => \App\Http\Middleware\AgenteCorredorMiddleware::class,
+        'UsuarioNoLogueado' => \App\Http\Middleware\UsuarioNoLogueado::class,
+        'jwt-auth' => \App\Http\Middleware\authJWT::class,
+        'cliente' => \App\Http\Middleware\ClienteMiddleware::class,
+        'bolsa' => \App\Http\Middleware\BolsaMiddleware::class,
     ];
 }

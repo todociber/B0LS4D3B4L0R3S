@@ -9,6 +9,9 @@
         $(document).ready(function () {
             $('#casas').addClass('active');
             $('#registrar').addClass('active');
+            $('#telefono').mask('00000000');
+            $('#codigo').mask('00000');
+
             var buttonLada;
             var dataError;
 
@@ -70,16 +73,19 @@
                     dataError = data.error;
                     if (data.error == '0') {
                         $('#modalbody').text('Datos guardados con exito');
-
+                        window.location.href = '{{route('listadoCasas')}}'
 
                     }
                     else if (data.error == '2') {
 
-                        $('#modalbody').text('Faltan datos, asegure de llenar todos los campos del formularios');
+                        $('#modalbody').text('Faltan datos, asegure de llenar todos los campos del formulario, de escribir una dirección de correo eléctronica valida, y escribir un código no menor a 5 digitos');
                     }
                     else if (data.error == '3') {
 
                         $('#modalbody').text('Ya exite una casa registrada con ese código ');
+                    } else if (data.error == '5') {
+
+                        $('#modalbody').text('La casa corredora tiene ordenes vigentes,por lo tanto no puede realizar ningun cambio');
                     }
                     else {
 
@@ -133,6 +139,9 @@
 
                             <div class="box-footer">
                                 {!!Form::submit('Modificar', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'clickable','data-style'=>'expand-left'])!!}
+                                <a class="btn btn-info btn-flat" data-toggle="modal" data-target="#modalRestaurar">Reinicar
+                                    contraseña administrador casa corredora </a>
+
                             </div>
 
                             {!! Form::close() !!}
@@ -156,6 +165,25 @@
                     <p id="modalbody"></p>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalRestaurar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Mensaje</h4>
+                </div>
+                <div i class="modal-body">
+                    <p id="pd">¿Desea reinicar la contraseña del administrador de esta casa corredora?</p>
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn btn-danger" href="#"
+                       onclick="window.location.href='{{route('reiniciarpasswordcasa',["id"=>$organizacion->id])}}';animatedLoading()">Restaurar</a>
                     <button type="button" data-dismiss="modal" class="btn btn-primary">Cerrar</button>
                 </div>
             </div>

@@ -28,7 +28,7 @@
                                     <div class="col-md-12">
                                         @include('alertas.errores')
                                         @include('alertas.flash')
-                                        {{Form::model($usuario,['route'=>['UsuarioBolsa.update', $usuario->id],'method' =>'PUT', 'id'=>'form','role' => 'form'])  }}
+                                        {{Form::model($usuario,['route'=>['UsuarioBolsa.update', $usuario->id],'method' =>'PUT', 'id'=>'form','role' => 'form','onsubmit'=>'animatedLoading()'])  }}
                                         @include('bves.Usuarios.FormularioUserBolsa.FormularioUserBolsa')
 
                                     </div>

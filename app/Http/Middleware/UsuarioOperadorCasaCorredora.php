@@ -20,7 +20,14 @@ class UsuarioOperadorCasaCorredora
         $rol = new RolIdentificador;
 
         if (!$rol->Autorizador(Auth::user())) {
-            return redirect('/login');
+            if ($rol->Administrador(Auth::user())) {
+                return redirect()->route('UsuarioCasaCorredora.index');
+            } else if ($rol->AgenteCorredor(Auth::user())) {
+                return redirect()->route('Ordenes.index');
+            }
+            return redirect('/NoPermitido');
+
+
         }
         return $next($request);
     }
