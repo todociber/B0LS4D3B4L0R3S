@@ -632,7 +632,11 @@ class OrdenesAPI extends Controller
                 $query->where('idCliente', $idCliente)->whereIn('idEstadoSolicitud', [5, 4]);
             })->select('id', 'nombre', 'idEstadoSolicitud')->get();
 
-            if (count($casas) > 0) {
+            $casasC = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
+                $query->where('idCliente', $idCliente)->whereIn('idEstadoSolicitud', [5, 4]);
+            })->count();
+
+            if ($casasC > 0) {
                 return response()->json(['ErrorCode' => '0', 'data' => $casas]);
             } else {
                 return response()->json(['ErrorCode' => '2', 'msg' => 'No hay datos']);
