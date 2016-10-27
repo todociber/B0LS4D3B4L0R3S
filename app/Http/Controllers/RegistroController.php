@@ -20,9 +20,9 @@ use App\Utilities\GenerarToken;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Mail;
 use Mockery\CountValidator\Exception;
 use Redirect;
+use Snowfire\Beautymail\Beautymail;
 
 class RegistroController extends Controller
 {
@@ -194,8 +194,8 @@ class RegistroController extends Controller
                     ]
                 );
                 $token->save();
-
-                Mail::send('emails.ActivacionCliente', $data, function ($message) use ($usuario) {
+                $beautymail = app()->make(Beautymail::class);
+                $beautymail->send('emails.ActivacionCliente', $data, function ($message) use ($usuario) {
 
                     $message->from('bolsadevalores@bves.com', 'Activacion de cuenta');
 
@@ -223,6 +223,7 @@ class RegistroController extends Controller
             return redirect()->route('Registro.index');
         }
     }
+
     public function verifyCedeval($cedevals)
     {
         $CopyCede = $cedevals;
@@ -346,10 +347,72 @@ class RegistroController extends Controller
             $usuario->restore();
             $tokenE->delete();
             \Session::remove('token');
+            flash('Contraseña modificada con éxito', 'success');
             return redirect('/login');
         } else {
             return redirect()->back()->withErrors('Contraseñas no coiciden');
         }
+
+    }
+
+
+    public function ForgotPassView()
+    {
+
+        return view('auth.forgotPassword');
+    }
+
+    public function recuperarPassUpdate(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'email' => 'required|email',
+
+            ]);
+
+            $user = Usuario::where("email", $request["email"])->where("idOrganizacion", null)->first();
+            if ($user) {
+                $token = new token();
+                $gentoken = new GenerarToken();
+                $tokenDeUsuario = $gentoken->tokengenerador();
+
+                $data = [
+                    'tokenDeUsuario' => $tokenDeUsuario,
+                    'objetoToken' => $token,
+                    'titulo' => 'Activación de cuenta',
+                    'nombre' => 'Cambio de contraseña, para: ' . $user->nombre,
+                    'usuario' => $user->email,
+                    'ruta' => 'Token.Activacion',
+                    'subtitulo' => 'Tu contraseña ha sido reiniciada, ingresa a la siguiente dirección para cambiar su contraseña'
+                ];
+                $token->fill([
+                    'token' => $tokenDeUsuario,
+                    'idUsuario' => $user->id
+                ]);
+                $token->save();
+                $beautymail = app()->make(Beautymail::class);
+
+                $beautymail->send('emails.resetPasswordUser', $data, function ($message) use ($user) {
+
+                    $message->from('todocyber100@gmail.com', 'Recuperación de contraseña');
+
+                    $message->to($user->email)->subject('Recuperación de contraseña');
+
+                });
+                flash('Contraseña restaurada con éxito', 'success');
+                return view('auth.login');
+            } else {
+
+                flash('No puede restaurar la contraseña de este usuario', 'info');
+                return redirect()->route('forgotpassword');
+            }
+        } catch (Exception $e) {
+            flash('Ocurrio un error al restaurar la contraseña', 'danger');
+            return redirect()->route('forgotpassword');
+
+
+        }
+
 
     }
 }

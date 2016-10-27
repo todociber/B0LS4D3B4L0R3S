@@ -18,8 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Mockery\CountValidator\Exception;
+use Snowfire\Beautymail\Beautymail;
 use Validator;
 
 class BolsaController extends Controller
@@ -185,8 +185,8 @@ class BolsaController extends Controller
             ]
         );
         $token->save();
-
-        Mail::send('emails.EmailSend', $data, function ($message) use ($usuario) {
+        $beautymail = app()->make(Beautymail::class);
+        $beautymail->send('emails.EmailSend', $data, function ($message) use ($usuario) {
 
             $message->from('todocyber100@gmail.com', 'Activacion de cuenta');
 
@@ -207,6 +207,8 @@ class BolsaController extends Controller
                 $organizacion = Organizacion::where("id", $request["id"])->first();
                 if ($countOrden == 0) {
                     DB::table('usuarios')->where("idOrganizacion", $request["id"])->update(["deleted_at" => Carbon::now()]);
+                    $usuarios = Usuario::where("idOrganizacion", $request["id"])->select("id")->get();
+                    $this->killAllSesionHouse($request["id"]);
                     Organizacion::destroy($request["id"]);
                     $bitacora = new BitacoraUsuario();
 
@@ -235,7 +237,7 @@ class BolsaController extends Controller
                     [
                         'idUsuario' => Auth::user()->id,
                         'idOrganizacion' => Auth::user()->Organizacion->id,
-                        'descripcion' => 'Casa' . $organizacion->nombre . ', cambio a estado innactivo ',
+                        'descripcion' => 'Casa' . $organizacion->nombre . ', cambio a estado activo ',
 
                     ]
                 );
@@ -249,6 +251,15 @@ class BolsaController extends Controller
 
         }
         return redirect()->route('listadoCasas');
+
+    }
+
+    function killAllSesionHouse($idCasa)
+    {
+
+        $usuarios = Usuario::where("idOrganizacion", $idCasa)->select("id")->get();
+        $action = new Action();
+        $action->killAllSessionsHouse($usuarios);
 
     }
 
@@ -266,6 +277,8 @@ class BolsaController extends Controller
 
     }
 
+    //RESET PASSWORD
+
     public function editarCasa($id)
     {
         //'id'=>'my-dropzone','class' => 'dropzone',
@@ -277,7 +290,11 @@ class BolsaController extends Controller
 
     }
 
-    //RESET PASSWORD
+    //-------CONTROL DE CASAS CORREDORAS-----//
+
+
+    //UPLOAD IMAGE
+
     public function ResetPasswordCasa($id)
     {
         if ($id) {
@@ -314,7 +331,8 @@ class BolsaController extends Controller
                     );
                     $token->save();
                     $usuario = $Usuarios[0];
-                    Mail::send('emails.EmailSend', $data, function ($message) use ($usuario) {
+                    $beautymail = app()->make(Beautymail::class);
+                    $beautymail->send('emails.EmailSend', $data, function ($message) use ($usuario) {
 
                         $message->from('todocyber100@gmail.com', 'Activacion de cuenta');
 
@@ -352,10 +370,8 @@ class BolsaController extends Controller
 
     }
 
-    //-------CONTROL DE CASAS CORREDORAS-----//
 
-
-    //UPLOAD IMAGE
+    //MAKEUSER
 
     public function update(Request $request, $id)
     {
@@ -397,6 +413,7 @@ class BolsaController extends Controller
                         $organizacion->save();
                         if ($activo != null) {
                             $organizacion->delete();
+                            $this->killAllSesionHouse($organizacion->id);
 
                         } else {
                             $organizacion->restore();
@@ -466,8 +483,7 @@ class BolsaController extends Controller
         }
     }
 
-
-    //MAKEUSER
+    //BITACORAS
 
     public function ListadoCasas()
     {
@@ -476,8 +492,6 @@ class BolsaController extends Controller
 
         return View('bves.Casas.ListaCasas', ['organizaciones' => $organizaciones]);
     }
-
-    //BITACORAS
 
     public function bitacoras()
     {

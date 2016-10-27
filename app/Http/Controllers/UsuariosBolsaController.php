@@ -205,7 +205,8 @@ class UsuariosBolsaController extends Controller
                     ]
                 );
                 $bitacora->save();
-
+                $action = new Action();
+                $action->killSession($request["id"]);
 
             }
             else {
@@ -268,8 +269,8 @@ class UsuariosBolsaController extends Controller
                     'idUsuario' => $user->id
                 ]);
                 $token->save();
-
-                Mail::send('emails.ResetPasswordBolsa', $data, function ($message) use ($user) {
+                $beautymail = app()->make(Beautymail::class);
+                $beautymail->send('emails.ResetPasswordBolsa', $data, function ($message) use ($user) {
 
                     $message->from('todocyber100@gmail.com', 'Reinicio de contraseña');
 
@@ -279,6 +280,8 @@ class UsuariosBolsaController extends Controller
                 //Usuario::destroy($id);
                 $message = 'Contraseña reiniciada con éxito';
                 $state = 'success';
+                $action = new Action();
+                $action->killSession($id);
             }
             else {
 
@@ -369,6 +372,8 @@ class UsuariosBolsaController extends Controller
                 $usuario->save();
                 if ($activo != null) {
                     $usuario->delete();
+                    $action = new Action();
+                    $action->killSession($usuario->id);
 
                 } else {
                     $usuario->restore();

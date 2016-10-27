@@ -12,7 +12,9 @@ use ErrorException;
 use Exception;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Latch;
 use Validator;
 
@@ -107,7 +109,7 @@ class AuthController extends Controller
          }
 
 
-
+        $this->deleteOldSession($usuario->id);
 
         $userType=$usuario->UsuarioRoles[0]->RolN->id;
 
@@ -140,6 +142,14 @@ class AuthController extends Controller
         //return redirect()->route('listadoCasas'); //redirect to standard user homepage
     }
 
+    public function deleteOldSession($id)
+    {
+        //  ELIMINANDO SESIONES ANTERIORES
+
+        DB::table("sessions")->where("id", "!=", Session::getId())
+            ->where("user_id", $id)
+            ->delete();
+    }
 
     /**
      * Create a new user instance after a valid registration.

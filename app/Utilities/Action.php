@@ -3,8 +3,11 @@
 
 namespace App\Utilities;
 
+use App\Models\Cliente;
+use App\Models\Ordene;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Sly\NotificationPusher\Model\Push;
 use Snowfire\Beautymail\Beautymail;
 
 class Action
@@ -36,8 +39,57 @@ class Action
             $message->to($email)->subject($subject);
 
         });
-        
-        
+
+
+    }
+
+    public function killSession($idUser)
+    {
+        DB::table("sessions")->where("user_id", $idUser)
+            ->delete();
+    }
+
+    public function killAllSessionsHouse($users)
+    {
+
+        DB::table("sessions")->whereIn("user_id", $users)->delete();
+    }
+
+    //IDCLIENTE Y TIPO DE PUSH ENVIAR PARAMETRO ENTERO, y id de orden o afiliacion
+    public function sendPush($idCliente, $tipo, $idOrden)
+    {
+        /*
+         *
+         * Orden para cuandon cambie el estado,
+         * afiliaciones cuando cambié estado , mensajes y operaciones de bolsa
+         *
+         * */
+        $cliente = Cliente::where("id", $idCliente)->first();
+
+        $mensaje = '';
+        $arrsend = [];
+        if ($tipo == 1) {
+            $mensaje = 'Una orden ha cambiado de estado';
+            $orden = Ordene::where("id", $id)->first();
+            $arrsend = ["tipo" => $tipo, "mensaje" => $mensaje, "idOrden" => $orden->id, "idOrganizacion" => $orden->idOrganizacion];
+        } else if ($tipo == 2) {
+            $mensaje = 'Ha recibido respuesta de una afiliación';
+            $arrsend = ["tipo" => $tipo, "mensaje" => $mensaje];
+
+        } else if ($tipo == 3) {
+            $mensaje = 'Ha recibido mensaje de una orden';
+            $orden = Ordene::where("id", $id)->first();
+            $arrsend = ["tipo" => $tipo, "mensaje" => $mensaje, "idOrden" => $orden->id, "idOrganizacion" => $orden->idOrganizacion];
+        } else if ($tipo == 4) {
+            $mensaje = 'Se ha realizado una operación de bolsa a un orden';
+            $orden = Ordene::where("id", $id)->first();
+            $arrsend = ["tipo" => $tipo, "mensaje" => $mensaje, "idOrden" => $orden->id, "idOrganizacion" => $orden->idOrganizacion];
+        }
+
+        Push::app('android')
+            ->to($cliente->tokenPush)
+            ->send($arrsend);
+
     }
 
 
