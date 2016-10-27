@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="despues del merge&#10;">
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="PUSH agregadas">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Utilities/Action.php" afterPath="$PROJECT_DIR$/app/Utilities/Action.php" />
     </list>
@@ -35,9 +35,11 @@
       <file leaf-file-name="Action.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Utilities/Action.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1054">
-              <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="345">
+              <caret line="77" column="104" selection-start-line="77" selection-start-column="104" selection-end-line="77" selection-end-column="104" />
+              <folding>
+                <element signature="e#34#57#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -645,7 +647,7 @@
       <workItem from="1477591732737" duration="1515000" />
       <workItem from="1477596117826" duration="595000" />
       <workItem from="1477604033134" duration="409000" />
-      <workItem from="1477604543971" duration="259000" />
+      <workItem from="1477604543971" duration="386000" />
     </task>
     <task id="LOCAL-00001" summary="Crear y editar Usuario&#10;">
       <created>1467422376103</created>
@@ -969,11 +971,18 @@
       <option name="project" value="LOCAL" />
       <updated>1477592123280</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="PUSH agregadas">
+      <created>1477604817342</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1477604817342</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="309249000" />
+    <option name="totallyTimeSpent" value="309376000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -1053,7 +1062,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Asignar agente corredor a Ordenes" />
     <MESSAGE value="sin vendor" />
     <MESSAGE value="test" />
     <MESSAGE value="Commit with merge end." />
@@ -1078,7 +1086,8 @@
     <MESSAGE value="NoPermitido" />
     <MESSAGE value="merge edicion modulo terminado&#10;" />
     <MESSAGE value="despues del merge&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="despues del merge&#10;" />
+    <MESSAGE value="PUSH agregadas" />
+    <option name="LAST_COMMIT_MESSAGE" value="PUSH agregadas" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1457,9 +1466,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Utilities/Action.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1054">
-          <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="345">
+          <caret line="77" column="104" selection-start-line="77" selection-start-column="104" selection-end-line="77" selection-end-column="104" />
+          <folding>
+            <element signature="e#34#57#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

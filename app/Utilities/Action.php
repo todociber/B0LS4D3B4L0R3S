@@ -75,7 +75,7 @@ class Action
             $arrsend = ["tipo" => $tipo, "mensaje" => $mensaje, "idOrden" => $orden->id, "idOrganizacion" => $orden->idOrganizacion];
         } else if ($tipo == 2) {
             $mensaje = 'Ha recibido respuesta de una afiliación';
-            $arrsend = ["tipo" => $tipo, "mensaje" => $mensaje];
+            $arrsend = ["tipo" => $tipo, "mensaje" => $mensaje, "idOrden" => "0", "idOrganizacion" => "0"];
 
         } else if ($tipo == 3) {
             $mensaje = 'Ha recibido mensaje de una orden';
