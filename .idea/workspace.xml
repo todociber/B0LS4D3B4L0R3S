@@ -2,21 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="push agregadas, restauracion de contraseña y metodos de deslogueo">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database/migrations/2016_10_26_220928_create_sessions_table.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/auth/forgotPassword.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/emails/resetPasswordUser.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.env" afterPath="$PROJECT_DIR$/.env" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/BolsaController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/BolsaController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/RegistroController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/RegistroController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/UsuariosBolsaController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsuariosBolsaController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Utilities/Action.php" afterPath="$PROJECT_DIR$/app/Utilities/Action.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/pushnotification.php" afterPath="$PROJECT_DIR$/config/pushnotification.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/session.php" afterPath="$PROJECT_DIR$/config/session.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/emails/NuevoPasswordCasa.blade.php" afterPath="$PROJECT_DIR$/resources/views/emails/NuevoPasswordCasa.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -150,7 +137,7 @@
       <file leaf-file-name="RegistroController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegistroController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1155">
+            <state relative-caret-position="210">
               <caret line="336" column="76" selection-start-line="336" selection-start-column="76" selection-end-line="336" selection-end-column="76" />
               <folding>
                 <element signature="e#854#1231#0#PHP" expanded="false" />
@@ -169,6 +156,24 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="OrdenesAPI.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="222">
+              <caret line="638" column="23" selection-start-line="638" selection-start-column="23" selection-end-line="638" selection-end-column="23" />
+              <folding>
+                <element signature="e#415#3915#0#PHP" expanded="false" />
+                <element signature="e#3921#7312#0#PHP" expanded="false" />
+                <element signature="e#7318#11796#0#PHP" expanded="false" />
+                <element signature="e#11802#18467#0#PHP" expanded="false" />
+                <element signature="e#18473#21351#0#PHP" expanded="false" />
+                <element signature="e#21357#23744#0#PHP" expanded="false" />
+                <element signature="e#23750#26385#0#PHP" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="composer.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/composer.json">
           <provider selected="true" editor-type-id="text-editor">
@@ -179,7 +184,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Action.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Action.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Utilities/Action.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="566">
@@ -337,7 +342,6 @@
         <option value="$PROJECT_DIR$/resources/views/emails/OrdenNotificacion.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/Clientes/Perfil/modificarInfo.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/Clientes/Perfil/modificarPerfil.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAgente/listadoOrdenes.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
@@ -355,6 +359,7 @@
         <option value="$PROJECT_DIR$/resources/views/emails/resetPasswordUser.blade.php" />
         <option value="$PROJECT_DIR$/config/pushnotification.php" />
         <option value="$PROJECT_DIR$/app/Utilities/Action.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php" />
       </list>
     </option>
   </component>
@@ -928,7 +933,7 @@
       <workItem from="1477509994967" duration="9218000" />
       <workItem from="1477540217547" duration="1395000" />
       <workItem from="1477597099585" duration="6194000" />
-      <workItem from="1477604368243" duration="18000" />
+      <workItem from="1477604368243" duration="218000" />
     </task>
     <task id="LOCAL-00001" summary="Crear y editar Usuario&#10;">
       <created>1467422376103</created>
@@ -1259,11 +1264,18 @@
       <option name="project" value="LOCAL" />
       <updated>1477523540029</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="push agregadas, restauracion de contraseña y metodos de deslogueo">
+      <created>1477604407807</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1477604407807</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="324859000" />
+    <option name="totallyTimeSpent" value="325059000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -1276,13 +1288,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23909532" sideWeight="0.4890411" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23909532" sideWeight="0.4890411" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24657534" sideWeight="0.509693" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24657534" sideWeight="0.509693" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21243942" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12295082" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1297,7 +1310,6 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39907727" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1591,13 +1603,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="625" column="43" selection-start-line="625" selection-start-column="20" selection-end-line="625" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/app.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2460">
@@ -1609,6 +1614,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1616,6 +1622,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="438">
           <caret line="72" column="27" selection-start-line="72" selection-start-column="27" selection-end-line="72" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1642,6 +1649,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="363">
           <caret line="165" column="23" selection-start-line="163" selection-start-column="6" selection-end-line="165" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1649,6 +1657,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-60">
           <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1711,26 +1720,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegistroController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1155">
-          <caret line="336" column="76" selection-start-line="336" selection-start-column="76" selection-end-line="336" selection-end-column="76" />
-          <folding>
-            <element signature="e#854#1231#0#PHP" expanded="false" />
-            <element signature="e#1261#1813#0#PHP" expanded="false" />
-            <element signature="e#2149#7781#0#PHP" expanded="false" />
-            <element signature="e#7787#8453#0#PHP" expanded="false" />
-            <element signature="e#8584#8632#0#PHP" expanded="false" />
-            <element signature="e#8781#8829#0#PHP" expanded="false" />
-            <element signature="e#9019#9087#0#PHP" expanded="false" />
-            <element signature="e#9301#9352#0#PHP" expanded="false" />
-            <element signature="e#9358#9754#0#PHP" expanded="false" />
-            <element signature="e#9761#10410#0#PHP" expanded="false" />
-            <element signature="e#10416#11232#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -1743,6 +1732,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="110" selection-start-line="13" selection-start-column="110" selection-end-line="13" selection-end-column="110" />
+          <folding>
+            <marker date="1477604312000" expanded="true" signature="484:709" placeholder="..." />
+            <marker date="1477604312000" expanded="true" signature="495:708" placeholder="..." />
+            <marker date="1477604312000" expanded="true" signature="496:707" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1750,6 +1744,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="56" selection-start-line="13" selection-start-column="56" selection-end-line="13" selection-end-column="56" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1807,6 +1802,42 @@
         <state relative-caret-position="566">
           <caret line="92" column="5" selection-start-line="92" selection-start-column="5" selection-end-line="92" selection-end-column="5" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegistroController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="336" column="76" selection-start-line="336" selection-start-column="76" selection-end-line="336" selection-end-column="76" />
+          <folding>
+            <element signature="e#854#1231#0#PHP" expanded="false" />
+            <element signature="e#1261#1813#0#PHP" expanded="false" />
+            <element signature="e#2149#7781#0#PHP" expanded="false" />
+            <element signature="e#7787#8453#0#PHP" expanded="false" />
+            <element signature="e#8584#8632#0#PHP" expanded="false" />
+            <element signature="e#8781#8829#0#PHP" expanded="false" />
+            <element signature="e#9019#9087#0#PHP" expanded="false" />
+            <element signature="e#9301#9352#0#PHP" expanded="false" />
+            <element signature="e#9358#9754#0#PHP" expanded="false" />
+            <element signature="e#9761#10410#0#PHP" expanded="false" />
+            <element signature="e#10416#11232#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="638" column="23" selection-start-line="638" selection-start-column="23" selection-end-line="638" selection-end-column="23" />
+          <folding>
+            <element signature="e#415#3915#0#PHP" expanded="false" />
+            <element signature="e#3921#7312#0#PHP" expanded="false" />
+            <element signature="e#7318#11796#0#PHP" expanded="false" />
+            <element signature="e#11802#18467#0#PHP" expanded="false" />
+            <element signature="e#18473#21351#0#PHP" expanded="false" />
+            <element signature="e#21357#23744#0#PHP" expanded="false" />
+            <element signature="e#23750#26385#0#PHP" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
