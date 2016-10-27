@@ -18,13 +18,7 @@ class BitacoraUsuario extends Model
         'idOrganizacion',
     ];
 
-    protected $guarded = [];
-
-
-    public function usuarioRelacion()
-    {
-        $this->belongsTo(Usuario::class, 'idUsuario', 'id');
-    }
+    protected $guarded = [];   
 
 
     public function scopeOfid($query, $id)
