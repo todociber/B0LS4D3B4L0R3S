@@ -11,7 +11,7 @@ return [
 
     'android' => [
         'environment' => env('ANDROID_PUSH_ENV', 'production'),
-        'apiKey' => env('ANDROID_PUSH_API_KEY', 'yourAPIKey'),
+        'apiKey' => env('ANDROID_PUSH_API_KEY', 'AIzaSyC4mkkCpUSj2HiUxbYfWsMkxp9txPP1WZ4'),
         'service' => 'gcm'
     ]
 

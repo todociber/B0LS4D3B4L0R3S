@@ -55,7 +55,10 @@
 
                         <button type="submit" class="btn btn-lg btn-primary btn-block">
                             Iniciar Sesion
-                                    </button>
+                        </button>
+                        <a href="{{route('forgotpassword')}}" class="btn btn-lg btn-info btn-block">
+                            ¿Olvido su contraseña?
+                        </a>
 
 
                 </div>

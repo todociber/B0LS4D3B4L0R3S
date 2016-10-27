@@ -206,6 +206,8 @@ Route::group(['middleware' => 'UsuarioNoLogueado'], function () {
 });
 Route::auth();
 Route::get('confirmacionEmail/{tokenDeUsuario}', 'Registrocontroller@aceptarCambio')->name('Token.cambioemail');
+Route::get('OlvidePassword', 'Registrocontroller@ForgotPassView')->name('forgotpassword');
+Route::post('OlvidePassword/restore', 'Registrocontroller@recuperarPassUpdate')->name('forgotpassword.restore');
 Route::get('/NoPermitido', function () {
     return view('errors.NotAllowed');
 })->name("nopermitido");
