@@ -6,6 +6,7 @@ namespace App\Utilities;
 use App\Models\Cliente;
 use App\Models\Ordene;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Support\Facades\Hash;
 use Sly\NotificationPusher\Model\Push;
 use Snowfire\Beautymail\Beautymail;
@@ -70,7 +71,7 @@ class Action
         $arrsend = [];
         if ($tipo == 1) {
             $mensaje = 'Una orden ha cambiado de estado';
-            $orden = Ordene::where("id", $id)->first();
+            $orden = Ordene::where("id", $idOrden)->first();
             $arrsend = ["tipo" => $tipo, "mensaje" => $mensaje, "idOrden" => $orden->id, "idOrganizacion" => $orden->idOrganizacion];
         } else if ($tipo == 2) {
             $mensaje = 'Ha recibido respuesta de una afiliación';
@@ -78,11 +79,11 @@ class Action
 
         } else if ($tipo == 3) {
             $mensaje = 'Ha recibido mensaje de una orden';
-            $orden = Ordene::where("id", $id)->first();
+            $orden = Ordene::where("id", $idOrden)->first();
             $arrsend = ["tipo" => $tipo, "mensaje" => $mensaje, "idOrden" => $orden->id, "idOrganizacion" => $orden->idOrganizacion];
         } else if ($tipo == 4) {
             $mensaje = 'Se ha realizado una operación de bolsa a un orden';
-            $orden = Ordene::where("id", $id)->first();
+            $orden = Ordene::where("id", $idOrden)->first();
             $arrsend = ["tipo" => $tipo, "mensaje" => $mensaje, "idOrden" => $orden->id, "idOrganizacion" => $orden->idOrganizacion];
         }
 
