@@ -103,14 +103,16 @@ class OrdenesController extends Controller
     public function Comentar(Requests\RequestComenatiosCasaCorredora $request, $id)
     {
         $orden = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
-            ->where('id', '=', $id)->count();
-        if ($orden > 0) {
+            ->where('id', '=', $id)->first();
+        if ($orden->count() > 0) {
             $mensaje = new Mensaje([
                 'contenido' => $request['comentario'],
                 'idTipoMensaje' => '1',
                 'idOrden' => $id,
                 'idUsuario' => Auth::user()->id
             ]);
+            $action = new Action();
+            $action->sendPush($orden->idCliente, 3, $orden->id);
             flash('Comentario enviado exitosamente', 'success');
             $mensaje->save();
 
@@ -281,7 +283,7 @@ class OrdenesController extends Controller
                         ]);
                     } else {
 
-                        if ($montoEjecutado == $ordenes[0]->monto) {
+                        if ($montoEjecutado + $montoGuardar == $ordenes[0]->monto) {
                             $orden = Ordene::find($id);
                             $orden->fill([
                                 'idTipoEjecucion' => 1,
@@ -320,7 +322,8 @@ class OrdenesController extends Controller
                         ]
                     );
                     $bitacora->save();
-
+                    $action = new Action();
+                    $action->sendPush($orden->idCliente, 4, $orden->id);
                     flash('Operacion registrada exitosamente', 'success');
                     return redirect()->back();
 

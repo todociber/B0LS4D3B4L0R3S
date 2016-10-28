@@ -155,6 +155,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('BuscarCliente', 'SolicitudesCasaCorredora@buscarClientePost')->name('Buscar.Cliente');
             Route::post('Afiliar/{id}/Cliente', 'SolicitudesCasaCorredora@afiliarCliente')->name('Afiliar.Cliente');
             Route::get('Perfil', 'UsuarioCasaCorredoraController@perfil')->name('Perfil.UsuarioCasa');
+            Route::get('LatchSolicitud', 'LatchController@LatchSolicitud')->name('Latch.index');
             Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
 
         });
@@ -175,7 +176,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('Order/FiltrarOrden', 'OrdenesController@ordenesbyEstado')->name('ordenesbyestadoagent');
             Route::get('Order/ListadoGeneralAgente', 'OrdenesCasaCorredoraAutorizador@ListadoGeneralOrdenesAgente')->name('ordenesagente');
             Route::get('Ordenes/{id}/DetallePDF', 'OrdenesController@DetalleOrdenPDF')->name('OrdenesDetalles.PDF');
-
+            Route::get('LatchSolicitud', 'LatchController@LatchSolicitud')->name('Latch.index');
             Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
             Route::get('Perfil', 'UsuarioCasaCorredoraController@perfil')->name('Perfil.UsuarioCasa');
         });

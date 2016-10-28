@@ -8,6 +8,7 @@ use App\Models\Mensaje;
 use App\Models\Ordene;
 use App\Models\SolicitudRegistro;
 use App\Models\Usuario;
+use App\Utilities\Action;
 use App\Utilities\RolIdentificador;
 use Auth;
 use Carbon\Carbon;
@@ -328,6 +329,8 @@ class OrdenesCasaCorredoraAutorizador extends Controller
 
 
                 flash('Agente corredor asignado exitosamente', 'success');
+                $action = new Action();
+                $action->sendPush($orden->idCliente, 1, $orden->id);
                 return redirect('/Ordenes');
             } else {
                 flash('Error en consulta', 'danger');
@@ -374,8 +377,8 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                 ]);
                 flash('Comentario enviado exitosamente', 'success');
                 $mensaje->save();
-
-
+                $action = new Action();
+                $action->sendPush($ordenAEliminar->idCliente, 1, $ordenAEliminar->id);
                 flash('Orden rechazada ', 'success');
                 return redirect('/Ordenes');
             } else {
