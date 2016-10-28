@@ -131,7 +131,12 @@ class OrdenesController extends Controller
     {
 
 
-        $ordenes = Ordene::with('OrdenPadre')->ofid($id)->get();
+        $ordenes = Ordene::with("EstadoOrden", "OrdenPadre")->where("idOrden", $id)
+            ->orWhere("id", $id)
+            ->where("idOrganizacion", Auth::user()->idOrganizacion)
+            ->orderBy("created_at", 'DESC')
+            ->get();
+
 
         if ($ordenes[0]->OrdenPadre == null) {
             flash('Historial no disponible', 'warning');
