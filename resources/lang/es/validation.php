@@ -138,8 +138,8 @@ return [
             'digits' => 'Número de celular no debe ser menor o mayor a 8 digitos',
         ],
         'numeroCasa' => [
-            'required' => 'Debe escribir un número casa',
-            'numeric' => 'Debe escribir un número de casa valido',
+            'required' => 'Debe escribir un número teléono fijo',
+            'numeric' => 'Debe escribir un número de teléfono fijo',
             'max' => 'Numero de casa no debe exceder de 8 digitos',//['numeric'=>'Numero de casa no debe exceder de 8 digitos'],
             'min' => 'Numero de casa no debe ser menor a 8 digitos',
             'digits' => 'Número de casa no debe ser menor o mayor a 8 digitos',
