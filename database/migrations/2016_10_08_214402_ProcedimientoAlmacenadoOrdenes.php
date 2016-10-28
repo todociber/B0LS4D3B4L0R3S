@@ -12,10 +12,10 @@ class ProcedimientoAlmacenadoOrdenes extends Migration
     public function up()
     {
         DB::unprepared("
-      CREATE DEFINER=`" . env('DB_USERNAME') . "`@`" . env('DB_HOST') . "` PROCEDURE `NuevaOrden`(IN idCliente INT,IN FechaDeVigencia DATE,tipodeorden INT,titulo VARCHAR(25),
+      CREATE DEFINER=`" . env('DB_USERNAME') . "`@`" . env('DB_HOST') . "` PROCEDURE `NuevaOrden`(IN idCliente INT,IN FechaDeVigencia DATE,tipodeorden INT,titulo VARCHAR(250),
                                                             valorMinimo DECIMAL(64,2), casacorredora INT,valorMaximo DECIMAL(64,2),
                                                             monto DECIMAL(64,2),cuentacedeval INT,
-                                                            emisor VARCHAR(25),mercado VARCHAR(25),tasaDeInteres DECIMAL(64,2))
+                                                            emisor VARCHAR(250),mercado VARCHAR(25),tasaDeInteres DECIMAL(64,2))
 BEGIN
     DECLARE contador INT(10);
     DECLARE codigo INT(10);
