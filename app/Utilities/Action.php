@@ -5,10 +5,10 @@ namespace App\Utilities;
 
 use App\Models\Cliente;
 use App\Models\Ordene;
+use Asachanfbd\LaravelPushNotification\PushNotification;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Facades\Hash;
-use Sly\NotificationPusher\Model\Push;
 use Snowfire\Beautymail\Beautymail;
 
 class Action
@@ -66,6 +66,7 @@ class Action
          *
          * */
         $cliente = Cliente::where("id", $idCliente)->first();
+        if ($cliente->tokenPush) {
 
         $mensaje = '';
         $arrsend = [];
@@ -80,16 +81,24 @@ class Action
         } else if ($tipo == 3) {
             $mensaje = 'Ha recibido mensaje de una orden';
             $orden = Ordene::where("id", $idOrden)->first();
-            $arrsend = ["tipo" => $tipo, "mensaje" => $mensaje, "idOrden" => $orden->id, "idOrganizacion" => $orden->idOrganizacion];
+            $arrsend = ["tipo" => "3", "mensaje" => $mensaje, "idOrden" => $orden->id, "idOrganizacion" => $orden->idOrganizacion];
         } else if ($tipo == 4) {
             $mensaje = 'Se ha realizado una operación de bolsa a un orden';
             $orden = Ordene::where("id", $idOrden)->first();
             $arrsend = ["tipo" => $tipo, "mensaje" => $mensaje, "idOrden" => $orden->id, "idOrganizacion" => $orden->idOrganizacion];
         }
 
-        Push::app('android')
+            $message = PushNotification::message("SERO", $arrsend);
+            $collection = PushNotification::app('android')
             ->to($cliente->tokenPush)
-            ->send($arrsend);
+                ->send($message);
+
+            //var_dump($collection->ge);
+
+            // get response for each device push
+
+
+        }
 
     }
 

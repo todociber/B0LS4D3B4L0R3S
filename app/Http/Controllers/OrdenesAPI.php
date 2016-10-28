@@ -7,6 +7,7 @@ use App\Models\Cedeval;
 use App\Models\Mensaje;
 use App\Models\Ordene;
 use App\Models\Organizacion;
+use App\Models\SolicitudRegistro;
 use App\Models\Usuario;
 use App\Utilities\Action;
 use Carbon\Carbon;
@@ -627,22 +628,30 @@ class OrdenesAPI extends Controller
     {
 
         try {
-            //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE EN ESTADO 5 O 4
-            $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
-                $query->where('idCliente', $idCliente)->whereIn('idEstadoSolicitud', [5, 4]);
-            })->select('id', 'nombre', 'idEstadoSolicitud')->get();
 
-            $casasC = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
-                $query->where('idCliente', $idCliente)->whereIn('idEstadoSolicitud', [5, 4]);
-            })->count();
 
-            if ($casasC > 0) {
-                return response()->json(['ErrorCode' => '0', 'data' => $casas]);
+            $solicitudes = SolicitudRegistro::with("OrganizacionN", "EstadoSolicitudN")->where("idCliente", $idCliente)->whereIn('idEstadoSolicitud', [5, 4])->get();
+            $counS = count($solicitudes);
+           
+            if ($counS > 0) {
+                $solicitudesS = [];
+
+                foreach ($solicitudes as $key => $solicitud) {
+
+                    $solicitudesS[$key]["numeroAfiliacion"] = $solicitud->numeroDeAfiliado;
+                    $solicitudesS[$key]["nombreCasa"] = $solicitud->OrganizacionN->nombre;
+                    $solicitudesS[$key]["estadoAfiliacion"] = $solicitud->EstadoSolicitudN->id;
+
+
+                }
+
+
+                return response()->json(['ErrorCode' => '0', 'data' => $solicitudesS]);
             } else {
                 return response()->json(['ErrorCode' => '2', 'msg' => 'No hay datos']);
             }
         } catch (\Exception $e) {
-            return response()->json(['ErrorCode' => '3', 'msg' => 'Ocurrio un problema al crear el mensaje']);
+            return response()->json(['ErrorCode' => '3', 'msg' => 'Ocurrio un problema al crear el mensaje', "error" => $e]);
 
 
         }

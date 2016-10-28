@@ -14,7 +14,7 @@ class CreateOrdensTable extends Migration
     {
         Schema::create('ordenes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('correlativo', 5)->unique();
+            $table->string('correlativo', 15)->unique();
             $table->date('FechaDeVigencia');
             $table->string('titulo', 250);
             $table->decimal('valorMinimo', 65, 2);
