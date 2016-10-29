@@ -113,7 +113,8 @@ class SolicitudesCasaCorredora extends Controller
                     ]
                 );
                 $bitacora->save();
-
+                $action = new Action();
+                $action->sendPush($solicitudAActualizar->idCliente, 2, 0);
                 flash('Solicitud rechazada', 'warning');
                 return redirect('/SolicitudAfiliacion');
 
@@ -215,6 +216,8 @@ class SolicitudesCasaCorredora extends Controller
                     ]
                 );
                 $bitacora->save();
+                $action = new Action();
+                $action->sendPush($solicitudAActualizar->idCliente, 2, 0);
                 flash('Solicitud aceptada', 'success');
                 return redirect('/SolicitudAfiliacion');
 

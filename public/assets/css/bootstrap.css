@@ -6430,6 +6430,19 @@ button.close {
 .carousel-control .icon-next:before {
   content: '\203a';
 }
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+navegador ul {
+    list-style-type: none;
+    text-align: center;
+}
+
+
+
 .carousel-indicators {
   position: absolute;
   bottom: 10px;
@@ -6497,7 +6510,8 @@ button.close {
     left: 20%;
     padding-bottom: 30px;
   }
-  .carousel-indicators {
+
+    .carousel-indicators {
     bottom: 20px;
   }
 }
@@ -6773,6 +6787,7 @@ button.close {
     display: block !important;
   }
 }
+
 .visible-print-inline {
   display: none !important;
 }
@@ -6794,4 +6809,5 @@ button.close {
     display: none !important;
   }
 }
+
 /*# sourceMappingURL=bootstrap.css.map */
