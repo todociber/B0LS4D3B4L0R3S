@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Ordenes Historial">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -762,14 +761,7 @@
       <workItem from="1477628578768" duration="4950000" />
       <workItem from="1477674326221" duration="6189000" />
       <workItem from="1477689539489" duration="2146000" />
-      <workItem from="1477716186074" duration="2386000" />
-    </task>
-    <task id="LOCAL-00004" summary="Crear y editar Usuario&#10;">
-      <created>1467422972800</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1467422972800</updated>
+      <workItem from="1477716186074" duration="2394000" />
     </task>
     <task id="LOCAL-00005" summary="Crear y editar Usuario&#10;">
       <created>1467423009677</created>
@@ -1107,11 +1099,18 @@
       <option name="project" value="LOCAL" />
       <updated>1477722180354</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Ordenes Historial">
+      <created>1477722697524</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1477722697524</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="327406000" />
+    <option name="totallyTimeSpent" value="327414000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
