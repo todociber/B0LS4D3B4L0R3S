@@ -206,6 +206,8 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                                         class="fa fa-circle-o"></i>Buscar Cliente</a></li>
 
                         <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.index')}}"><i
+                                        class="fa fa-circle-o"></i>Solicitudes en proceso</a></li>
+                        <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.proceso')}}"><i
                                         class="fa fa-circle-o"></i>Solicitudes en revision</a></li>
                         <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.canceladas')}}"><i
                                         class="fa fa-circle-o"></i>Solicitudes Canceladas</a></li>
