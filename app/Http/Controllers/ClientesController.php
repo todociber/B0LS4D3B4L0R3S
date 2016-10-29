@@ -703,10 +703,9 @@ class ClientesController extends Controller
             $this->validate($request, [
                     'nombre' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
                     'apellido' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
-                    'dui' => 'required|unique:clientes,dui|size:9|regex:/^([0-9])+$/i',
-                    'nit' => 'required|unique:clientes,nit|size:14|regex:/^([0-9])+$/i',
+                    'dui' => 'required|size:9|regex:/^([0-9])+$/i',
+                    'nit' => 'required|size:14|regex:/^([0-9])+$/i',
                 'fechaDeNacimiento' => 'required|date',
-                'numeroCasa' => 'required|numeric|digits:8|min:0',
                 ]
             );
 
