@@ -26,7 +26,7 @@
                         <br>
 
                         <br>
-                        <img src="../assets/img/latch.png"/></li>
+                        <img src="../assets/img/latch.png"/>
                         <br><br>
                             <div class="panel panel-default">
                                 <div class="panel-body">
@@ -37,11 +37,10 @@
                             </div>
                             <br>
                         <a href="https://itunes.apple.com/es/app/latch-by-elevenpaths/id744999016?mt=8" style=""
-                           class="btn btn-link"><img src="../assets/img/app1.jpg"></a></
-                    >
+                           class="btn btn-link"><img src="../assets/img/app1.jpg"></a>
 
                                 <a href="https://play.google.com/store/apps/details?id=com.elevenpaths.android.latch&hl=es"
-                                   style="" class="btn btn-link"><img src="../assets/img/play.jpg"></a></li>
+                                   style="" class="btn btn-link"><img src="../assets/img/play.jpg"></a>
 
                 </div>
                 </div>
