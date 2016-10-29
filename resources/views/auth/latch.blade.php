@@ -25,9 +25,9 @@
                         @endif
                         <br>
 
-                        <ul class="navegador ul">
-                            <li><img src="../assets/img/latch.png"/></li>
-                            <br>
+                        <br>
+                        <img src="../assets/img/latch.png"/></li>
+                        <br><br>
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     Para utilizar esta opcion por favor descarga la aplicacion de Latch disponible para
@@ -36,13 +36,14 @@
                                 </div>
                             </div>
                             <br>
-                            <li><a href="https://itunes.apple.com/es/app/latch-by-elevenpaths/id744999016?mt=8" style=""
-                                   class="btn btn-link"><img src="../assets/img/app1.jpg"></a></li>
-                            <li>
+                        <a href="https://itunes.apple.com/es/app/latch-by-elevenpaths/id744999016?mt=8" style=""
+                           class="btn btn-link"><img src="../assets/img/app1.jpg"></a></
+                    >
+
                                 <a href="https://play.google.com/store/apps/details?id=com.elevenpaths.android.latch&hl=es"
                                    style="" class="btn btn-link"><img src="../assets/img/play.jpg"></a></li>
-                        </ul>
-                    </div>
+
+                </div>
                 </div>
             </div>
         </div>

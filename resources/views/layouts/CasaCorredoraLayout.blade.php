@@ -153,6 +153,13 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                         </a>
 
                     </li>
+                    <li class="treeview">
+                        <a href={{route('Historial.UsuariosCasa')}}>
+                            <i class="fa fa-th-list"></i>
+                            <span>Historial de Usuarios</span>
+                        </a>
+
+                    </li>
                 @endif
                 @if($autorizador )
 
