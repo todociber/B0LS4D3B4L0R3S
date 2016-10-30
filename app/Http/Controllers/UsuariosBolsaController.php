@@ -13,7 +13,6 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Mockery\CountValidator\Exception;
 
 class UsuariosBolsaController extends Controller
@@ -102,7 +101,9 @@ class UsuariosBolsaController extends Controller
                 ]);
                 $token->save();
 
-                Mail::send('emails.ResetPasswordBolsa', $data, function ($message) use ($usuario) {
+                $beautymail = app()->make(Beautymail::class);
+
+                $beautymail->send('emails.ResetPasswordBolsa', $data, function ($message) use ($usuario) {
 
                     $message->from('todocyber100@gmail.com', 'Activación de cuenta');
 

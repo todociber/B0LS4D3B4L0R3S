@@ -18,9 +18,9 @@ use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Latch;
-use Mail;
 use Mockery\CountValidator\Exception;
 use Redirect;
+use Snowfire\Beautymail\Beautymail;
 
 
 //use App\Http\Controllers\Datatable;
@@ -134,7 +134,9 @@ class UsuarioCasaCorredoraController extends Controller
         );
         $token->save();
 
-        Mail::send('emails.ActivacionCliente', $data, function ($message) use ($Usuario) {
+        $beautymail = app()->make(Beautymail::class);
+
+        $beautymail->send('emails.ActivacionCliente', $data, function ($message) use ($Usuario) {
 
             $message->from('todociber100@gmail.com', 'Activacion de cuenta');
 
@@ -302,7 +304,9 @@ class UsuarioCasaCorredoraController extends Controller
                     );
                     $token->save();
 
-                    Mail::send('emails.ActivacionCliente', $data, function ($message) use ($usuario) {
+                    $beautymail = app()->make(Beautymail::class);
+
+                    $beautymail->send('emails.ActivacionCliente', $data, function ($message) use ($usuario) {
 
                         $message->from('bolsadevalores@bves.com', 'Activacion de cuenta');
 
@@ -674,7 +678,10 @@ class UsuarioCasaCorredoraController extends Controller
         );
         $token->save();
 
-        Mail::send('emails.NuevoPasswordCasa', $data, function ($message) use ($Usuario) {
+
+        $beautymail = app()->make(Beautymail::class);
+
+        $beautymail->send('emails.NuevoPasswordCasa', $data, function ($message) use ($Usuario) {
 
             $message->from('todociber100@gmail.com', 'Restauracion de password');
 
