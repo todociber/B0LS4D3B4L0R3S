@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Models\LatchModel;
 use App\Models\Organizacion;
+use ErrorException;
+use Exception;
 use Illuminate\Http\Request;
+use Latch;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
