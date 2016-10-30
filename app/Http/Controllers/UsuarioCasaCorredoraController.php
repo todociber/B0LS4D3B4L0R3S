@@ -10,6 +10,7 @@ use App\Models\Role;
 use App\Models\RolUsuario;
 use App\Models\token;
 use App\Models\Usuario;
+use App\Utilities\Action;
 use App\Utilities\GenerarToken;
 use Auth;
 use DB;
@@ -309,7 +310,8 @@ class UsuarioCasaCorredoraController extends Controller
 
                     });
 
-
+                    $action = new Action();
+                    $action->killSession($usuario->id);
                 }
             } else {
                 $usuario->fill(
@@ -422,7 +424,8 @@ class UsuarioCasaCorredoraController extends Controller
                 ]
             );
             $bitacora->save();
-
+            $action = new Action();
+            $action->killSession($usuario->id);
             flash('El usuario se edito exitosamente', 'success');
             return redirect('/UsuarioCasaCorredora');
         }
@@ -497,10 +500,13 @@ class UsuarioCasaCorredoraController extends Controller
                     ]
                 );
                 $bitacora->save();
+                $action = new Action();
+                $action->killSession($Usuario->id);
                 $Usuario->delete();
                 if (\Session::has('UsuarioEliminar')) {
                     \Session::remove('UsuarioEliminar');
                 }
+
                 flash('El usuario se desactivo exitosamente', 'danger');
                 return redirect('/UsuarioCasaCorredora');
             }
@@ -574,6 +580,8 @@ class UsuarioCasaCorredoraController extends Controller
                     ]
                 );
                 $bitacora->save();
+                $action = new Action();
+                $action->killSession($Usuario->id);
                 $Usuario->delete();
                 if (\Session::has('UsuarioEliminar')) {
                     \Session::remove('UsuarioEliminar');
@@ -676,7 +684,8 @@ class UsuarioCasaCorredoraController extends Controller
 
 
         $Usuario->restore();
-
+        $action = new Action();
+        $action->killSession($Usuario->id);
         $bitacora = new BitacoraUsuario();
         $bitacora->fill(
             [
