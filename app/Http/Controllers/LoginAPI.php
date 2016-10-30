@@ -26,12 +26,16 @@ class LoginAPI extends Controller
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json(['ErrorCode' => '2', 'msg' => 'Datos incorecctos']);
             }
-            $LatchTokenExiste = LatchModel::where('idUsuario', '=', Auth::user()->id)->count();
+
+
+            $user = JWTAuth::toUser($token);
+
+            $LatchTokenExiste = LatchModel::where('idUsuario', '=', $user->id)->count();
 
             if ($LatchTokenExiste > 0) {
 
                 try {
-                    $userIDLatch = LatchModel::where('idUsuario', '=', Auth::user()->id)->first();
+                    $userIDLatch = LatchModel::where('idUsuario', '=', $user->id)->first();
                     $accountId = $userIDLatch->tokenLatch;
                     $locked = false;
 
@@ -53,8 +57,6 @@ class LoginAPI extends Controller
 
             }
 
-
-            $user = JWTAuth::toUser($token);
             if ($user->idOrganizacion == null) {
                 $clientes = $user->ClienteN;
                 $clientes->fill(
