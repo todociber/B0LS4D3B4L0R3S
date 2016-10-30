@@ -138,6 +138,8 @@
                         <span>Mi Perfil</span>
                     </a>
                 </li>
+                <li><a href={{route('Latch.index')}}><i class="fa fa-circle-o text-red"></i> <span>Vincular Latch</span></a>
+                </li>
                 <!--<li id="bitacoras" class="treeview">
                     <a href="bitacora.html">
                         <i class="fa fa-home"></i>
