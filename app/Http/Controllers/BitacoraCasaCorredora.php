@@ -14,7 +14,7 @@ class BitacoraCasaCorredora extends Controller
             ->join("usuarios", "bitacora.idUsuario", "=", "usuarios.id")
             ->where("bitacora.idOrganizacion", "=", Auth::user()->idOrganizacion)
             ->orderBy("bitacora.created_at", "DESC")
-            ->select("usuarios.nombre", "usuarios.id", "bitacora.*")
+            ->select("usuarios.nombre", "usuarios.apellido", "usuarios.id", "bitacora.*")
             ->get();
         return view('CasaCorredora.Bitacora.MostrarBitacota', compact("bitacoras", $bitacoras));
 

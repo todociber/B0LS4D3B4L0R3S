@@ -178,6 +178,13 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
 
                     </ul>
                 </li>
+                    <li class="treeview">
+                        <a href={{route('bitacora')}}>
+                            <i class="fa fa-th-list"></i>
+                            <span>Bitacora</span>
+                        </a>
+
+                    </li>
                 @endif
 
                 @if($agenteCorredor)
