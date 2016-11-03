@@ -16,7 +16,11 @@
         "barryvdh/laravel-dompdf": "^0.7.0",
         "tymon/jwt-auth": "0.5.*",
         "asachanfbd/laravel-push-notification": "^1.0",
-        "snowfire/beautymail": "dev-master"
+        "snowfire/beautymail": "dev-master",
+        "h4cc/wkhtmltopdf-amd64": "0.12.x",
+        "h4cc/wkhtmltoimage-amd64": "0.12.x",
+        "profburial/wkhtmltopdf-binaries-osx": "0.12.1",
+        "barryvdh/laravel-snappy": "^0.3.1"
 
 
     },

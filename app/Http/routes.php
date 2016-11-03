@@ -212,3 +212,9 @@ Route::post('OlvidePassword/restore', 'Registrocontroller@recuperarPassUpdate')-
 Route::get('/NoPermitido', function () {
     return view('errors.NotAllowed');
 })->name("nopermitido");
+Route::get('/reporte', function () {
+
+    return \PDF::loadView('reporteFinal')->stream();
+    // return view('reporteFinal');
+
+});

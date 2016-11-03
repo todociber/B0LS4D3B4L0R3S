@@ -32,6 +32,7 @@ class Action
 
     public function sendEmail($data, $email, $tema, $subject, $page)
     {
+        try {
         $beautymail = app()->make(Beautymail::class);
         $beautymail->send($page, $data, function ($message) use ($email, $tema, $subject) {
 
@@ -40,6 +41,9 @@ class Action
             $message->to($email)->subject($subject);
 
         });
+        } catch (\Exception $e) {
+            
+        }
 
 
     }

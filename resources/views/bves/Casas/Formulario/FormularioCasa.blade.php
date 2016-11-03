@@ -23,10 +23,7 @@
 <div class="form-group">
     <div id="dZUpload" class="dz-message drop-border">
         <br/><br/>
-        @if(isset($organizacion))
 
-            {!!   Html::image(public_path().'/imgTemp/'.$organizacion->logo.'.png') !!}
-        @endif
         Haz click para subir una imagen.
     </div>
     <div class="dropzone-previews">

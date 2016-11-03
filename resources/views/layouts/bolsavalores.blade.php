@@ -62,7 +62,7 @@
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
             <!-- Logo -->
-            <a href="index2.html" class="logo">
+            <a href="#" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>A</b>LT</span>
                 <!-- logo for regular state and mobile devices -->
@@ -116,7 +116,7 @@
                     <a href="#">
                         <i class="fa fa-home"></i>
                         <span>Casas Corredoras</span>
-                        <i class="fa fa-angle-left pull-right"></i>                    </a>
+                        <i class="fa fa-angle-left pull-right"></i></a>
                     <ul class="treeview-menu">
                         <li id="catalogoCasas" ><a href="{!! route('listadoCasas') !!}"><i class="fa fa-circle-o"></i> Catalogo</a></li>
                         <li id="registrar"><a href="{!! route('nuevaCasa') !!}"><i class="fa fa-circle-o"></i>Registrar Casa</a></li>

@@ -78,7 +78,7 @@
 
                         <div class="form-group">
                             {{ Form::label('Número de cuenta cedeval') }}
-                            {{ Form::number('CuentaCedeval',null,['class'=>'form-control','placeholder'=>'Ingrese la cuenta cedeval', 'id'=>'cedeval', 'required']) }}
+                            {{ Form::text('CuentaCedeval',null,['class'=>'form-control','placeholder'=>'Ingrese la cuenta cedeval', 'id'=>'cedeval', 'required']) }}
                         </div>
 
 

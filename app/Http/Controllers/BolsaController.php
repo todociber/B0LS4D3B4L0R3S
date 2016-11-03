@@ -122,6 +122,8 @@ class BolsaController extends Controller
 
         try {
             //upload an image to the /img/tmp directory and return the filepath.
+
+            if ($request->file('file')) {
             $date = Carbon::now();
             $file = $request->file('file');
             $tmpFilePath = '/imgTemp/';
@@ -129,6 +131,10 @@ class BolsaController extends Controller
             $file = $file->move(public_path() . $tmpFilePath, $tmpFileName . '.png');
             $path = $tmpFileName;
             return $path;
+            } else {
+                return 'notImage';
+
+            }
         } catch (Exception $e) {
 
             return 'error';
@@ -376,20 +382,23 @@ class BolsaController extends Controller
     public function update(Request $request, $id)
     {
 
+        Log::info('UPDATE?');
         try {
 
             $validator = Validator::make($request->all(), [
-                'nombre' => 'required|unique:organizacion,nombre',
-                'correo' => 'required|email|unique:organizacion,correo',
+                'nombre' => 'required',
+                'correo' => 'required|email',
                 'direccion' => 'required',
                 'telefono' => 'required|numeric|digits:8|min:1',
                 'codigo' => 'required|size:5|regex:/^([0-9])+$/i',
-                'file' => 'required',
+
             ]);
             if (!$validator->fails()) {
                 $codCasa = DB::table('organizacion')->where('organizacion.codigo', '=', $request['codigo'])->where('organizacion.id', '!=', $id)->count();
+                $codEmail = DB::table('organizacion')->where('organizacion.correo', '=', $request['correo'])->where('organizacion.id', '!=', $id)->count();
 
                 if ($codCasa == 0) {
+                    if ($codEmail == 0) {
                     $countOrden = Ordene::where("idOrganizacion", $id)
                         ->whereNotIn("idEstadoOrden", [1, 2, 5])->count();
 
@@ -400,10 +409,11 @@ class BolsaController extends Controller
                     if ($path != 'error') {
                         $date = Carbon::now();
                         $activo = ($request['Estado'] == 0) ? $date : null;
+                        $logo = $organizacion->logo;
                         $organizacion->fill(
                             [
                                 'nombre' => $request['nombre'],
-                                'logo' => $path,
+                                'logo' => $sc = $path == 'notImage' ? $logo : $path,
                                 'correo' => $request['correo'],
                                 'direccion' => $request['direccion'],
                                 'telefono' => $request['telefono'],
@@ -411,6 +421,7 @@ class BolsaController extends Controller
                             ]
                         );
                         $organizacion->save();
+
                         if ($activo != null) {
                             $organizacion->delete();
                             $this->killAllSesionHouse($organizacion->id);
@@ -442,7 +453,6 @@ class BolsaController extends Controller
                         $action = new Action();
                         $action->sendEmail($data, $emails, 'Modificación de información', 'Modificación de información', 'emails.emailUpdateCasa');
 
-
                         $bitacora = new BitacoraUsuario();
 
                         $bitacora->fill(
@@ -467,6 +477,9 @@ class BolsaController extends Controller
                         return response()->json(['error' => '5']);
 
                     }
+                    } else {
+                        return response()->json(['error' => '4']);
+                    }
                 } else {
 
                     return response()->json(['error' => '3']);
@@ -474,9 +487,9 @@ class BolsaController extends Controller
 
             } else {
 
-                return response()->json(['error' => '2']);
+                return response()->json(['error' => '2', 'type' => $validator->errors()->all()]);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             return response()->json(['error' => '1', 'error' => $e]);
 

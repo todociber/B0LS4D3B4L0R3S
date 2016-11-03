@@ -1,7 +1,7 @@
 @extends('layouts.publico')
 
 @section('title')
-    <title>Nueva orden</title>
+    <title>Activar cuenta</title>
 
 @stop
 
