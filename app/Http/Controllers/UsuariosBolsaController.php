@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Mockery\CountValidator\Exception;
+use Snowfire\Beautymail\Beautymail;
 
 class UsuariosBolsaController extends Controller
 {
@@ -54,7 +55,7 @@ class UsuariosBolsaController extends Controller
             'Estado' => 'required|numeric',
         ]);
         try{
-            $emailUser = DB::table('usuarios')->where('usuarios.email', '=', $request['email'])->where('usuarios.idOrganizacion', '=',17)->count();
+            $emailUser = DB::table('usuarios')->where('usuarios.email', '=', $request['email'])->where('usuarios.idOrganizacion', '=', Auth::user()->idOrganizacion)->count();
             if ($emailUser == 0) {
                 $usuario = new Usuario();
                 $activo = ($request['Estado'] == 0) ? 'test' : null;
@@ -128,7 +129,7 @@ class UsuariosBolsaController extends Controller
             else{
                 flash('Ya existe un usuario registrado con ese correo', 'info');
 
-                return redirect()->route('nuevoUsuario');
+                return redirect()->route('nuevoUsuario')->withInput();
             }
 
         }
