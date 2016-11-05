@@ -135,7 +135,7 @@ class ClientesController extends Controller
                 // var_dump($orden);
                 // $timestamp = Carbon::parse($orden->created_at)->timestamp;
                 $ordenDate = $orden->created_at->format('m-d-Y'); //date('m-d-Y',Carbon::createFromFormat('Y-d-m H:i:s', $orden->created_at)->timestamp);
-                return view('Clientes.Ordenes.DetalleOrden', ['orden' => $orden, 'ordenDate' => $ordenDate, 'motivoCancel' => $motivoCancel->contenido]);
+                return view('Clientes.Ordenes.DetalleOrden', ['orden' => $orden, 'ordenDate' => $ordenDate, 'motivoCancel' => $motivoCancel]);
             } else {
 
                 return redirect()->route('listadoordenesclienteV');

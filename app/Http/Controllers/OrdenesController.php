@@ -521,9 +521,14 @@ class OrdenesController extends Controller
 
             $idusuario = Auth::user()->id;
             if ($request["estado"] != 0) {
-                $ordenes = Ordene::with('TipoOrdenN')->where('idCorredor', $idusuario)->where('idEstadoOrden', $request['estado'])->get();
+                $ordenes = Ordene::with('TipoOrdenN')
+                    ->where('idCorredor', $idusuario)
+                    ->where('idEstadoOrden', $request['estado'])
+                    ->get();
             } else {
-                $ordenes = Ordene::with('TipoOrdenN')->where('idCorredor', $idusuario)->get();
+                $ordenes = Ordene::with('TipoOrdenN')
+                    ->where('idCorredor', $idusuario)
+                    ->get();
 
             }
             $mensaje = '';
@@ -548,9 +553,14 @@ class OrdenesController extends Controller
 
             $idusuario = Auth::user()->id;
             if ($request["estado"] != 0) {
-                $ordenes = Ordene::with('TipoOrdenN')->where('idCorredor', $idusuario)->where('idEstadoOrden', $request['estado'])->get();
+                $ordenes = Ordene::with('TipoOrdenN')
+                    ->where('idEstadoOrden', $request['estado'])
+                    ->where('idOrganizacion', Auth::user()->idOrganizacion)
+                    ->get();
             } else {
-                $ordenes = Ordene::with('TipoOrdenN')->where('idCliente', $idusuario)->get();
+                $ordenes = Ordene::with('TipoOrdenN')
+                    ->where('idOrganizacion', Auth::user()->idOrganizacion)
+                    ->get();
 
             }
             $mensaje = '';

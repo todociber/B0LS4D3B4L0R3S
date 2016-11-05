@@ -26,7 +26,8 @@
                             <div class=" col-md-12 ">
                                 @if($cuenta < 5)
                                     <button class="btn btn-primary btn-flat" data-toggle="modal"
-                                            data-target="#AgregarCedeval"> Agregar Cuenta Cedeval
+                                            data-target="#AgregarCedeval" onclick=" $('#cedeval').val('');"> Agregar
+                                        Cuenta Cedeval
                                     </button><br/>
                                 @endif
                                 <table class="table table-user-information">

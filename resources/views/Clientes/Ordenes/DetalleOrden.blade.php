@@ -103,6 +103,7 @@
                                 </div>
                                 <div class="comments-list">
                                     @foreach($mensajes as $mensaje)
+                                        @if($mensaje->idTipoMensaje == 1)
                                         <div class="media">
                                             <p class="pull-right">
                                                 <small>{{\Carbon\Carbon::parse($mensaje->created_at)->format('m-d-Y')}}</small>
@@ -110,6 +111,7 @@
                                             <a class="media-left" href="#">
 
                                             </a>
+
 
                                             <div class="media-body">
 
@@ -126,6 +128,7 @@
 
                                             </div>
                                         </div>
+                                        @endif
                                     @endforeach
 
                                 </div>
@@ -294,7 +297,7 @@
 
                 <div class="modal-body">
 
-                    <p>{{$motivoCancel}}</p>
+                    <p>{{$motivoCancel->contenido}}</p>
 
                 </div>
                 <div class="modal-footer">
