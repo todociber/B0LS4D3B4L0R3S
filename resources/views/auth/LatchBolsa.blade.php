@@ -35,11 +35,12 @@
                             </div>
                         </div>
                         <br>
-                        <a href="https://itunes.apple.com/es/app/latch-by-elevenpaths/id744999016?mt=8" style=""
-                           class="btn btn-link"><img src="../assets/img/app1.jpg"></a>
+                            <a href="https://itunes.apple.com/es/app/latch-by-elevenpaths/id744999016?mt=8"
+                               target="_blank" style=""
+                               class="btn btn-link"><img src="../assets/img/app1.jpg"></a>
 
                         <a href="https://play.google.com/store/apps/details?id=com.elevenpaths.android.latch&hl=es"
-                           style="" class="btn btn-link"><img src="../assets/img/play.jpg"></a>
+                           target="_blank" style="" class="btn btn-link"><img src="../assets/img/play.jpg"></a>
 
                     </div>
                 </div>
