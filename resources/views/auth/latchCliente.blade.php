@@ -30,7 +30,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 Para utilizar esta opcion por favor descarga la aplicacion de Latch disponible para
-                                Android e iOs y utilizal� para generar un codigo de pareado para proteger el
+                                Android e iOS y utilizalá para generar un codigo de pareado para proteger el
                                 sistema.
                             </div>
                         </div>

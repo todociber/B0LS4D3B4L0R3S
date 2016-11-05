@@ -257,7 +257,7 @@
 
 
 
-                                @else
+                                @elseif($orden->Corredor_UsuarioN()->count()>0)
                                     {!!Form::label('Agente Corredor: ')!!} {{$orden->Corredor_UsuarioN->nombre}} {{$orden->Corredor_UsuarioN->apellido}}
                                     <br>{!! Form::label('Comision') !!} {{$orden->comision}}%
                                 @endif
