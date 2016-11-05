@@ -12,6 +12,7 @@ use App\Models\token;
 use App\Models\Usuario;
 use App\Utilities\Action;
 use App\Utilities\GenerarToken;
+use App\Utilities\RolIdentificador;
 use Auth;
 use DB;
 use ErrorException;
@@ -363,16 +364,24 @@ class UsuarioCasaCorredoraController extends Controller
 
 
                                 if ($RolUsuarioABorrar->idRol == 4) {
-                                    $usuario = Usuario::ofid($id)->get();
-                                    $ordenes = Ordene::where('idCorredor', '=', $id)
-                                        ->where('idEstadoOrden', '=', 2)
-                                        ->orWhere('idEstadoOrden', '=', 5)
-                                        ->get();
-                                    \Session::set('UsuarioEliminar', $id);
-                                    \Session::set('EditarUsuario', $id);
+
+                                    $rolLogueado = new RolIdentificador();
+                                    if ($rolLogueado->Autorizador(Auth::user())) {
+                                        $usuario = Usuario::ofid($id)->get();
+                                        $ordenes = Ordene::where('idCorredor', '=', $id)
+                                            ->where('idEstadoOrden', '=', 2)
+                                            ->orWhere('idEstadoOrden', '=', 5)
+                                            ->get();
+                                        \Session::set('UsuarioEliminar', $id);
+                                        \Session::set('EditarUsuario', $id);
 
 
-                                    return redirect('Ordenes/Reasignacion');
+                                        return redirect('Ordenes/Reasignacion');
+                                    } else {
+                                        flash("El usuario tiene Ordenes en Proceso", "warning");
+                                        return redirect('/UsuarioCasaCorredora');
+                                    }
+
 
                                 } else if ($RolUsuarioABorrar->idRol == 2) {
 

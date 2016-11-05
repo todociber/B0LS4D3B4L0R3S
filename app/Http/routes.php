@@ -153,8 +153,12 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('BuscarCliente', 'SolicitudesCasaCorredora@buscarClientePost')->name('Buscar.Cliente');
             Route::post('Afiliar/{id}/Cliente', 'SolicitudesCasaCorredora@afiliarCliente')->name('Afiliar.Cliente');
             Route::get('Perfil', 'UsuarioCasaCorredoraController@perfil')->name('Perfil.UsuarioCasa');
-
             Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
+            Route::get('Ordenes/Reasignacion/Usuario', 'OrdenesController@ReasignacionUsuario')->name('Ordenes.Reasignacion.Usuario');
+            Route::get('Ordenes/Reasignacion/{id}/Orden', 'OrdenesController@ReasignacionOrdenes')->name('Ordenes.Reasignacion.Orden');
+            Route::get('Ordenes/Reasignacion/{id}/Orden/NuevoAgente/{agente}', 'OrdenesController@ReasignacionAgente')->name('Ordenes.Reasignacion.NuevoAgente');
+            Route::put('Ordenes/AceptarReasignacion/{id}', 'OrdenesController@AceptarReasignacion')->name('Ordenes.AceptarReasignacion');
+
 
         });
         Route::group(['middleware' => 'AgenteCorredor'], function () {
@@ -177,6 +181,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
             Route::get('Perfil', 'UsuarioCasaCorredoraController@perfil')->name('Perfil.UsuarioCasa');
+
         });
     });
 

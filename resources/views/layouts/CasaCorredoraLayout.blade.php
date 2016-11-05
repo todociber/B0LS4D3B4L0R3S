@@ -185,6 +185,14 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                         </a>
 
                     </li>
+
+                    <li class="treeview">
+                        <a href={{route('Ordenes.Reasignacion.Usuario')}}>
+                            <i class="fa fa-th-list"></i>
+                            <span>Reasignacion de Ordenes</span>
+                        </a>
+
+                    </li>
                 @endif
 
                 @if($agenteCorredor)

@@ -9,6 +9,7 @@ use App\Models\LatchModel;
 use App\Models\Mensaje;
 use App\Models\OperacionBolsa;
 use App\Models\Ordene;
+use App\Models\RolUsuario;
 use App\Models\Usuario;
 use App\Utilities\Action;
 use App\Utilities\RolIdentificador;
@@ -563,6 +564,101 @@ class OrdenesController extends Controller
 
         }
 
+
+    }
+
+    public function ReasignacionUsuario()
+    {
+
+
+        $usuarios = DB::table('usuarios')
+            ->join('rol_usuarios', 'usuarios.id', '=', 'rol_usuarios.idUsuario')
+            ->where('usuarios.idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->where('rol_usuarios.idRol', '=', '4')
+            ->whereNull('usuarios.deleted_at')
+            ->whereNull('rol_usuarios.deleted_at')
+            ->orderBy('usuarios.id')
+            ->select('usuarios.*')->get();
+
+        $agentesCorredores = DB::select('select COUNT(orden.id) as N, usuario.id, usuario.nombre, usuario.apellido,usuario.email from usuarios as usuario JOIN ordenes as orden ON usuario.id = orden.idCorredor JOIN rol_usuarios as roleU ON usuario.id = roleU.idUsuario where usuario.idOrganizacion=' . Auth::user()->idOrganizacion . ' and roleU.idRol =4 and (orden.idEstadoOrden= 2  or orden.idEstadoOrden=5) and  roleU.deleted_at IS NULL  and usuario.deleted_at IS NULL group by usuario.id, roleU.id order by usuario.id');
+        return view('CasaCorredora.OrdenesAutorizador.ReasignacionMostrarUsuarios', compact("usuarios", "agentesCorredores"));
+    }
+
+    public function ReasignacionOrdenes($id)
+    {
+        $ordenes = Ordene::where("idCorredor", "=", $id)
+            ->where("idOrganizacion", "=", Auth::user()->idOrganizacion)
+            ->where("idEstadoOrden", "=", "2")
+            ->orWhere("idEstadoOrden", "=", "5")
+            ->get();
+        if ($ordenes->count() > 0) {
+            return view("CasaCorredora.OrdenesAutorizador.ReasignacionMostrarOrdenes", compact("ordenes"));
+        } else {
+            flash("El usuario no cuenta con Ordenes Asignadas", "danger");
+            return redirect("/Ordenes/Reasignacion/Usuario");
+        }
+
+    }
+
+    public function ReasignacionAgente($id, $agente)
+    {
+        $agentes = DB::table('usuarios')
+            ->join('rol_usuarios', 'usuarios.id', '=', 'rol_usuarios.idUsuario')
+            ->where('usuarios.idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->where('rol_usuarios.idRol', '=', '4')
+            ->whereNull('rol_usuarios.deleted_at')
+            ->lists(DB::raw(' concat_ws("",nombre," ",apellido) as name'), 'usuarios.id');
+        $usuariosAgentes = DB::table('usuarios')
+            ->join('rol_usuarios', 'usuarios.id', '=', 'rol_usuarios.idUsuario')
+            ->where('usuarios.idOrganizacion', '=', Auth::user()->idOrganizacion)
+            ->where('rol_usuarios.idRol', '=', '4')
+            ->where('usuarios.id', '!=', $agente)
+            ->whereNull('usuarios.deleted_at')
+            ->whereNull('rol_usuarios.deleted_at')
+            ->orderBy('usuarios.id')
+            ->select('usuarios.*')->get();
+        $agentesCorredores = DB::select('select COUNT(orden.id) as N, usuario.id, usuario.nombre, usuario.apellido,usuario.email from usuarios as usuario JOIN ordenes as orden ON usuario.id = orden.idCorredor JOIN rol_usuarios as roleU ON usuario.id = roleU.idUsuario where usuario.idOrganizacion=' . Auth::user()->idOrganizacion . ' and roleU.idRol =4 and (orden.idEstadoOrden= 2  or orden.idEstadoOrden=5) and  roleU.deleted_at IS NULL  and usuario.deleted_at IS NULL group by usuario.id, roleU.id order by usuario.id');
+
+
+        $ordenes = Ordene::ofid($id)
+            ->with(['Corredor_UsuarioN' => function ($query) {
+                $query->withTrashed();
+            }])->get();
+
+
+        return view('CasaCorredora.OrdenesAutorizador.ReasignacionAgenteCorredorOrden', compact('ordenes', 'agentes', 'usuariosAgentes', 'agentesCorredores'));
+    }
+
+    public function AceptarReasignacion(Requests\AceptarReasignacionRequest $request, $id)
+    {
+
+        $ordenes = Ordene::where("id", '=', $id)->where("idOrganizacion", '=', Auth::user()->idOrganizacion)
+            ->where('idEstadoOrden', "=", "2")
+            ->orWhere('idEstadoOrden', "=", "5")
+            ->get();
+
+        if ($ordenes->count() == 0) {
+            return redirect()->back()->withErrors("Error Orden no disponible");
+        } else {
+            $agenteValido = Usuario::where("idOrganizacion", "=", Auth::user()->idOrganizacion)
+                ->where("id", "=", $request['AgenteCorredor'])
+                ->get();
+            $rolAgente = RolUsuario::where("idUsuario", "=", $request['AgenteCorredor'])
+                ->where("idRol", "=", "4")
+                ->get();
+            if ($agenteValido->count() > 0 && $rolAgente->count() > 0) {
+                $orden = Ordene::find($id);
+                $orden->fill([
+                    'idCorredor' => $request['AgenteCorredor'],
+                ]);
+                $orden->save();
+                flash('Agente corredor asignado exitosamente', 'success');
+                return redirect("Ordenes/Reasignacion/Usuario");
+            } else {
+                return redirect()->back()->withErrors("Error Agente no disponible disponible");
+            }
+
+        }
 
     }
 
