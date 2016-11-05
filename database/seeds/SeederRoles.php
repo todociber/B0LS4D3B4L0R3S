@@ -22,7 +22,7 @@ class SeederRoles extends Seeder
             'updated_at' => new DateTime
         ));
         DB::table('roles')->insert(array(
-            'nombre' => 'Operador',
+            'nombre' => 'Autorizador',
             'created_at' => new DateTime,
             'updated_at' => new DateTime
         ));
