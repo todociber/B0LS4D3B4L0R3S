@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\LatchModel;
+use App\Utilities\RolIdentificador;
 use Auth;
 use DB;
 use ErrorException;
@@ -97,12 +98,18 @@ class LatchController extends Controller
 
 
         $latch = LatchModel::where('idUsuario', '=', Auth::user()->id)->count();
-            if ($latch > 0) {
-                flash('Su cuenta ya se encuentra protegida por Latch', 'danger');
-            } else {
+        if ($latch > 0) {
+            flash('Su cuenta ya se encuentra protegida por Latch', 'danger');
+        } else {
 
-            }
+        }
+        $rol = new RolIdentificador();
+        if ($rol->Cliente(Auth::user())) {
+            return view('auth.latchCliente');
+        } else if ($rol->bolsa(Auth::user())) {
+            return view('auth.latchBolsa');
+        } else {
             return view('auth.latch');
-
+        }
     }
 }
