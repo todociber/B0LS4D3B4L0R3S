@@ -16,6 +16,7 @@ use DB;
 use ErrorException;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OrdenesCasaCorredoraAutorizador extends Controller
 {
@@ -129,7 +130,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
 
         $idCorredor = Auth::user()->id;
 
-        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN')->get();
+        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->with('TipoOrdenN')->get();
         $estadoOrdenes = EstadoOrden::lists('estado', 'id');
         $estadoOrdenes['0'] = 'Todas';
         return view('CasaCorredora.OrdenesAutorizador.ListadoGeneral', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes]);
@@ -244,12 +245,15 @@ class OrdenesCasaCorredoraAutorizador extends Controller
     {
 
         $ordenes = Ordene::ofid($id)->get();
+        Log::info(json_encode($ordenes));
         try {
             $ordenes[0]->id;
         } catch (ErrorException $i) {
+            Log::info($i);
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
         } catch (Exception $e) {
+            Log::info($e);
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
         }
@@ -262,6 +266,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
         }
 
         if ($ordenes[0]->idOrganizacion != Auth::user()->idOrganizacion) {
+            Log::info('DIFERENTE');
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
         } else {

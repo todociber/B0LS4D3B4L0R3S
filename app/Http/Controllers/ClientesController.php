@@ -108,10 +108,11 @@ class ClientesController extends Controller
 
         $idCliente = Auth::user()->ClienteN->id;
 
-            $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN')->where('idCliente', $idCliente)->where("idEstadoOrden", 1)->get();
+        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN')->where('idCliente', $idCliente)->get();
             $estadoOrdenes = EstadoOrden::lists('estado', 'id');
-
-            return View('Clientes.Ordenes.ListaOrdenesCliente', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes]);
+        $estadoOrdenes['0'] = 'Todas';
+        $selected = '0';
+        return View('Clientes.Ordenes.ListaOrdenesCliente', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes, 'selected' => $selected]);
     }
 
 
@@ -154,10 +155,19 @@ class ClientesController extends Controller
         try {
 
             $idCliente = Auth::user()->ClienteN->id;
-            $ordenes = Ordene::with('TipoOrdenN')->where('idCliente', $idCliente)->where('idEstadoOrden', $request['estado'])->get();
+            if ($request["estado"] != 0) {
+                $ordenes = Ordene::with('TipoOrdenN')->where('idCliente', $idCliente)->where('idEstadoOrden', $request['estado'])->get();
             $mensaje = '';
+                $selected = $request['estado'];
+            } else {
+                $selected = '0';
+                $ordenes = Ordene::with('TipoOrdenN')->where('idCliente', $idCliente)->get();
+
+
+            }
             $estadoOrdenes = EstadoOrden::lists('estado', 'id');
-            return View('Clientes.Ordenes.ListaOrdenesCliente', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes, 'selected' => $request['estado']]);
+            $estadoOrdenes['0'] = 'Todas';
+            return View('Clientes.Ordenes.ListaOrdenesCliente', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes, 'selected' => $selected]);
         } catch (Exception $e) {
 
             flash('Hubo un problema al filtrar las ordenes', 'danger');
