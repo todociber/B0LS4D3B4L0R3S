@@ -161,15 +161,36 @@ class BolsaController extends Controller
         );
         $usuario->save();
         //MAKING ROLE
-        $rolUsuario = new RolUsuario();
-        $rolUsuario->fill(
+        $rolAdmin = new RolUsuario();
+        $rolAdmin->fill(
             [
                 'idUsuario' => $usuario->id,
                 'idRol' => 2,
 
             ]
         );
-        $rolUsuario->save();
+        $rolAdmin->save();
+
+        $rolCorredor = new RolUsuario();
+        $rolCorredor->fill(
+            [
+                'idUsuario' => $usuario->id,
+                'idRol' => 4,
+
+            ]
+        );
+        $rolCorredor->save();
+
+        $rolAutorizador = new RolUsuario();
+        $rolAutorizador->fill(
+            [
+                'idUsuario' => $usuario->id,
+                'idRol' => 3,
+
+            ]
+        );
+        $rolAutorizador->save();
+
 
         $token = new token();
         $gentoken = new GenerarToken();
