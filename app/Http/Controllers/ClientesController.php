@@ -1121,7 +1121,7 @@ class ClientesController extends Controller
         $idCliente = Auth::user()->ClienteN->id;
         $departamentos = Departamento::orderBy('nombre', 'ASC')->lists('nombre', 'id');
         $telefonos = Telefono::with('TipoTelefonoN')->where('idCliente', $idCliente)->get();
-        $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('id', $idCliente)->get();
+        $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('idCliente', $idCliente)->get();
         $municipios = Municipio::where('id_departamento', $direcciones[0]->MunicipioDireccion->Departamento->id)->lists('nombre', 'id');
         $telefonoCasa = '';
         $telefonoCelular = '';
@@ -1185,7 +1185,7 @@ class ClientesController extends Controller
                 }
 
 
-                $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('id', $clientes->id)->get();
+                $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('idCliente', $clientes->id)->get();
                 if ($direcciones[0]->detalle != $request['direccion']) {
                     $direccion = new Direccione();
                     $direccion->fill(
@@ -1199,23 +1199,23 @@ class ClientesController extends Controller
                     $direccion->save();
                     Direccione::destroy($direcciones[0]->id);
 
+                } else if ($direcciones[0]->idMunicipio != $request['municipio']) {
+
+                    $mun = $direcciones[0];
+                    $mun->fill(
+                        [
+                            'idMunicipio' => $request['municipio'],
+                        ]
+                    );
+                    $mun->save();
                 }
 
 
             }
-            $token = new token();
-            $gentoken = new GenerarToken();
-            $tokenDeUsuario = $gentoken->tokengenerador();
 
-            $token->fill([
-                    'token' => $tokenDeUsuario,
-                    'idUsuario' => $usuario->id,
-                    'email_change' => $request["email"]
-                ]
-            );
             flash('Información cambiada con éxito', 'success');
             return redirect()->route('perfilcliente');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             flash('Ocurrio un problema al modificar la información', 'danger');
             return back()->withInput();
 

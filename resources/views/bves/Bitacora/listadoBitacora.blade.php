@@ -9,12 +9,7 @@
         $('#bitacora').addClass('active');
 
 
-        function desactivarActivarCasa(nombre, activar, id, accion) {
-            $('#modalbody').text("¿Desea " + activar + "la casa " + nombre + " ?");
-            $('#idcasa').val(id);
-            $('#tipo').val(accion);
 
-        }
 
     </script>
     <div class="row">

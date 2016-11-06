@@ -13,7 +13,6 @@ use App\Utilities\Action;
 use App\Utilities\GenerarToken;
 use Carbon\Carbon;
 use DB;
-use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -80,7 +79,7 @@ class BolsaController extends Controller
 
                         }
 
-                        $this->makeUser($request['codigo'], $organizacion, $request['correo']);
+                        $this->makeUser($request['codigo'], $organizacion, $request['correo'], $request['Estado']);
 
                         $bitacora = new BitacoraUsuario();
 
@@ -142,7 +141,7 @@ class BolsaController extends Controller
         }
     }
 
-    public function makeUser($codigo, $organizacion, $correo)
+    public function makeUser($codigo, $organizacion, $correo, $destroy)
     {
         $date = Carbon::now();
         $usuario = new Usuario();
@@ -212,6 +211,9 @@ class BolsaController extends Controller
             ]
         );
         $token->save();
+        if ($destroy == 0) {
+            $usuario->delete();
+        }
         $beautymail = app()->make(Beautymail::class);
         $beautymail->send('emails.EmailSend', $data, function ($message) use ($usuario) {
 
@@ -532,9 +534,18 @@ class BolsaController extends Controller
         $bitacoras = DB::table("bitacora")
             ->join("usuarios", "bitacora.idUsuario", "=", "usuarios.id")
             ->where("bitacora.idOrganizacion", "=", Auth::user()->idOrganizacion)
-            ->orderBy("bitacora.created_at", "DESC")
             ->select("usuarios.nombre", "usuarios.id", "bitacora.*")
+            ->orderBy("bitacora.created_at", "desc")
             ->get();
+
+        $sql = DB::table("bitacora")
+            ->join("usuarios", "bitacora.idUsuario", "=", "usuarios.id")
+            ->where("bitacora.idOrganizacion", "=", Auth::user()->idOrganizacion)
+            ->select("usuarios.nombre", "usuarios.id", "bitacora.*")
+            ->orderBy("bitacora.created_at", "desc")
+            ->toSql();
+        Log::info($sql);
+
 
         return view("bves.Bitacora.listadoBitacora", ["bitacoras" => $bitacoras]);
 
