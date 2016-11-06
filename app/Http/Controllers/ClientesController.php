@@ -203,7 +203,7 @@ class ClientesController extends Controller
             $idrol = 3;
             $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                 $query->where('idRol', $idrol);
-            })->where("idOrganizacion", $request["casacorredora"])->get();
+            })->where("idOrganizacion", $orden->idOrganizacion)->get();
             $emails = [];
             $i = 0;
             $band = false;
@@ -213,16 +213,20 @@ class ClientesController extends Controller
 
                         $band = true;
                     }
-                } else {
-                    $band = true;
-                }
+                } 
                 $emails[$i] = $user->email;
                 $i++;
+
+
             }
             if (!$band) {
-                $i++;
-                $emails[$i] = $orden->Corredor_UsuarioN->email;
+                if (isset($orden->Corredor_UsuarioN)) {
+                    $i++;
+                    $emails[$i] = $orden->Corredor_UsuarioN->email;
+                }
             }
+
+            Log::info(json_encode($emails));
 
 
 
@@ -428,7 +432,7 @@ class ClientesController extends Controller
             $idrol = 3;
             $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                 $query->where('idRol', $idrol);
-            })->where("idOrganizacion", $request["casacorredora"])->get();
+            })->where("idOrganizacion", $orden->idOrganizacion)->get();
             $emails = [];
             $i = 0;
             $band = false;
@@ -441,8 +445,10 @@ class ClientesController extends Controller
                 $i++;
             }
             if (!$band) {
+                if (isset($orden->Corredor_UsuarioN)) {
                 $i++;
                 $emails[$i] = $orden->Corredor_UsuarioN->email;
+                }
             }
 
 
@@ -486,7 +492,7 @@ class ClientesController extends Controller
             $idrol = 3;
             $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                 $query->where('idRol', $idrol);
-            })->where("idOrganizacion", $request["casacorredora"])->get();
+            })->where("idOrganizacion", $orden->idOrganizacion)->get();
             $emails = [];
             $i = 0;
             $band = false;
@@ -499,8 +505,10 @@ class ClientesController extends Controller
                 $i++;
             }
             if (!$band) {
-                $i++;
-                $emails[$i] = $orden->Corredor_UsuarioN->email;
+                if (isset($orden->Corredor_UsuarioN)) {
+                    $i++;
+                    $emails[$i] = $orden->Corredor_UsuarioN->email;
+                }
             }
 
 
@@ -637,7 +645,7 @@ class ClientesController extends Controller
                 $idrol = 3;
                 $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                     $query->where('idRol', $idrol);
-                })->where("idOrganizacion", $request["casacorredora"])->get();
+                })->where("idOrganizacion", $orden->idOrganizacion)->get();
                 $emails = [];
                 $i = 0;
                 $band = false;
@@ -650,8 +658,8 @@ class ClientesController extends Controller
                     $i++;
                 }
                 if (!$band) {
-                    $i++;
-                    if ($orden->Corredor_UsuarioN) {
+                    if (isset($orden->Corredor_UsuarioN)) {
+                        $i++;
                         $emails[$i] = $orden->Corredor_UsuarioN->email;
                     }
 
