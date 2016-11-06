@@ -13,7 +13,6 @@ use App\Utilities\Action;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Mockery\CountValidator\Exception;
 
 class OrdenesAPI extends Controller
@@ -306,18 +305,17 @@ class OrdenesAPI extends Controller
                         ->where("idCliente", $idCliente)
                         ->whereIn("idEstadoOrden", [1, 2])->first();
                     $idOrden = $orden->idOrden ? $orden->idOrden : $orden->id;
-                    $idor = $orden->idOrden ? "idOrden" : "id";
-                    $count = Ordene::where($idor, $idOrden)->count() + 1;
+                    $countOrdenP = Ordene::where("id", $idOrden)->count();
+                    $countOrdenC = Ordene::where("idOrden", $idOrden)->count();
                     $correlativoPadre = DB::table('ordenes')->where('id', $idOrden)->value('correlativo');
-                    Log::info($count);
-                    $correlativo = $correlativoPadre . '-' . $count;
+                    $sumCor = $countOrdenC + $countOrdenP;
+                    $correlativo = $correlativoPadre . '-' . $sumCor;
                     $nuevaOrden = new Ordene();
                     $nuevaOrden->fill(
                         [
                             'correlativo' => $correlativo,
                             'idCliente' => $idCliente,
                             'FechaDeVigencia' => Carbon::parse($request['FechaDeVigencia'])->format('Y-m-d'),
-                            'idCorredor' => $orden->idCorredor,
                             'idTipoOrden' => $request["tipodeorden"],
                             'titulo' => $request['titulo'],
                             'idEstadoOrden' => 1,
@@ -349,7 +347,7 @@ class OrdenesAPI extends Controller
                     $idrol = 3;
                     $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                         $query->where('idRol', $idrol);
-                    })->where("idOrganizacion", $request["casacorredora"])->get();
+                    })->where("idOrganizacion", $orden->idOrganizacion)->get();
                     $emails = [];
                     $i = 0;
                     $band = false;
@@ -362,8 +360,8 @@ class OrdenesAPI extends Controller
                         $i++;
                     }
                     if (!$band) {
-                        $i++;
-                        if ($orden->Corredor_UsuarioN) {
+                        if (isset($orden->Corredor_UsuarioN)) {
+                            $i++;
                             $emails[$i] = $orden->Corredor_UsuarioN->email;
                         }
 
@@ -441,8 +439,10 @@ class OrdenesAPI extends Controller
                     $i++;
                 }
                 if (!$band) {
-                    $i++;
-                    $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    if (isset($orden->Corredor_UsuarioN)) {
+                        $i++;
+                        $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    }
                 }
 
 
@@ -513,8 +513,10 @@ class OrdenesAPI extends Controller
                     $i++;
                 }
                 if (!$band) {
-                    $i++;
-                    $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    if (isset($orden->Corredor_UsuarioN)) {
+                        $i++;
+                        $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    }
                 }
 
 
@@ -563,7 +565,7 @@ class OrdenesAPI extends Controller
                 $idrol = 3;
                 $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                     $query->where('idRol', $idrol);
-                })->where("idOrganizacion", $request["casacorredora"])->get();
+                })->where("idOrganizacion", $orden->idOrganizacion)->get();
                 $emails = [];
                 $i = 0;
                 $band = false;
@@ -580,8 +582,10 @@ class OrdenesAPI extends Controller
                     $i++;
                 }
                 if (!$band) {
-                    $i++;
-                    $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    if (isset($orden->Corredor_UsuarioN)) {
+                        $i++;
+                        $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    }
                 }
 
 

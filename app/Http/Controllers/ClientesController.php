@@ -108,7 +108,7 @@ class ClientesController extends Controller
 
         $idCliente = Auth::user()->ClienteN->id;
 
-        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN')->where('idCliente', $idCliente)->get();
+        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN', 'OrganizacionOrdenN')->where('idCliente', $idCliente)->get();
             $estadoOrdenes = EstadoOrden::lists('estado', 'id');
         $estadoOrdenes['0'] = 'Todas';
         $selected = '0';
@@ -600,18 +600,18 @@ class ClientesController extends Controller
                     ->where("idCliente", $idCliente)
                     ->whereIn("idEstadoOrden", [1, 2])->first();
                 $idOrden = $orden->idOrden ? $orden->idOrden : $orden->id;
-                $idor = $orden->idOrden ? "idOrden" : "id";
-                $count = Ordene::where($idor, $idOrden)->count() + 1;
+                //  $idor = $orden->idOrden ? "idOrden" : "id";
+                $countOrdenP = Ordene::where("id", $idOrden)->count();
+                $countOrdenC = Ordene::where("idOrden", $idOrden)->count();
                 $correlativoPadre = DB::table('ordenes')->where('id', $idOrden)->value('correlativo');
-                Log::info($count);
-                $correlativo = $correlativoPadre . '-' . $count;
+                $sumCor = $countOrdenC + $countOrdenP;
+                $correlativo = $correlativoPadre . '-' . $sumCor;
                 $nuevaOrden = new Ordene();
                 $nuevaOrden->fill(
                     [
                         'correlativo' => $correlativo,
                         'idCliente' => $idCliente,
                         'FechaDeVigencia' => Carbon::parse($request['FechaDeVigencia'])->format('Y-m-d'),
-                        'idCorredor' => $orden->idCorredor,
                         'idTipoOrden' => $request["tipodeorden"],
                         'titulo' => $request['titulo'],
                         'idEstadoOrden' => 1,
@@ -650,9 +650,11 @@ class ClientesController extends Controller
                 $i = 0;
                 $band = false;
                 foreach ($usuarios as $user) {
-                    if ($orden->Corredor_UsuarioN->email == $user->email) {
+                    if (isset($orden->Corredor_UsuarioN)) {
+                        if ($orden->Corredor_UsuarioN->email == $user->email) {
 
-                        $band = true;
+                            $band = true;
+                        }
                     }
                     $emails[$i] = $user->email;
                     $i++;

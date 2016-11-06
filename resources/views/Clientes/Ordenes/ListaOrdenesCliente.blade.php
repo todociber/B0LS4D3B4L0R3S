@@ -40,12 +40,14 @@
                     <thead>
                     <tr>
 
+                        <th><p class="text-center">Casa corredora</p></th>
                         <th><p class="text-center">Correlativo</p></th>
                         <th><p class="text-center">Tipo</p></th>
                         <th><p class="text-center">Mercado</p></th>
                         <th><p class="text-center">Monto de inversión</p></th>
                         <th><p class="text-center">Fecha de vencimiento</p></th>
                         <th><p class="text-center">Estado orden</p></th>
+                        <th><p class="text-center">Fecha de creación</p></th>
                         <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
                     </tr>
                     </thead>
@@ -53,12 +55,14 @@
                     @foreach ($ordenes as $orden)
                     <tr>
 
+                        <td>{{$orden->OrganizacionOrdenN->nombre}}</td>
                         <td>{{$orden->correlativo}}</td>
                         <td>{{$orden->TipoOrdenN->nombre}}</td>
                         <td>{{$orden->TipoMercado}}</td>
                         <td>{{$orden->monto}}</td>
                         <td>{{$orden->FechaDeVigencia}}</td>
                         <td>{{$orden->EstadoOrden->estado}}</td>
+                        <td>{{$orden->created_at}}</td>
                         <td class="text-center"><a class="btn-table" href="{{route('getOrdenes',['id'=>$orden->id])}}">
                                 <i
                                         class="fa fa-archive" aria-hidden="true"></i></a>
