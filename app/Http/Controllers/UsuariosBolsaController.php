@@ -117,7 +117,7 @@ class UsuariosBolsaController extends Controller
                     [
                         'idUsuario' => Auth::user()->id,
                         'idOrganizacion' => Auth::user()->Organizacion->id,
-                        'descripcion' => 'Creación del usuario' . $usuario->nombre,
+                        'descripcion' => 'Creación del usuario: ' . $usuario->nombre,
 
                     ]
                 );
@@ -389,7 +389,7 @@ class UsuariosBolsaController extends Controller
                     [
                         'idUsuario' => Auth::user()->id,
                         'idOrganizacion' => Auth::user()->Organizacion->id,
-                        'descripcion' => 'Modifiación de  usuario: ' . $usuario->nombre,
+                        'descripcion' => 'Modificación de  usuario: ' . $usuario->nombre,
 
                     ]
                 );

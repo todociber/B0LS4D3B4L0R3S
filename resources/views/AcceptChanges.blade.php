@@ -56,18 +56,17 @@
     <!--[if lt IE 9]>
     <![endif]-->
 </head>
-<body class="hold-transition lockscreen">
+<body>
 <!-- Automatic element centering -->
-<div class="lockscreen-wrapper">
+<div style="background: white;">
 
+    <div class="text-center">
     <img class="img-responsive" src="{{URL::asset("assets/img/bolsa_logo.png")}}"
          alt="">
 
-    <!-- User name -->
+        <h2>Cambio de correo realizada con éxito</h2>
 
-
-    <!-- lockscreen image -->
-    <h2>Cambio de correo realizada con éxito</h2>
+    </div>
     <!-- /.lockscreen credentials -->
 
 

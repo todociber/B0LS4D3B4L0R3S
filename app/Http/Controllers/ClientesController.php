@@ -108,7 +108,7 @@ class ClientesController extends Controller
 
         $idCliente = Auth::user()->ClienteN->id;
 
-        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN')->where('idCliente', $idCliente)->get();
+        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN', 'OrganizacionOrdenN')->where('idCliente', $idCliente)->get();
             $estadoOrdenes = EstadoOrden::lists('estado', 'id');
         $estadoOrdenes['0'] = 'Todas';
         $selected = '0';
@@ -203,7 +203,7 @@ class ClientesController extends Controller
             $idrol = 3;
             $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                 $query->where('idRol', $idrol);
-            })->where("idOrganizacion", $request["casacorredora"])->get();
+            })->where("idOrganizacion", $orden->idOrganizacion)->get();
             $emails = [];
             $i = 0;
             $band = false;
@@ -213,16 +213,20 @@ class ClientesController extends Controller
 
                         $band = true;
                     }
-                } else {
-                    $band = true;
-                }
+                } 
                 $emails[$i] = $user->email;
                 $i++;
+
+
             }
             if (!$band) {
-                $i++;
-                $emails[$i] = $orden->Corredor_UsuarioN->email;
+                if (isset($orden->Corredor_UsuarioN)) {
+                    $i++;
+                    $emails[$i] = $orden->Corredor_UsuarioN->email;
+                }
             }
+
+            Log::info(json_encode($emails));
 
 
 
@@ -428,7 +432,7 @@ class ClientesController extends Controller
             $idrol = 3;
             $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                 $query->where('idRol', $idrol);
-            })->where("idOrganizacion", $request["casacorredora"])->get();
+            })->where("idOrganizacion", $orden->idOrganizacion)->get();
             $emails = [];
             $i = 0;
             $band = false;
@@ -441,8 +445,10 @@ class ClientesController extends Controller
                 $i++;
             }
             if (!$band) {
+                if (isset($orden->Corredor_UsuarioN)) {
                 $i++;
                 $emails[$i] = $orden->Corredor_UsuarioN->email;
+                }
             }
 
 
@@ -486,7 +492,7 @@ class ClientesController extends Controller
             $idrol = 3;
             $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                 $query->where('idRol', $idrol);
-            })->where("idOrganizacion", $request["casacorredora"])->get();
+            })->where("idOrganizacion", $orden->idOrganizacion)->get();
             $emails = [];
             $i = 0;
             $band = false;
@@ -499,8 +505,10 @@ class ClientesController extends Controller
                 $i++;
             }
             if (!$band) {
-                $i++;
-                $emails[$i] = $orden->Corredor_UsuarioN->email;
+                if (isset($orden->Corredor_UsuarioN)) {
+                    $i++;
+                    $emails[$i] = $orden->Corredor_UsuarioN->email;
+                }
             }
 
 
@@ -592,18 +600,18 @@ class ClientesController extends Controller
                     ->where("idCliente", $idCliente)
                     ->whereIn("idEstadoOrden", [1, 2])->first();
                 $idOrden = $orden->idOrden ? $orden->idOrden : $orden->id;
-                $idor = $orden->idOrden ? "idOrden" : "id";
-                $count = Ordene::where($idor, $idOrden)->count() + 1;
+                //  $idor = $orden->idOrden ? "idOrden" : "id";
+                $countOrdenP = Ordene::where("id", $idOrden)->count();
+                $countOrdenC = Ordene::where("idOrden", $idOrden)->count();
                 $correlativoPadre = DB::table('ordenes')->where('id', $idOrden)->value('correlativo');
-                Log::info($count);
-                $correlativo = $correlativoPadre . '-' . $count;
+                $sumCor = $countOrdenC + $countOrdenP;
+                $correlativo = $correlativoPadre . '-' . $sumCor;
                 $nuevaOrden = new Ordene();
                 $nuevaOrden->fill(
                     [
                         'correlativo' => $correlativo,
                         'idCliente' => $idCliente,
                         'FechaDeVigencia' => Carbon::parse($request['FechaDeVigencia'])->format('Y-m-d'),
-                        'idCorredor' => $orden->idCorredor,
                         'idTipoOrden' => $request["tipodeorden"],
                         'titulo' => $request['titulo'],
                         'idEstadoOrden' => 1,
@@ -637,21 +645,23 @@ class ClientesController extends Controller
                 $idrol = 3;
                 $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                     $query->where('idRol', $idrol);
-                })->where("idOrganizacion", $request["casacorredora"])->get();
+                })->where("idOrganizacion", $orden->idOrganizacion)->get();
                 $emails = [];
                 $i = 0;
                 $band = false;
                 foreach ($usuarios as $user) {
-                    if ($orden->Corredor_UsuarioN->email == $user->email) {
+                    if (isset($orden->Corredor_UsuarioN)) {
+                        if ($orden->Corredor_UsuarioN->email == $user->email) {
 
-                        $band = true;
+                            $band = true;
+                        }
                     }
                     $emails[$i] = $user->email;
                     $i++;
                 }
                 if (!$band) {
-                    $i++;
-                    if ($orden->Corredor_UsuarioN) {
+                    if (isset($orden->Corredor_UsuarioN)) {
+                        $i++;
                         $emails[$i] = $orden->Corredor_UsuarioN->email;
                     }
 
@@ -1111,7 +1121,7 @@ class ClientesController extends Controller
         $idCliente = Auth::user()->ClienteN->id;
         $departamentos = Departamento::orderBy('nombre', 'ASC')->lists('nombre', 'id');
         $telefonos = Telefono::with('TipoTelefonoN')->where('idCliente', $idCliente)->get();
-        $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('id', $idCliente)->get();
+        $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('idCliente', $idCliente)->get();
         $municipios = Municipio::where('id_departamento', $direcciones[0]->MunicipioDireccion->Departamento->id)->lists('nombre', 'id');
         $telefonoCasa = '';
         $telefonoCelular = '';
@@ -1175,7 +1185,7 @@ class ClientesController extends Controller
                 }
 
 
-                $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('id', $clientes->id)->get();
+                $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('idCliente', $clientes->id)->get();
                 if ($direcciones[0]->detalle != $request['direccion']) {
                     $direccion = new Direccione();
                     $direccion->fill(
@@ -1189,23 +1199,23 @@ class ClientesController extends Controller
                     $direccion->save();
                     Direccione::destroy($direcciones[0]->id);
 
+                } else if ($direcciones[0]->idMunicipio != $request['municipio']) {
+
+                    $mun = $direcciones[0];
+                    $mun->fill(
+                        [
+                            'idMunicipio' => $request['municipio'],
+                        ]
+                    );
+                    $mun->save();
                 }
 
 
             }
-            $token = new token();
-            $gentoken = new GenerarToken();
-            $tokenDeUsuario = $gentoken->tokengenerador();
 
-            $token->fill([
-                    'token' => $tokenDeUsuario,
-                    'idUsuario' => $usuario->id,
-                    'email_change' => $request["email"]
-                ]
-            );
             flash('Información cambiada con éxito', 'success');
             return redirect()->route('perfilcliente');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             flash('Ocurrio un problema al modificar la información', 'danger');
             return back()->withInput();
 
@@ -1227,6 +1237,11 @@ class ClientesController extends Controller
             'email' => 'required|email',
 
         ]);
+
+        if (Auth::user()->email != $request["email"]) {
+
+            $user = Usuario::where("email", $request["email"])->count();
+            if ($user == 0) {
         $usuario = Auth::user();
         $token = new token();
         $gentoken = new GenerarToken();
@@ -1242,7 +1257,19 @@ class ClientesController extends Controller
         $action = new Action();
         $action->sendEmail(["titulo" => "Modificación de correo", "token" => $tokenDeUsuario], $usuario->email, 'Cambio de correo', 'Cambio de correo', 'emails.emailConfirmChange');
         flash('Se enviara un email a su cuenta para la confirmación del cambio de correo electrónico', 'success');
-        return redirect()->route('perfilcliente');
+                return redirect()->route('perfilcliente');
+            } else {
+
+                flash('Este correo electrónico ya se encuentra registrado', 'danger');
+                return back()->withInput();
+            }
+
+        } else {
+
+            flash('El email ingresado es el actual asociado a su cuenta', 'danger');
+            return back()->withInput();
+        }
+
 
     }
     

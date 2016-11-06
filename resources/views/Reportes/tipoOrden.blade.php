@@ -12,8 +12,8 @@
         <input type="checkbox"> Compra
 
     </div>
-    <div class="col-xs-4 display-cell " checked>
+    <div class="col-xs-4 display-cell ">
 
-        <input type="checkbox" name="vehicle" value="Car"> Venta
+        <input type="checkbox" name="vehicle" value="Car" checked> Venta
     </div>
 @endif

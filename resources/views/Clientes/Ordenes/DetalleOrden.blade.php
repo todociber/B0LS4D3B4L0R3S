@@ -61,6 +61,10 @@
 
                     <a data-toggle="modal" data-target="#modalRechazo" class="btn btn-danger btn-flat">Ver motivo de
                         rechazo</a>
+                @elseif($orderEstado==5 || $orderEstado==7 )
+
+                    <a data-toggle="modal" data-target="#modalOperaciones" class="btn btn-info btn-flat">Ver operaciones
+                        de bolsa</a>
 
                 @endif
 
@@ -163,7 +167,7 @@
 @stop
 
 @if($orden->idEstadoOrden == 5 || $orden->idEstadoOrden == 7)
-    <div id="myModal1" class="modal fade" role="dialog">
+    <div id="modalOperaciones" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -178,21 +182,27 @@
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th>id</th>
+
                             <th>monto</th>
 
                         </tr>
                         </thead>
                         <tbody>
-
+                        {{$montoTotal = 0}}
                         @foreach($orden->Operaiones_ordenes as $operacion)
                             <tr>
 
-                                <td>{{$operacion->id}}</td>
+
                                 <td>{{$operacion->monto}}</td>
+                                {{$montoTotal += $operacion->monto}}
 
                             </tr>
+
                         @endforeach
+
+                        <tr>
+                            <td>Monto total: {{$montoTotal}}</td>
+                        </tr>
 
                         </tbody>
 
