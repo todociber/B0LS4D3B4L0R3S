@@ -173,47 +173,16 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                                         class="fa fa-circle-o"></i>Ordenes por asignar</a></li>
                         <li id="listadoOrdenes2"><a href="{{route('ordenesautorizador')}}"><i
                                         class="fa fa-circle-o"></i>Listado general de ordenes</a></li>
+                        <li id="listadoOrdenes2"><a href="{{route('Ordenes.Reasignacion.Usuario')}}"><i
+                                        class="fa fa-circle-o"></i>Reasignar ordenes</a></li>
                         <li id="listadoOrdenes2"><a href="{{route('OrdenesReporte.Fecha')}}"><i
                                         class="fa fa-circle-o"></i>Reporte de Ordenes</a></li>
 
                     </ul>
                 </li>
-                    <li class="treeview">
-                        <a href={{route('bitacora')}}>
-                            <i class="fa fa-th-list"></i>
-                            <span>Bitacora</span>
-                        </a>
-
-                    </li>
-
-                    <li class="treeview">
-                        <a href={{route('Ordenes.Reasignacion.Usuario')}}>
-                            <i class="fa fa-th-list"></i>
-                            <span>Reasignacion de Ordenes</span>
-                        </a>
-
-                    </li>
-                @endif
-
-                @if($agenteCorredor)
-                    <li id="ordenes" class=" treeview">
-                        <a href="#">
-                            <i class="fa fa-archive"></i> <span>Agente Corredor</span> <i
-                                    class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li id="listadoOrdenesAsignadas"><a href="{{route('ordenesagenteasignar')}}"><i
-                                            class="fa fa-circle-o"></i>Ordenes Asignadas</a></li>
-                            <li id="listadoOrdenesGeneralAgente"><a href="{{route('ordenesagente')}}"><i
-                                            class="fa fa-circle-o"></i>Listado general de ordenes</a></li>
 
 
-                        </ul>
-                    </li>
-                @endif
-
-                @if($autorizador)
-                <li id="Afiliaciones" class=" treeview">
+                    <li id="Afiliaciones" class=" treeview">
                     <a href="#">
                         <i class="fa fa-archive"></i> <span>Afiliaciones</span> <i
                                 class="fa fa-angle-left pull-right"></i>
@@ -237,6 +206,31 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
 
                     </ul>
                 </li>
+                    <li class="treeview">
+                        <a href={{route('bitacora')}}>
+                            <i class="fa fa-th-list"></i>
+                            <span>Bitacora</span>
+                        </a>
+
+                    </li>
+                @endif
+
+
+                @if($agenteCorredor)
+                    <li id="ordenes" class=" treeview">
+                        <a href="#">
+                            <i class="fa fa-archive"></i> <span>Agente Corredor</span> <i
+                                    class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li id="listadoOrdenesAsignadas"><a href="{{route('ordenesagenteasignar')}}"><i
+                                            class="fa fa-circle-o"></i>Ordenes Asignadas</a></li>
+                            <li id="listadoOrdenesGeneralAgente"><a href="{{route('ordenesagente')}}"><i
+                                            class="fa fa-circle-o"></i>Listado general de ordenes</a></li>
+
+
+                        </ul>
+                    </li>
                 @endif
 
                 <li class="header">OTRAS OPCIONES</li>
