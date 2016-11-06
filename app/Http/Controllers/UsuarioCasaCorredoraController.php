@@ -19,6 +19,7 @@ use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Latch;
+use Log;
 use Mockery\CountValidator\Exception;
 use Redirect;
 use Snowfire\Beautymail\Beautymail;
@@ -524,9 +525,15 @@ class UsuarioCasaCorredoraController extends Controller
                 return redirect('/UsuarioCasaCorredora');
             }
         } else {
+            $rol = new RolIdentificador();
+            if ($rol->Autorizador(Auth::user())) {
+                \Session::set('UsuarioEliminar', $id);
+                return redirect('/Ordenes/Reasignacion');
+            } else {
+                flash('El usuario tiene Ordenes en proceso', 'danger');
+                return redirect('/UsuarioCasaCorredora');
+            }
 
-            \Session::set('UsuarioEliminar', $id);
-            return redirect('/Ordenes/Reasignacion');
         }
 
     }
@@ -721,6 +728,7 @@ class UsuarioCasaCorredoraController extends Controller
 
     public function perfil()
     {
+        Log::info("ENTRO A PERFIL ");
         return View('CasaCorredora.Usuarios.Perfil', ['user' => Auth::user()]);
     }
 

@@ -196,6 +196,13 @@
                                 <b>Precio minimo: </b>{{$orden->valorMinimo}}<br>
                                 <b>Precio máximo: </b>{{$orden->valorMaximo}}<br>
                                 <b>Monto: </b>{{$orden->monto}}<br>
+                                @if($orden->idTipoEjecucion!=3)
+                                    <br> <b>Operaciones de bolsa realizadas</b>
+                                    @foreach($orden->Operaiones_ordenes as $operaciones)
+                                        <li><b>Monto: </b> {{$operaciones->monto}}<br></li>
+                                    @endforeach
+                                    <br>
+                                @endif
 
                             </div>
                             <div class="col-sm-4 invoice-col">

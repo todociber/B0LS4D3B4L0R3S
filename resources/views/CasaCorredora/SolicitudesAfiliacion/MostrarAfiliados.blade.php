@@ -41,6 +41,7 @@
                                     <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
                                     <th><p class="text-center">Nombre</p></th>
                                     <th><p class="text-center">Apellido</p></th>
+                                    <th><p class="text-center">DUI</p></th>
                                     <th><p class="text-center">Correo</p></th>
                                     <th><p class="text-center">Numero Afiliado</p></th>
                                     <th><p class="text-center">Estado</p></th>
@@ -58,6 +59,20 @@
                                             <button onclick="desafiliarCliente('{{$solicitud->id}}','{{ $solicitud->ClienteNSolicitud->UsuarioNC->nombre}}'); "
                                                     data-toggle="modal" data-target="#desactivarActivarCasa">
                                                 <span class="glyphicon glyphicon-remove p-red"></span></button>
+                                            {!!Form::open(['route'=>'Buscar.Cliente', 'method'=>'POST', 'onsubmit'=>"waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+
+                                            <br>
+                                            <div class="form-group">
+
+                                                {{ Form::text('dui',$solicitud->ClienteNSolicitud->dui,['class'=>'form-control','required','id'=>'dui',"style"=>"display:none"])  }}
+                                            </div>
+                                            <button type="submit" onclick="">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </button>
+
+
+                                            {!!Form::close()!!}
+
                                         </td>
                                         <td>
 
@@ -67,6 +82,9 @@
                                         </td>
                                         <td>
                                             {{ $solicitud->ClienteNSolicitud->UsuarioNC->apellido}}
+                                        </td>
+                                        <td>
+                                            {{ $solicitud->ClienteNSolicitud->dui}}
                                         </td>
                                         <td>
                                             {{ $solicitud->ClienteNSolicitud->UsuarioNC->email}}

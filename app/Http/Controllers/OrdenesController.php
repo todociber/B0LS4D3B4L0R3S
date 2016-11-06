@@ -115,6 +115,14 @@ class OrdenesController extends Controller
             ]);
             $action = new Action();
             $action->sendPush($orden->idCliente, 3, $orden->id);
+
+            $data = [
+                'nombrecasa' => Auth::user()->Organizacion->nombre,
+                'correlativo' => $orden->correlativo
+            ];
+            $action->sendEmail($data, $orden->ClientesN->UsuarioNC->email, 'Comentario en Orden', 'Comentario en Orden', 'emails.ComentarioCasa');
+
+
             flash('Comentario enviado exitosamente', 'success');
             $mensaje->save();
 
@@ -249,7 +257,7 @@ class OrdenesController extends Controller
 
     public function Operaciones($id)
     {
-        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->get();
+        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->orWhere('idTipoEjecucion', '!=', '3')->get();
 
 
         if ($ordenes->count() > 0) {
@@ -269,7 +277,7 @@ class OrdenesController extends Controller
 
     public function OperacionesGuardar(Requests\RequestOperacionBolsa $request, $id)
     {
-        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->where('idCorredor', '=', Auth::user()->id)->get();
+        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->orWhere('idTipoEjecucion', '!=', '3')->where('idCorredor', '=', Auth::user()->id)->get();
         if ($ordenes->count() > 0) {
             if ($ordenes[0]->idTipoEjecucion != 2) {
                 $montoEjecutado = 0;
