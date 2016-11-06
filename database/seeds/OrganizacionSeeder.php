@@ -25,7 +25,7 @@ class OrganizacionSeeder extends Seeder
         DB::table('organizacion')->insert(array(
             'nombre' => 'Casa Corredora Maxima Ganancia',
             'logo' => 'test',
-            'codigo' => '02',
+            'codigo' => '12345',
             'correo' => 'alexlaley10@gmail.com',
             'direccion' => 'bves',
             'direccion' => '12345678',

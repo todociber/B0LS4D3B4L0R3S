@@ -365,7 +365,7 @@ class OrdenesController extends Controller
                         $query->withTrashed();
                     }])->first();
                 $pdf = PDF::loadView('Reportes.reporteFinal', ['orden' => $ordenes]);
-                return $pdf->download('Orden' . $ordenes->correlativo . '.pdf');
+                return $pdf->stream('Orden' . $ordenes->correlativo . '.pdf');
             }
         } else {
             flash('Orden no encontrada', 'danger');

@@ -1,4 +1,4 @@
-<?php ?>
+<?php use Carbon\Carbon;?>
 
 <html>
 <head>
@@ -176,7 +176,7 @@
             <div class="inline-block">
                 <ul class="list-inline">
                     <li>Fecha:</li>
-                    <li class="p-format-right">
+                    <li class="p-format-right"><?php echo Carbon::parse($orden->created_at)->format('m-d-Y');?>
                     <li>
                 </ul>
             </div>
@@ -271,7 +271,7 @@
             <ul class="list-inline">
                 <li> Vigencia:</li>
                 <li>
-                    <p class="p-format"></p>
+                    <p class="p-format"><?php echo Carbon::parse($orden->FechaDeVigencia)->format('m-d-Y');?></p>
                 </li>
             </ul>
 
