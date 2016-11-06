@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Inicio Validacion de Base de Datos">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/emails/AsginacionAgente.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/emails/ComentarioCasa.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/emails/RechazoDeOrden.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.env" afterPath="$PROJECT_DIR$/.env" />
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Arreglos Varios, CasaCorredora, Ordenes, Afiliaciones Rutas, y Correos">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Middleware/UsuarioCasaCorredora.php" afterPath="$PROJECT_DIR$/app/Http/Middleware/UsuarioCasaCorredora.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliados.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliados.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/session.php" afterPath="$PROJECT_DIR$/config/session.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,13 +36,13 @@
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="278">
-              <caret line="150" column="71" selection-start-line="150" selection-start-column="71" selection-end-line="150" selection-end-column="71" />
+              <caret line="149" column="75" selection-start-line="149" selection-start-column="75" selection-end-line="149" selection-end-column="75" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SolicitudesCasaCorredora.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SolicitudesCasaCorredora.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="177">
@@ -63,11 +52,31 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="services.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/services.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="session.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/config/session.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="527">
+              <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="BuscarAfiliado.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="53" column="40" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
+            <state relative-caret-position="238">
+              <caret line="55" column="71" selection-start-line="55" selection-start-column="55" selection-end-line="55" selection-end-column="71" />
               <folding />
             </state>
           </provider>
@@ -103,31 +112,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Telefono.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Models/Telefono.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="26" column="33" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="TipoTelefono.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Models/TipoTelefono.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Usuario.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Models/Usuario.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="43" column="32" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -173,7 +162,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAgente/ordenesAsignadas.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/OrdenesReportePDF.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/UsuarioOperadorCasaCorredora.php" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/UsuarioNoLogueado.php" />
@@ -224,6 +212,7 @@
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliados.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php" />
+        <option value="$PROJECT_DIR$/config/session.php" />
       </list>
     </option>
   </component>
@@ -455,6 +444,34 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bolsaDeValores" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bolsaDeValores" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bolsaDeValores" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bolsaDeValores" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -793,14 +810,7 @@
       <workItem from="1478409497435" duration="65000" />
       <workItem from="1478409569496" duration="6757000" />
       <workItem from="1478455451250" duration="3961000" />
-      <workItem from="1478466647177" duration="6714000" />
-    </task>
-    <task id="LOCAL-00022" summary="Commit with merge end.">
-      <created>1475362577518</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1475362577518</updated>
+      <workItem from="1478466647177" duration="7129000" />
     </task>
     <task id="LOCAL-00023" summary="Modulo de clientes terminado.">
       <created>1475535230531</created>
@@ -1138,11 +1148,18 @@
       <option name="project" value="LOCAL" />
       <updated>1478417642956</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="Arreglos Varios, CasaCorredora, Ordenes, Afiliaciones Rutas, y Correos">
+      <created>1478473466448</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1478473466449</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="383955000" />
+    <option name="totallyTimeSpent" value="384370000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1240,7 +1257,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="API correjida y middlewares agregados" />
     <MESSAGE value="solucion API y rediseño de login" />
     <MESSAGE value="cambio for merge" />
     <MESSAGE value="NoPermitido" />
@@ -1265,7 +1281,8 @@
     <MESSAGE value="Reportes Controller" />
     <MESSAGE value="Reportes Controller sin Fechas y falta instalar un programa" />
     <MESSAGE value="Inicio Validacion de Base de Datos" />
-    <option name="LAST_COMMIT_MESSAGE" value="Inicio Validacion de Base de Datos" />
+    <MESSAGE value="Arreglos Varios, CasaCorredora, Ordenes, Afiliaciones Rutas, y Correos" />
+    <option name="LAST_COMMIT_MESSAGE" value="Arreglos Varios, CasaCorredora, Ordenes, Afiliaciones Rutas, y Correos" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1277,21 +1294,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="93" column="34" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/faytzel/laravel-latch/src/Faytzel/LaravelLatch/LaravelLatch.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="563">
-          <caret line="180" column="13" selection-start-line="180" selection-start-column="4" selection-end-line="180" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Providers/AppServiceProvider.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
@@ -1320,6 +1322,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1434,6 +1437,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="19" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1441,6 +1445,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="18" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1457,9 +1462,9 @@
         <state relative-caret-position="7514">
           <caret line="456" column="40" selection-start-line="456" selection-start-column="34" selection-end-line="456" selection-end-column="40" />
           <folding>
-            <marker date="1478457426684" expanded="true" signature="7543:8021" ph="select COUNT... usuarios" />
-            <marker date="1478457426684" expanded="true" signature="10197:10675" ph="select COUNT... usuarios" />
-            <marker date="1478457426684" expanded="true" signature="12822:13300" ph="select COUNT... usuarios" />
+            <marker date="1478473461608" expanded="true" signature="7543:8021" ph="select COUNT... usuarios" />
+            <marker date="1478473461608" expanded="true" signature="10197:10675" ph="select COUNT... usuarios" />
+            <marker date="1478473461608" expanded="true" signature="12822:13300" ph="select COUNT... usuarios" />
           </folding>
         </state>
       </provider>
@@ -1525,9 +1530,9 @@
         <state relative-caret-position="-664">
           <caret line="279" column="166" selection-start-line="279" selection-start-column="166" selection-end-line="279" selection-end-column="166" />
           <folding>
-            <marker date="1478467854233" expanded="true" signature="5041:5519" ph="select COUNT... usuarios" />
-            <marker date="1478467854233" expanded="true" signature="21593:22071" ph="select COUNT... usuarios" />
-            <marker date="1478467854233" expanded="true" signature="23814:24292" ph="select COUNT... usuarios" />
+            <marker date="1478473461759" expanded="true" signature="5041:5519" ph="select COUNT... usuarios" />
+            <marker date="1478473461759" expanded="true" signature="21597:22075" ph="select COUNT... usuarios" />
+            <marker date="1478473461759" expanded="true" signature="23818:24296" ph="select COUNT... usuarios" />
           </folding>
         </state>
       </provider>
@@ -1569,16 +1574,16 @@
         <state relative-caret-position="397">
           <caret line="204" column="42" selection-start-line="204" selection-start-column="42" selection-end-line="204" selection-end-column="42" />
           <folding>
-            <marker date="1478468278622" expanded="true" signature="8265:8525" ph="..." />
-            <marker date="1478468278622" expanded="true" signature="8279:8524" ph="..." />
-            <marker date="1478468278622" expanded="true" signature="8630:8879" ph="..." />
-            <marker date="1478468278622" expanded="true" signature="8644:8878" ph="..." />
-            <marker date="1478468278622" expanded="true" signature="9023:9279" ph="..." />
-            <marker date="1478468278622" expanded="true" signature="9037:9278" ph="..." />
-            <marker date="1478468278622" expanded="true" signature="9550:9819" ph="..." />
-            <marker date="1478468278622" expanded="true" signature="9564:9818" ph="..." />
-            <marker date="1478468278622" expanded="true" signature="10298:10516" ph="..." />
-            <marker date="1478468278622" expanded="true" signature="10310:10515" ph="..." />
+            <marker date="1478473461688" expanded="true" signature="8281:8541" ph="..." />
+            <marker date="1478473461688" expanded="true" signature="8295:8540" ph="..." />
+            <marker date="1478473461688" expanded="true" signature="8646:8895" ph="..." />
+            <marker date="1478473461688" expanded="true" signature="8660:8894" ph="..." />
+            <marker date="1478473461688" expanded="true" signature="9039:9295" ph="..." />
+            <marker date="1478473461688" expanded="true" signature="9053:9294" ph="..." />
+            <marker date="1478473461688" expanded="true" signature="9566:9835" ph="..." />
+            <marker date="1478473461688" expanded="true" signature="9580:9834" ph="..." />
+            <marker date="1478473461688" expanded="true" signature="10314:10532" ph="..." />
+            <marker date="1478473461688" expanded="true" signature="10326:10531" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1666,18 +1671,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="53" column="40" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="278">
-          <caret line="150" column="71" selection-start-line="150" selection-start-column="71" selection-end-line="150" selection-end-column="71" />
+          <caret line="149" column="75" selection-start-line="149" selection-start-column="75" selection-end-line="149" selection-end-column="75" />
           <folding />
         </state>
       </provider>
@@ -1686,6 +1683,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
           <caret line="425" column="20" selection-start-line="425" selection-start-column="20" selection-end-line="425" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/services.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="55" column="71" selection-start-line="55" selection-start-column="55" selection-end-line="55" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/session.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
           <folding />
         </state>
       </provider>
