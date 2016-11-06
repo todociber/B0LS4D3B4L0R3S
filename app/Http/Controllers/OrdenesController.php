@@ -18,6 +18,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Latch;
+use PDF;
 use Redirect;
 
 class OrdenesController extends Controller
@@ -362,12 +363,9 @@ class OrdenesController extends Controller
                 $ordenes = Ordene::ofid($id)
                     ->with(['MensajesN_Orden', 'Corredor_UsuarioN' => function ($query) {
                         $query->withTrashed();
-                    }])->get();
-
-                $view = \View::make('CasaCorredora.OrdenesAutorizador.OrdenReportePDF', compact('ordenes'))->render();
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($view);
-                return $pdf->stream('DetalleOrden#' . $ordenes[0]->correlativo);
+                    }])->first();
+                $pdf = PDF::loadView('Reportes.reporteFinal', ['orden' => $ordenes]);
+                return $pdf->steam('Orden' . $ordenes->correlativo . '.pdf');
             }
         } else {
             flash('Orden no encontrada', 'danger');
