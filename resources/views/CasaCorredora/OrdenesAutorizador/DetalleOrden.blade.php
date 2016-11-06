@@ -208,7 +208,7 @@
                                     {!!link_to_route('Ordenes.editar', $title = 'Editar', $parameters = $orden->id, $attributes = ['class'=>'btn btn-warning','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'danger'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                 @endif
                                 @if ($orden->idOrden !=null )
-                                    {!!link_to_route('Ordenes.historial', $title = 'Historial ', $parameters = $orden->id, $attributes = ['class'=>'btn btn-info','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                                    {!!link_to_route('Ordenes.historial', $title = 'Historial ', $parameters = $orden->idOrden, $attributes = ['class'=>'btn btn-info','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                 @endif
 
                                 <br><br>

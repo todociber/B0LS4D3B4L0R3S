@@ -57,7 +57,8 @@
                                                     <th><p class="text-center">Monto</p></th>
                                                     <th><p class="text-center">Fecha de vigencia</p></th>
                                                     <th><p class="text-center">Tipo de Mercado</p></th>
-
+                                                    <th><p class="text-center">Agente Corredor</p></th>
+                                                    <th><p class="text-center">Ultima Modificacion</p></th>
                                                     <th><p class="text-center">Estado</p></th>
                                                 </tr>
                                                 </thead>
@@ -77,7 +78,23 @@
                                                         <td>{{$orden->monto}}</td>
                                                         <td>{{$orden->FechaDeVigencia}}</td>
                                                         <td>{{$orden->TipoMercado}}</td>
+                                                        <td>
+                                                            @if($orden->Corredor_UsuarioN()->count()>0)
+                                                                {{$orden->Corredor_UsuarioN->nombre}} {{$orden->Corredor_UsuarioN->apellido}}
+                                                            @else
+                                                                Pendiente de Asignacion
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if($orden->updated_at==NULL)
+                                                                {{$orden->created_at}}
+                                                            @else
 
+                                                                {{$orden->updated_at}}
+                                                            @endif
+
+
+                                                        </td>
 
                                                         <td>
                                                             {{$orden->EstadoOrden->estado}}

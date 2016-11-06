@@ -133,13 +133,13 @@ class OrdenesController extends Controller
 
 
         $ordenes = Ordene::with("EstadoOrden", "OrdenPadre")->where("idOrden", $id)
-            ->orWhere("id", $id)
             ->where("idOrganizacion", Auth::user()->idOrganizacion)
+            ->orWhere("id", $id)
             ->orderBy("created_at", 'DESC')
             ->get();
 
 
-        if ($ordenes[0]->OrdenPadre == null) {
+        if ($ordenes->count() < 2) {
             flash('Historial no disponible', 'warning');
             return redirect('/Ordenes');
         } else {
