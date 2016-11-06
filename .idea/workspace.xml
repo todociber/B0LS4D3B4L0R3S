@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Correcciones en Ordenes, Solicitudes y en latch">
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Reportes Controller">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/snappy.php" afterPath="$PROJECT_DIR$/config/snappy.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/Reportes/reporteFinal.blade.php" afterPath="$PROJECT_DIR$/resources/views/Reportes/reporteFinal.blade.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -121,17 +123,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OrdenesController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="OrdenesController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="365" column="30" selection-start-line="365" selection-start-column="30" selection-end-line="365" selection-end-column="30" />
+            <state relative-caret-position="346">
+              <caret line="367" column="37" selection-start-line="367" selection-start-column="37" selection-end-line="367" selection-end-column="37" />
               <folding>
                 <element signature="e#40#62#0#PHP" expanded="true" />
-                <marker date="1478396540424" expanded="true" signature="4733:5211" ph="select COUNT... usuarios" />
-                <marker date="1478396540424" expanded="true" signature="21206:21684" ph="select COUNT... usuarios" />
-                <marker date="1478396540424" expanded="true" signature="23427:23905" ph="select COUNT... usuarios" />
+                <marker date="1478397275274" expanded="true" signature="4733:5211" ph="select COUNT... usuarios" />
+                <marker date="1478397275274" expanded="true" signature="21213:21691" ph="select COUNT... usuarios" />
+                <marker date="1478397275274" expanded="true" signature="23434:23912" ph="select COUNT... usuarios" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="snappy.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/config/snappy.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -139,8 +151,8 @@
       <file leaf-file-name="reporteFinal.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/Reportes/reporteFinal.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="137" column="37" selection-start-line="137" selection-start-column="31" selection-end-line="137" selection-end-column="37" />
+            <state relative-caret-position="2521">
+              <caret line="178" column="47" selection-start-line="178" selection-start-column="47" selection-end-line="178" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -176,7 +188,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/views/layouts/loginLayout.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/auth/login.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/alertas/flash.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/bves/Casas/ListaCasas.blade.php" />
@@ -219,14 +230,15 @@
         <option value="$PROJECT_DIR$/resources/views/auth/latch.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/auth/latchCliente.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/auth/LatchBolsa.blade.php" />
-        <option value="$PROJECT_DIR$/config/snappy.php" />
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/HistorialOrden.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/ListadoGeneral.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/LatchController.php" />
+        <option value="$PROJECT_DIR$/resources/views/Reportes/reporteFinal.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
+        <option value="$PROJECT_DIR$/config/snappy.php" />
       </list>
     </option>
   </component>
@@ -375,24 +387,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Models" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -632,14 +626,7 @@
       <workItem from="1478386266029" duration="92000" />
       <workItem from="1478387453200" duration="498000" />
       <workItem from="1478389616386" duration="5553000" />
-      <workItem from="1478395667405" duration="1048000" />
-    </task>
-    <task id="LOCAL-00018" summary="loadin en botones y nueva pantalla de afiliaciones procesadas">
-      <created>1469950595002</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1469950595002</updated>
+      <workItem from="1478395667405" duration="2014000" />
     </task>
     <task id="LOCAL-00019" summary="cambio de relacion Usuario Cliente correccion de afiliaciones y formularios por el cambio">
       <created>1470007411751</created>
@@ -977,11 +964,18 @@
       <option name="project" value="LOCAL" />
       <updated>1478395516519</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="Reportes Controller">
+      <created>1478396727921</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1478396727921</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="361334000" />
+    <option name="totallyTimeSpent" value="362300000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1079,7 +1073,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="bitacoras realizadas y cambios en la API realizados" />
     <MESSAGE value="bug en detalle orden arreglado, nueva orden removida cuando no hay afiliaciones. Email rediseñados." />
     <MESSAGE value="valor maximo agregado" />
     <MESSAGE value="API correjida y middlewares agregados" />
@@ -1104,7 +1097,8 @@
     <MESSAGE value="Latch Links  en nueva pestaña" />
     <MESSAGE value="Latch Arreglados, snappy for Windows" />
     <MESSAGE value="Correcciones en Ordenes, Solicitudes y en latch" />
-    <option name="LAST_COMMIT_MESSAGE" value="Correcciones en Ordenes, Solicitudes y en latch" />
+    <MESSAGE value="Reportes Controller" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reportes Controller" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1363,14 +1357,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/snappy.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="51" selection-start-line="14" selection-start-column="51" selection-end-line="14" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2016_10_15_205349_EventoOrdenesVencidas.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -1493,22 +1479,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/Reportes/reporteFinal.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="137" column="37" selection-start-line="137" selection-start-column="31" selection-end-line="137" selection-end-column="37" />
+        <state relative-caret-position="2521">
+          <caret line="178" column="47" selection-start-line="178" selection-start-column="47" selection-end-line="178" selection-end-column="47" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="365" column="30" selection-start-line="365" selection-start-column="30" selection-end-line="365" selection-end-column="30" />
+        <state relative-caret-position="346">
+          <caret line="367" column="37" selection-start-line="367" selection-start-column="37" selection-end-line="367" selection-end-column="37" />
           <folding>
             <element signature="e#40#62#0#PHP" expanded="true" />
-            <marker date="1478396540424" expanded="true" signature="4733:5211" ph="select COUNT... usuarios" />
-            <marker date="1478396540424" expanded="true" signature="21206:21684" ph="select COUNT... usuarios" />
-            <marker date="1478396540424" expanded="true" signature="23427:23905" ph="select COUNT... usuarios" />
+            <marker date="1478397275274" expanded="true" signature="4733:5211" ph="select COUNT... usuarios" />
+            <marker date="1478397275274" expanded="true" signature="21213:21691" ph="select COUNT... usuarios" />
+            <marker date="1478397275274" expanded="true" signature="23434:23912" ph="select COUNT... usuarios" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/snappy.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
+          <folding />
         </state>
       </provider>
     </entry>
