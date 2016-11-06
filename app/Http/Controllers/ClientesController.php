@@ -108,7 +108,7 @@ class ClientesController extends Controller
 
         $idCliente = Auth::user()->ClienteN->id;
 
-        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN', 'OrganizacionOrdenN')->where('idCliente', $idCliente)->get();
+        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN', 'OrganizacionOrdenN')->where('idCliente', $idCliente)->orderBy("created_at", "desc")->get();
             $estadoOrdenes = EstadoOrden::lists('estado', 'id');
         $estadoOrdenes['0'] = 'Todas';
         $selected = '0';

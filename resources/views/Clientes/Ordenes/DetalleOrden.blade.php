@@ -101,7 +101,11 @@
                                     $mensajes = $orden->MensajesN_Orden;
                                     ?>
                                     <h1>
+                                        @if($orderEstado!=8)
                                         <small class="pull-right">{{count($mensajes)}} comentarios</small>
+                                        @else
+                                            <small class="pull-right">{{count($mensajes)-1}} comentarios</small>
+                                        @endif
                                         Comentarios
                                     </h1>
                                 </div>

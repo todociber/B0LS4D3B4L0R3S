@@ -195,6 +195,7 @@
             "paging": true,
             "lengthChange": true,
             "searching": true,
+            "ordering": true,
             "order": [],
             "info": true,
             responsive: true,
@@ -234,6 +235,7 @@
             "paging": true,
             "lengthChange": true,
             "searching": true,
+            "ordering": true,
             "order": [],
             "info": true,
             responsive: true,
@@ -270,8 +272,6 @@
         });
     });
 
-    $(document).ready(function () {
-    })
 </script>
 </body>
 </html>

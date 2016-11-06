@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="modificación de correo electronico cambiado">
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Orders datatable fixed">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/BolsaController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/BolsaController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/UsuariosBolsaController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsuariosBolsaController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/bves/Bitacora/listadoBitacora.blade.php" afterPath="$PROJECT_DIR$/resources/views/bves/Bitacora/listadoBitacora.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" afterPath="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/ClientesLayout.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/ClientesLayout.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/bolsavalores.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/bolsavalores.blade.php" />
     </list>
@@ -136,24 +134,25 @@
       <file leaf-file-name="BolsaController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BolsaController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="382">
-              <caret line="547" column="22" selection-start-line="547" selection-start-column="22" selection-end-line="547" selection-end-column="22" />
+            <state relative-caret-position="352">
+              <caret line="544" column="42" selection-start-line="544" selection-start-column="32" selection-end-line="544" selection-end-column="42" />
               <folding>
-                <element signature="e#644#733#0#PHP" expanded="false" />
-                <element signature="e#739#824#0#PHP" expanded="false" />
-                <element signature="e#859#3566#0#PHP" expanded="false" />
-                <element signature="e#3572#4209#0#PHP" expanded="false" />
-                <element signature="e#4215#6552#0#PHP" expanded="false" />
-                <element signature="e#4838#4968#0#PHP" expanded="false" />
-                <element signature="e#5047#5180#0#PHP" expanded="false" />
-                <element signature="e#5265#5401#0#PHP" expanded="false" />
-                <element signature="e#6558#8924#0#PHP" expanded="false" />
-                <element signature="e#8930#9146#0#PHP" expanded="false" />
-                <element signature="e#9152#9566#0#PHP" expanded="false" />
-                <element signature="e#9594#9925#0#PHP" expanded="false" />
-                <element signature="e#10001#12940#0#PHP" expanded="false" />
-                <element signature="e#12963#17825#0#PHP" expanded="false" />
-                <element signature="e#17848#18077#0#PHP" expanded="false" />
+                <element signature="e#40#62#0#PHP" expanded="true" />
+                <element signature="e#633#722#0#PHP" expanded="false" />
+                <element signature="e#728#813#0#PHP" expanded="false" />
+                <element signature="e#848#3556#0#PHP" expanded="false" />
+                <element signature="e#3562#4199#0#PHP" expanded="false" />
+                <element signature="e#4205#6544#0#PHP" expanded="false" />
+                <element signature="e#4829#4959#0#PHP" expanded="false" />
+                <element signature="e#5038#5171#0#PHP" expanded="false" />
+                <element signature="e#5256#5392#0#PHP" expanded="false" />
+                <element signature="e#6550#8916#0#PHP" expanded="false" />
+                <element signature="e#8922#9138#0#PHP" expanded="false" />
+                <element signature="e#9144#9558#0#PHP" expanded="false" />
+                <element signature="e#9586#9917#0#PHP" expanded="false" />
+                <element signature="e#9993#12932#0#PHP" expanded="false" />
+                <element signature="e#12955#17817#0#PHP" expanded="false" />
+                <element signature="e#17840#18069#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -169,15 +168,70 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClientesLayout.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ClientesLayout.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/layouts/ClientesLayout.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="232" column="0" selection-start-line="232" selection-start-column="0" selection-end-line="232" selection-end-column="0" />
+            <state relative-caret-position="-242">
+              <caret line="197" column="11" selection-start-line="197" selection-start-column="11" selection-end-line="197" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bolsavalores.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/layouts/bolsavalores.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="208">
+              <caret line="194" column="18" selection-start-line="194" selection-start-column="13" selection-end-line="194" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientesController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientesController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="110" column="156" selection-start-line="110" selection-start-column="156" selection-end-line="110" selection-end-column="156" />
               <folding>
-                <element signature="e#7973#9394#0#HTML" expanded="false" />
-                <element signature="e#9430#10850#0#HTML" expanded="false" />
+                <element signature="e#1085#2765#0#PHP" expanded="false" />
+                <element signature="e#5115#6106#0#PHP" expanded="false" />
+                <element signature="e#6136#8276#0#PHP" expanded="false" />
+                <element signature="e#8468#12586#0#PHP" expanded="false" />
+                <element signature="e#12635#14511#0#PHP" expanded="false" />
+                <element signature="e#14698#16997#0#PHP" expanded="false" />
+                <element signature="e#17003#18991#0#PHP" expanded="false" />
+                <element signature="e#19140#19188#0#PHP" expanded="false" />
+                <element signature="e#19379#25722#0#PHP" expanded="false" />
+                <element signature="e#26971#32790#0#PHP" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bolsadevalores.mensajes" pinned="false" current-in-tab="false">
+        <entry file="dbDummy://dbtable:/2ef49bef/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/bolsadevalores.mensajes">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true">
+                <filter text="idOrden=36" />
+              </filtering>
+            </state>
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DetalleOrden.blade.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="106" column="90" selection-start-line="106" selection-start-column="90" selection-end-line="106" selection-end-column="90" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -249,20 +303,20 @@
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/resources/views/Reportes/reporteFinal.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
-        <option value="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/Clientes/Ordenes/ListaOrdenesCliente.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/MostrarUsuarios.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/Reportes/tipoOrden.blade.php" />
         <option value="$PROJECT_DIR$/config/session.php" />
         <option value="$PROJECT_DIR$/resources/views/AcceptChanges.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/UsuariosBolsaController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/BolsaController.php" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/console.sql" />
         <option value="$PROJECT_DIR$/resources/views/bves/Bitacora/listadoBitacora.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/layouts/bolsavalores.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/ClientesLayout.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/layouts/bolsavalores.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" />
+        <option value="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" />
       </list>
     </option>
   </component>
@@ -367,6 +421,54 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="layouts" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Clientes" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Clientes" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ordenes" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -765,14 +867,7 @@
       <workItem from="1478397433086" duration="41000" />
       <workItem from="1478397478563" duration="776000" />
       <workItem from="1478451735438" duration="980000" />
-      <workItem from="1478454923868" duration="9323000" />
-    </task>
-    <task id="LOCAL-00015" summary="correcciones Usuario Casa Corredora, desctivar y activar usuario">
-      <created>1469471313226</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1469471313226</updated>
+      <workItem from="1478454923868" duration="10413000" />
     </task>
     <task id="LOCAL-00016" summary="loadin en botones y nueva pantalla de afiliaciones procesadas">
       <created>1469929085656</created>
@@ -1110,11 +1205,18 @@
       <option name="project" value="LOCAL" />
       <updated>1478471146364</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="Orders datatable fixed">
+      <created>1478475140850</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1478475140850</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="395675000" />
+    <option name="totallyTimeSpent" value="396765000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -1135,10 +1237,10 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12295082" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24520548" sideWeight="0.49030694" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24520548" sideWeight="0.49030694" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31506848" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31506848" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2003231" sideWeight="0.4890411" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21728595" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1197,7 +1299,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="solucion API y rediseño de login" />
     <MESSAGE value="cambio for merge" />
     <MESSAGE value="Api arreglada, parte del diseño en casas correjido" />
     <MESSAGE value="Reporte casa terminado" />
@@ -1222,7 +1323,8 @@
     <MESSAGE value="bugs fixed" />
     <MESSAGE value="bugs fixed again" />
     <MESSAGE value="modificación de correo electronico cambiado" />
-    <option name="LAST_COMMIT_MESSAGE" value="modificación de correo electronico cambiado" />
+    <MESSAGE value="Orders datatable fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Orders datatable fixed" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1234,13 +1336,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5145">
-          <caret line="421" column="23" selection-start-line="421" selection-start-column="23" selection-end-line="421" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/storage/framework/views/1c272cfc14de84996cdebba934a2829232a08664.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -1431,14 +1526,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="189" column="41" selection-start-line="189" selection-start-column="41" selection-end-line="189" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="dbDummy://dbtable:/2ef49bef/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/bolsadevalores.ordenes">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -1583,24 +1670,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3510">
-          <caret line="1187" column="122" selection-start-line="1187" selection-start-column="122" selection-end-line="1187" selection-end-column="122" />
-          <folding>
-            <element signature="e#39#61#0#PHP" expanded="true" />
-            <element signature="e#5085#6076#0#PHP" expanded="false" />
-            <element signature="e#6106#8246#0#PHP" expanded="false" />
-            <element signature="e#8438#12556#0#PHP" expanded="false" />
-            <element signature="e#12605#14481#0#PHP" expanded="false" />
-            <element signature="e#14668#16967#0#PHP" expanded="false" />
-            <element signature="e#16973#18961#0#PHP" expanded="false" />
-            <element signature="e#19110#19158#0#PHP" expanded="false" />
-            <element signature="e#19349#25692#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="dbDummy://dbtable:/2ef49bef/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/bolsadevalores.bitacora">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -1653,46 +1722,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BolsaController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="547" column="22" selection-start-line="547" selection-start-column="22" selection-end-line="547" selection-end-column="22" />
-          <folding>
-            <element signature="e#644#733#0#PHP" expanded="false" />
-            <element signature="e#739#824#0#PHP" expanded="false" />
-            <element signature="e#859#3566#0#PHP" expanded="false" />
-            <element signature="e#3572#4209#0#PHP" expanded="false" />
-            <element signature="e#4215#6552#0#PHP" expanded="false" />
-            <element signature="e#4838#4968#0#PHP" expanded="false" />
-            <element signature="e#5047#5180#0#PHP" expanded="false" />
-            <element signature="e#5265#5401#0#PHP" expanded="false" />
-            <element signature="e#6558#8924#0#PHP" expanded="false" />
-            <element signature="e#8930#9146#0#PHP" expanded="false" />
-            <element signature="e#9152#9566#0#PHP" expanded="false" />
-            <element signature="e#9594#9925#0#PHP" expanded="false" />
-            <element signature="e#10001#12940#0#PHP" expanded="false" />
-            <element signature="e#12963#17825#0#PHP" expanded="false" />
-            <element signature="e#17848#18077#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/bves/Bitacora/listadoBitacora.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="39" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/layouts/bolsavalores.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="231" column="3" selection-start-line="231" selection-start-column="3" selection-end-line="231" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/console.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -1701,14 +1730,94 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/bves/Bitacora/listadoBitacora.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="27" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/bolsavalores.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="194" column="18" selection-start-line="194" selection-start-column="13" selection-end-line="194" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BolsaController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="544" column="42" selection-start-line="544" selection-start-column="32" selection-end-line="544" selection-end-column="42" />
+          <folding>
+            <element signature="e#40#62#0#PHP" expanded="true" />
+            <element signature="e#633#722#0#PHP" expanded="false" />
+            <element signature="e#728#813#0#PHP" expanded="false" />
+            <element signature="e#848#3556#0#PHP" expanded="false" />
+            <element signature="e#3562#4199#0#PHP" expanded="false" />
+            <element signature="e#4205#6544#0#PHP" expanded="false" />
+            <element signature="e#4829#4959#0#PHP" expanded="false" />
+            <element signature="e#5038#5171#0#PHP" expanded="false" />
+            <element signature="e#5256#5392#0#PHP" expanded="false" />
+            <element signature="e#6550#8916#0#PHP" expanded="false" />
+            <element signature="e#8922#9138#0#PHP" expanded="false" />
+            <element signature="e#9144#9558#0#PHP" expanded="false" />
+            <element signature="e#9586#9917#0#PHP" expanded="false" />
+            <element signature="e#9993#12932#0#PHP" expanded="false" />
+            <element signature="e#12955#17817#0#PHP" expanded="false" />
+            <element signature="e#17840#18069#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/layouts/ClientesLayout.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="232" column="0" selection-start-line="232" selection-start-column="0" selection-end-line="232" selection-end-column="0" />
+        <state relative-caret-position="-242">
+          <caret line="197" column="11" selection-start-line="197" selection-start-column="11" selection-end-line="197" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="110" column="156" selection-start-line="110" selection-start-column="156" selection-end-line="110" selection-end-column="156" />
           <folding>
-            <element signature="e#7973#9394#0#HTML" expanded="false" />
-            <element signature="e#9430#10850#0#HTML" expanded="false" />
+            <element signature="e#1085#2765#0#PHP" expanded="false" />
+            <element signature="e#5115#6106#0#PHP" expanded="false" />
+            <element signature="e#6136#8276#0#PHP" expanded="false" />
+            <element signature="e#8468#12586#0#PHP" expanded="false" />
+            <element signature="e#12635#14511#0#PHP" expanded="false" />
+            <element signature="e#14698#16997#0#PHP" expanded="false" />
+            <element signature="e#17003#18991#0#PHP" expanded="false" />
+            <element signature="e#19140#19188#0#PHP" expanded="false" />
+            <element signature="e#19379#25722#0#PHP" expanded="false" />
+            <element signature="e#26971#32790#0#PHP" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/2ef49bef/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/bolsadevalores.mensajes">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true">
+            <filter text="idOrden=36" />
+          </filtering>
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="106" column="90" selection-start-line="106" selection-start-column="90" selection-end-line="106" selection-end-column="90" />
+          <folding />
         </state>
       </provider>
     </entry>
