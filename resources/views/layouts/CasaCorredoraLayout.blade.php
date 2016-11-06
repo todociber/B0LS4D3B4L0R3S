@@ -291,7 +291,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                     "info": true,
                     "autoWidth": true,
                     responsive: true,
-
+                    "order": [],
 
                     "language": {
 
@@ -332,7 +332,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
         responsive: true,
         "autoWidth": true,
 
-
+        "order": [],
         "language": {
 
 

@@ -55,7 +55,7 @@
                                     <b>Telefonos</b>
                                     @foreach($cliente->TelefonosUsuario as $telefono)
                                         <li>
-                                            Telefono: {{$telefono->numero}} {{$telefono->TipoTelefonoN->tipo}}
+                                            <b> Telefono:</b> {{$telefono->numero}} {{$telefono->TipoTelefonoN->tipo}}
                                         </li>
 
                                     @endforeach
