@@ -1237,6 +1237,11 @@ class ClientesController extends Controller
             'email' => 'required|email',
 
         ]);
+
+        if (Auth::user()->email != $request["email"]) {
+
+            $user = Usuario::where("email", $request["email"])->count();
+            if ($user == 0) {
         $usuario = Auth::user();
         $token = new token();
         $gentoken = new GenerarToken();
@@ -1252,7 +1257,19 @@ class ClientesController extends Controller
         $action = new Action();
         $action->sendEmail(["titulo" => "Modificación de correo", "token" => $tokenDeUsuario], $usuario->email, 'Cambio de correo', 'Cambio de correo', 'emails.emailConfirmChange');
         flash('Se enviara un email a su cuenta para la confirmación del cambio de correo electrónico', 'success');
-        return redirect()->route('perfilcliente');
+                return redirect()->route('perfilcliente');
+            } else {
+
+                flash('Este correo electrónico ya se encuentra registrado', 'danger');
+                return back()->withInput();
+            }
+
+        } else {
+
+            flash('El email ingresado es el actual asociado a su cuenta', 'danger');
+            return back()->withInput();
+        }
+
 
     }
     
