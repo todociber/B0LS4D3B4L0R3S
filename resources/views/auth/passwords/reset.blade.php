@@ -28,13 +28,13 @@
                 {!!Form::label('Ingresa tu nuevas credenciales')!!}<br>
 
                             <div id="pswd_info">
-                                <h5>La contraseña debería cumplir con los siguientes requisitos:</h5>
+                                <h5>Tenga en cuenta estas recomendaciones: </h5>
                                 <ul class="list-group">
                                     <li id="letter">Al menos debería tener <strong>una letra</strong></li>
                                     <li id="capital">Al menos debería tener <strong>una letra en mayúsculas</strong>
                                     </li>
                                     <li id="number">Al menos debería tener <strong>un número</strong></li>
-                                    <li id="length">Debería tener <strong>8 carácteres</strong> como mínimo</li>
+                                    <li id="length">Debería tener <strong>6 carácteres</strong> como mínimo</li>
                                 </ul>
                             </div>
 

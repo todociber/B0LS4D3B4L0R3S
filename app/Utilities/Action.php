@@ -106,5 +106,55 @@ class Action
 
     }
 
+    public function checkPass($pass)
+    {
+        $count = strlen($pass);
+        $entropia = 0;
+        // Si el password tiene menos de 6 caracteres
+        if ($count < 5) {
+            return 'El password es muy corto.';
+        }
+
+        // Contamos cuantas mayusculas, minusculas, numeros y simbolos existen
+        $upper = 0;
+        $lower = 0;
+        $numeros = 0;
+        $otros = 0;
+
+        for ($i = 0, $j = strlen($pass); $i < $j; $i++) {
+            $c = substr($pass, $i, 1);
+            if (preg_match('/^[[:upper:]]$/', $c)) {
+                $upper++;
+            } elseif (preg_match('/^[[:lower:]]$/', $c)) {
+                $lower++;
+            } elseif (preg_match('/^[[:digit:]]$/', $c)) {
+                $numeros++;
+            } else {
+                $otros++;
+            }
+        }
+
+        // Calculamos la entropia
+
+        $entropia = ($upper * 4.7) + ($lower * 4.7) + ($numeros * 3.32) + ($otros * 6.55);
+        $mensaje = "";
+        /*if ($entropia<28)
+        {
+            $mensaje= "Password muy debil";
+        }elseif($entropia<36) {
+            $mensaje= "Password debil";
+        }elseif($entropia<60) {
+            $mensaje= "Password Razonable";
+        }elseif($entropia<128) {
+            $mensaje= "Password Fuerte";
+        }else {
+            $mensaje= "Password Muy Fuerte";
+        }*/
+
+        return $entropia;
+
+    }
+
+
 
 }
