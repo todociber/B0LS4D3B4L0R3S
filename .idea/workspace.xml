@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="ChekPass añadido aun no lo uso">
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Validacion de Fuerza de Contraseña">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/RegistroController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/RegistroController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Utilities/Action.php" afterPath="$PROJECT_DIR$/app/Utilities/Action.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" afterPath="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,8 +38,8 @@
             <state relative-caret-position="575">
               <caret line="36" column="47" selection-start-line="36" selection-start-column="47" selection-end-line="36" selection-end-column="47" />
               <folding>
-                <marker date="1478478581491" expanded="true" signature="1850:2085" ph="..." />
-                <marker date="1478478581491" expanded="true" signature="1863:2084" ph="..." />
+                <marker date="1478478845400" expanded="true" signature="1866:2101" ph="..." />
+                <marker date="1478478845400" expanded="true" signature="1879:2100" ph="..." />
               </folding>
             </state>
           </provider>
@@ -57,22 +55,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RegistroController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RegistroController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegistroController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="349" column="32" selection-start-line="349" selection-start-column="32" selection-end-line="349" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="laravel.log" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/storage/logs/laravel.log">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="48" selection-start-line="22" selection-start-column="46" selection-end-line="22" selection-end-column="48" />
-              <folding />
+            <state relative-caret-position="492">
+              <caret line="364" column="38" selection-start-line="364" selection-start-column="38" selection-end-line="364" selection-end-column="38" />
+              <folding>
+                <element signature="e#40#62#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -155,9 +145,9 @@
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" />
         <option value="$PROJECT_DIR$/app/Utilities/Action.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/RegistroController.php" />
         <option value="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" />
         <option value="$PROJECT_DIR$/storage/logs/laravel.log" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/RegistroController.php" />
       </list>
     </option>
   </component>
@@ -749,14 +739,7 @@
       <workItem from="1478455451250" duration="3961000" />
       <workItem from="1478466647177" duration="8805000" />
       <workItem from="1478475605575" duration="1209000" />
-      <workItem from="1478476846979" duration="1983000" />
-    </task>
-    <task id="LOCAL-00027" summary="Adicionando vistas que no iban en el commit.">
-      <created>1475964944598</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1475964944598</updated>
+      <workItem from="1478476846979" duration="2358000" />
     </task>
     <task id="LOCAL-00028" summary="Envio de correos modulo bolsa de valores finalizado. Se comienza el envio de correos desde el módulo de clientes.">
       <created>1476163193196</created>
@@ -1094,11 +1077,18 @@
       <option name="project" value="LOCAL" />
       <updated>1478476800248</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="Validacion de Fuerza de Contraseña">
+      <created>1478478847533</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1478478847533</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="389238000" />
+    <option name="totallyTimeSpent" value="389613000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1196,7 +1186,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="merge edicion modulo terminado&#10;" />
     <MESSAGE value="despues del merge&#10;" />
     <MESSAGE value="PUSH agregadas" />
     <MESSAGE value="Correccion push Android" />
@@ -1221,7 +1210,8 @@
     <MESSAGE value="Layou DataTables&#10;" />
     <MESSAGE value="MergeCon Gustavo" />
     <MESSAGE value="ChekPass añadido aun no lo uso" />
-    <option name="LAST_COMMIT_MESSAGE" value="ChekPass añadido aun no lo uso" />
+    <MESSAGE value="Validacion de Fuerza de Contraseña" />
+    <option name="LAST_COMMIT_MESSAGE" value="Validacion de Fuerza de Contraseña" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1642,17 +1632,9 @@
         <state relative-caret-position="575">
           <caret line="36" column="47" selection-start-line="36" selection-start-column="47" selection-end-line="36" selection-end-column="47" />
           <folding>
-            <marker date="1478478581491" expanded="true" signature="1850:2085" ph="..." />
-            <marker date="1478478581491" expanded="true" signature="1863:2084" ph="..." />
+            <marker date="1478478845400" expanded="true" signature="1866:2101" ph="..." />
+            <marker date="1478478845400" expanded="true" signature="1879:2100" ph="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegistroController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="349" column="32" selection-start-line="349" selection-start-column="32" selection-end-line="349" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1661,6 +1643,16 @@
         <state relative-caret-position="374">
           <caret line="22" column="48" selection-start-line="22" selection-start-column="46" selection-end-line="22" selection-end-column="48" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegistroController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="492">
+          <caret line="364" column="38" selection-start-line="364" selection-start-column="38" selection-end-line="364" selection-end-column="38" />
+          <folding>
+            <element signature="e#40#62#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

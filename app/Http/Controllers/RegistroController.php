@@ -361,8 +361,8 @@ class RegistroController extends Controller
             ]);
             $usuario->save();
             $usuario->restore();
-            //$tokenE->delete();
-            //\Session::remove('token');
+            $tokenE->delete();
+            \Session::remove('token');
             flash('Contraseña modificada con éxito', 'success');
             return redirect('/login');
         } else {
