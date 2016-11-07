@@ -110,11 +110,6 @@ class Action
     {
         $count = strlen($pass);
         $entropia = 0;
-        // Si el password tiene menos de 6 caracteres
-        if ($count < 5) {
-            return 'El password es muy corto.';
-        }
-
         // Contamos cuantas mayusculas, minusculas, numeros y simbolos existen
         $upper = 0;
         $lower = 0;
