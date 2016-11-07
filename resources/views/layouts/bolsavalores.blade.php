@@ -191,6 +191,7 @@
             "paging": true,
             "lengthChange": true,
             "searching": true,
+            "ordering": true,
             "order": [],
             "info": true,
             "bSort": false,
