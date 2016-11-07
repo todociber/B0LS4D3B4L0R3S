@@ -18,6 +18,7 @@ class OrganizacionSeeder extends Seeder
             'correo' =>'bves@bves.com',
             'direccion' =>'bves',
             'direccion' =>'12345678',
+            'telefono' => '76783456',
             'idTipoOrganizacion' =>2,
             'created_at' => new DateTime,
             'updated_at' => new DateTime
@@ -29,6 +30,7 @@ class OrganizacionSeeder extends Seeder
             'correo' => 'alexlaley10@gmail.com',
             'direccion' => 'bves',
             'direccion' => '12345678',
+            'telefono' => '12348956',
             'idTipoOrganizacion' => 1,
             'created_at' => new DateTime,
             'updated_at' => new DateTime
