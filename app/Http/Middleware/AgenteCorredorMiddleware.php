@@ -22,7 +22,7 @@ class AgenteCorredorMiddleware
         $AgenteCorredor = $rol->AgenteCorredor(Auth::user());
         if (!$AgenteCorredor) {
             if ($rol->Autorizador(Auth::user())) {
-                return redirect()->route('SolicitudAfiliacion.index');
+                return redirect()->route('Ordenes.index');
             } else if ($rol->Administrador(Auth::user())) {
                 return redirect()->route('UsuarioCasaCorredora.index');
             }

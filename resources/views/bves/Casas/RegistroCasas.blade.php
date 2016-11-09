@@ -72,7 +72,11 @@
                     }
                     else if (data.error == '2') {
 
-                        $('#modalbody').text('Faltan datos, asegure de llenar todos los campos del formulario, de escribir una dirección de correo eléctronica valida, y escribir un código no menor a 5 digitos');
+                        var listadoError = "";
+                        data.type.forEach(function (error) {
+                            listadoError += error + "\n";
+                        });
+                        $('#modalbody').text(listadoError);
                     }
                     else if (data.error == '3') {
 
@@ -127,7 +131,7 @@
                                 </div>
                         </div>
                             <div class="box-footer">
-                                {!!Form::submit('Registrar casa', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'clickable','data-style'=>'expand-left'])!!}
+                                {!!Form::button('Registrar casa', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'clickable','data-style'=>'expand-left'])!!}
                             </div>
                             {{ Form::close() }}
                     </div>

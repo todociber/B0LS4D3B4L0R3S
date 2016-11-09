@@ -123,9 +123,9 @@ class AuthController extends Controller
             if ($rolIdentificador->Administrador($usuario)) {
                 return redirect()->route('UsuarioCasaCorredora.index');
             } else if ($rolIdentificador->Autorizador($usuario)) {
-                return redirect()->route('SolicitudAfiliacion.index');
-            } else if ($rolIdentificador->AgenteCorredor($usuario)) {
                 return redirect()->route('Ordenes.index');
+            } else if ($rolIdentificador->AgenteCorredor($usuario)) {
+                return redirect()->route('agenteindex');
             }
 
 
