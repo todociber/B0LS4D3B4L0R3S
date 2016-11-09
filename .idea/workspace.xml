@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="bug en casa solventado">
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Bugs solventados">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Middleware/AgenteCorredorMiddleware.php" afterPath="$PROJECT_DIR$/app/Http/Middleware/AgenteCorredorMiddleware.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -114,25 +110,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RegistroController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegistroController.php">
+      <file leaf-file-name="OrdenesCasaCorredoraAutorizador.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="157">
-              <caret line="343" column="30" selection-start-line="343" selection-start-column="30" selection-end-line="343" selection-end-column="30" />
-              <folding />
+            <state relative-caret-position="60">
+              <caret line="55" column="72" selection-start-line="55" selection-start-column="58" selection-end-line="55" selection-end-column="72" />
+              <folding>
+                <element signature="e#40#62#0#PHP" expanded="true" />
+                <marker date="1478729009000" expanded="true" signature="7509:7987" placeholder="select COUNT... usuarios" />
+                <marker date="1478729009000" expanded="true" signature="10163:10641" placeholder="select COUNT... usuarios" />
+                <marker date="1478729009000" expanded="true" signature="12788:13266" placeholder="select COUNT... usuarios" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OrdenesCasaCorredoraAutorizador.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
+      <file leaf-file-name="MostrarOrdenes.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="82">
-              <caret line="57" column="10" selection-start-line="57" selection-start-column="10" selection-end-line="57" selection-end-column="10" />
+            <state relative-caret-position="105">
+              <caret line="98" column="78" selection-start-line="98" selection-start-column="78" selection-end-line="98" selection-end-column="94" />
               <folding>
-                <marker date="1478728295000" expanded="true" signature="7512:7990" placeholder="select COUNT... usuarios" />
-                <marker date="1478728295000" expanded="true" signature="10166:10644" placeholder="select COUNT... usuarios" />
-                <marker date="1478728295000" expanded="true" signature="12791:13269" placeholder="select COUNT... usuarios" />
+                <marker date="1478150304000" expanded="true" signature="3710:3961" placeholder="..." />
+                <marker date="1478150304000" expanded="true" signature="3724:3960" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -141,8 +141,8 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="52">
-              <caret line="161" column="43" selection-start-line="161" selection-start-column="43" selection-end-line="161" selection-end-column="43" />
+            <state relative-caret-position="2002">
+              <caret line="167" column="0" selection-start-line="167" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -151,8 +151,8 @@
       <file leaf-file-name="CasaCorredoraLayout.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="225" column="90" selection-start-line="225" selection-start-column="90" selection-end-line="225" selection-end-column="90" />
+            <state relative-caret-position="187">
+              <caret line="227" column="53" selection-start-line="227" selection-start-column="53" selection-end-line="227" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -203,9 +203,11 @@
       <file leaf-file-name="AuthController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="125" column="58" selection-start-line="125" selection-start-column="58" selection-end-line="125" selection-end-column="58" />
-              <folding />
+            <state relative-caret-position="225">
+              <caret line="124" column="30" selection-start-line="124" selection-start-column="30" selection-end-line="124" selection-end-column="30" />
+              <folding>
+                <element signature="e#45#81#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -213,7 +215,7 @@
       <file leaf-file-name="OrdenesController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4680">
+            <state relative-caret-position="4005">
               <caret line="367" column="35" selection-start-line="367" selection-start-column="35" selection-end-line="367" selection-end-column="35" />
               <folding>
                 <marker date="1478480101000" expanded="true" signature="5041:5519" placeholder="select COUNT... usuarios" />
@@ -482,6 +484,58 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="CasaCorredora" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CasaCorredora" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OrdenesAutorizador" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SERO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CasaCorredora" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ordenes" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -965,14 +1019,7 @@
       <workItem from="1478668882803" duration="1076000" />
       <workItem from="1478699548749" duration="2425000" />
       <workItem from="1478715858845" duration="171000" />
-      <workItem from="1478720168933" duration="4968000" />
-    </task>
-    <task id="LOCAL-00019" summary="cambio de relacion Usuario Cliente correccion de afiliaciones y formularios por el cambio">
-      <created>1470007411751</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1470007411751</updated>
+      <workItem from="1478720168933" duration="6214000" />
     </task>
     <task id="LOCAL-00020" summary="Asignar agente corredor a Ordenes">
       <created>1470254841419</created>
@@ -1310,11 +1357,18 @@
       <option name="project" value="LOCAL" />
       <updated>1478727721521</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="Bugs solventados">
+      <created>1478729012700</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1478729012700</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="409055000" />
+    <option name="totallyTimeSpent" value="410301000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -1327,7 +1381,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1397,7 +1451,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Rediseño modulo terminado" />
     <MESSAGE value="correos arreglados y cambios de info tambien" />
     <MESSAGE value="correos arreglados y cambios del perfil" />
     <MESSAGE value="Campos de clientes validados" />
@@ -1422,7 +1475,8 @@
     <MESSAGE value="fixed problems on clients" />
     <MESSAGE value="Triggers para direcciones y  ordenes realizados" />
     <MESSAGE value="bug en casa solventado" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug en casa solventado" />
+    <MESSAGE value="Bugs solventados" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bugs solventados" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1434,13 +1488,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Ordenes/listadoOrdenesPadre.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/LoginController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1807,18 +1854,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4680">
-          <caret line="367" column="35" selection-start-line="367" selection-start-column="35" selection-end-line="367" selection-end-column="35" />
-          <folding>
-            <marker date="1478480101000" expanded="true" signature="5041:5519" placeholder="select COUNT... usuarios" />
-            <marker date="1478480101000" expanded="true" signature="21597:22075" placeholder="select COUNT... usuarios" />
-            <marker date="1478480101000" expanded="true" signature="23818:24296" placeholder="select COUNT... usuarios" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.env">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -1845,26 +1880,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="82">
-          <caret line="57" column="10" selection-start-line="57" selection-start-column="10" selection-end-line="57" selection-end-column="10" />
-          <folding>
-            <marker date="1478728295000" expanded="true" signature="7512:7990" placeholder="select COUNT... usuarios" />
-            <marker date="1478728295000" expanded="true" signature="10166:10644" placeholder="select COUNT... usuarios" />
-            <marker date="1478728295000" expanded="true" signature="12791:13269" placeholder="select COUNT... usuarios" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="225" column="90" selection-start-line="225" selection-start-column="90" selection-end-line="225" selection-end-column="90" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Middleware/AgenteCorredorMiddleware.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="274">
@@ -1873,18 +1888,64 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="227" column="53" selection-start-line="227" selection-start-column="53" selection-end-line="227" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4005">
+          <caret line="367" column="35" selection-start-line="367" selection-start-column="35" selection-end-line="367" selection-end-column="35" />
+          <folding>
+            <marker date="1478480101000" expanded="true" signature="5041:5519" placeholder="select COUNT... usuarios" />
+            <marker date="1478480101000" expanded="true" signature="21597:22075" placeholder="select COUNT... usuarios" />
+            <marker date="1478480101000" expanded="true" signature="23818:24296" placeholder="select COUNT... usuarios" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="55" column="72" selection-start-line="55" selection-start-column="58" selection-end-line="55" selection-end-column="72" />
+          <folding>
+            <element signature="e#40#62#0#PHP" expanded="true" />
+            <marker date="1478729009000" expanded="true" signature="7509:7987" placeholder="select COUNT... usuarios" />
+            <marker date="1478729009000" expanded="true" signature="10163:10641" placeholder="select COUNT... usuarios" />
+            <marker date="1478729009000" expanded="true" signature="12788:13266" placeholder="select COUNT... usuarios" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="98" column="78" selection-start-line="98" selection-start-column="78" selection-end-line="98" selection-end-column="94" />
+          <folding>
+            <marker date="1478150304000" expanded="true" signature="3710:3961" placeholder="..." />
+            <marker date="1478150304000" expanded="true" signature="3724:3960" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="125" column="58" selection-start-line="125" selection-start-column="58" selection-end-line="125" selection-end-column="58" />
-          <folding />
+        <state relative-caret-position="225">
+          <caret line="124" column="30" selection-start-line="124" selection-start-column="30" selection-end-line="124" selection-end-column="30" />
+          <folding>
+            <element signature="e#45#81#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="161" column="43" selection-start-line="161" selection-start-column="43" selection-end-line="161" selection-end-column="43" />
+        <state relative-caret-position="2002">
+          <caret line="167" column="0" selection-start-line="167" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
           <folding />
         </state>
       </provider>

@@ -126,10 +126,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('Afiliados', 'SolicitudesCasaCorredora@afiliados')->name('Afiliados.index');
             Route::post('Afiliados/eliminar', 'SolicitudesCasaCorredora@eliminar')->name('Afiliado.eliminar');
             Route::resource('SolicitudAfiliacion', 'SolicitudesCasaCorredora');
-            Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
-            Route::get('Ordenes/{id}/detalles', 'OrdenesCasaCorredoraAutorizador@detalles')->name('Ordenes.detalles');
-            Route::get('Ordenes/{id}/detalles/Historial', 'OrdenesController@Historial')->name('Ordenes.historial');
-            Route::get('Ordenes/{id}/detallesEliminar/', 'OrdenesCasaCorredoraAutorizador@detallesEliminar')->name('Ordenes.detallesEliminar');
+
             Route::put('Ordenes/{id}/aceptar', 'OrdenesCasaCorredoraAutorizador@aceptar')->name('Ordenes.aceptar');
             Route::put('Ordenes/{id}/ReAceptar', 'OrdenesCasaCorredoraAutorizador@ReAceptar')->name('Ordenes.ReAceptar');
             Route::get('Ordenes/{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
@@ -159,6 +156,16 @@ Route::group(['middleware' => 'auth'], function () {
             Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
 
         });
+
+
+        Route::group(['middleware' => 'OperadorCasaCorredora', 'AgenteCorredor'], function () {
+            Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
+            Route::get('Ordenes/{id}/detalles', 'OrdenesCasaCorredoraAutorizador@detalles')->name('Ordenes.detalles');
+            Route::get('Ordenes/{id}/detalles/Historial', 'OrdenesController@Historial')->name('Ordenes.historial');
+            Route::get('Ordenes/{id}/detallesEliminar/', 'OrdenesCasaCorredoraAutorizador@detallesEliminar')->name('Ordenes.detallesEliminar');
+
+        });
+
         Route::group(['middleware' => 'AgenteCorredor'], function () {
             Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
             Route::get('Ordenes/{id}/detalles', 'OrdenesCasaCorredoraAutorizador@detalles')->name('Ordenes.detalles');
