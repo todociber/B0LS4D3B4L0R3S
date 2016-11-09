@@ -14,7 +14,7 @@ class CreateMensajesTable extends Migration
     {
         Schema::create('mensajes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('contenido', 500);
+            $table->longText('contenido');
             $table->integer('idTipoMensaje')->unsigned();
             $table->foreign('idTipoMensaje')->references('id')->on('tipo_mensajes');
             $table->integer('idOrden')->unsigned();

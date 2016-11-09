@@ -347,7 +347,7 @@ class RegistroController extends Controller
             if ($entropia < 28) {
                 $mensaje = "Contraseña muy debil";
                 return redirect()->back()->withErrors($mensaje);
-            } elseif ($entropia < 45) {
+            } elseif ($entropia < 40) {
                 $mensaje = "Contraseña  debil";
                 return redirect()->back()->withErrors($mensaje);
             }
