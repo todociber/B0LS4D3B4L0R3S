@@ -154,6 +154,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
         'Asachanfbd\LaravelPushNotification\PushNotificationServiceProvider',
+        Barryvdh\Snappy\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -217,6 +218,8 @@ return [
         'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth',
         'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory',
         'PushNotification' => 'Asachanfbd\LaravelPushNotification\PushNotification',
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'Image' => Barryvdh\Snappy\Facades\SnappyImage::class,
 
 
     ],

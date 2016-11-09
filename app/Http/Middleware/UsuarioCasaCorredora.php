@@ -18,7 +18,7 @@ class UsuarioCasaCorredora
     {
 
 
-        if (Auth::user()->idOrganizacion == null) {
+        if (Auth::user()->idOrganizacion == null && Auth::user()->idOrganizacion != 1) {
             return redirect('/NoPermitido');
         }
         return $next($request);

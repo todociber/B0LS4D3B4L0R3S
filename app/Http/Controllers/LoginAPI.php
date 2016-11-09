@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
+use App\Models\LatchModel;
 use App\Models\Organizacion;
+use ErrorException;
+use Exception;
 use Illuminate\Http\Request;
+use Latch;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -26,7 +29,36 @@ class LoginAPI extends Controller
                 return response()->json(['ErrorCode' => '2', 'msg' => 'Datos incorecctos']);
             }
 
+
             $user = JWTAuth::toUser($token);
+
+            $LatchTokenExiste = LatchModel::where('idUsuario', '=', $user->id)->count();
+
+            if ($LatchTokenExiste > 0) {
+
+                try {
+                    $userIDLatch = LatchModel::where('idUsuario', '=', $user->id)->first();
+                    $accountId = $userIDLatch->tokenLatch;
+                    $locked = false;
+
+                    if (Latch::locked($accountId)) {
+                        $locked = true;
+                    }
+
+
+                    if ($locked) {
+
+                        return response()->json(['ErrorCode' => '8', 'msg' => 'Latch bloqueado']);
+
+                    }
+                } catch (ErrorException $i) {
+
+                } catch (Exception $e) {
+
+                }
+
+            }
+
             if ($user->idOrganizacion == null) {
                 $clientes = $user->ClienteN;
                 $clientes->fill(

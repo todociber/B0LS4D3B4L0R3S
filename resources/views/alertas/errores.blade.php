@@ -10,7 +10,7 @@
 
 
             @endforeach
-
+            <?php $errors = null?>
         </ul>
     </div>
 @endif

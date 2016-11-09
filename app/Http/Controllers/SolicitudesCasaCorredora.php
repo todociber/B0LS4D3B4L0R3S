@@ -113,7 +113,8 @@ class SolicitudesCasaCorredora extends Controller
                     ]
                 );
                 $bitacora->save();
-
+                $action = new Action();
+                $action->sendPush($solicitudAActualizar->idCliente, 2, 0);
                 flash('Solicitud rechazada', 'warning');
                 return redirect('/SolicitudAfiliacion');
 
@@ -215,6 +216,8 @@ class SolicitudesCasaCorredora extends Controller
                     ]
                 );
                 $bitacora->save();
+                $action = new Action();
+                $action->sendPush($solicitudAActualizar->idCliente, 2, 0);
                 flash('Solicitud aceptada', 'success');
                 return redirect('/SolicitudAfiliacion');
 
@@ -411,6 +414,11 @@ class SolicitudesCasaCorredora extends Controller
 
     public function buscarCliente()
     {
+        if (\Session::has('cliente')) {
+            \Session::remove('cliente');
+            \Session::remove('clienteInfo');
+            \Session::remove('solicitud');
+        }
         return view('CasaCorredora.SolicitudesAfiliacion.BuscarAfiliado');
     }
 
@@ -424,10 +432,10 @@ class SolicitudesCasaCorredora extends Controller
             flash('Cliente encontrado', 'success');
             $solicitudAceptada = SolicitudRegistro::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
                 ->where('idCliente', '=', $cliente[0]->id)->where('idEstadoSolicitud', '=', 2)->count();
-
+            echo $solicitudAceptada;
 
             $clienteInfo = '';
-            if ($solicitudAceptada == 0) {
+            if ($solicitudAceptada > 0) {
                 $solicitudN = SolicitudRegistro::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
                     ->where('idCliente', '=', $cliente[0]->id)->first();
                 $clienteInfo = 'El cliente ya estuvo afiliado en la casa';
@@ -446,7 +454,7 @@ class SolicitudesCasaCorredora extends Controller
                 Log::info('FDSDFSDF');
                 \Session::remove('solicitudN');
             }
-            
+
 
         } else {
             flash('No se encontró al cliente', 'warning');
@@ -454,6 +462,7 @@ class SolicitudesCasaCorredora extends Controller
             \Session::remove('cliente');
         }
         return view('CasaCorredora.SolicitudesAfiliacion.BuscarAfiliado');
+
     }
 
     public function afiliarCliente(Requests\AfiliarClienteRequest $request, $id)
@@ -462,9 +471,9 @@ class SolicitudesCasaCorredora extends Controller
         $cliente = Cliente::withTrashed()->where('id', '=', $id)->get();
         if ($cliente->count() > 0) {
             if ($cliente[0]->deleted_at == NULL) {
-                $buscarSolicitud = SolicitudRegistro::where('idCliente', '=', $cliente[0]->id)->where('idEstadoSolicitud', '=', '2')->get();
+                $buscarSolicitud = SolicitudRegistro::where('idCliente', '=', $cliente[0]->id)->where('idEstadoSolicitud', '=', '2')->where("idOrganizacion", "=", Auth::user()->idOrganizacion)->get();
                 if ($buscarSolicitud->count() == 0) {
-                    $buscarSolicitudPendiente = SolicitudRegistro::where('idCliente', '=', $cliente[0]->id)->where('idEstadoSolicitud', '=', '1')->get();
+                    $buscarSolicitudPendiente = SolicitudRegistro::where('idCliente', '=', $cliente[0]->id)->where('idEstadoSolicitud', '=', '1')->where("idOrganizacion", "=", Auth::user()->idOrganizacion)->get();
                     if ($buscarSolicitudPendiente->count() == 0) {
                         $nuevaSolicitud = new SolicitudRegistro();
                         $nuevaSolicitud->fill([

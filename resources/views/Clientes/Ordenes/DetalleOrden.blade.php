@@ -61,6 +61,10 @@
 
                     <a data-toggle="modal" data-target="#modalRechazo" class="btn btn-danger btn-flat">Ver motivo de
                         rechazo</a>
+                @elseif($orderEstado==5 || $orderEstado==7 )
+
+                    <a data-toggle="modal" data-target="#modalOperaciones" class="btn btn-info btn-flat">Ver operaciones
+                        de bolsa</a>
 
                 @endif
 
@@ -97,12 +101,17 @@
                                     $mensajes = $orden->MensajesN_Orden;
                                     ?>
                                     <h1>
+                                        @if($orderEstado!=8)
                                         <small class="pull-right">{{count($mensajes)}} comentarios</small>
+                                        @else
+                                            <small class="pull-right">{{count($mensajes)-1}} comentarios</small>
+                                        @endif
                                         Comentarios
                                     </h1>
                                 </div>
                                 <div class="comments-list">
                                     @foreach($mensajes as $mensaje)
+                                        @if($mensaje->idTipoMensaje == 1)
                                         <div class="media">
                                             <p class="pull-right">
                                                 <small>{{\Carbon\Carbon::parse($mensaje->created_at)->format('m-d-Y')}}</small>
@@ -110,6 +119,7 @@
                                             <a class="media-left" href="#">
 
                                             </a>
+
 
                                             <div class="media-body">
 
@@ -126,6 +136,7 @@
 
                                             </div>
                                         </div>
+                                        @endif
                                     @endforeach
 
                                 </div>
@@ -160,7 +171,7 @@
 @stop
 
 @if($orden->idEstadoOrden == 5 || $orden->idEstadoOrden == 7)
-    <div id="myModal1" class="modal fade" role="dialog">
+    <div id="modalOperaciones" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -175,21 +186,27 @@
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th>id</th>
+
                             <th>monto</th>
 
                         </tr>
                         </thead>
                         <tbody>
-
+                        {{$montoTotal = 0}}
                         @foreach($orden->Operaiones_ordenes as $operacion)
                             <tr>
 
-                                <td>{{$operacion->id}}</td>
+
                                 <td>{{$operacion->monto}}</td>
+                                {{$montoTotal += $operacion->monto}}
 
                             </tr>
+
                         @endforeach
+
+                        <tr>
+                            <td>Monto total: {{$montoTotal}}</td>
+                        </tr>
 
                         </tbody>
 
@@ -294,7 +311,7 @@
 
                 <div class="modal-body">
 
-                    <p>{{$motivoCancel}}</p>
+                    <p>{{$motivoCancel->contenido}}</p>
 
                 </div>
                 <div class="modal-footer">

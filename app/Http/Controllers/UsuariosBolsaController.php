@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Models\BitacoraUsuario;
 use App\Models\RolUsuario;
 use App\Models\token;
@@ -13,8 +12,8 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Mockery\CountValidator\Exception;
+use Snowfire\Beautymail\Beautymail;
 
 class UsuariosBolsaController extends Controller
 {
@@ -49,13 +48,13 @@ class UsuariosBolsaController extends Controller
         $action = new Action();
 
         $this->validate($request, [
-            'nombre' => 'required',
-            'apellido' => 'required',
+            'nombre' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+            'apellido' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'email' => 'required|email',
             'Estado' => 'required|numeric',
         ]);
         try{
-            $emailUser = DB::table('usuarios')->where('usuarios.email', '=', $request['email'])->where('usuarios.idOrganizacion', '=',17)->count();
+            $emailUser = DB::table('usuarios')->where('usuarios.email', '=', $request['email'])->where('usuarios.idOrganizacion', '=', Auth::user()->idOrganizacion)->count();
             if ($emailUser == 0) {
                 $usuario = new Usuario();
                 $activo = ($request['Estado'] == 0) ? 'test' : null;
@@ -102,7 +101,9 @@ class UsuariosBolsaController extends Controller
                 ]);
                 $token->save();
 
-                Mail::send('emails.ResetPasswordBolsa', $data, function ($message) use ($usuario) {
+                $beautymail = app()->make(Beautymail::class);
+
+                $beautymail->send('emails.ResetPasswordBolsa', $data, function ($message) use ($usuario) {
 
                     $message->from('todocyber100@gmail.com', 'Activación de cuenta');
 
@@ -115,7 +116,7 @@ class UsuariosBolsaController extends Controller
                     [
                         'idUsuario' => Auth::user()->id,
                         'idOrganizacion' => Auth::user()->Organizacion->id,
-                        'descripcion' => 'Creación del usuario' . $usuario->nombre,
+                        'descripcion' => 'Creación del usuario: ' . $usuario->nombre,
 
                     ]
                 );
@@ -127,7 +128,7 @@ class UsuariosBolsaController extends Controller
             else{
                 flash('Ya existe un usuario registrado con ese correo', 'info');
 
-                return redirect()->route('nuevoUsuario');
+                return redirect()->route('nuevoUsuario')->withInput();
             }
 
         }
@@ -350,8 +351,8 @@ class UsuariosBolsaController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'nombre' => 'required',
-            'apellido' => 'required',
+            'nombre' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+            'apellido' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'email' => 'required|email',
             'Estado' => 'required|numeric',
         ]);
@@ -387,7 +388,7 @@ class UsuariosBolsaController extends Controller
                     [
                         'idUsuario' => Auth::user()->id,
                         'idOrganizacion' => Auth::user()->Organizacion->id,
-                        'descripcion' => 'Modifiación de  usuario: ' . $usuario->nombre,
+                        'descripcion' => 'Modificación de  usuario: ' . $usuario->nombre,
 
                     ]
                 );

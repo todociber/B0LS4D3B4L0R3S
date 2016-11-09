@@ -196,6 +196,13 @@
                                 <b>Precio minimo: </b>{{$orden->valorMinimo}}<br>
                                 <b>Precio máximo: </b>{{$orden->valorMaximo}}<br>
                                 <b>Monto: </b>{{$orden->monto}}<br>
+                                @if($orden->idTipoEjecucion!=3)
+                                    <br> <b>Operaciones de bolsa realizadas</b>
+                                    @foreach($orden->Operaiones_ordenes as $operaciones)
+                                        <li><b>Monto: </b> {{$operaciones->monto}}<br></li>
+                                    @endforeach
+                                    <br>
+                                @endif
 
                             </div>
                             <div class="col-sm-4 invoice-col">
@@ -208,7 +215,7 @@
                                     {!!link_to_route('Ordenes.editar', $title = 'Editar', $parameters = $orden->id, $attributes = ['class'=>'btn btn-warning','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'danger'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                 @endif
                                 @if ($orden->idOrden !=null )
-                                    {!!link_to_route('Ordenes.historial', $title = 'Historial ', $parameters = $orden->id, $attributes = ['class'=>'btn btn-info','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
+                                    {!!link_to_route('Ordenes.historial', $title = 'Historial ', $parameters = $orden->idOrden, $attributes = ['class'=>'btn btn-info','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'info'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
                                 @endif
 
                                 <br><br>
@@ -257,7 +264,7 @@
 
 
 
-                                @else
+                                @elseif($orden->Corredor_UsuarioN()->count()>0)
                                     {!!Form::label('Agente Corredor: ')!!} {{$orden->Corredor_UsuarioN->nombre}} {{$orden->Corredor_UsuarioN->apellido}}
                                     <br>{!! Form::label('Comision') !!} {{$orden->comision}}%
                                 @endif

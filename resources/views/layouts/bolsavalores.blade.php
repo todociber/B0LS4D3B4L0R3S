@@ -62,7 +62,7 @@
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
             <!-- Logo -->
-            <a href="index2.html" class="logo">
+            <a href="#" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>A</b>LT</span>
                 <!-- logo for regular state and mobile devices -->
@@ -116,7 +116,7 @@
                     <a href="#">
                         <i class="fa fa-home"></i>
                         <span>Casas Corredoras</span>
-                        <i class="fa fa-angle-left pull-right"></i>                    </a>
+                        <i class="fa fa-angle-left pull-right"></i></a>
                     <ul class="treeview-menu">
                         <li id="catalogoCasas" ><a href="{!! route('listadoCasas') !!}"><i class="fa fa-circle-o"></i> Catalogo</a></li>
                         <li id="registrar"><a href="{!! route('nuevaCasa') !!}"><i class="fa fa-circle-o"></i>Registrar Casa</a></li>
@@ -137,6 +137,8 @@
                         <i class="fa fa-th-list"></i>
                         <span>Mi Perfil</span>
                     </a>
+                </li>
+                <li><a href={{route('Latch.index')}}><i class="fa fa-circle-o text-red"></i> <span>Vincular Latch</span></a>
                 </li>
                 <!--<li id="bitacoras" class="treeview">
                     <a href="bitacora.html">
@@ -185,14 +187,81 @@
 <!-- page script -->
 <script>
     $(function () {
-        $("#example1").DataTable();
+        $("#example1").DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "order": [],
+            "info": true,
+            "bSort": false,
+            responsive: true,
+            "autoWidth": true,
+            "language": {
+
+
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Ãšltimo",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+
+            }
+
+        });
         $('#example2').DataTable({
             "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
+            "lengthChange": true,
+            "searching": true,
+            "order": [],
             "info": true,
-            "autoWidth": false
+            responsive: true,
+            "autoWidth": true,
+            "language": {
+
+
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Ãšltimo",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+
+            }
+
         });
     });
 

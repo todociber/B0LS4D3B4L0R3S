@@ -38,11 +38,12 @@ Route::post('getMunicipios', 'RegistroController@getMunicipios')->name('getMun')
 //---REGISTRO--//
 
 Route::group(['middleware' => 'auth'], function () {
-    //-----BOLSA DE VALORES ROUTES---//
+
+    Route::get('LatchSolicitud', 'LatchController@LatchSolicitud')->name('Latch.index');
+    Route::post('Parear', 'LatchController@pair')->name('Latch.parear');
+    Route::get('Desenparejar', 'LatchController@unpair')->name('Latch.desenparejar');
 
     Route::group(['middleware' => 'bolsa'], function () {
-        //bolsa
-//------CASAS CRUD------//
         Route::get('bolsa/NuevaCasa', 'BolsaController@NuevaCasa')->name('nuevaCasa');
         Route::get('bolsa/EditarCasa/{id}', 'BolsaController@editarCasa')->name('editarCasa');
         Route::get('bolsa/ListadoCasas', 'BolsaController@ListadoCasas')->name('listadoCasas');
@@ -50,7 +51,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('bolsa/EliminarRestaurar', 'BolsaController@eliminarRestaurarCasa')->name('eliminarrestaurarcasas');
         Route::resource('Bolsa', 'BolsaController');
         Route::post('bolsa/Upload', 'BolsaController@Upload')->name('upload');
-//------USUARIOS BOLSA CRUD------//
         Route::get('bolsa/CatalogoUsuarios', 'UsuariosBolsaController@ListadoUsuario')->name('catalogoUsuarios');
         Route::get('bolsa/NuevoUsuario', 'UsuariosBolsaController@NuevoUsuario')->name('nuevoUsuario');
         Route::get('bolsa/ModificarUsuario/{id}', 'UsuariosBolsaController@ModificarUsuario')->name('modificarusuario');
@@ -60,11 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('bolsa/RestaurarPassword/{id}', 'UsuariosBolsaController@resetPassword')->name('restaurarpassword');
         Route::get('bolsa/ReinicarPasswordCasa/{id}', 'BolsaController@ResetPasswordCasa')->name('reiniciarpasswordcasa');
         Route::resource('UsuarioBolsa', 'UsuariosBolsaController');
-//------BOLSA DE VALORES ROUTES--//
     });
-
-
-//------CLIENTES ROUTES--//
 
     Route::group(['middleware' => 'cliente'], function () {
         Route::get('Cliente/NuevaOrden', 'ClientesController@NuevaOrden')->name('nuevaOrden');
@@ -93,35 +89,34 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('Cliente/cambiarPassword', 'ClientesController@modificarPassword')->name('modificarpassword');
         Route::put('Cliente/cambiarPasswordUpdate', 'ClientesController@modificarPasswordUpdate')->name('modificarpasswordupdate');
         Route::get('Cliente/getEmisor/{id}', 'ClientesController@getEmisor')->name('getemisor');
-        //
         Route::resource('Clientes', 'ClientesController');
-        //------CLIENTES ROUTES--//
     });
-
-    //------CLIENTES ROUTES--//
-
-
 });
+
+
+//CasaCorredora
+
 Route::group(['middleware' => 'auth'], function () {
+
+
     Route::group(['middleware' => 'UsuarioCasaCorredora'], function () {
+        Route::get('PerfilCasa', 'UsuarioCasaCorredoraController@perfil')->name('Perfil.UsuarioCasa');
         Route::group(['middleware' => 'administradorCasaCorredora'], function () {
-            Route::get('Bitacora', 'BitacoraCasaCorredora@index')->name('bitacora');
             Route::get('UsuarioCasaCorredora/crear', 'UsuarioCasaCorredoraController@crear')->name('UsuarioCasaCorredora.crear');
             Route::get('UsuarioCasaCorredora/{id}/editar', 'UsuarioCasaCorredoraController@editar')->name('UsuarioCasaCorredora.editar');
             Route::put('UsuarioCasaCorredora/restaurar', 'UsuarioCasaCorredoraController@restaurar')->name('UsuarioCasaCorredora.restaurar');
             Route::get('UsuarioCasaCorredora/{id}/resetear', 'UsuarioCasaCorredoraController@resetar')->name('UsuarioCasaCorredora.resetearpassword');
             Route::delete('UsuarioCasaCorredora/desactivarusuario', 'UsuarioCasaCorredoraController@desactivarUsuario')->name('UsuarioCasaCorredora.desactivar');
             Route::resource('UsuarioCasaCorredora', 'UsuarioCasaCorredoraController');
-            Route::get('LatchSolicitud', 'LatchController@LatchSolicitud')->name('Latch.index');
-            Route::post('Parear', 'LatchController@pair')->name('Latch.parear');
-            Route::get('Desenparejar', 'LatchController@unpair')->name('Latch.desenparejar');
-            Route::get('Perfil', 'UsuarioCasaCorredoraController@perfil')->name('Perfil.UsuarioCasa');
+
             Route::get('Ordenes/Reasignacion', 'OrdenesController@reasignar')->name('Ordenes.Reasignacion');
             Route::put('Ordenes/{id}/ReAceptar', 'OrdenesCasaCorredoraAutorizador@ReAceptar')->name('Ordenes.ReAceptar');
-
             Route::get('Ordenes/{id}/detallesEliminar/', 'OrdenesCasaCorredoraAutorizador@detallesEliminar')->name('Ordenes.detallesEliminar');
-        });
+            Route::get('Historial/Usuarios', 'BitacoraCasaCorredora@HistoricoUsuario')->name('Historial.UsuariosCasa');
+
+    });
         Route::group(['middleware' => 'OperadorCasaCorredora'], function () {
+            Route::get('Bitacora', 'BitacoraCasaCorredora@index')->name('bitacora');
             Route::get('SolicitudAfiliacion/{id}/detalle', 'SolicitudesCasaCorredora@detalle')->name('SolicitudAfiliacion.detalle');
             Route::get('SolicitudAfiliacion/{id}/aceptar', 'SolicitudesCasaCorredora@aceptar')->name('SolicitudAfiliacion.aceptar');
             Route::get('SolicitudAfiliacion/procesando', 'SolicitudesCasaCorredora@Procesando')->name('SolicitudAfiliacion.proceso');
@@ -154,9 +149,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('BuscarCliente', 'SolicitudesCasaCorredora@buscarCliente')->name('Buscar.Cliente');
             Route::post('BuscarCliente', 'SolicitudesCasaCorredora@buscarClientePost')->name('Buscar.Cliente');
             Route::post('Afiliar/{id}/Cliente', 'SolicitudesCasaCorredora@afiliarCliente')->name('Afiliar.Cliente');
-            Route::get('Perfil', 'UsuarioCasaCorredoraController@perfil')->name('Perfil.UsuarioCasa');
             Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
-
+            Route::get('Ordenes/Reasignacion/Usuario', 'OrdenesController@ReasignacionUsuario')->name('Ordenes.Reasignacion.Usuario');
+            Route::get('Ordenes/Reasignacion/{id}/Orden', 'OrdenesController@ReasignacionOrdenes')->name('Ordenes.Reasignacion.Orden');
+            Route::get('Ordenes/Reasignacion/{id}/Orden/NuevoAgente/{agente}', 'OrdenesController@ReasignacionAgente')->name('Ordenes.Reasignacion.NuevoAgente');
+            Route::put('Ordenes/AceptarReasignacion/{id}', 'OrdenesController@AceptarReasignacion')->name('Ordenes.AceptarReasignacion');
         });
         Route::group(['middleware' => 'AgenteCorredor'], function () {
             Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
@@ -175,12 +172,20 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('Order/FiltrarOrden', 'OrdenesController@ordenesbyEstado')->name('ordenesbyestadoagent');
             Route::get('Order/ListadoGeneralAgente', 'OrdenesCasaCorredoraAutorizador@ListadoGeneralOrdenesAgente')->name('ordenesagente');
             Route::get('Ordenes/{id}/DetallePDF', 'OrdenesController@DetalleOrdenPDF')->name('OrdenesDetalles.PDF');
-
             Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
-            Route::get('Perfil', 'UsuarioCasaCorredoraController@perfil')->name('Perfil.UsuarioCasa');
+
         });
-    });
 });
+});
+
+
+//CasaCorredora
+
+
+
+
+
+
 
 //API
 Route::group(['middleware' => ['api'], 'prefix' => 'api'], function () {

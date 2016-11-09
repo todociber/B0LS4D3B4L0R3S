@@ -23,8 +23,27 @@
                             {!!link_to_route('Latch.desenparejar', $title = 'Desemparejar Latch ', $parameters = [], $attributes = ['class'=>'btn btn-warning','onclick'=>"waitingDialog.show('Cargando... ',{ progressType: 'warning'});setTimeout(function () {waitingDialog.hide();}, 3000);"])!!}
 
                         @endif
+                        <br>
 
-                    </div>
+                        <br>
+                        <img src="../assets/img/latch.png"/>
+                        <br><br>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    Para utilizar esta opcion por favor descarga la aplicacion de Latch disponible para
+                                    Android e iOs y utilizalá para generar un codigo de pareado para proteger el
+                                    sistema.
+                                </div>
+                            </div>
+                            <br>
+                            <a href="https://itunes.apple.com/es/app/latch-by-elevenpaths/id744999016?mt=8"
+                               target="_blank" style=""
+                               class="btn btn-link"><img src="../assets/img/app1.jpg"></a>
+
+                                <a href="https://play.google.com/store/apps/details?id=com.elevenpaths.android.latch&hl=es"
+                                   target="_blank" style="" class="btn btn-link"><img src="../assets/img/play.jpg"></a>
+
+                </div>
                 </div>
             </div>
         </div>

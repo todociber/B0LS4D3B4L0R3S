@@ -25,9 +25,10 @@
             //   var buttonLada = Ladda.create(btn);
         });
 
-
+        var myDropzone;
         Dropzone.options.myDropzone = {
             autoProcessQueue: false,
+            paramName: "file",
             uploadMultiple: false,
             maxFilezise: 10,
             maxFiles: 1,
@@ -38,16 +39,37 @@
 
 
             init: function () {
+                console.log('init ');
                 var submitBtn = document.querySelector("#clickable");
-                var myDropzone = this;
+                myDropzone = this;
+
+
+                var mockFile = {
+                    name: "{{$organizacion->logo}}",
+                    url: "{{asset('imgTemp/'.$organizacion->logo)}}.png",
+                    file: "{{asset('imgTemp/'.$organizacion->logo)}}.png"
+
+                };
+                myDropzone.emit("addedfile", mockFile);
+
+                mockFile.status = Dropzone.QUEUED;
+
+                myDropzone.emit("thumbnail", mockFile, "{{asset('imgTemp/'.$organizacion->logo)}}.png");
+
+
+                myDropzone.files.push(mockFile);
+
 
                 submitBtn.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    myDropzone.processQueue();
-                    console.log('file ' + myDropzone.files.length);
+                    console.log(JSON.stringify(myDropzone.files[0]));
                     if (myDropzone.files.length > 0) {
+
                         waitingDialog.show('Guardando Espere... ', {progressType: 'info'});
+                        e.preventDefault();
+                        e.stopPropagation();
+                        myDropzone.processQueue();
+
+
                     }
                     else {
                         $('#modalbody').text('Debe subir una imagen');
@@ -56,10 +78,11 @@
                     }
 
 
+
                 });
                 this.on("addedfile", function (file) {
+                    console.log(JSON.stringify(myDropzone.files[0]));
 
-                    //  alert("file uploaded");
                 });
 
                 this.on("complete", function (file, response) {
@@ -68,6 +91,7 @@
                 });
 
                 this.on("success", function (file, data) {
+                    console.log('success');
                     waitingDialog.hide();
                     //  waitingDialog.show('Guardando Espere... ',{ progressType: 'info'});
                     dataError = data.error;
@@ -78,11 +102,18 @@
                     }
                     else if (data.error == '2') {
 
-                        $('#modalbody').text('Faltan datos, asegure de llenar todos los campos del formulario, de escribir una dirección de correo eléctronica valida, y escribir un código no menor a 5 digitos');
+                        var listadoError = "";
+                        data.type.forEach(function (error) {
+                            listadoError += error + "\n";
+                        });
+                        $('#modalbody').text(listadoError);
                     }
                     else if (data.error == '3') {
 
-                        $('#modalbody').text('Ya exite una casa registrada con ese código ');
+                        $('#modalbody').text('Ya exite una casa registrada con ese código');
+                    } else if (data.error == '4') {
+
+                        $('#modalbody').text('Ya exite una casa registrada con ese correo');
                     } else if (data.error == '5') {
 
                         $('#modalbody').text('La casa corredora tiene ordenes vigentes,por lo tanto no puede realizar ningun cambio');
@@ -101,11 +132,16 @@
                 });
 
 
-                this.on("success",
-                        myDropzone.processQueue.bind(myDropzone)
-                );
+                this.on("success", myDropzone.processQueue.bind(myDropzone));
+
+
+                // myDropzone.emit("complete", mockFile);
+
             }
+
+
         };
+
 
     </script>
 

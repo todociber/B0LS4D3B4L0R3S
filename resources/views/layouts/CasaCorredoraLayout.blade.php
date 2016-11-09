@@ -153,6 +153,13 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                         </a>
 
                     </li>
+                    <li class="treeview">
+                        <a href={{route('Historial.UsuariosCasa')}}>
+                            <i class="fa fa-th-list"></i>
+                            <span>Historial de Usuarios</span>
+                        </a>
+
+                    </li>
                 @endif
                 @if($autorizador )
 
@@ -166,12 +173,48 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                                         class="fa fa-circle-o"></i>Ordenes por asignar</a></li>
                         <li id="listadoOrdenes2"><a href="{{route('ordenesautorizador')}}"><i
                                         class="fa fa-circle-o"></i>Listado general de ordenes</a></li>
+                        <li id="listadoOrdenes2"><a href="{{route('Ordenes.Reasignacion.Usuario')}}"><i
+                                        class="fa fa-circle-o"></i>Reasignar ordenes</a></li>
                         <li id="listadoOrdenes2"><a href="{{route('OrdenesReporte.Fecha')}}"><i
                                         class="fa fa-circle-o"></i>Reporte de Ordenes</a></li>
 
                     </ul>
                 </li>
+
+
+                    <li id="Afiliaciones" class=" treeview">
+                    <a href="#">
+                        <i class="fa fa-archive"></i> <span>Afiliaciones</span> <i
+                                class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li id="listadoOrdenes"><a href="{{route('Registrar.Clientes')}}"><i
+                                        class="fa fa-circle-o"></i>Registrar Clientes</a></li>
+                        <li id="listadoOrdenes"><a href="{{route('Afiliados.index')}}"><i
+                                        class="fa fa-circle-o"></i>Afiliados</a></li>
+
+                        <li id="listadoOrdenes"><a href="{{route('Buscar.Cliente')}}"><i
+                                        class="fa fa-circle-o"></i>Buscar Cliente</a></li>
+
+                        <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.index')}}"><i
+                                        class="fa fa-circle-o"></i>Solicitudes en proceso</a></li>
+                        <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.proceso')}}"><i
+                                        class="fa fa-circle-o"></i>Solicitudes en revision</a></li>
+                        <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.canceladas')}}"><i
+                                        class="fa fa-circle-o"></i>Solicitudes Canceladas</a></li>
+
+
+                    </ul>
+                </li>
+                    <li class="treeview">
+                        <a href={{route('bitacora')}}>
+                            <i class="fa fa-th-list"></i>
+                            <span>Bitacora</span>
+                        </a>
+
+                    </li>
                 @endif
+
 
                 @if($agenteCorredor)
                     <li id="ordenes" class=" treeview">
@@ -188,31 +231,6 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
 
                         </ul>
                     </li>
-                @endif
-
-                @if($autorizador)
-                <li id="Afiliaciones" class=" treeview">
-                    <a href="#">
-                        <i class="fa fa-archive"></i> <span>Afiliaciones</span> <i
-                                class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li id="listadoOrdenes"><a href="{{route('Registrar.Clientes')}}"><i
-                                        class="fa fa-circle-o"></i>Registrar Clientes</a></li>
-                        <li id="listadoOrdenes"><a href="{{route('Afiliados.index')}}"><i
-                                        class="fa fa-circle-o"></i>Afiliados</a></li>
-
-                        <li id="listadoOrdenes"><a href="{{route('Buscar.Cliente')}}"><i
-                                        class="fa fa-circle-o"></i>Buscar Cliente</a></li>
-
-                        <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.index')}}"><i
-                                        class="fa fa-circle-o"></i>Solicitudes en revision</a></li>
-                        <li id="listadoOrdenes"><a href="{{route('SolicitudAfiliacion.canceladas')}}"><i
-                                        class="fa fa-circle-o"></i>Solicitudes Canceladas</a></li>
-
-
-                    </ul>
-                </li>
                 @endif
 
                 <li class="header">OTRAS OPCIONES</li>
@@ -267,7 +285,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                     "info": true,
                     "autoWidth": true,
                     responsive: true,
-
+                    "order": [],
 
                     "language": {
 
@@ -308,7 +326,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
         responsive: true,
         "autoWidth": true,
 
-
+        "order": [],
         "language": {
 
 

@@ -14,7 +14,9 @@
     //$('#pmaximo').mask('###0.00', {reverse: true, maxlength: false});
     //$('#total').mask('###0.00', {reverse: true, maxlength: false});
 
-
+    $(function () {
+        $("#selectedTitulo").select2();
+    });
     function getEmisorTasa(valor) {
         animatedLoading();
         var titulo = $('#selectedTitulo').find(":selected").text();

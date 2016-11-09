@@ -13,9 +13,10 @@ class EventoOrdenesVencidas extends Migration
     {
 
         DB::unprepared('SET GLOBAL event_scheduler = ON;');
-        DB::unprepared("CREATE EVENT `OrdenVencida`
+
+        DB::unprepared("CREATE DEFINER=`" . env('DB_USERNAME') . "`@`" . env('DB_HOST') . "` EVENT `OrdenVencida`
 	ON SCHEDULE
-		EVERY 1 DAY STARTS '2016-10-01 23:55:00'
+		EVERY 1 YEAR STARTS '2016-10-01 23:55:00'
 	ON COMPLETION PRESERVE
 	ENABLE
 	COMMENT ''
@@ -35,6 +36,7 @@ OPEN cursor_ordenes;
   END LOOP bucle;
 CLOSE cursor_ordenes;
 END");
+
     }
 
     /**

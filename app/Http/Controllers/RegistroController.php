@@ -16,10 +16,12 @@ use App\Models\SolicitudRegistro;
 use App\Models\Telefono;
 use App\Models\token;
 use App\Models\Usuario;
+use App\Utilities\Action;
 use App\Utilities\GenerarToken;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Log;
 use Mockery\CountValidator\Exception;
 use Redirect;
 use Snowfire\Beautymail\Beautymail;
@@ -295,6 +297,8 @@ class RegistroController extends Controller
 
         $tokenE = token::where('token', '=', $tokenDeUsuario)->get();
         if ($tokenE->count() == 0) {
+
+            \Session::remove('token');
             flash('Token incorrecto', 'danger');
             return view('auth.passwords.reset');
         } else {
@@ -337,6 +341,18 @@ class RegistroController extends Controller
     public function cambiarPassword(Requests\CambioPasswordRequest $request)
     {
         if ($request['password'] == $request['password2']) {
+            $action = new Action();
+            $entropia = $action->checkPass($request['password']);
+            Log::info("Entropia es " . $entropia . "para el password" . $request['password']);
+            if ($entropia < 28) {
+                $mensaje = "Contraseña muy debil";
+                return redirect()->back()->withErrors($mensaje);
+            } elseif ($entropia < 45) {
+                $mensaje = "Contraseña  debil";
+                return redirect()->back()->withErrors($mensaje);
+            }
+
+
             $token = \Session::get('token');
             $tokenE = token::withTrashed()->where('token', '=', $token[0])->first();
             $usuario = Usuario::withTrashed()->where('id', '=', $tokenE->idUsuario)->first();

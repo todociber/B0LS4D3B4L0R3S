@@ -14,15 +14,15 @@ class CreateOrdensTable extends Migration
     {
         Schema::create('ordenes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('correlativo', 5)->unique();
+            $table->string('correlativo', 15)->unique();
             $table->date('FechaDeVigencia');
-            $table->string('titulo',100);
+            $table->string('titulo', 250);
             $table->decimal('valorMinimo', 65, 2);
             $table->decimal('valorMaximo', 65, 2);
             $table->decimal('monto', 65, 2);
             $table->decimal('tasaDeInteres', 65, 2)->nullable();
             $table->decimal('comision', 65, 2)->nullable();
-            $table->string('emisor', 50);
+            $table->string('emisor', 250);
             $table->string('TipoMercado', 30);
             $table->integer('idCliente')->unsigned();
             $table->integer('idCorredor')->unsigned()->nullable();

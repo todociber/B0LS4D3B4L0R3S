@@ -30,13 +30,21 @@
                                         <td>{{$user->apellido}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Correo</td>
+                                        <td>DUI:</td>
+                                        <td>{{$user->ClienteN->dui}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>NIT:</td>
+                                        <td>{{$user->ClienteN->nit}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Correo:</td>
                                         <td>{{$user->email}}</td>
                                     </tr>
 
                                     <tr>
                                     <tr>
-                                        <td>Fecha de registro</td>
+                                        <td>Fecha de registro:</td>
                                         <td>{{$user->created_at}}</td>
                                     </tr>
 

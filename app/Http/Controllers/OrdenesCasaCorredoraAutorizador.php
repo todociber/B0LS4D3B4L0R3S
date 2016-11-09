@@ -8,6 +8,7 @@ use App\Models\Mensaje;
 use App\Models\Ordene;
 use App\Models\SolicitudRegistro;
 use App\Models\Usuario;
+use App\Utilities\Action;
 use App\Utilities\RolIdentificador;
 use Auth;
 use Carbon\Carbon;
@@ -15,6 +16,7 @@ use DB;
 use ErrorException;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OrdenesCasaCorredoraAutorizador extends Controller
 {
@@ -128,7 +130,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
 
         $idCorredor = Auth::user()->id;
 
-        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->with('TipoOrdenN')->get();
+        $ordenes = Ordene::orderBy('FechaDevigencia', 'desc')->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->with('TipoOrdenN')->get();
         $estadoOrdenes = EstadoOrden::lists('estado', 'id');
         $estadoOrdenes['0'] = 'Todas';
         return view('CasaCorredora.OrdenesAutorizador.ListadoGeneral', ['ordenes' => $ordenes, 'estadoOrdenes' => $estadoOrdenes]);
@@ -243,12 +245,15 @@ class OrdenesCasaCorredoraAutorizador extends Controller
     {
 
         $ordenes = Ordene::ofid($id)->get();
+        Log::info(json_encode($ordenes));
         try {
             $ordenes[0]->id;
         } catch (ErrorException $i) {
+            Log::info($i);
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
         } catch (Exception $e) {
+            Log::info($e);
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
         }
@@ -261,6 +266,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
         }
 
         if ($ordenes[0]->idOrganizacion != Auth::user()->idOrganizacion) {
+            Log::info('DIFERENTE');
             flash('Error en consulta', 'danger');
             return redirect('/Ordenes');
         } else {
@@ -328,6 +334,19 @@ class OrdenesCasaCorredoraAutorizador extends Controller
 
 
                 flash('Agente corredor asignado exitosamente', 'success');
+                $action = new Action();
+                $action->sendPush($orden->idCliente, 1, $orden->id);
+
+                $nombreAgente = $orden->Corredor_UsuarioN->nombre . " " . $orden->Corredor_UsuarioN->apellido;
+
+                $data = [
+                    'nombrecasa' => Auth::user()->Organizacion->nombre,
+                    'correlativo' => $orden->correlativo,
+                    'nombreAgente' => $nombreAgente,
+                ];
+
+                $action->sendEmail($data, $orden->ClientesN->UsuarioNC->email, 'Asignacion de agente', 'Asignacion de agente', 'emails.AsignacionAgente');
+
                 return redirect('/Ordenes');
             } else {
                 flash('Error en consulta', 'danger');
@@ -374,7 +393,16 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                 ]);
                 flash('Comentario enviado exitosamente', 'success');
                 $mensaje->save();
+                $action = new Action();
+                $action->sendPush($ordenAEliminar->idCliente, 1, $ordenAEliminar->id);
 
+                $data = [
+                    'nombrecasa' => Auth::user()->Organizacion->nombre,
+                    'correlativo' => $ordenAEliminar->correlativo,
+                    'motivoRechazo' => $request['comentario'],
+                ];
+
+                $action->sendEmail($data, $ordenAEliminar->ClientesN->UsuarioNC->email, 'Orden rechazada', 'Orden rechazada', 'emails.RechazoDeOrden');
 
                 flash('Orden rechazada ', 'success');
                 return redirect('/Ordenes');
@@ -425,6 +453,18 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                     ]);
                 }
                 $orden->save();
+                $action = new Action();
+                $action->sendPush($orden->idCliente, 1, $orden->id);
+
+                $nombreAgente = $orden->Corredor_UsuarioN->nombre . " " . $orden->Corredor_UsuarioN->apellido;
+
+                $data = [
+                    'nombrecasa' => Auth::user()->Organizacion->nombre,
+                    'correlativo' => $orden->correlativo,
+                    'nombreAgente' => $nombreAgente,
+                ];
+
+                $action->sendEmail($data, $orden->ClientesN->UsuarioNC->email, 'Asignacion de agente', 'Asignacion de agente', 'emails.AsignacionAgente');
                 flash('Agente corredor asignado exitosamente', 'success');
                 return redirect("Ordenes/Reasignacion");
             } else {

@@ -10,16 +10,19 @@ use App\Models\Role;
 use App\Models\RolUsuario;
 use App\Models\token;
 use App\Models\Usuario;
+use App\Utilities\Action;
 use App\Utilities\GenerarToken;
+use App\Utilities\RolIdentificador;
 use Auth;
 use DB;
 use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Latch;
-use Mail;
+use Log;
 use Mockery\CountValidator\Exception;
 use Redirect;
+use Snowfire\Beautymail\Beautymail;
 
 
 //use App\Http\Controllers\Datatable;
@@ -133,7 +136,9 @@ class UsuarioCasaCorredoraController extends Controller
         );
         $token->save();
 
-        Mail::send('emails.ActivacionCliente', $data, function ($message) use ($Usuario) {
+        $beautymail = app()->make(Beautymail::class);
+
+        $beautymail->send('emails.ActivacionCliente', $data, function ($message) use ($Usuario) {
 
             $message->from('todociber100@gmail.com', 'Activacion de cuenta');
 
@@ -301,7 +306,9 @@ class UsuarioCasaCorredoraController extends Controller
                     );
                     $token->save();
 
-                    Mail::send('emails.ActivacionCliente', $data, function ($message) use ($usuario) {
+                    $beautymail = app()->make(Beautymail::class);
+
+                    $beautymail->send('emails.ActivacionCliente', $data, function ($message) use ($usuario) {
 
                         $message->from('bolsadevalores@bves.com', 'Activacion de cuenta');
 
@@ -309,7 +316,8 @@ class UsuarioCasaCorredoraController extends Controller
 
                     });
 
-
+                    $action = new Action();
+                    $action->killSession($usuario->id);
                 }
             } else {
                 $usuario->fill(
@@ -357,16 +365,24 @@ class UsuarioCasaCorredoraController extends Controller
 
 
                                 if ($RolUsuarioABorrar->idRol == 4) {
-                                    $usuario = Usuario::ofid($id)->get();
-                                    $ordenes = Ordene::where('idCorredor', '=', $id)
-                                        ->where('idEstadoOrden', '=', 2)
-                                        ->orWhere('idEstadoOrden', '=', 5)
-                                        ->get();
-                                    \Session::set('UsuarioEliminar', $id);
-                                    \Session::set('EditarUsuario', $id);
+
+                                    $rolLogueado = new RolIdentificador();
+                                    if ($rolLogueado->Autorizador(Auth::user())) {
+                                        $usuario = Usuario::ofid($id)->get();
+                                        $ordenes = Ordene::where('idCorredor', '=', $id)
+                                            ->where('idEstadoOrden', '=', 2)
+                                            ->orWhere('idEstadoOrden', '=', 5)
+                                            ->get();
+                                        \Session::set('UsuarioEliminar', $id);
+                                        \Session::set('EditarUsuario', $id);
 
 
-                                    return redirect('Ordenes/Reasignacion');
+                                        return redirect('Ordenes/Reasignacion');
+                                    } else {
+                                        flash("El usuario tiene Ordenes en Proceso", "warning");
+                                        return redirect('/UsuarioCasaCorredora');
+                                    }
+
 
                                 } else if ($RolUsuarioABorrar->idRol == 2) {
 
@@ -422,7 +438,8 @@ class UsuarioCasaCorredoraController extends Controller
                 ]
             );
             $bitacora->save();
-
+            $action = new Action();
+            $action->killSession($usuario->id);
             flash('El usuario se edito exitosamente', 'success');
             return redirect('/UsuarioCasaCorredora');
         }
@@ -497,17 +514,26 @@ class UsuarioCasaCorredoraController extends Controller
                     ]
                 );
                 $bitacora->save();
+                $action = new Action();
+                $action->killSession($Usuario->id);
                 $Usuario->delete();
                 if (\Session::has('UsuarioEliminar')) {
                     \Session::remove('UsuarioEliminar');
                 }
+
                 flash('El usuario se desactivo exitosamente', 'danger');
                 return redirect('/UsuarioCasaCorredora');
             }
         } else {
+            $rol = new RolIdentificador();
+            if ($rol->Autorizador(Auth::user())) {
+                \Session::set('UsuarioEliminar', $id);
+                return redirect('/Ordenes/Reasignacion');
+            } else {
+                flash('El usuario tiene Ordenes en proceso', 'danger');
+                return redirect('/UsuarioCasaCorredora');
+            }
 
-            \Session::set('UsuarioEliminar', $id);
-            return redirect('/Ordenes/Reasignacion');
         }
 
     }
@@ -574,6 +600,8 @@ class UsuarioCasaCorredoraController extends Controller
                     ]
                 );
                 $bitacora->save();
+                $action = new Action();
+                $action->killSession($Usuario->id);
                 $Usuario->delete();
                 if (\Session::has('UsuarioEliminar')) {
                     \Session::remove('UsuarioEliminar');
@@ -666,7 +694,10 @@ class UsuarioCasaCorredoraController extends Controller
         );
         $token->save();
 
-        Mail::send('emails.NuevoPasswordCasa', $data, function ($message) use ($Usuario) {
+
+        $beautymail = app()->make(Beautymail::class);
+
+        $beautymail->send('emails.NuevoPasswordCasa', $data, function ($message) use ($Usuario) {
 
             $message->from('todociber100@gmail.com', 'Restauracion de password');
 
@@ -676,7 +707,8 @@ class UsuarioCasaCorredoraController extends Controller
 
 
         $Usuario->restore();
-
+        $action = new Action();
+        $action->killSession($Usuario->id);
         $bitacora = new BitacoraUsuario();
         $bitacora->fill(
             [
@@ -696,6 +728,7 @@ class UsuarioCasaCorredoraController extends Controller
 
     public function perfil()
     {
+        Log::info("ENTRO A PERFIL ");
         return View('CasaCorredora.Usuarios.Perfil', ['user' => Auth::user()]);
     }
 

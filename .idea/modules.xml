@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ASI2.iml" filepath="$PROJECT_DIR$/.idea/ASI2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SERO.iml" filepath="$PROJECT_DIR$/.idea/SERO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/bolsaDeValores.iml" filepath="$PROJECT_DIR$/.idea/bolsaDeValores.iml" />
     </modules>
   </component>
 </project>

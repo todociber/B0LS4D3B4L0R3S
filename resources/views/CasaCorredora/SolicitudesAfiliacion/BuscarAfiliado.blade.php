@@ -52,7 +52,25 @@
                                 <br>
                                 <b>NIT</b>  {{$cliente->nit}}
                                 <br><br>
+                                    <b>Telefonos</b>
+                                    @foreach($cliente->TelefonosUsuario as $telefono)
+                                        <li>
+                                            <b> Telefono:</b> {{$telefono->numero}} {{$telefono->TipoTelefonoN->tipo}}
+                                        </li>
 
+                                    @endforeach
+
+                                    <br>
+                                    <b>Direccion: </b>
+                                    @foreach($cliente->DireccionesUsuario as $direccion)
+                                        <br>
+                                        <li>
+                                            <b>Departamento:</b> {{$direccion->MunicipioDireccion->Departamento->nombre}}
+                                        </li>
+                                        <li><b>Municipio:</b> {{$direccion->MunicipioDireccion->nombre}}</li>
+                                        <li><b>Detalle: </b>{{$direccion->detalle}}</li>
+
+                                    @endforeach
                                     @if($solicitud[0]>0)
 
                                     <h2> El Cliente ya se encuentra Afiliado</h2>

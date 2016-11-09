@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\LatchModel;
+use App\Utilities\RolIdentificador;
 use Auth;
 use DB;
 use ErrorException;
@@ -53,16 +54,16 @@ class LatchController extends Controller
                     // Si consigue parear guardamos el identificador del usuario (cifrado) de Latch en nuestra base de datos
                 } // Si ocurre algún error, mostramos al usuario un mensaje de error de una forma amigable
                 else {
-                    redirect()->back()->withErrors("no se encontro el token");
+                    return redirect('LatchSolicitud')->withErrors("No puede ser pareado");
                 }
             } catch (Exception $e) {
-                redirect()->back()->withErrors("Error de conexion con Latch");
+                return redirect('LatchSolicitud')->withErrors("Error de conexion con Latch");
             } catch (ErrorException $i) {
-                redirect()->back()->withErrors("Error de conexion con Latch");
+                return redirect('LatchSolicitud')->withErrors("Error de conexion con Latch");
             }
 
         } else {
-            redirect()->back()->withErrors("no se encontro el token");
+            return redirect('LatchSolicitud')->withErrors("No puede ser pareado");
         }
     }
 
@@ -83,11 +84,11 @@ class LatchController extends Controller
 
             } // Si hay algun error, se lo mostramos al usuario
             else {
-                echo Latch::error();
+                return redirect()->back()->withErrors("No se puede realizar la accion");
             }
 
         } else {
-            redirect()->back()->withErrors("Error de conexion con Latch");
+            return redirect()->back()->withErrors("Error de conexion con Latch");
         }
 
     }
@@ -97,12 +98,18 @@ class LatchController extends Controller
 
 
         $latch = LatchModel::where('idUsuario', '=', Auth::user()->id)->count();
-            if ($latch > 0) {
-                flash('Su cuenta ya se encuentra protegida por Latch', 'danger');
-            } else {
+        if ($latch > 0) {
+            flash('Su cuenta ya se encuentra protegida por Latch', 'danger');
+        } else {
 
-            }
+        }
+        $rol = new RolIdentificador();
+        if ($rol->Cliente(Auth::user())) {
+            return view('auth.latchCliente');
+        } else if ($rol->bolsa(Auth::user())) {
+            return view('auth.latchBolsa');
+        } else {
             return view('auth.latch');
-
+        }
     }
 }

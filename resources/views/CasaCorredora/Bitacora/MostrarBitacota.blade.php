@@ -44,7 +44,7 @@
                         @foreach ($bitacoras as $bitacora)
                             <tr>
                                 <td>{{$bitacora->id}}</td>
-                                <td>{{$bitacora->nombre}}</td>
+                                <td>{{$bitacora->nombre}} {{$bitacora->apellido}}</td>
                                 <td>{{$bitacora->descripcion}}</td>
                                 <td>{{$bitacora->created_at}}</td>
                             </tr>

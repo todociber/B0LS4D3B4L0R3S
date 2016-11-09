@@ -14,8 +14,7 @@
                         @include('alertas.errores')
                     <form class="form-signin" role="form" method="POST" action="{{ url('/login') }}">
                             {{ csrf_field() }}
-
-                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 
 
                                 <input id="email" type="email" class="form-control"

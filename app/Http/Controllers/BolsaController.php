@@ -13,7 +13,6 @@ use App\Utilities\Action;
 use App\Utilities\GenerarToken;
 use Carbon\Carbon;
 use DB;
-use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -80,7 +79,7 @@ class BolsaController extends Controller
 
                         }
 
-                        $this->makeUser($request['codigo'], $organizacion, $request['correo']);
+                        $this->makeUser($request['codigo'], $organizacion, $request['correo'], $request['Estado']);
 
                         $bitacora = new BitacoraUsuario();
 
@@ -122,6 +121,8 @@ class BolsaController extends Controller
 
         try {
             //upload an image to the /img/tmp directory and return the filepath.
+
+            if ($request->file('file')) {
             $date = Carbon::now();
             $file = $request->file('file');
             $tmpFilePath = '/imgTemp/';
@@ -129,6 +130,10 @@ class BolsaController extends Controller
             $file = $file->move(public_path() . $tmpFilePath, $tmpFileName . '.png');
             $path = $tmpFileName;
             return $path;
+            } else {
+                return 'notImage';
+
+            }
         } catch (Exception $e) {
 
             return 'error';
@@ -136,7 +141,7 @@ class BolsaController extends Controller
         }
     }
 
-    public function makeUser($codigo, $organizacion, $correo)
+    public function makeUser($codigo, $organizacion, $correo, $destroy)
     {
         $date = Carbon::now();
         $usuario = new Usuario();
@@ -155,15 +160,36 @@ class BolsaController extends Controller
         );
         $usuario->save();
         //MAKING ROLE
-        $rolUsuario = new RolUsuario();
-        $rolUsuario->fill(
+        $rolAdmin = new RolUsuario();
+        $rolAdmin->fill(
             [
                 'idUsuario' => $usuario->id,
                 'idRol' => 2,
 
             ]
         );
-        $rolUsuario->save();
+        $rolAdmin->save();
+
+        $rolCorredor = new RolUsuario();
+        $rolCorredor->fill(
+            [
+                'idUsuario' => $usuario->id,
+                'idRol' => 4,
+
+            ]
+        );
+        $rolCorredor->save();
+
+        $rolAutorizador = new RolUsuario();
+        $rolAutorizador->fill(
+            [
+                'idUsuario' => $usuario->id,
+                'idRol' => 3,
+
+            ]
+        );
+        $rolAutorizador->save();
+
 
         $token = new token();
         $gentoken = new GenerarToken();
@@ -185,6 +211,9 @@ class BolsaController extends Controller
             ]
         );
         $token->save();
+        if ($destroy == 0) {
+            $usuario->delete();
+        }
         $beautymail = app()->make(Beautymail::class);
         $beautymail->send('emails.EmailSend', $data, function ($message) use ($usuario) {
 
@@ -376,20 +405,23 @@ class BolsaController extends Controller
     public function update(Request $request, $id)
     {
 
+        Log::info('UPDATE?');
         try {
 
             $validator = Validator::make($request->all(), [
-                'nombre' => 'required|unique:organizacion,nombre',
-                'correo' => 'required|email|unique:organizacion,correo',
+                'nombre' => 'required',
+                'correo' => 'required|email',
                 'direccion' => 'required',
                 'telefono' => 'required|numeric|digits:8|min:1',
                 'codigo' => 'required|size:5|regex:/^([0-9])+$/i',
-                'file' => 'required',
+
             ]);
             if (!$validator->fails()) {
                 $codCasa = DB::table('organizacion')->where('organizacion.codigo', '=', $request['codigo'])->where('organizacion.id', '!=', $id)->count();
+                $codEmail = DB::table('organizacion')->where('organizacion.correo', '=', $request['correo'])->where('organizacion.id', '!=', $id)->count();
 
                 if ($codCasa == 0) {
+                    if ($codEmail == 0) {
                     $countOrden = Ordene::where("idOrganizacion", $id)
                         ->whereNotIn("idEstadoOrden", [1, 2, 5])->count();
 
@@ -400,10 +432,11 @@ class BolsaController extends Controller
                     if ($path != 'error') {
                         $date = Carbon::now();
                         $activo = ($request['Estado'] == 0) ? $date : null;
+                        $logo = $organizacion->logo;
                         $organizacion->fill(
                             [
                                 'nombre' => $request['nombre'],
-                                'logo' => $path,
+                                'logo' => $sc = $path == 'notImage' ? $logo : $path,
                                 'correo' => $request['correo'],
                                 'direccion' => $request['direccion'],
                                 'telefono' => $request['telefono'],
@@ -411,6 +444,7 @@ class BolsaController extends Controller
                             ]
                         );
                         $organizacion->save();
+
                         if ($activo != null) {
                             $organizacion->delete();
                             $this->killAllSesionHouse($organizacion->id);
@@ -442,7 +476,6 @@ class BolsaController extends Controller
                         $action = new Action();
                         $action->sendEmail($data, $emails, 'Modificación de información', 'Modificación de información', 'emails.emailUpdateCasa');
 
-
                         $bitacora = new BitacoraUsuario();
 
                         $bitacora->fill(
@@ -467,6 +500,9 @@ class BolsaController extends Controller
                         return response()->json(['error' => '5']);
 
                     }
+                    } else {
+                        return response()->json(['error' => '4']);
+                    }
                 } else {
 
                     return response()->json(['error' => '3']);
@@ -474,9 +510,9 @@ class BolsaController extends Controller
 
             } else {
 
-                return response()->json(['error' => '2']);
+                return response()->json(['error' => '2', 'type' => $validator->errors()->all()]);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             return response()->json(['error' => '1', 'error' => $e]);
 
@@ -498,9 +534,18 @@ class BolsaController extends Controller
         $bitacoras = DB::table("bitacora")
             ->join("usuarios", "bitacora.idUsuario", "=", "usuarios.id")
             ->where("bitacora.idOrganizacion", "=", Auth::user()->idOrganizacion)
-            ->orderBy("bitacora.created_at", "DESC")
             ->select("usuarios.nombre", "usuarios.id", "bitacora.*")
+            ->orderBy("bitacora.created_at", "desc")
             ->get();
+
+        $sql = DB::table("bitacora")
+            ->join("usuarios", "bitacora.idUsuario", "=", "usuarios.id")
+            ->where("bitacora.idOrganizacion", "=", Auth::user()->idOrganizacion)
+            ->select("usuarios.nombre", "usuarios.id", "bitacora.*")
+            ->orderBy("bitacora.created_at", "desc")
+            ->toSql();
+        Log::info($sql);
+
 
         return view("bves.Bitacora.listadoBitacora", ["bitacoras" => $bitacoras]);
 

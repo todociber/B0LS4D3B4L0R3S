@@ -7,12 +7,12 @@ use App\Models\Cedeval;
 use App\Models\Mensaje;
 use App\Models\Ordene;
 use App\Models\Organizacion;
+use App\Models\SolicitudRegistro;
 use App\Models\Usuario;
 use App\Utilities\Action;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Mockery\CountValidator\Exception;
 
 class OrdenesAPI extends Controller
@@ -305,18 +305,17 @@ class OrdenesAPI extends Controller
                         ->where("idCliente", $idCliente)
                         ->whereIn("idEstadoOrden", [1, 2])->first();
                     $idOrden = $orden->idOrden ? $orden->idOrden : $orden->id;
-                    $idor = $orden->idOrden ? "idOrden" : "id";
-                    $count = Ordene::where($idor, $idOrden)->count() + 1;
+                    $countOrdenP = Ordene::where("id", $idOrden)->count();
+                    $countOrdenC = Ordene::where("idOrden", $idOrden)->count();
                     $correlativoPadre = DB::table('ordenes')->where('id', $idOrden)->value('correlativo');
-                    Log::info($count);
-                    $correlativo = $correlativoPadre . '-' . $count;
+                    $sumCor = $countOrdenC + $countOrdenP;
+                    $correlativo = $correlativoPadre . '-' . $sumCor;
                     $nuevaOrden = new Ordene();
                     $nuevaOrden->fill(
                         [
                             'correlativo' => $correlativo,
                             'idCliente' => $idCliente,
                             'FechaDeVigencia' => Carbon::parse($request['FechaDeVigencia'])->format('Y-m-d'),
-                            'idCorredor' => $orden->idCorredor,
                             'idTipoOrden' => $request["tipodeorden"],
                             'titulo' => $request['titulo'],
                             'idEstadoOrden' => 1,
@@ -348,7 +347,7 @@ class OrdenesAPI extends Controller
                     $idrol = 3;
                     $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                         $query->where('idRol', $idrol);
-                    })->where("idOrganizacion", $request["casacorredora"])->get();
+                    })->where("idOrganizacion", $orden->idOrganizacion)->get();
                     $emails = [];
                     $i = 0;
                     $band = false;
@@ -361,8 +360,8 @@ class OrdenesAPI extends Controller
                         $i++;
                     }
                     if (!$band) {
-                        $i++;
-                        if ($orden->Corredor_UsuarioN) {
+                        if (isset($orden->Corredor_UsuarioN)) {
+                            $i++;
                             $emails[$i] = $orden->Corredor_UsuarioN->email;
                         }
 
@@ -440,8 +439,10 @@ class OrdenesAPI extends Controller
                     $i++;
                 }
                 if (!$band) {
-                    $i++;
-                    $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    if (isset($orden->Corredor_UsuarioN)) {
+                        $i++;
+                        $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    }
                 }
 
 
@@ -512,8 +513,10 @@ class OrdenesAPI extends Controller
                     $i++;
                 }
                 if (!$band) {
-                    $i++;
-                    $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    if (isset($orden->Corredor_UsuarioN)) {
+                        $i++;
+                        $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    }
                 }
 
 
@@ -562,7 +565,7 @@ class OrdenesAPI extends Controller
                 $idrol = 3;
                 $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
                     $query->where('idRol', $idrol);
-                })->where("idOrganizacion", $request["casacorredora"])->get();
+                })->where("idOrganizacion", $orden->idOrganizacion)->get();
                 $emails = [];
                 $i = 0;
                 $band = false;
@@ -579,8 +582,10 @@ class OrdenesAPI extends Controller
                     $i++;
                 }
                 if (!$band) {
-                    $i++;
-                    $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    if (isset($orden->Corredor_UsuarioN)) {
+                        $i++;
+                        $emails[$i] = $orden->Corredor_UsuarioN->email;
+                    }
                 }
 
 
@@ -627,18 +632,30 @@ class OrdenesAPI extends Controller
     {
 
         try {
-            //OBTENIENDO LAS ORGNANZACIONES DONDE ESTA AFILIADO UN CLIENTE EN ESTADO 5 O 4
-            $casas = Organizacion::whereHas('SolicitudOrganizacion', function ($query) use ($idCliente) {
-                $query->where('idCliente', $idCliente)->whereIn('idEstadoSolicitud', [5, 4]);
-            })->select('id', 'nombre', 'idEstadoSolicitud')->get();
 
-            if (count($casas) > 0) {
-                return response()->json(['ErrorCode' => '0', 'data' => $casas]);
+
+            $solicitudes = SolicitudRegistro::with("OrganizacionN", "EstadoSolicitudN")->where("idCliente", $idCliente)->whereIn('idEstadoSolicitud', [5, 4])->get();
+            $counS = count($solicitudes);
+           
+            if ($counS > 0) {
+                $solicitudesS = [];
+
+                foreach ($solicitudes as $key => $solicitud) {
+
+                    $solicitudesS[$key]["numeroAfiliacion"] = $solicitud->numeroDeAfiliado;
+                    $solicitudesS[$key]["nombreCasa"] = $solicitud->OrganizacionN->nombre;
+                    $solicitudesS[$key]["estadoAfiliacion"] = $solicitud->EstadoSolicitudN->id;
+
+
+                }
+
+
+                return response()->json(['ErrorCode' => '0', 'data' => $solicitudesS]);
             } else {
                 return response()->json(['ErrorCode' => '2', 'msg' => 'No hay datos']);
             }
         } catch (\Exception $e) {
-            return response()->json(['ErrorCode' => '3', 'msg' => 'Ocurrio un problema al crear el mensaje']);
+            return response()->json(['ErrorCode' => '3', 'msg' => 'Ocurrio un problema al crear el mensaje', "error" => $e]);
 
 
         }
