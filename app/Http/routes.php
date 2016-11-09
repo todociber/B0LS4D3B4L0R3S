@@ -155,7 +155,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('Ordenes/Reasignacion/{id}/Orden/NuevoAgente/{agente}', 'OrdenesController@ReasignacionAgente')->name('Ordenes.Reasignacion.NuevoAgente');
             Route::put('Ordenes/AceptarReasignacion/{id}', 'OrdenesController@AceptarReasignacion')->name('Ordenes.AceptarReasignacion');
         });
-        Route::group(['middleware' => 'OperadorCasaCorredora', 'agenteCorredor'], function () {
+        Route::group(['middleware' => 'OperadorCasaCorredora'], function () {
             Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
 
         });
@@ -176,6 +176,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('Order/FiltrarOrden', 'OrdenesController@ordenesbyEstado')->name('ordenesbyestadoagent');
             Route::get('Order/ListadoGeneralAgente', 'OrdenesCasaCorredoraAutorizador@ListadoGeneralOrdenesAgente')->name('ordenesagente');
             Route::get('Ordenes/{id}/DetallePDF', 'OrdenesController@DetalleOrdenPDF')->name('OrdenesDetalles.PDF');
+            Route::get('Order/Asignadas', 'OrdenesCasaCorredoraAutorizador@agenteIndex')->name('agenteindex');
 
 
         });
