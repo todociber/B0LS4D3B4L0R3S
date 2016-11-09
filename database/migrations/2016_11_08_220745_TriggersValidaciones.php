@@ -179,6 +179,23 @@ END IF;
 
 END");
 
+
+        DB::unprepared("CREATE DEFINER=`" . env('DB_USERNAME') . "`@`" . env('DB_HOST') . "` TRIGGER `organizacion_before_delete` BEFORE DELETE ON `organizacion` FOR EACH ROW BEGIN
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'NO SE PERMITE ELIMINAR DATOS';
+END");
+
+        DB::unprepared("CREATE DEFINER=`" . env('DB_USERNAME') . "`@`" . env('DB_HOST') . "`  TRIGGER `cedevals_before_delete` BEFORE DELETE ON `cedevals` FOR EACH ROW BEGIN
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'NO SE PERMITE ELIMINAR DATOS';
+END");
+
+        DB::unprepared("CREATE DEFINER=`" . env('DB_USERNAME') . "`@`" . env('DB_HOST') . "`  TRIGGER `mensajes_before_delete` BEFORE DELETE ON `mensajes` FOR EACH ROW BEGIN
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'NO SE PERMITE ELIMINAR DATOS';
+END");
+
+        DB::unprepared("CREATE DEFINER=`" . env('DB_USERNAME') . "`@`" . env('DB_HOST') . "`   TRIGGER `operacion_bolsas_before_delete` BEFORE DELETE ON `operacion_bolsas` FOR EACH ROW BEGIN
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'NO SE PERMITE ELIMINAR DATOS';
+END");
+
     }
 
 
@@ -202,6 +219,13 @@ END");
         DB::unprepared('DROP TRIGGER `usuarios_before_update`;');
         DB::unprepared('DROP TRIGGER `direcciones_before_insert`;');
         DB::unprepared('DROP TRIGGER `ordenes_BEFORE_INSERT`;');
+        DB::unprepared('DROP TRIGGER `organizacion_before_delete`;');
+        DB::unprepared('DROP TRIGGER `cedevals_before_delete`;');
+        DB::unprepared('DROP TRIGGER `mensajes_before_delete`;');
+        DB::unprepared('DROP TRIGGER `operacion_bolsas_before_delete`;');
+
+
+
 
 
     }
