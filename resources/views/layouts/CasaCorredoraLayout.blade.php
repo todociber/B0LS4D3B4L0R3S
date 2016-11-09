@@ -223,7 +223,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
                                     class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li id="listadoOrdenesAsignadas"><a href="{{route('ordenesagenteasignar')}}"><i
+                            <li id="listadoOrdenesAsignadas"><a href="{{route('agenteindex')}}"><i
                                             class="fa fa-circle-o"></i>Ordenes Asignadas</a></li>
                             <li id="listadoOrdenesGeneralAgente"><a href="{{route('ordenesagente')}}"><i
                                             class="fa fa-circle-o"></i>Listado general de ordenes</a></li>
