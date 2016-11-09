@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Models\BitacoraUsuario;
 use App\Models\RolUsuario;
 use App\Models\token;
@@ -49,8 +48,8 @@ class UsuariosBolsaController extends Controller
         $action = new Action();
 
         $this->validate($request, [
-            'nombre' => 'required',
-            'apellido' => 'required',
+            'nombre' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+            'apellido' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'email' => 'required|email',
             'Estado' => 'required|numeric',
         ]);
@@ -352,8 +351,8 @@ class UsuariosBolsaController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'nombre' => 'required',
-            'apellido' => 'required',
+            'nombre' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+            'apellido' => 'required|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'email' => 'required|email',
             'Estado' => 'required|numeric',
         ]);
