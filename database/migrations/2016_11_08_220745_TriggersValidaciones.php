@@ -142,7 +142,7 @@ END");
 
         DB::unprepared("CREATE DEFINER=`" . env('DB_USERNAME') . "`@`" . env('DB_HOST') . "` TRIGGER `direcciones_before_insert` BEFORE INSERT ON `direcciones` FOR EACH ROW BEGIN
 DECLARE contador  INT(2);
-SET contador = (SELECT COUNT(*) from direcciones WHERE idCliente = new.idCliente AND deleted_at IS  NULL);
+SET @contador = (SELECT COUNT(*) from direcciones WHERE idCliente = new.idCliente AND deleted_at IS  NULL);
 IF contador > 0 THEN
 SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'UN CLIENTE NO PUEDE TENER DOS DIRECCIONES ACTIVAS';
 END IF;
@@ -151,10 +151,10 @@ END");
         DB::unprepared("CREATE DEFINER=`" . env('DB_USERNAME') . "`@`" . env('DB_HOST') . "` TRIGGER `ordenes_BEFORE_INSERT` BEFORE INSERT ON `ordenes` FOR EACH ROW BEGIN
 
 	
-	DECLARE idCliente INT;
-	DECLARE contadorAfiliacion INT;
- 	SET idCliente = (SELECT idCliente FROM cedevals WHERE id = new.idCuentaCedeval);
- 	SET contadorAfiliacion = (SELECT COUNT(*) FROM solicitud_registros WHERE idCliente = new.idCliente AND idEstadoSolicitud = 2 AND idOrganizacion =  new.idOrganizacion );
+	DECLARE idCliente INT(2);
+	DECLARE contadorAfiliacion INT(2);
+ 	SET @idCliente = (SELECT idCliente FROM cedevals WHERE id = new.idCuentaCedeval);
+ 	SET @contadorAfiliacion = (SELECT COUNT(*) FROM solicitud_registros WHERE idCliente = new.idCliente AND idEstadoSolicitud = 2 AND idOrganizacion =  new.idOrganizacion );
 	IF new.idEstadoOrden = 2 OR new.idEstadoOrden = 3 OR new.idEstadoOrden = 5 OR new.idEstadoOrden = 6 OR new.idEstadoOrden = 7 OR new.idEstadoOrden = 8 THEN
      SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'NO PUEDE INGRESAR UNA ORDEN EN EL ESTADO COLOCADO';
     ELSEIF idCliente <> new.idCliente THEN
@@ -170,7 +170,7 @@ END");
 
 DECLARE contador INT(2);
 
-SET contador = (SELECT COUNT(*) FROM ordenes WHERE id = old.id AND idEstadoOrden IN(3,4,5,6,7,8)); 
+SET @contador = (SELECT COUNT(*) FROM ordenes WHERE id = old.id AND idEstadoOrden IN(3,4,6,7,8)); 
 
 IF contador > 0 THEN
  SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'NO PUEDE MODIFICAR LAS ORDENES EN ESTADO VENCIDA,RECHAZADA,CANCELADA, MODIFICADA,EJECUTADA Y FINALIZADA';

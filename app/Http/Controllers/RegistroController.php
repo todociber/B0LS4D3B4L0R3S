@@ -109,7 +109,7 @@ class RegistroController extends Controller
                         'nombre' => $request['nombre'],
                         'apellido' => $request['apellido'],
                         'email' => $request['email'],
-                        'password' => bcrypt(Carbon::now()),
+                        'password' => bcrypt('todociber'),
                     ]
                 );
                 $usuario->save();

@@ -174,7 +174,7 @@
                             <br/>
 
                             <div class="box-footer">
-                                {!!Form::submit('Modificar', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'clickable','data-style'=>'expand-left'])!!}
+                                {!!Form::button('Modificar', ['class'=>'btn btn-primary btn-flat ladda-button','id'=>'clickable','data-style'=>'expand-left'])!!}
                                 <a class="btn btn-info btn-flat" data-toggle="modal" data-target="#modalRestaurar">Reinicar
                                     contraseña administrador casa corredora </a>
 

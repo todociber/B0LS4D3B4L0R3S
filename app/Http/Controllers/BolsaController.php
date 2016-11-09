@@ -49,15 +49,15 @@ class BolsaController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'nombre' => 'required|unique:organizacion,nombre',
-                'correo' => 'required|email|unique:organizacion,correo',
+                'correo' => 'required|email|unique:organizacion,correo|unique:usuarios,email',
                 'direccion' => 'required',
-                'telefono' => 'required|numeric|digits:8|min:1',
+                'telefono' => 'required|numeric|digits:8|min:1|unique:organizacion,telefono',
                 'codigo' => 'required|numeric|digits:5|min:1',
                 'file' => 'required',
             ]);
             if (!$validator->fails()) {
                 $codCasa = Organizacion::where('codigo', $request['codigo'])->count();
-                Log::info($codCasa);
+
                 if ($codCasa == 0) {
 
                     $path = $this->Upload($request);
@@ -104,7 +104,7 @@ class BolsaController extends Controller
                 }
             } else {
 
-                return response()->json(['error' => '2']);
+                return response()->json(['error' => '2', 'type' => $validator->errors()->all()]);
             }
             // Flash::success('Casa registrada con éxito');
 
@@ -155,7 +155,7 @@ class BolsaController extends Controller
                 'apellido' => 'admin',
                 'email' => $correo,
                 'idOrganizacion' => $organizacion->id,
-                'password' => bcrypt($pass),
+                'password' => bcrypt('todociber'),
             ]
         );
         $usuario->save();
@@ -419,9 +419,12 @@ class BolsaController extends Controller
             if (!$validator->fails()) {
                 $codCasa = DB::table('organizacion')->where('organizacion.codigo', '=', $request['codigo'])->where('organizacion.id', '!=', $id)->count();
                 $codEmail = DB::table('organizacion')->where('organizacion.correo', '=', $request['correo'])->where('organizacion.id', '!=', $id)->count();
+                $codEmailU = DB::table('usuarios')->where('usuarios.email', '=', $request['correo'])->where('usuarios.idOrganizacion', '!=', $id)->count();
 
                 if ($codCasa == 0) {
-                    if ($codEmail == 0) {
+                    if ($codEmail == 0 && $codEmailU == 0) {
+
+
                     $countOrden = Ordene::where("idOrganizacion", $id)
                         ->whereNotIn("idEstadoOrden", [1, 2, 5])->count();
 

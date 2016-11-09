@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Utilities\RolIdentificador;
 use Auth;
 use Closure;
+use Illuminate\Support\Facades\Log;
 
 class UsuarioOperadorCasaCorredora
 {
@@ -20,6 +21,7 @@ class UsuarioOperadorCasaCorredora
         $rol = new RolIdentificador;
 
         if (!$rol->Autorizador(Auth::user())) {
+            Log::info('AUTORIZADOR');
             if ($rol->Administrador(Auth::user())) {
                 return redirect()->route('UsuarioCasaCorredora.index');
             } else if ($rol->AgenteCorredor(Auth::user())) {

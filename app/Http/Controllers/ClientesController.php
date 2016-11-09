@@ -333,7 +333,7 @@ class ClientesController extends Controller
                 flash('Orden generada con exito', 'success');
                 return redirect()->route('listadoordenesclienteV');
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
 
             flash('Ocurrior un error al procesar la orden', 'danger');
             return redirect()->route('nuevaOrden');
@@ -1187,6 +1187,7 @@ class ClientesController extends Controller
 
                 $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('idCliente', $clientes->id)->get();
                 if ($direcciones[0]->detalle != $request['direccion']) {
+                    Direccione::destroy($direcciones[0]->id);
                     $direccion = new Direccione();
                     $direccion->fill(
                         [
@@ -1197,7 +1198,7 @@ class ClientesController extends Controller
                         ]
                     );
                     $direccion->save();
-                    Direccione::destroy($direcciones[0]->id);
+
 
                 } else if ($direcciones[0]->idMunicipio != $request['municipio']) {
 
