@@ -698,7 +698,7 @@ class ClientesController extends Controller
         $departamentos = Departamento::orderBy('nombre', 'ASC')->lists('nombre', 'id');
         $telefonos = Telefono::with('TipoTelefonoN')->where('idCliente', $idCliente)->get();
         $direcciones = Direccione::with('MunicipioDireccion', 'MunicipioDireccion.Departamento')->where('id', $idCliente)->get();
-        $municipios = Municipio::where('id_departamento', $direcciones[0]->MunicipioDireccion->Departamento->id)->lists('nombre', 'id');
+        //$municipios = Municipio::where('id_departamento', $direcciones[0]->MunicipioDireccion->Departamento->id)->lists('nombre', 'id');
         $telefonoCasa = '';
         $telefonoCelular = '';
         foreach ($telefonos as $telefono) {
@@ -714,7 +714,7 @@ class ClientesController extends Controller
 
 
         }
-        return view('Clientes.Perfil.modificarPerfil', ['user' => Auth::user(), 'departamentos' => $departamentos, 'numeroCasa' => $telefonoCasa, 'numeroCelular' => $telefonoCelular, 'direccion' => $direcciones[0], 'municipios' => $municipios]);
+        return view('Clientes.Perfil.modificarPerfil', ['user' => Auth::user()]);
 
 
     }
