@@ -54,7 +54,7 @@ $agenteCorredor = $rol->AgenteCorredor(Auth::user());
 
     {!! Html::script('assets/plugins/timepicker/bootstrap-timepicker.min.js') !!}
     {!! Html::script('assets/plugins/datepicker/locales/bootstrap-datepicker.es.js') !!}
-
+    {!! Html::script('assets/js/jquery.mask.min.js') !!}
     {!! Html::style('assets/plugins/datepicker/datepicker3.css') !!}
     {!! Html::script('assets/js/loading.js') !!}
     {!! Html::script('assets/js/SERO.js') !!}

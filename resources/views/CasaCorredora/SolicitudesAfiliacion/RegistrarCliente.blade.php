@@ -2,20 +2,18 @@
 @section('content')
 
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".js-example-basic-single").select2();
-            $(".js-example-basic-single2").select2();
-            $('#dui').mask('000000000');
-            $('#nit').mask('00000000000000');
 
-        });
-    </script>
+
 
     <script>
         var contador = 0;
         var clonar;
         $(function () {
+
+            $(".js-example-basic-single").select2();
+            $(".js-example-basic-single2").select2();
+            $('#dui').mask('000000000');
+            $('#nit').mask('00000000000000');
             //$.fn.datepicker.defaults.language = 'es';
             $('#datepicker').datepicker({
                 pickTime: false,
@@ -26,6 +24,8 @@
                 minDate: '-100Y',
                 yearRange: '-100'
             });
+
+
             $('#department').prepend('<option val="" disabled selected>Seleccione un departamento</option>')
         });
         function charge() {
