@@ -94,7 +94,7 @@
 </div>
 <div class="form-group">
     <label for="exampleInputEmail1">Seleccione el tipo de orden </label>
-    {{Form::select('tipodeorden',$Tipoorden,$nombre = isset($orden) ? $orden->TipoOrdenN->nombre: null,['class'=>'form-control', 'required', 'id'=>'estado'])}}
+    {{Form::select('tipodeorden',$Tipoorden,$nombre = isset($orden) ? $orden->TipoOrdenN->id: null,['class'=>'form-control', 'required', 'id'=>'estado'])}}
 </div>
 <div class="form-group">
     <label for="exampleInputEmail1">Seleccione el mercado</label>

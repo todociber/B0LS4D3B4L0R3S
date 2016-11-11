@@ -20,7 +20,7 @@
                 <div class="inner">
                     <h3>{{$ordenesAsignadas}}</h3>
 
-                    <p>Ordenes vigentes</p>
+                    <p>Ordenes asignadas</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-book"></i>

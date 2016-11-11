@@ -1,10 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Miidlware doble">
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Bug de cliente solventado">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/BitacoraCasaCorredora.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/BitacoraCasaCorredora.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/LatchController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/LatchController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/LoginAPI.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/LoginAPI.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/RegistroController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/RegistroController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/UsuariosBolsaController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsuariosBolsaController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Middleware/AgenteCorredorMiddleware.php" afterPath="$PROJECT_DIR$/app/Http/Middleware/AgenteCorredorMiddleware.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Middleware/UsuarioCasaCorredora.php" afterPath="$PROJECT_DIR$/app/Http/Middleware/UsuarioCasaCorredora.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Middleware/UsuarioOperadorCasaCorredora.php" afterPath="$PROJECT_DIR$/app/Http/Middleware/UsuarioOperadorCasaCorredora.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Middleware/VerifyCsrfToken.php" afterPath="$PROJECT_DIR$/app/Http/Middleware/VerifyCsrfToken.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Requests/RegistroRequest.php" afterPath="$PROJECT_DIR$/app/Http/Requests/RegistroRequest.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Requests/RequestOrdenAutorizador.php" afterPath="$PROJECT_DIR$/app/Http/Requests/RequestOrdenAutorizador.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Utilities/Action.php" afterPath="$PROJECT_DIR$/app/Utilities/Action.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/lang/es/validation.php" afterPath="$PROJECT_DIR$/resources/lang/es/validation.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/AcceptChanges.blade.php" afterPath="$PROJECT_DIR$/resources/views/AcceptChanges.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/Bitacora/HistorialUsuario.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Bitacora/HistorialUsuario.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/Bitacora/MostrarBitacota.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Bitacora/MostrarBitacota.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAgente/ordenesAsignadas.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAgente/ordenesAsignadas.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/HistorialOrden.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/HistorialOrden.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/ListadoGeneral.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/ListadoGeneral.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliados.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliados.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/RegistrarCliente.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/RegistrarCliente.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/formularios/AfiliarCliente.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/formularios/AfiliarCliente.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/formularios/buscarC.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/formularios/buscarC.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/MostrarUsuarios.blade.php" afterPath="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/MostrarUsuarios.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" afterPath="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/Clientes/Ordenes/FormularioOrden/FormularioOrden.blade.php" afterPath="$PROJECT_DIR$/resources/views/Clientes/Ordenes/FormularioOrden/FormularioOrden.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/Clientes/Perfil/PerfilUsuario.blade.php" afterPath="$PROJECT_DIR$/resources/views/Clientes/Perfil/PerfilUsuario.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/Reportes/TipoMercado.blade.php" afterPath="$PROJECT_DIR$/resources/views/Reportes/TipoMercado.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/Reportes/reporteFinal.blade.php" afterPath="$PROJECT_DIR$/resources/views/Reportes/reporteFinal.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/alertas/errores.blade.php" afterPath="$PROJECT_DIR$/resources/views/alertas/errores.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/auth/LatchBolsa.blade.php" afterPath="$PROJECT_DIR$/resources/views/auth/LatchBolsa.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/auth/latchCliente.blade.php" afterPath="$PROJECT_DIR$/resources/views/auth/latchCliente.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" afterPath="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/bves/Casas/Formulario/FormularioCasa.blade.php" afterPath="$PROJECT_DIR$/resources/views/bves/Casas/Formulario/FormularioCasa.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/bves/Casas/ModificarCasa.blade.php" afterPath="$PROJECT_DIR$/resources/views/bves/Casas/ModificarCasa.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/bves/Casas/RegistroCasas.blade.php" afterPath="$PROJECT_DIR$/resources/views/bves/Casas/RegistroCasas.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/emails/AsginacionAgente.blade.php" afterPath="$PROJECT_DIR$/resources/views/emails/AsginacionAgente.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/emails/ComentarioCasa.blade.php" afterPath="$PROJECT_DIR$/resources/views/emails/ComentarioCasa.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/emails/RechazoDeOrden.blade.php" afterPath="$PROJECT_DIR$/resources/views/emails/RechazoDeOrden.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/emails/ResetPasswordBolsa.blade.php" afterPath="$PROJECT_DIR$/resources/views/emails/ResetPasswordBolsa.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/loginLayout.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/loginLayout.blade.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -16,6 +66,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
@@ -25,125 +76,13 @@
     <option name="SORT_POSITIONED" value="false" />
     <option name="SHOW_TABLE_DETAILS" value="true" />
     <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="SERO" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="2016_11_08_220745_TriggersValidaciones.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/database/migrations/2016_11_08_220745_TriggersValidaciones.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="802">
-              <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="154" column="7" selection-start-line="154" selection-start-column="7" selection-end-line="154" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OrdenesCasaCorredoraAutorizador.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="75" column="152" selection-start-line="75" selection-start-column="152" selection-end-line="75" selection-end-column="152" />
-              <folding>
-                <marker date="1478836538039" expanded="true" signature="8702:9180" ph="select COUNT... usuarios" />
-                <marker date="1478836538039" expanded="true" signature="11356:11834" ph="select COUNT... usuarios" />
-                <marker date="1478836538039" expanded="true" signature="13981:14459" ph="select COUNT... usuarios" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UsuarioOperadorCasaCorredora.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Middleware/UsuarioOperadorCasaCorredora.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="28" column="13" selection-start-line="23" selection-start-column="12" selection-end-line="28" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UsuarioCasaCorredora.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Middleware/UsuarioCasaCorredora.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AutorizadorAgente.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Middleware/AutorizadorAgente.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Kernel.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="55" column="14" selection-start-line="55" selection-start-column="14" selection-end-line="55" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AgenteCorredorMiddleware.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Middleware/AgenteCorredorMiddleware.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="2016_10_08_214402_ProcedimientoAlmacenadoOrdenes.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/database/migrations/2016_10_08_214402_ProcedimientoAlmacenadoOrdenes.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="2016_11_06_005709_ValidarTablas.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/database/migrations/2016_11_06_005709_ValidarTablas.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="25" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
-              <folding>
-                <marker date="1478415885280" expanded="true" signature="220:276" ph="ALTER TABLE `ordenes`... " />
-                <marker date="1478415885280" expanded="true" signature="341:836" ph="ALTER TABLE `ordenes`... " />
-                <marker date="1478415885280" expanded="true" signature="841:899" ph="ALTER TABLE `operacion_bolsas`... " />
-                <marker date="1478415885280" expanded="true" signature="901:1005" ph="ALTER TABLE `operacion_bolsas`... " />
-                <marker date="1478415885280" expanded="true" signature="1008:1115" ph="ALTER TABLE `organizacion`... " />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -169,66 +108,69 @@
     <option name="PUSH_TAGS">
       <GitPushTagMode />
     </option>
+    <push-targets>
+      <push-target-info repo="$PROJECT_DIR$" source="Gustavo" target-remote="origin" target-branch="Gustavo" />
+    </push-targets>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/resources/views/Reportes/TipoMercado.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/emails/ResetPasswordBolsa.blade.php" />
+        <option value="$PROJECT_DIR$/app/Utilities/Action.php" />
+        <option value="&lt;9cebc5a6-df00-470a-bca0-5747459eb082&gt;/var/www/html/SERO/composer.json" />
+        <option value="&lt;9cebc5a6-df00-470a-bca0-5747459eb082&gt;/etc/apache2/sites-available/000-default.conf" />
+        <option value="$PROJECT_DIR$/resources/views/Clientes/Perfil/CuentasCedevales.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/Clientes/Ordenes/FormularioOrden/FormularioOrden.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/Clientes/Perfil/PerfilUsuario.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/auth/login.blade.php" />
+        <option value="$PROJECT_DIR$/database/seeds/OrganizacionSeeder.php" />
+        <option value="$PROJECT_DIR$/config/snappy.php" />
+        <option value="$PROJECT_DIR$/resources/views/Reportes/reporteFinal.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
+        <option value="$PROJECT_DIR$/resources/views/Clientes/Ordenes/ListaOrdenesCliente.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php" />
+        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/MostrarUsuarios.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/Reportes/tipoOrden.blade.php" />
+        <option value="$PROJECT_DIR$/config/session.php" />
+        <option value="$PROJECT_DIR$/resources/views/AcceptChanges.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/UsuariosBolsaController.php" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/console.sql" />
+        <option value="$PROJECT_DIR$/resources/views/bves/Bitacora/listadoBitacora.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/ClientesLayout.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/bolsavalores.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/ReasignacionMostrarOrdenes.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/formularios/AceptarReasignacion.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/ReasignacionAgenteCorredorOrden.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Requests/AceptarReasignacionRequest.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/ReasignacionMostrarUsuarios.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/auth/latch.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/auth/latchCliente.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/auth/LatchBolsa.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/SolicitudesCasaCorredora.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/HistorialOrden.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/ListadoGeneral.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/Reportes/reporteFinal.blade.php" />
-        <option value="$PROJECT_DIR$/config/snappy.php" />
-        <option value="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" />
-        <option value="$PROJECT_DIR$/vendor/faytzel/laravel-latch/src/Faytzel/LaravelLatch/LaravelLatch.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/LatchController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Middleware/VerifyCsrfToken.php" />
-        <option value="$PROJECT_DIR$/app/Http/Requests/RequestOrdenAutorizador.php" />
-        <option value="$PROJECT_DIR$/resources/views/emails/ComentarioCasa.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/emails/AsginacionAgente.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/emails/RechazoDeOrden.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Middleware/UsuarioAdministradorCasaCorredoraAuth.php" />
-        <option value="$PROJECT_DIR$/app/Http/Middleware/UsuarioCasaCorredora.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/MostrarAfiliados.blade.php" />
-        <option value="$PROJECT_DIR$/config/session.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/formularios/buscarC.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/BuscarAfiliado.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" />
-        <option value="$PROJECT_DIR$/app/Utilities/Action.php" />
-        <option value="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" />
-        <option value="$PROJECT_DIR$/storage/logs/laravel.log" />
+        <option value="$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/RegistroController.php" />
-        <option value="$PROJECT_DIR$/database/seeds/OrganizacionSeeder.php" />
-        <option value="$PROJECT_DIR$/database/migrations/2016_10_15_205349_EventoOrdenesVencidas.php" />
-        <option value="$PROJECT_DIR$/database/migrations/2016_06_17_232941_create_cedevals_table.php" />
-        <option value="$PROJECT_DIR$/database/migrations/2016_06_17_233115_create_solicitud_registros_table.php" />
-        <option value="$PROJECT_DIR$/database/migrations/2016_10_07_121152_TokensTabla.php" />
-        <option value="$PROJECT_DIR$/database/migrations/2016_11_06_005709_ValidarTablas.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/UsuariosBolsaController.php" />
-        <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/BolsaController.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_11_08_220745_TriggersValidaciones.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/RegistrarCliente.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Middleware/AutorizadorAgente.php" />
-        <option value="$PROJECT_DIR$/app/Http/Kernel.php" />
+        <option value="$PROJECT_DIR$/resources/views/bves/Casas/ModificarCasa.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/bves/Casas/RegistroCasas.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Middleware/UsuarioOperadorCasaCorredora.php" />
+        <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" />
+        <option value="$PROJECT_DIR$/app/Http/Middleware/AgenteCorredorMiddleware.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/ClientesController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Requests/RegistroRequest.php" />
+        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/RegistrarCliente.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="&lt;9cebc5a6-df00-470a-bca0-5747459eb082&gt;/resources/views/CasaCorredora/SolicitudesAfiliacion/RegistrarCliente.blade.php" />
+        <option value="&lt;9cebc5a6-df00-470a-bca0-5747459eb082&gt;/resources/views/Clientes/Ordenes/FormularioOrden/FormularioOrden.blade.php" />
+        <option value="&lt;9cebc5a6-df00-470a-bca0-5747459eb082&gt;/app/Http/Controllers/ClientesController.php" />
+        <option value="&lt;9cebc5a6-df00-470a-bca0-5747459eb082&gt;/resources/views/CasaCorredora/OrdenesAgente/ordenesAsignadas.blade.php" />
+        <option value="&lt;9cebc5a6-df00-470a-bca0-5747459eb082&gt;/resources/views/Clientes/Ordenes/DetalleOrden.blade.php" />
+        <option value="&lt;9cebc5a6-df00-470a-bca0-5747459eb082&gt;/app/Http/routes.php" />
+        <option value="&lt;9cebc5a6-df00-470a-bca0-5747459eb082&gt;/app/Http/Controllers/UsuariosBolsaController.php" />
+        <option value="&lt;9cebc5a6-df00-470a-bca0-5747459eb082&gt;/resources/views/CasaCorredora/OrdenesAutorizador/DetalleOrden.blade.php" />
+        <option value="&lt;9cebc5a6-df00-470a-bca0-5747459eb082&gt;/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" />
+        <option value="&lt;9cebc5a6-df00-470a-bca0-5747459eb082&gt;/app/Http/Controllers/SolicitudesCasaCorredora.php" />
+        <option value="&lt;9cebc5a6-df00-470a-bca0-5747459eb082&gt;/resources/views/CasaCorredora/SolicitudesAfiliacion/formularios/AfiliarCliente.blade.php" />
       </list>
     </option>
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER">
+  <component name="JsBuildToolGruntFileManager" detection-done="true" />
+  <component name="JsBuildToolPackageJson" detection-done="true">
     <package-json value="$PROJECT_DIR$/package.json" />
   </component>
   <component name="JsGulpfileManager">
@@ -238,17 +180,14 @@
         <gulpfile-path>$PROJECT_DIR$/gulpfile.js</gulpfile-path>
       </GulpfileState>
     </gulpfiles>
-    <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpServers">
     <servers />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1296" />
-    <option name="height" value="1000" />
+    <option name="width" value="1280" />
+    <option name="height" value="800" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -275,168 +214,24 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
+              <option name="myItemId" value="SERO" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CasaCorredora" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CasaCorredora" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SolicitudesAfiliacion" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Http" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bolsaDeValores" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Http" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Middleware" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/Documents/german/ProyectoColegios" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../akumalHotel" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="full.screen.before.presentation.mode" value="true" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files (x86)\nodejs\node.exe" />
@@ -457,29 +252,30 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="804" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
+    <property name="FullScreen" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="SearchEverywhereHistoryKey" value="minty&#9;FILE&#9;file:///Users/eacampos01/Documents/Gustavo/Proyectos/PHP/SERO/vendor/snowfire/beautymail/src/views/templates/minty.blade.php" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\bolsaDeValores\resources\views\CasaCorredora\SolicitudesAfiliacion" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/views/Reportes" />
       <recent name="$PROJECT_DIR$/resources/views/Clientes/Ordenes" />
       <recent name="C:\xampp\htdocs\ASI2\resources\views" />
       <recent name="$PROJECT_DIR$/resources/views/bves/Casas" />
       <recent name="$PROJECT_DIR$/resources/views/bves" />
-      <recent name="$PROJECT_DIR$/public/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.routes.php">
-    <configuration default="false" name="routes.php" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/bolsaDeValores/app/Http/routes.php">
-      <method />
-    </configuration>
+  <component name="RunManager">
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
-      <method />
-    </configuration>
-    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" working-dir="">
       <method />
     </configuration>
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -509,27 +305,6 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="mocha-javascript-test-runner" factoryName="Mocha">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <working-directory />
-      <pass-parent-env>true</pass-parent-env>
-      <envs />
-      <ui />
-      <extra-mocha-options />
-      <test-kind>DIRECTORY</test-kind>
-      <test-directory />
-      <recursive>false</recursive>
-      <method />
-    </configuration>
-    <list size="1">
-      <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.routes.php" />
-    </list>
-    <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.routes.php" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -599,57 +374,108 @@
       <workItem from="1477152193539" duration="6240000" />
       <workItem from="1477159191078" duration="587000" />
       <workItem from="1477168859339" duration="16204000" />
-      <workItem from="1477242660105" duration="2820000" />
-      <workItem from="1477247233306" duration="284000" />
-      <workItem from="1477260858023" duration="2967000" />
-      <workItem from="1477272841884" duration="76000" />
-      <workItem from="1477335315820" duration="11035000" />
-      <workItem from="1477510174622" duration="11596000" />
-      <workItem from="1477524537202" duration="3423000" />
-      <workItem from="1477591732737" duration="1515000" />
-      <workItem from="1477596117826" duration="595000" />
-      <workItem from="1477604033134" duration="409000" />
-      <workItem from="1477604543971" duration="801000" />
-      <workItem from="1477605586585" duration="1944000" />
-      <workItem from="1477628578768" duration="4950000" />
-      <workItem from="1477674326221" duration="6189000" />
-      <workItem from="1477689539489" duration="2146000" />
-      <workItem from="1477716186074" duration="2422000" />
-      <workItem from="1477723151402" duration="460000" />
-      <workItem from="1477725154710" duration="2209000" />
-      <workItem from="1477763885681" duration="5613000" />
-      <workItem from="1477781985466" duration="2042000" />
-      <workItem from="1477787208172" duration="71000" />
-      <workItem from="1477788909758" duration="769000" />
-      <workItem from="1477864924708" duration="985000" />
-      <workItem from="1477865961295" duration="270000" />
-      <workItem from="1478065010462" duration="28000" />
-      <workItem from="1478120024218" duration="135000" />
-      <workItem from="1478128448918" duration="601000" />
-      <workItem from="1478197042187" duration="715000" />
-      <workItem from="1478227593997" duration="2660000" />
-      <workItem from="1478314429531" duration="8753000" />
-      <workItem from="1478384078508" duration="785000" />
-      <workItem from="1478384892723" duration="605000" />
-      <workItem from="1478386266029" duration="92000" />
-      <workItem from="1478387453200" duration="498000" />
-      <workItem from="1478389616386" duration="5553000" />
-      <workItem from="1478395667405" duration="2312000" />
-      <workItem from="1478398320427" duration="124000" />
-      <workItem from="1478405748929" duration="3736000" />
-      <workItem from="1478409497435" duration="65000" />
-      <workItem from="1478409569496" duration="6757000" />
-      <workItem from="1478455451250" duration="3961000" />
-      <workItem from="1478466647177" duration="8805000" />
-      <workItem from="1478475605575" duration="1209000" />
-      <workItem from="1478476846979" duration="3304000" />
-      <workItem from="1478631419311" duration="2221000" />
-      <workItem from="1478647985800" duration="5640000" />
-      <workItem from="1478664400091" duration="1615000" />
-      <workItem from="1478818646818" duration="318000" />
-      <workItem from="1478819012696" duration="2210000" />
-      <workItem from="1478831887543" duration="2447000" />
-      <workItem from="1478834371201" duration="2728000" />
+      <workItem from="1477242660105" duration="11815000" />
+      <workItem from="1477315242234" duration="687000" />
+      <workItem from="1477336969179" duration="11300000" />
+      <workItem from="1477356680663" duration="1615000" />
+      <workItem from="1477423834634" duration="7286000" />
+      <workItem from="1477438457023" duration="1061000" />
+      <workItem from="1477509994967" duration="9218000" />
+      <workItem from="1477540217547" duration="1395000" />
+      <workItem from="1477597099585" duration="6194000" />
+      <workItem from="1477604368243" duration="516000" />
+      <workItem from="1477687229854" duration="2844000" />
+      <workItem from="1477695855696" duration="341000" />
+      <workItem from="1477780762373" duration="409000" />
+      <workItem from="1477781841477" duration="764000" />
+      <workItem from="1477864178561" duration="1124000" />
+      <workItem from="1477866664455" duration="7620000" />
+      <workItem from="1478031506051" duration="253000" />
+      <workItem from="1478032788777" duration="4588000" />
+      <workItem from="1478057350992" duration="4514000" />
+      <workItem from="1478103781580" duration="20008000" />
+      <workItem from="1478150617648" duration="3732000" />
+      <workItem from="1478192308648" duration="1533000" />
+      <workItem from="1478205703439" duration="404000" />
+      <workItem from="1478292300379" duration="1389000" />
+      <workItem from="1478355333388" duration="7715000" />
+      <workItem from="1478376703358" duration="769000" />
+      <workItem from="1478385843774" duration="1191000" />
+      <workItem from="1478397433086" duration="41000" />
+      <workItem from="1478397478563" duration="776000" />
+      <workItem from="1478451735438" duration="980000" />
+      <workItem from="1478454923868" duration="10739000" />
+      <workItem from="1478549146673" duration="3324000" />
+      <workItem from="1478668882803" duration="1076000" />
+      <workItem from="1478699548749" duration="2425000" />
+      <workItem from="1478715858845" duration="171000" />
+      <workItem from="1478720168933" duration="11754000" />
+      <workItem from="1478811197876" duration="334000" />
+      <workItem from="1478833857278" duration="5765000" />
+      <workItem from="1478846387524" duration="12000" />
+    </task>
+    <task id="LOCAL-00024" summary="Errores correjidos, migraciones cambiado unos campos.">
+      <created>1475546138057</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1475546138057</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Bolsa y Clientes">
+      <created>1475709834589</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1475709834589</updated>
+    </task>
+    <task id="LOCAL-00026" summary="todo validado, a falta de mostrar los mensajes de rechazo de orden. suspensión de afiliaciónes al cambiar información, correción de bugs.">
+      <created>1475796877099</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1475796877099</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Adicionando vistas que no iban en el commit.">
+      <created>1475964944598</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1475964944598</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Envio de correos modulo bolsa de valores finalizado. Se comienza el envio de correos desde el módulo de clientes.">
+      <created>1476163193196</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1476163193196</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Bugs solventados, correos enviados y diseño agregado a correos-">
+      <created>1476252096864</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1476252096864</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Bitacora bolsa de valores agregado.">
+      <created>1476417592529</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1476417592529</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Bugs en el documento corregidos, restauracion de contraseña casa corredora realizado">
+      <created>1476576966190</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1476576966190</updated>
+    </task>
+    <task id="LOCAL-00032" summary="jquery mask agreado">
+      <created>1476577110555</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1476577110555</updated>
     </task>
     <task id="LOCAL-00033" summary="API v1.0 a falta de obtener las afiliaciones del cliente">
       <created>1476666299488</created>
@@ -707,300 +533,237 @@
       <option name="project" value="LOCAL" />
       <updated>1477159124802</updated>
     </task>
-    <task id="LOCAL-00041" summary="cambio for merge">
-      <created>1477342856787</created>
+    <task id="LOCAL-00041" summary="Api arreglada, parte del diseño en casas correjido">
+      <created>1477246327901</created>
       <option name="number" value="00041" />
       <option name="presentableId" value="LOCAL-00041" />
       <option name="project" value="LOCAL" />
-      <updated>1477342856787</updated>
+      <updated>1477246327901</updated>
     </task>
-    <task id="LOCAL-00042" summary="NoPermitido">
-      <created>1477345515034</created>
+    <task id="LOCAL-00042" summary="API correjida">
+      <created>1477260527871</created>
       <option name="number" value="00042" />
       <option name="presentableId" value="LOCAL-00042" />
       <option name="project" value="LOCAL" />
-      <updated>1477345515034</updated>
+      <updated>1477260527872</updated>
     </task>
-    <task id="LOCAL-00043" summary="merge edicion modulo terminado&#10;">
-      <created>1477350962018</created>
+    <task id="LOCAL-00043" summary="Reporte casa terminado">
+      <created>1477263078514</created>
       <option name="number" value="00043" />
       <option name="presentableId" value="LOCAL-00043" />
       <option name="project" value="LOCAL" />
-      <updated>1477350962018</updated>
+      <updated>1477263078514</updated>
     </task>
-    <task id="LOCAL-00044" summary="merge edicion modulo terminado&#10;">
-      <created>1477517329431</created>
+    <task id="LOCAL-00044" summary="Rediseño modulo terminado">
+      <created>1477349818876</created>
       <option name="number" value="00044" />
       <option name="presentableId" value="LOCAL-00044" />
       <option name="project" value="LOCAL" />
-      <updated>1477517329431</updated>
+      <updated>1477349818876</updated>
     </task>
-    <task id="LOCAL-00045" summary="despues del merge&#10;">
-      <created>1477526330890</created>
+    <task id="LOCAL-00045" summary="correos arreglados y cambios del perfil">
+      <created>1477519399015</created>
       <option name="number" value="00045" />
       <option name="presentableId" value="LOCAL-00045" />
       <option name="project" value="LOCAL" />
-      <updated>1477526330890</updated>
+      <updated>1477519399015</updated>
     </task>
-    <task id="LOCAL-00046" summary="despues del merge&#10;">
-      <created>1477592123280</created>
+    <task id="LOCAL-00046" summary="Campos de clientes validados">
+      <created>1477520325339</created>
       <option name="number" value="00046" />
       <option name="presentableId" value="LOCAL-00046" />
       <option name="project" value="LOCAL" />
-      <updated>1477592123280</updated>
+      <updated>1477520325339</updated>
     </task>
-    <task id="LOCAL-00047" summary="PUSH agregadas">
-      <created>1477604817342</created>
+    <task id="LOCAL-00047" summary="bug corregido en ordenes">
+      <created>1477523540029</created>
       <option name="number" value="00047" />
       <option name="presentableId" value="LOCAL-00047" />
       <option name="project" value="LOCAL" />
-      <updated>1477604817342</updated>
+      <updated>1477523540029</updated>
     </task>
-    <task id="LOCAL-00048" summary="Correccion push Android">
-      <created>1477604943835</created>
+    <task id="LOCAL-00048" summary="push agregadas, restauracion de contraseña y metodos de deslogueo">
+      <created>1477604407807</created>
       <option name="number" value="00048" />
       <option name="presentableId" value="LOCAL-00048" />
       <option name="project" value="LOCAL" />
-      <updated>1477604943835</updated>
+      <updated>1477604407807</updated>
     </task>
-    <task id="LOCAL-00049" summary="Arreglo en push y Procedimiento Almacenado de Ordenes">
-      <created>1477642910125</created>
+    <task id="LOCAL-00049" summary="API correjida">
+      <created>1477604660143</created>
       <option name="number" value="00049" />
       <option name="presentableId" value="LOCAL-00049" />
       <option name="project" value="LOCAL" />
-      <updated>1477642910125</updated>
+      <updated>1477604660143</updated>
     </task>
-    <task id="LOCAL-00050" summary="push y corrreccion de orden finalizada">
-      <created>1477679562391</created>
+    <task id="LOCAL-00050" summary="API corregida y push corregidas">
+      <created>1477691102737</created>
       <option name="number" value="00050" />
       <option name="presentableId" value="LOCAL-00050" />
       <option name="project" value="LOCAL" />
-      <updated>1477679562392</updated>
+      <updated>1477691102749</updated>
     </task>
-    <task id="LOCAL-00051" summary="Ordenes Historial">
-      <created>1477683093565</created>
+    <task id="LOCAL-00051" summary="Clientes corrregido">
+      <created>1477696036380</created>
       <option name="number" value="00051" />
       <option name="presentableId" value="LOCAL-00051" />
       <option name="project" value="LOCAL" />
-      <updated>1477683093565</updated>
+      <updated>1477696036380</updated>
     </task>
-    <task id="LOCAL-00052" summary="Ordenes Historial">
-      <created>1477722180353</created>
+    <task id="LOCAL-00052" summary="Latch agregado a la API">
+      <created>1477781623671</created>
       <option name="number" value="00052" />
       <option name="presentableId" value="LOCAL-00052" />
       <option name="project" value="LOCAL" />
-      <updated>1477722180354</updated>
+      <updated>1477781623671</updated>
     </task>
-    <task id="LOCAL-00053" summary="Ordenes Historial">
-      <created>1477722697524</created>
+    <task id="LOCAL-00053" summary="API corregida">
+      <created>1477786758908</created>
       <option name="number" value="00053" />
       <option name="presentableId" value="LOCAL-00053" />
       <option name="project" value="LOCAL" />
-      <updated>1477722697524</updated>
+      <updated>1477786758908</updated>
     </task>
-    <task id="LOCAL-00054" summary="Afiliaciones push funcionales">
-      <created>1477722721226</created>
+    <task id="LOCAL-00054" summary="Emails corregidos">
+      <created>1477865011669</created>
       <option name="number" value="00054" />
       <option name="presentableId" value="LOCAL-00054" />
       <option name="project" value="LOCAL" />
-      <updated>1477722721226</updated>
+      <updated>1477865011670</updated>
     </task>
-    <task id="LOCAL-00055" summary="Vista de Latch">
-      <created>1477726485865</created>
+    <task id="LOCAL-00055" summary="bug en bolsa arreglado">
+      <created>1478193747332</created>
       <option name="number" value="00055" />
       <option name="presentableId" value="LOCAL-00055" />
       <option name="project" value="LOCAL" />
-      <updated>1477726485866</updated>
+      <updated>1478193747333</updated>
     </task>
-    <task id="LOCAL-00056" summary="Historial de Usuarios Realizado">
-      <created>1477770119585</created>
+    <task id="LOCAL-00056" summary="bugs en clientes arreglados">
+      <created>1478358846925</created>
       <option name="number" value="00056" />
       <option name="presentableId" value="LOCAL-00056" />
       <option name="project" value="LOCAL" />
-      <updated>1477770119585</updated>
+      <updated>1478358846931</updated>
     </task>
-    <task id="LOCAL-00057" summary="Historial de Usuarios Realizado">
-      <created>1477770627293</created>
+    <task id="LOCAL-00057" summary="super usuaario agregado">
+      <created>1478361774830</created>
       <option name="number" value="00057" />
       <option name="presentableId" value="LOCAL-00057" />
       <option name="project" value="LOCAL" />
-      <updated>1477770627293</updated>
+      <updated>1478361774831</updated>
     </task>
-    <task id="LOCAL-00058" summary="Historial de Usuarios Realizado">
-      <created>1477770655875</created>
+    <task id="LOCAL-00058" summary="merge para finalizacion">
+      <created>1478376776018</created>
       <option name="number" value="00058" />
       <option name="presentableId" value="LOCAL-00058" />
       <option name="project" value="LOCAL" />
-      <updated>1477770655875</updated>
+      <updated>1478376776020</updated>
     </task>
-    <task id="LOCAL-00059" summary="Login con latch Correjido">
-      <created>1477787261819</created>
+    <task id="LOCAL-00059" summary="Reporte solucionado">
+      <created>1478398195116</created>
       <option name="number" value="00059" />
       <option name="presentableId" value="LOCAL-00059" />
       <option name="project" value="LOCAL" />
-      <updated>1477787261819</updated>
+      <updated>1478398195117</updated>
     </task>
-    <task id="LOCAL-00060" summary="Correccion de bitacora Casa Corredora">
-      <created>1477865905685</created>
+    <task id="LOCAL-00060" summary="Mensajes arreglado">
+      <created>1478452654153</created>
       <option name="number" value="00060" />
       <option name="presentableId" value="LOCAL-00060" />
       <option name="project" value="LOCAL" />
-      <updated>1477865905686</updated>
+      <updated>1478452654157</updated>
     </task>
-    <task id="LOCAL-00061" summary="Latch en Clientes y en Bolsa">
-      <created>1477866207705</created>
+    <task id="LOCAL-00061" summary="bugs fixed">
+      <created>1478461267731</created>
       <option name="number" value="00061" />
       <option name="presentableId" value="LOCAL-00061" />
       <option name="project" value="LOCAL" />
-      <updated>1477866207705</updated>
+      <updated>1478461267733</updated>
     </task>
-    <task id="LOCAL-00062" summary="Latch Arreglado">
-      <created>1478314640896</created>
+    <task id="LOCAL-00062" summary="bugs fixed again">
+      <created>1478468952784</created>
       <option name="number" value="00062" />
       <option name="presentableId" value="LOCAL-00062" />
       <option name="project" value="LOCAL" />
-      <updated>1478314640896</updated>
+      <updated>1478468952784</updated>
     </task>
-    <task id="LOCAL-00063" summary="Reasignacion de Ordenes Nuevo Modulo">
-      <created>1478323002008</created>
+    <task id="LOCAL-00063" summary="modificación de correo electronico cambiado">
+      <created>1478471146363</created>
       <option name="number" value="00063" />
       <option name="presentableId" value="LOCAL-00063" />
       <option name="project" value="LOCAL" />
-      <updated>1478323002009</updated>
+      <updated>1478471146364</updated>
     </task>
-    <task id="LOCAL-00064" summary="Latch Links  en nueva pestaña">
-      <created>1478323159591</created>
+    <task id="LOCAL-00064" summary="Orders datatable fixed">
+      <created>1478475140850</created>
       <option name="number" value="00064" />
       <option name="presentableId" value="LOCAL-00064" />
       <option name="project" value="LOCAL" />
-      <updated>1478323159591</updated>
+      <updated>1478475140850</updated>
     </task>
-    <task id="LOCAL-00065" summary="Latch Arreglados, snappy for Windows">
-      <created>1478384668082</created>
+    <task id="LOCAL-00065" summary="fixed problems on clients">
+      <created>1478476678882</created>
       <option name="number" value="00065" />
       <option name="presentableId" value="LOCAL-00065" />
       <option name="project" value="LOCAL" />
-      <updated>1478384668083</updated>
+      <updated>1478476678882</updated>
     </task>
-    <task id="LOCAL-00066" summary="Correcciones en Ordenes, Solicitudes y en latch">
-      <created>1478395516519</created>
+    <task id="LOCAL-00066" summary="Triggers para direcciones y  ordenes realizados">
+      <created>1478703601090</created>
       <option name="number" value="00066" />
       <option name="presentableId" value="LOCAL-00066" />
       <option name="project" value="LOCAL" />
-      <updated>1478395516519</updated>
+      <updated>1478703601092</updated>
     </task>
-    <task id="LOCAL-00067" summary="Reportes Controller">
-      <created>1478396727921</created>
+    <task id="LOCAL-00067" summary="bug en casa solventado">
+      <created>1478727721518</created>
       <option name="number" value="00067" />
       <option name="presentableId" value="LOCAL-00067" />
       <option name="project" value="LOCAL" />
-      <updated>1478396727921</updated>
+      <updated>1478727721521</updated>
     </task>
-    <task id="LOCAL-00068" summary="Reportes Controller sin Fechas y falta instalar un programa">
-      <created>1478397697384</created>
+    <task id="LOCAL-00068" summary="Bugs solventados">
+      <created>1478729012700</created>
       <option name="number" value="00068" />
       <option name="presentableId" value="LOCAL-00068" />
       <option name="project" value="LOCAL" />
-      <updated>1478397697384</updated>
+      <updated>1478729012700</updated>
     </task>
-    <task id="LOCAL-00069" summary="Inicio Validacion de Base de Datos">
-      <created>1478415904090</created>
+    <task id="LOCAL-00069" summary="Bugs solventados FINAL">
+      <created>1478732950087</created>
       <option name="number" value="00069" />
       <option name="presentableId" value="LOCAL-00069" />
       <option name="project" value="LOCAL" />
-      <updated>1478415904090</updated>
+      <updated>1478732950088</updated>
     </task>
-    <task id="LOCAL-00070" summary="Inicio Validacion de Base de Datos">
-      <created>1478417642956</created>
+    <task id="LOCAL-00070" summary="Bugs solventados FINAL">
+      <created>1478735037496</created>
       <option name="number" value="00070" />
       <option name="presentableId" value="LOCAL-00070" />
       <option name="project" value="LOCAL" />
-      <updated>1478417642956</updated>
+      <updated>1478735037496</updated>
     </task>
-    <task id="LOCAL-00071" summary="Arreglos Varios, CasaCorredora, Ordenes, Afiliaciones Rutas, y Correos">
-      <created>1478473466448</created>
+    <task id="LOCAL-00071" summary="Bugs solventados FINAL 1.0">
+      <created>1478749247698</created>
       <option name="number" value="00071" />
       <option name="presentableId" value="LOCAL-00071" />
       <option name="project" value="LOCAL" />
-      <updated>1478473466449</updated>
+      <updated>1478749247699</updated>
     </task>
-    <task id="LOCAL-00072" summary="Arreglos Varios, CasaCorredora, Ordenes, Afiliaciones Rutas, y Correos">
-      <created>1478473855468</created>
+    <task id="LOCAL-00072" summary="Bug de cliente solventado">
+      <created>1478834046498</created>
       <option name="number" value="00072" />
       <option name="presentableId" value="LOCAL-00072" />
       <option name="project" value="LOCAL" />
-      <updated>1478473855468</updated>
+      <updated>1478834046498</updated>
     </task>
-    <task id="LOCAL-00073" summary="Layou DataTables&#10;">
-      <created>1478475283963</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1478475283963</updated>
-    </task>
-    <task id="LOCAL-00074" summary="MergeCon Gustavo">
-      <created>1478475636331</created>
-      <option name="number" value="00074" />
-      <option name="presentableId" value="LOCAL-00074" />
-      <option name="project" value="LOCAL" />
-      <updated>1478475636331</updated>
-    </task>
-    <task id="LOCAL-00075" summary="ChekPass añadido aun no lo uso">
-      <created>1478476800248</created>
-      <option name="number" value="00075" />
-      <option name="presentableId" value="LOCAL-00075" />
-      <option name="project" value="LOCAL" />
-      <updated>1478476800248</updated>
-    </task>
-    <task id="LOCAL-00076" summary="Validacion de Fuerza de Contraseña">
-      <created>1478478847533</created>
-      <option name="number" value="00076" />
-      <option name="presentableId" value="LOCAL-00076" />
-      <option name="project" value="LOCAL" />
-      <updated>1478478847533</updated>
-    </task>
-    <task id="LOCAL-00077" summary="Validacion de Fuerza de Contraseña">
-      <created>1478479212671</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1478479212671</updated>
-    </task>
-    <task id="LOCAL-00078" summary="Validaciones en Migraciones FALTAN AGREGAR TRIGGERS">
-      <created>1478655517978</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1478655517978</updated>
-    </task>
-    <task id="LOCAL-00079" summary="Triggers Agregados a Mega Migracion">
-      <created>1478665971224</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1478665971225</updated>
-    </task>
-    <task id="LOCAL-00080" summary="Trigger Arreglado">
-      <created>1478834147474</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1478834147474</updated>
-    </task>
-    <task id="LOCAL-00081" summary="Miidlware doble">
-      <created>1478835282096</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1478835282096</updated>
-    </task>
-    <option name="localTasksCounter" value="82" />
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="407738000" />
+    <option name="totallyTimeSpent" value="421952000" />
   </component>
-  <component name="TodoView">
+  <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -1010,78 +773,63 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3592233" sideWeight="0.4890411" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32871974" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.50865054" sideWeight="0.51941746" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21197411" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32956383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22294022" sideWeight="0.4890411" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24657534" sideWeight="0.509693" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21728595" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.55709344" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12295082" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.50865054" sideWeight="0.48058254" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24520548" sideWeight="0.49030694" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2714055" sideWeight="0.5109589" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32871974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32802126" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39907727" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31506848" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298731" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39907727" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.329235" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329235" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31506848" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298731" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329235" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32802126" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21568628" sideWeight="0.512987" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298731" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39907727" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.55709344" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21568628" sideWeight="0.48701298" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12341407" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40710384" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31506848" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28084415" sideWeight="0.4890411" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22213247" sideWeight="0.4890411" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21197411" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24394184" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298731" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2714055" sideWeight="0.5109589" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2714055" sideWeight="0.5109589" order="4" side_tool="true" content_ui="tabs" />
     </layout-to-restore>
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -1096,255 +844,393 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="push y corrreccion de orden finalizada" />
-    <MESSAGE value="Ordenes Historial" />
-    <MESSAGE value="Afiliaciones push funcionales" />
-    <MESSAGE value="Vista de Latch" />
-    <MESSAGE value="Historial de Usuarios Realizado" />
-    <MESSAGE value="Login con latch Correjido" />
-    <MESSAGE value="Correccion de bitacora Casa Corredora" />
-    <MESSAGE value="Latch en Clientes y en Bolsa" />
-    <MESSAGE value="Latch Arreglado" />
-    <MESSAGE value="Reasignacion de Ordenes Nuevo Modulo" />
-    <MESSAGE value="Latch Links  en nueva pestaña" />
-    <MESSAGE value="Latch Arreglados, snappy for Windows" />
-    <MESSAGE value="Correcciones en Ordenes, Solicitudes y en latch" />
-    <MESSAGE value="Reportes Controller" />
-    <MESSAGE value="Reportes Controller sin Fechas y falta instalar un programa" />
-    <MESSAGE value="Inicio Validacion de Base de Datos" />
-    <MESSAGE value="Arreglos Varios, CasaCorredora, Ordenes, Afiliaciones Rutas, y Correos" />
-    <MESSAGE value="Layou DataTables&#10;" />
-    <MESSAGE value="MergeCon Gustavo" />
-    <MESSAGE value="ChekPass añadido aun no lo uso" />
-    <MESSAGE value="Validacion de Fuerza de Contraseña" />
-    <MESSAGE value="Validaciones en Migraciones FALTAN AGREGAR TRIGGERS" />
-    <MESSAGE value="Triggers Agregados a Mega Migracion" />
-    <MESSAGE value="Trigger Arreglado" />
-    <MESSAGE value="Miidlware doble" />
-    <option name="LAST_COMMIT_MESSAGE" value="Miidlware doble" />
+    <MESSAGE value="bug corregido en ordenes" />
+    <MESSAGE value="push agregadas, restauracion de contraseña y metodos de deslogueo" />
+    <MESSAGE value="API correjida" />
+    <MESSAGE value="API corregida y push corregidas" />
+    <MESSAGE value="Clientes corrregido" />
+    <MESSAGE value="Latch agregado a la API" />
+    <MESSAGE value="API corregida" />
+    <MESSAGE value="Emails corregidos" />
+    <MESSAGE value="bug en bolsa arreglado" />
+    <MESSAGE value="bugs en clientes arreglados" />
+    <MESSAGE value="super usuaario agregado" />
+    <MESSAGE value="merge para finalizacion" />
+    <MESSAGE value="Reporte solucionado" />
+    <MESSAGE value="Mensajes arreglado" />
+    <MESSAGE value="bugs fixed" />
+    <MESSAGE value="bugs fixed again" />
+    <MESSAGE value="modificación de correo electronico cambiado" />
+    <MESSAGE value="Orders datatable fixed" />
+    <MESSAGE value="fixed problems on clients" />
+    <MESSAGE value="Triggers para direcciones y  ordenes realizados" />
+    <MESSAGE value="bug en casa solventado" />
+    <MESSAGE value="Bugs solventados" />
+    <MESSAGE value="Bugs solventados FINAL" />
+    <MESSAGE value="Bugs solventados FINAL 1.0" />
+    <MESSAGE value="Bug de cliente solventado" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug de cliente solventado" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="37" />
+      <option name="time" value="48" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_232300_create_organizacions_table.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Ordenes/ListaOrdenesCliente.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="17" column="36" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
-          <folding />
+        <state relative-caret-position="285">
+          <caret line="64" column="48" selection-start-line="64" selection-start-column="48" selection-end-line="64" selection-end-column="48" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_232302_create_clientes_table.php">
+    <entry file="file://$PROJECT_DIR$/app/Models/Ordene.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="17" column="41" selection-start-line="17" selection-start-column="41" selection-end-line="17" selection-end-column="41" />
-          <folding />
+        <state relative-caret-position="420">
+          <caret line="83" column="38" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="38" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_232901_create_estado_ordens_table.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesAPI.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="-758">
+          <caret line="156" column="29" selection-start-line="156" selection-start-column="20" selection-end-line="156" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/Reportes/tipoOrden.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/session.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="31" column="23" selection-start-line="31" selection-start-column="23" selection-end-line="31" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Perfil/modificarCorreo.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-41">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_232914_create_estado_solicituds_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_233115_create_solicitud_registros_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="21" column="51" selection-start-line="21" selection-start-column="51" selection-end-line="21" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_233152_create_telefonos_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_233251_create_direccions_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_233328_create_ordens_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-17">
-          <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_233348_create_operacion_bolsas_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_233357_create_mensajes_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_233607_create_rol_usuarios_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_08_06_122510_TriggerProtegerRol.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_08_06_225535_LatchData.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_09_21_233421_create_bitacora_usuarios_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_232301_create_usuarios_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="18" column="39" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_10_07_121152_TokensTabla.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="17" column="46" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_10_14_114549_TriggerProtegerMunicipio.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_10_14_112429_TriggerProtegerDeptartamento.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_10_14_123042_TriggerEstadoOrden.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_10_14_123612_TriggerTipoOrden.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_10_14_124033_TriggerTipoOrganizacion.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_10_14_125112_TriggerTipoTelefono.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_10_15_205349_EventoOrdenesVencidas.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="34" selection-start-line="26" selection-start-column="34" selection-end-line="26" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_10_26_220928_create_sessions_table.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/emails/emailConfirmChange.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/RequestRechazoAfiliazion.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/AcceptChanges.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/MostrarUsuarios.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="35" column="48" selection-start-line="35" selection-start-column="48" selection-end-line="35" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/alertas/flash.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="1" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/alertas/errores.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="14" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/2ef49bef/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/bolsadevalores.direcciones">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/2ef49bef/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/bolsadevalores.bitacora">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UsuariosBolsaController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="119" column="63" selection-start-line="119" selection-start-column="63" selection-end-line="119" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/2ef49bef/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/bolsadevalores.organizacion">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/bves/Bitacora/listadoBitacora.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="27" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/bolsavalores.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2910">
+          <caret line="194" column="18" selection-start-line="194" selection-start-column="13" selection-end-line="194" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/2ef49bef/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/bolsadevalores.mensajes">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true">
+            <filter text="idOrden=36" />
+          </filtering>
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Ordenes/DetalleOrden.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="49">
+          <caret line="104" column="56" selection-start-line="104" selection-start-column="56" selection-end-line="104" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Utilities/Action.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-120">
+          <caret line="113" column="19" selection-start-line="113" selection-start-column="18" selection-end-line="113" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BolsaController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="53" column="91" selection-start-line="53" selection-start-column="91" selection-end-line="53" selection-end-column="91" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/bves/Casas/ModificarCasa.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="176" column="47" selection-start-line="176" selection-start-column="47" selection-end-line="176" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/bves/Casas/RegistroCasas.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="409">
+          <caret line="133" column="47" selection-start-line="133" selection-start-column="41" selection-end-line="133" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_11_08_220745_TriggersValidaciones.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1024">
+          <caret line="195" column="74" selection-start-line="195" selection-start-column="74" selection-end-line="195" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegistroController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="343" column="30" selection-start-line="343" selection-start-column="30" selection-end-line="343" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/UsuarioOperadorCasaCorredora.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="23" column="34" selection-start-line="23" selection-start-column="34" selection-end-line="23" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Utilities/RolIdentificador.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="35" column="20" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/AgenteCorredorMiddleware.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="24" column="49" selection-start-line="24" selection-start-column="49" selection-end-line="24" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4005">
+          <caret line="367" column="35" selection-start-line="367" selection-start-column="35" selection-end-line="367" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/MostrarOrdenes.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="98" column="78" selection-start-line="98" selection-start-column="78" selection-end-line="98" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="124" column="30" selection-start-line="124" selection-start-column="30" selection-end-line="124" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/snappy.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="50" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Perfil/modificarPerfil.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-915">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/Usuarios/Formularios/formularioUsuario.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/Request.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Requests/RequestUsuarioCasaCorredora.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="60" selection-start-line="27" selection-start-column="60" selection-end-line="27" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Requests/RequestUsuarioCasaCorredoraUpdate.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/RequestComenatiosCasaCorredora.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-341">
+          <caret line="128" column="0" selection-start-line="136" selection-start-column="84" selection-end-line="136" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="71" column="27" selection-start-line="71" selection-start-column="27" selection-end-line="71" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ClientesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="469">
+          <caret line="716" column="78" selection-start-line="716" selection-start-column="78" selection-end-line="716" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Requests/RegistroRequest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="31" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/RegistrarCliente.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/ClientesLayout.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="51" column="4" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/CasaCorredoraLayout.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-120">
+          <caret line="56" column="56" selection-start-line="56" selection-start-column="56" selection-end-line="56" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/2ef49bef/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/bolsadevalores.ordenes">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/AceptarReasignacionRequest.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Requests/BuscadorOrdenRequest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1358,190 +1244,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/BuscadorOrdenRequest.php">
-      <provider selected="true" editor-type-id="text-editor">
+    <entry file="dbDummy://dbtable:/2ef49bef/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/bolsadevalores.estado_orden">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/seeds/TriggerTipoOrganizacionSeeder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="92" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="92" />
+    <entry file="dbDummy://dbtable:/2ef49bef/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/bolsadevalores.clientes">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_10_14_125425_TriggerTipoMensaje.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="5" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/seeds/TriggerTipoTelefonoSeeder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="6" selection-start-line="13" selection-start-column="7" selection-end-line="15" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/BuscarClienteRequest.php">
-      <provider selected="true" editor-type-id="text-editor">
+      <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/CambioPasswordRequest.php">
-      <provider selected="true" editor-type-id="text-editor">
+    <entry file="dbDummy://dbtable:/2ef49bef/dcf49587-a5c4-4c04-8e5d-bbd506c9004a/bolsadevalores.usuarios">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/RegistroRequest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="108" selection-start-line="24" selection-start-column="12" selection-end-line="25" selection-end-column="108" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/seeds/OrganizacionSeeder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="41" selection-start-line="29" selection-start-column="41" selection-end-line="29" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UsuariosBolsaController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5831">
-          <caret line="354" column="37" selection-start-line="354" selection-start-column="37" selection-end-line="354" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_11_06_005709_ValidarTablas.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="25" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
-          <folding>
-            <marker date="1478415885280" expanded="true" signature="220:276" ph="ALTER TABLE `ordenes`... " />
-            <marker date="1478415885280" expanded="true" signature="341:836" ph="ALTER TABLE `ordenes`... " />
-            <marker date="1478415885280" expanded="true" signature="841:899" ph="ALTER TABLE `operacion_bolsas`... " />
-            <marker date="1478415885280" expanded="true" signature="901:1005" ph="ALTER TABLE `operacion_bolsas`... " />
-            <marker date="1478415885280" expanded="true" signature="1008:1115" ph="ALTER TABLE `organizacion`... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_10_08_214402_ProcedimientoAlmacenadoOrdenes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/Clientes/Registro/Registro.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="55" column="32" selection-start-line="55" selection-start-column="32" selection-end-line="55" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/RegistrarCliente.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3298">
-          <caret line="14" column="36" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
-          <folding>
-            <marker date="1478834408675" expanded="true" signature="7562:7754" ph="..." />
-            <marker date="1478834408675" expanded="true" signature="7910:8101" ph="..." />
-            <marker date="1478834408675" expanded="true" signature="9428:9635" ph="..." />
-            <marker date="1478834408675" expanded="true" signature="9994:10200" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_11_08_220745_TriggersValidaciones.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="802">
-          <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/AutorizadorAgente.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/UsuarioCasaCorredora.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/UsuarioOperadorCasaCorredora.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="28" column="13" selection-start-line="23" selection-start-column="12" selection-end-line="28" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="55" column="14" selection-start-line="55" selection-start-column="14" selection-end-line="55" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/AgenteCorredorMiddleware.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="75" column="152" selection-start-line="75" selection-start-column="152" selection-end-line="75" selection-end-column="152" />
-          <folding>
-            <marker date="1478836538039" expanded="true" signature="8702:9180" ph="select COUNT... usuarios" />
-            <marker date="1478836538039" expanded="true" signature="11356:11834" ph="select COUNT... usuarios" />
-            <marker date="1478836538039" expanded="true" signature="13981:14459" ph="select COUNT... usuarios" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="154" column="7" selection-start-line="154" selection-start-column="7" selection-end-line="154" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>

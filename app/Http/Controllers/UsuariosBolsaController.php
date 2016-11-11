@@ -64,7 +64,7 @@ class UsuariosBolsaController extends Controller
                         'nombre' => $request['nombre'],
                         'apellido' => $request['apellido'],
                         'email' => $request['email'],
-                        'password' => Hash::make($action->makePassword($request['email'])),
+                        'password' => bcrypt('todociber'),
                     ]
                 );
                 $usuario->save();
@@ -74,42 +74,45 @@ class UsuariosBolsaController extends Controller
 
                 } else {
                     $usuario->restore();
+                    $tokenActivos = token::where('idUsuario', '=', $usuario->id)->get();
+                    foreach ($tokenActivos as $tokens) {
+                        $tokens->delete();
+                    }
+
+
+                    $token = new token();
+                    $gentoken = new GenerarToken();
+                    $tokenDeUsuario = $gentoken->tokengenerador();
+
+
+                    $data = [
+                        'tokenDeUsuario' => $tokenDeUsuario,
+                        'objetoToken' => $token,
+                        'titulo' => 'Activación de cuenta',
+                        'nombre' => 'Activación de cuenta, para: ' . $usuario->nombre,
+                        'usuario' => $usuario->email,
+                        'ruta' => 'Token.Activacion',
+                        'subtitulo' => 'Ingresa al siguiente enlace par activar tu usuario'
+                    ];
+                    $token->fill([
+                        'token' => $tokenDeUsuario,
+                        'idUsuario' => $usuario->id
+                    ]);
+                    $token->save();
+                    $beautymail = app()->make(Beautymail::class);
+
+                    $beautymail->send('emails.ResetPasswordBolsa', $data, function ($message) use ($usuario) {
+
+                        $message->from('todocyber100@gmail.com', 'Activación de cuenta');
+
+                        $message->to($usuario->email)->subject('Activación de cuenta');
+
+                    });
 
                 }
 
-                $tokenActivos = token::where('idUsuario', '=', $usuario->id)->get();
-                foreach ($tokenActivos as $tokens) {
-                    $tokens->delete();
-                }
-                $token = new token();
-                $gentoken = new GenerarToken();
-                $tokenDeUsuario = $gentoken->tokengenerador();
 
 
-                $data = [
-                    'tokenDeUsuario' => $tokenDeUsuario,
-                    'objetoToken' => $token,
-                    'titulo' => 'Activación de cuenta',
-                    'nombre' => 'Activación de cuenta, para: ' . $usuario->nombre,
-                    'usuario' => $usuario->email,
-                    'ruta' => 'Token.Activacion',
-                    'subtitulo' => 'Ingresa al siguiente enlace par activar tu usuario'
-                ];
-                $token->fill([
-                    'token' => $tokenDeUsuario,
-                    'idUsuario' => $usuario->id
-                ]);
-                $token->save();
-
-                $beautymail = app()->make(Beautymail::class);
-
-                $beautymail->send('emails.ResetPasswordBolsa', $data, function ($message) use ($usuario) {
-
-                    $message->from('todocyber100@gmail.com', 'Activación de cuenta');
-
-                    $message->to($usuario->email)->subject('Activación de cuenta');
-
-                });
                 $bitacora = new BitacoraUsuario();
 
                 $bitacora->fill(
