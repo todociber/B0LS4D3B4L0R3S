@@ -10,14 +10,21 @@
         <?php include(public_path() . '/assets/dist/css/AdminLTE.css');?>
         <?php include(public_path() . '/assets/dist/css/skins/_all-skins.css');?>
         <?php include(public_path() . '/assets/css/font-awesome.css');?>
+
+        @page teacher {
+            size: A4 portrait;
+            margin: 2cm;
+        }
+
+        .teacherPage {
+            page: teacher;
+            page-break-after: always;
+        }
     </style>
 </head>
 <body style="height: 300px;!important; background: white;">
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="invoice" style="border:1px solid;">
-            <h2 class="page-header" style="border-bottom: 1px solid;">
+
 <?php $nVueltas = 0; ?>
 @foreach($ordenes as $orden)
 
@@ -26,6 +33,10 @@
     @else
         <hr>
     @endif
+    <div class="row teacherPage">
+        <div class="col-md-12">
+            <div class="invoice">
+                <h2 class="page-header">
                     <i class="fa fa-file-text-o"></i> Orden #{{$orden->correlativo}} <br><br>
                     Cliente: {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->nombre}} {{$orden->CuentaCedeval->clientesCuenta->UsuarioNC->apellido}}
                     <br>
@@ -37,52 +48,60 @@
                             Vigencia:</strong><?php echo Carbon::createFromFormat('Y-m-d', $orden->FechaDeVigencia)->toDateString();?>
                     </small>
                     <br>
-            </h2>
+                </h2>
 
-            <div class="row invoice-info">
-                <div class="col-md-4 invoice-col">
-                    <b>Casa corredora: </b> {{$orden->OrganizacionOrdenN->nombre}}<br>
+                <div class="row invoice-info">
+                    <div class="col-md-4 invoice-col">
+                        <b>Casa corredora: </b> {{$orden->OrganizacionOrdenN->nombre}}<br>
 
-                    <b>Tipo de mercado: </b> {{$orden->TipoMercado}}<br>
+                        <b>Tipo de mercado: </b> {{$orden->TipoMercado}}<br>
 
-                    <b>Tipo de orden: </b> {{$orden->TipoOrdenN->nombre}}<br>
+                        <b>Tipo de orden: </b> {{$orden->TipoOrdenN->nombre}}<br>
 
-                    <b>Titulo: </b>{{$orden->titulo}}<br>
+                        <b>Titulo: </b>{{$orden->titulo}}<br>
 
-                    <b>Cuenta cedeval: </b> {{$orden->CuentaCedeval->cuenta}}<br>
+                        <b>Cuenta cedeval: </b> {{$orden->CuentaCedeval->cuenta}}<br>
 
 
-                    <b>Precio minimo: </b> {{$orden->valorMinimo}}<br>
+                        <b>Precio minimo: </b> {{$orden->valorMinimo}}<br>
 
-                    <b>Precio máximo: </b> {{$orden->valorMaximo}}<br>
+                        <b>Precio máximo: </b> {{$orden->valorMaximo}}<br>
 
-                    <b>Monto: </b> {{$orden->monto}} <br>
+                        <b>Monto: </b> {{$orden->monto}} <br>
 
-                </div>
-                <div class="col-md-4 invoice-col">
-                    <div class="text-right">
-                        <b>Tipo de ejecución:</b> {{$orden->TipoEjecucionN->forma}} <br>
 
-                        <b>Estado:</b> <span style="color:orangered"> {{$orden->EstadoOrden->estado}}</span><br>
 
-                        @if($orden->Corredor_UsuarioN()->count()>0)
-                            <b>Agente
-                                Corredor: </b> {{$orden->Corredor_UsuarioN->nombre}} {{$orden->Corredor_UsuarioN->apellido}}
-                            <br>
-                            <b>Comision: </b>{{$orden->comision}}%<br>
-                        @endif
-                        <div/>
                     </div>
 
-                    @endforeach
+                </div>
+                <div class="row invoice-info">
+                    <div class="col-md-8">
 
-                </div><!-- /.box -->
+                        <div class="text-right">
+                            <b>Tipo de ejecución:</b> {{$orden->TipoEjecucionN->forma}} <br>
+
+                            <b>Estado:</b> <span style="color:orangered"> {{$orden->EstadoOrden->estado}}</span><br>
+
+                            @if($orden->Corredor_UsuarioN()->count()>0)
+                                <b>Agente
+                                    Corredor: </b> {{$orden->Corredor_UsuarioN->nombre}} {{$orden->Corredor_UsuarioN->apellido}}
+                                <br>
+                                <b>Comision: </b>{{$orden->comision}}%<br>
+                            @endif
 
 
+                        </div>
+                    </div><!-- /.col -->
+                </div><!-- /.col -->
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div>
+    </div>
 
-</div>
+    <!-- /.row -->
+@endforeach
+
+
+
 </body>
 </html>

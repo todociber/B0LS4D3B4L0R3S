@@ -391,7 +391,7 @@ class OrdenesController extends Controller
             $view = \View::make('CasaCorredora.OrdenesAutorizador.OrdenesReportePDF', compact('ordenes'))->render();
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($view);
-            return $pdf->stream('DetalleOrden#' . $ordenes[0]->correlativo);
+            return $pdf->stream('ReporteOrdenes.pdf');
         } else {
             return redirect()->back()->withErrors('No se encontraron Ordenes para el reporte');
         }
@@ -401,7 +401,7 @@ class OrdenesController extends Controller
     public function ReporteFecha()
     {
         $estadosOrdenes = EstadoOrden::orderBy('id', 'ASC')->lists('estado', 'id');
-        $estadosOrdenes['7'] = 'Todas';
+        $estadosOrdenes['9'] = 'Todas';
         return view('CasaCorredora.Ordenes.ReporteDeOrdenes', compact('estadosOrdenes'));
     }
 
@@ -419,7 +419,7 @@ class OrdenesController extends Controller
 
 
                 if (Carbon::parse($request['fechaInicial'])->diffInDays(Carbon::parse($request['fechaFinal']), false) >= 0) {
-                    if ($estadoOrden == 7) {
+                    if ($estadoOrden == 9) {
                         $ordenes = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganizacion)->whereBetween('created_at', [$fechaInicial . ' 00:00:00', $fechaFinal . ' 00:00:00'])->with(['MensajesN_Orden', 'Corredor_UsuarioN' => function ($query) {
                             $query->withTrashed();
                         }])->get();
@@ -440,7 +440,7 @@ class OrdenesController extends Controller
             $view = \View::make('CasaCorredora.OrdenesAutorizador.OrdenesReportePDF', compact('ordenes'))->render();
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($view);
-            return $pdf->stream('DetalleOrden#' . $ordenes[0]->correlativo);
+            return $pdf->stream('ReporteOrdenes.pdf');
         } else {
             return redirect()->back()->withInput()->withErrors('No se encontraron ordenes para el reporte');
         }
