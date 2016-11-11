@@ -227,6 +227,14 @@
                                     @endif
 
                                 @endif
+
+                                @if($orden->MensajesN_Orden()->count()>0)
+                                    @foreach($ordenes[0]->MensajesN_Orden as $mensaje)
+                                        @if($mensaje->idTipoMensaje ==2)
+                                            <b>Motivo: </b>   {{$mensaje->contenido}}
+                                        @endif
+                                    @endforeach
+                                @endif
                             </div>
                             <div class="col-sm-4 invoice-col">
 
@@ -302,7 +310,16 @@
                                 <div class="col-md-12">
                                     <div class="page-header">
                                         <h3>
-                                            <small class="pull-right">{{$ordenes[0]->MensajesN_Orden->count()}}
+                                            <?php $contador = 0;
+
+                                            foreach ($ordenes[0]->MensajesN_Orden as $mensaje2) {
+                                                if ($mensaje2->idTipoMensaje != 2) {
+                                                    $contador++;
+                                                }
+
+                                            }
+                                            ?>
+                                            <small class="pull-right">{{$contador}}
                                                 comentarios
                                             </small>
                                             Comentarios
@@ -312,6 +329,7 @@
 
 
                                         @foreach($ordenes[0]->MensajesN_Orden as $mensaje)
+                                            @if($mensaje->idTipoMensaje !=2)
                                             <div class="media">
                                                 <p class="pull-right">
                                                     <small>{{$mensaje->created_at}}</small>
@@ -325,9 +343,14 @@
 
                                                         <h4 class="media-heading user_name">
                                                             Cliente: {{$mensaje->UsuarioMensaje->nombre}} {{$mensaje->UsuarioMensaje->apellido}}</h4>
+
+
                                                     @else
+
                                                         <h4 class="media-heading user_name">Casa Corredora enviado
                                                             por: {{$mensaje->UsuarioMensaje->nombre}} {{$mensaje->UsuarioMensaje->apellido}} </h4>
+
+
 
                                                     @endif
 
@@ -337,7 +360,7 @@
 
                                                 </div>
                                             </div>
-
+                                            @endif
                                         @endforeach
 
 

@@ -400,7 +400,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                 $ordenAEliminar = Ordene::find($id);
                 $ordenAEliminar->fill(
                     [
-                        'idCorredor' => Auth::user()->id,
+
                         'idEstadoOrden' => '8'
                     ]
                 );

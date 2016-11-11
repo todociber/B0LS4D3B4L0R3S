@@ -129,7 +129,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::put('Ordenes/{id}/aceptar', 'OrdenesCasaCorredoraAutorizador@aceptar')->name('Ordenes.aceptar');
             Route::put('Ordenes/{id}/ReAceptar', 'OrdenesCasaCorredoraAutorizador@ReAceptar')->name('Ordenes.ReAceptar');
-            Route::get('Ordenes/{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
+            Route::post('Ordenes/{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
             Route::post('Ordenes/{id}/comentar', 'OrdenesController@Comentar')->name('Ordenes.Comentar');
 
             Route::get('Ordenes/{id}/Operaciones', 'OrdenesController@Operaciones')->name('Ordenes.operaciones');
@@ -140,13 +140,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('Ordenes/ReportePDF', 'OrdenesController@DetallesOrdenesPDF')->name('OrdenesReporte.PDF');
             Route::get('Order/ListadoGeneralAutorizador', 'OrdenesCasaCorredoraAutorizador@ListadoGeneralAutorizador')->name('ordenesautorizador');
             Route::get('Order/FiltrarOrdenAu', 'OrdenesController@ordenesbyEstadoAu')->name('ordenesbyestadoauth');
-
             Route::get('RegistrarClientes', 'RegistroController@index')->name('Registrar.Clientes');
             Route::get('BuscarCliente', 'SolicitudesCasaCorredora@buscarCliente')->name('Buscar.Cliente');
             Route::post('BuscarCliente', 'SolicitudesCasaCorredora@buscarClientePost')->name('Buscar.Cliente');
             Route::post('Afiliar/{id}/Cliente', 'SolicitudesCasaCorredora@afiliarCliente')->name('Afiliar.Cliente');
-
-
             Route::get('Ordenes/Reasignacion/Usuario', 'OrdenesController@ReasignacionUsuario')->name('Ordenes.Reasignacion.Usuario');
             Route::get('Ordenes/Reasignacion/{id}/Orden', 'OrdenesController@ReasignacionOrdenes')->name('Ordenes.Reasignacion.Orden');
             Route::get('Ordenes/Reasignacion/{id}/Orden/NuevoAgente/{agente}', 'OrdenesController@ReasignacionAgente')->name('Ordenes.Reasignacion.NuevoAgente');
@@ -174,8 +171,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('Order/FiltrarOrden', 'OrdenesController@ordenesbyEstado')->name('ordenesbyestadoagent');
             Route::get('Order/ListadoGeneralAgente', 'OrdenesCasaCorredoraAutorizador@ListadoGeneralOrdenesAgente')->name('ordenesagente');
             Route::get('Order/Asignadas', 'OrdenesCasaCorredoraAutorizador@agenteIndex')->name('agenteindex');
-
-
         });
 });
 });
