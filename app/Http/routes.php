@@ -131,7 +131,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::put('Ordenes/{id}/ReAceptar', 'OrdenesCasaCorredoraAutorizador@ReAceptar')->name('Ordenes.ReAceptar');
             Route::get('Ordenes/{id}/rechazar', 'OrdenesCasaCorredoraAutorizador@rechazar')->name('Ordenes.rechazar');
             Route::post('Ordenes/{id}/comentar', 'OrdenesController@Comentar')->name('Ordenes.Comentar');
-            Route::put('Ordenes/{id}/actualizar', 'OrdenesController@Actualizar')->name('Ordenes.actualizar');
+
             Route::get('Ordenes/{id}/Operaciones', 'OrdenesController@Operaciones')->name('Ordenes.operaciones');
             Route::post('Ordenes/{id}/Operaciones/Guardar', 'OrdenesController@OperacionesGuardar')->name('Ordenes.operacionesGuardar');
             Route::get('Ordenes/Reasignacion', 'OrdenesController@reasignar')->name('Ordenes.Reasignacion');
@@ -140,7 +140,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('Ordenes/ReportePDF', 'OrdenesController@DetallesOrdenesPDF')->name('OrdenesReporte.PDF');
             Route::get('Order/ListadoGeneralAutorizador', 'OrdenesCasaCorredoraAutorizador@ListadoGeneralAutorizador')->name('ordenesautorizador');
             Route::get('Order/FiltrarOrdenAu', 'OrdenesController@ordenesbyEstadoAu')->name('ordenesbyestadoauth');
-            Route::get('Ordenes/{id}/editarOrden', 'OrdenesController@Editar')->name('Ordenes.editar');
+
             Route::get('RegistrarClientes', 'RegistroController@index')->name('Registrar.Clientes');
             Route::get('BuscarCliente', 'SolicitudesCasaCorredora@buscarCliente')->name('Buscar.Cliente');
             Route::post('BuscarCliente', 'SolicitudesCasaCorredora@buscarClientePost')->name('Buscar.Cliente');
@@ -152,26 +152,24 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('Ordenes/Reasignacion/{id}/Orden/NuevoAgente/{agente}', 'OrdenesController@ReasignacionAgente')->name('Ordenes.Reasignacion.NuevoAgente');
             Route::put('Ordenes/AceptarReasignacion/{id}', 'OrdenesController@AceptarReasignacion')->name('Ordenes.AceptarReasignacion');
         });
-        Route::group(['middleware' => 'OperadorCasaCorredora'], function () {
-            Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
 
-        });
 
 
         Route::group(['middleware' => 'autorizadorAgente'], function () {
+            Route::resource('Ordenes', 'OrdenesCasaCorredoraAutorizador');
             Route::get('Ordenes/{id}/asignar', 'OrdenesCasaCorredoraAutorizador@asignar')->name('Ordenes.asignar');
             Route::get('Ordenes/{id}/detalles', 'OrdenesCasaCorredoraAutorizador@detalles')->name('Ordenes.detalles');
             Route::get('Ordenes/{id}/detalles/Historial', 'OrdenesController@Historial')->name('Ordenes.historial');
             Route::get('Ordenes/{id}/detallesEliminar/', 'OrdenesCasaCorredoraAutorizador@detallesEliminar')->name('Ordenes.detallesEliminar');
             Route::get('Ordenes/{id}/DetallePDF', 'OrdenesController@DetalleOrdenPDF')->name('OrdenesDetalles.PDF');
+            Route::put('Ordenes/{id}/actualizar', 'OrdenesController@Actualizar')->name('Ordenes.actualizar');
+            Route::get('Ordenes/{id}/editarOrden', 'OrdenesController@Editar')->name('Ordenes.editar');
+            Route::post('Ordenes/{id}/comentar', 'OrdenesController@Comentar')->name('Ordenes.Comentar');
+            Route::get('Ordenes/{id}/Operaciones', 'OrdenesController@Operaciones')->name('Ordenes.operaciones');
+            Route::post('Ordenes/{id}/Operaciones/Guardar', 'OrdenesController@OperacionesGuardar')->name('Ordenes.operacionesGuardar');
         });
 
         Route::group(['middleware' => 'AgenteCorredor'], function () {
-            Route::post('Ordenes/{id}/comentar', 'OrdenesController@Comentar')->name('Ordenes.Comentar');
-            Route::put('Ordenes/{id}/actualizar', 'OrdenesController@Actualizar')->name('Ordenes.actualizar');
-            Route::get('Ordenes/{id}/Operaciones', 'OrdenesController@Operaciones')->name('Ordenes.operaciones');
-            Route::post('Ordenes/{id}/Operaciones/Guardar', 'OrdenesController@OperacionesGuardar')->name('Ordenes.operacionesGuardar');
-            Route::get('Ordenes/{id}/editarOrden', 'OrdenesController@Editar')->name('Ordenes.editar');
             Route::get('Order/OrdenesAgente', 'OrdenesCasaCorredoraAutorizador@OrdenesAsignadasAgente')->name('ordenesagenteasignar');
             Route::get('Order/FiltrarOrden', 'OrdenesController@ordenesbyEstado')->name('ordenesbyestadoagent');
             Route::get('Order/ListadoGeneralAgente', 'OrdenesCasaCorredoraAutorizador@ListadoGeneralOrdenesAgente')->name('ordenesagente');
