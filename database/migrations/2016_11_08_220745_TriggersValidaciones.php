@@ -167,16 +167,34 @@ END");
 END");
 
         DB::unprepared("CREATE DEFINER=`" . env('DB_USERNAME') . "`@`" . env('DB_HOST') . "` TRIGGER `ordenes_before_update` BEFORE UPDATE ON `ordenes` FOR EACH ROW BEGIN
-
 DECLARE contador INT(2);
 
 SET @contador = (SELECT COUNT(*) FROM ordenes WHERE id = old.id AND idEstadoOrden IN(3,4,6,7,8)); 
 
-IF contador > 0 THEN
- SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'NO PUEDE MODIFICAR LAS ORDENES EN ESTADO VENCIDA,RECHAZADA,CANCELADA, MODIFICADA,EJECUTADA Y FINALIZADA';
 
+IF (new.idOrganizacion != old.idOrganizacion || new.idCliente != old.idCliente) THEN
+ SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'NO	 SE PERMITEN ESTE TIPO DE CAMBIOS';
 END IF;
 
+
+
+IF (old.idTipoEjecucion = 2) THEN  
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'NO	 SE PERMITEN ESTE TIPO DE CAMBIOS';
+ END IF; 
+ 
+
+
+
+IF @contador > 0 THEN
+
+IF (new.id != old.id  || new.correlativo != old.correlativo || new.FechaDeVigencia != old.FechaDeVigencia || new.titulo = old.titulo || new.valorMinimo != old.valorMinimo || new.valorMaximo != old.valorMaximo || new.monto != old.monto || new.tasaDeInteres != old.tasaDeInteres || new.comision != old.tasaDeInteres || new.comision != old.comision || new.emisor != old.emisor || new.TipoMercado != old.TipoMercado) THEN
+ SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'NO PUEDE MODIFICAR LAS ORDENES EN ESTADO VENCIDA,RECHAZADA,CANCELADA, MODIFICADA,EJECUTADA Y FINALIZADA';
+END IF;  
+
+ 
+
+
+END IF;
 END");
 
 
@@ -219,6 +237,7 @@ END");
         DB::unprepared('DROP TRIGGER `usuarios_before_update`;');
         DB::unprepared('DROP TRIGGER `direcciones_before_insert`;');
         DB::unprepared('DROP TRIGGER `ordenes_BEFORE_INSERT`;');
+        DB::unprepared('DROP TRIGGER `ordenes_before_update`;');
         DB::unprepared('DROP TRIGGER `organizacion_before_delete`;');
         DB::unprepared('DROP TRIGGER `cedevals_before_delete`;');
         DB::unprepared('DROP TRIGGER `mensajes_before_delete`;');
