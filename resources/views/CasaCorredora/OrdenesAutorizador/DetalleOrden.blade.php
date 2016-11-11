@@ -96,57 +96,57 @@
                 </div>
                 <div class="modal-body">
                     <table id="AgentesC" class="table table-hover">
-                    <thead>
-                    <tr>
-
-                        <th><p class="text-center">Nombre</p></th>
-                        <th><p class="text-center">email</p></th>
-                        <th><p class="text-center">Nº Ordenes asignadas</p></th>
-                        <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($usuariosAgentes as $usuarioA)
-
+                        <thead>
                         <tr>
 
-                            <td>{{$usuarioA->nombre}}  {{$usuarioA->apellido}}</td>
-                            <td>{{$usuarioA->email}}</td>
-                            <td class="text-center">
+                            <th><p class="text-center">Nombre</p></th>
+                            <th><p class="text-center">email</p></th>
+                            <th><p class="text-center">Nº Ordenes asignadas</p></th>
+                            <th><p class="text-center"><span class="glyphicon glyphicon-cog"></span></p></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($usuariosAgentes as $usuarioA)
 
-                                <?php
-                                $existenordenes = 0;
+                            <tr>
 
-                                for ($i = 0; $i < count($agentesCorredores); $i++) {
+                                <td>{{$usuarioA->nombre}}  {{$usuarioA->apellido}}</td>
+                                <td>{{$usuarioA->email}}</td>
+                                <td class="text-center">
 
-                                    if ($agentesCorredores[$i]->id == $usuarioA->id) {
-                                        $existenordenes = 1;
-                                        echo $agentesCorredores[$i]->N;
+                                    <?php
+                                    $existenordenes = 0;
+
+                                    for ($i = 0; $i < count($agentesCorredores); $i++) {
+
+                                        if ($agentesCorredores[$i]->id == $usuarioA->id) {
+                                            $existenordenes = 1;
+                                            echo $agentesCorredores[$i]->N;
+                                        }
+
                                     }
 
-                                }
-
-                                if ($existenordenes == 0) {
-                                    echo '0';
-                                }
+                                    if ($existenordenes == 0) {
+                                        echo '0';
+                                    }
 
 
-                                ?>
-                            </td>
+                                    ?>
+                                </td>
 
 
-                            <td>
-                                <input type="button" data-dismiss="modal" class="btn btn-primary"
-                                       onclick="clikLog(this)" id="{{$usuarioA->nombre}} {{$usuarioA->apellido}}"
-                                       name="{{$usuarioA->id}}" value="Asignar orden"/>
-                            </td>
-                        </tr>
+                                <td>
+                                    <input type="button" data-dismiss="modal" class="btn btn-primary"
+                                           onclick="clikLog(this)" id="{{$usuarioA->nombre}} {{$usuarioA->apellido}}"
+                                           name="{{$usuarioA->id}}" value="Asignar orden"/>
+                                </td>
+                            </tr>
 
-                    @endforeach
+                        @endforeach
 
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -265,7 +265,7 @@
                                         <li>{!!Form::submit('Completar', ['class'=>'btn btn-info btn-flat'])!!}</li>
 
                                         <li><a data-toggle="modal" data-target="#modalRechazar"
-                                           class="btn btn-danger btn-flat">Rechazar</a>
+                                               class="btn btn-danger btn-flat">Rechazar</a>
                                         </li>
                                         {!!Form::close()!!}
                                     </ul>
@@ -330,36 +330,36 @@
 
                                         @foreach($ordenes[0]->MensajesN_Orden as $mensaje)
                                             @if($mensaje->idTipoMensaje !=2)
-                                            <div class="media">
-                                                <p class="pull-right">
-                                                    <small>{{$mensaje->created_at}}</small>
-                                                </p>
-                                                <a class="media-left" href="#">
+                                                <div class="media">
+                                                    <p class="pull-right">
+                                                        <small>{{$mensaje->created_at}}</small>
+                                                    </p>
+                                                    <a class="media-left" href="#">
 
-                                                </a>
+                                                    </a>
 
-                                                <div class="media-body">
-                                                    @if ($mensaje->UsuarioMensaje->idOrganizacion==null)
+                                                    <div class="media-body">
+                                                        @if ($mensaje->UsuarioMensaje->idOrganizacion==null)
 
-                                                        <h4 class="media-heading user_name">
-                                                            Cliente: {{$mensaje->UsuarioMensaje->nombre}} {{$mensaje->UsuarioMensaje->apellido}}</h4>
-
-
-                                                    @else
-
-                                                        <h4 class="media-heading user_name">Casa Corredora enviado
-                                                            por: {{$mensaje->UsuarioMensaje->nombre}} {{$mensaje->UsuarioMensaje->apellido}} </h4>
+                                                            <h4 class="media-heading user_name">
+                                                                Cliente: {{$mensaje->UsuarioMensaje->nombre}} {{$mensaje->UsuarioMensaje->apellido}}</h4>
 
 
+                                                        @else
 
-                                                    @endif
+                                                            <h4 class="media-heading user_name">Casa Corredora enviado
+                                                                por: {{$mensaje->UsuarioMensaje->nombre}} {{$mensaje->UsuarioMensaje->apellido}} </h4>
 
 
-                                                    {{$mensaje->contenido}}
+
+                                                        @endif
 
 
+                                                        {{$mensaje->contenido}}
+
+
+                                                    </div>
                                                 </div>
-                                            </div>
                                             @endif
                                         @endforeach
 

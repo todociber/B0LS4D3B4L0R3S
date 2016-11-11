@@ -658,13 +658,14 @@ class ClientesController extends Controller
                     }
                     $emails[$i] = $user->email;
                     $i++;
+
+
                 }
                 if (!$band) {
                     if (isset($orden->Corredor_UsuarioN)) {
                         $i++;
                         $emails[$i] = $orden->Corredor_UsuarioN->email;
                     }
-
                 }
 
 

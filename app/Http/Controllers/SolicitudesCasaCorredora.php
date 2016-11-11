@@ -432,10 +432,12 @@ class SolicitudesCasaCorredora extends Controller
             flash('Cliente encontrado', 'success');
             $solicitudAceptada = SolicitudRegistro::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
                 ->where('idCliente', '=', $cliente[0]->id)->where('idEstadoSolicitud', '=', 2)->count();
-            echo $solicitudAceptada;
+            $solicitudRechazada = SolicitudRegistro::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idCliente', '=', $cliente[0]->id)->where('idEstadoSolicitud', '=', 3)->count();
+
 
             $clienteInfo = '';
-            if ($solicitudAceptada > 0) {
+            if ($solicitudRechazada > 0) {
                 $solicitudN = SolicitudRegistro::where('idOrganizacion', '=', Auth::user()->idOrganizacion)
                     ->where('idCliente', '=', $cliente[0]->id)->first();
                 $clienteInfo = 'El cliente ya estuvo afiliado en la casa';

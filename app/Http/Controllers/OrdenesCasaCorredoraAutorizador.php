@@ -58,7 +58,8 @@ class OrdenesCasaCorredoraAutorizador extends Controller
         } else if ($rolIdentificador->AgenteCorredor(Auth::user())) {
             $ordenes = Ordene::where('idEstadoOrden', '!=', '4')
                 ->where('idCorredor', '=', Auth::user()->id)
-                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
+                ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)
+                ->where('idEstadoOrden', 2)->get();
             $ordenesAsignadas = count($ordenes);
 
             $ordenesVencer = Ordene::where('idEstadoOrden', '!=', '4')
@@ -81,6 +82,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
     {
         $ordenes = Ordene::where('idEstadoOrden', '!=', '4')
             ->where('idCorredor', '=', Auth::user()->id)
+            ->where('idEstadoOrden', 2)
             ->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->get();
         $ordenesAsignadas = count($ordenes);
 
@@ -400,7 +402,7 @@ class OrdenesCasaCorredoraAutorizador extends Controller
                 $ordenAEliminar = Ordene::find($id);
                 $ordenAEliminar->fill(
                     [
-
+                        //'idCorredor' => Auth::user()->id,
                         'idEstadoOrden' => '8'
                     ]
                 );

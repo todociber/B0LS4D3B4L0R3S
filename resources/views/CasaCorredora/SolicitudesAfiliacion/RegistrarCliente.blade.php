@@ -10,8 +10,8 @@
         var clonar;
         $(function () {
 
-            $(".js-example-basic-single").select2();
-            $(".js-example-basic-single2").select2();
+            $("#department").select2();
+            $("#municipio").select2();
             $('#dui').mask('000000000');
             $('#nit').mask('00000000000000');
             //$.fn.datepicker.defaults.language = 'es';

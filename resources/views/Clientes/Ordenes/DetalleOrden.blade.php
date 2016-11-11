@@ -61,7 +61,7 @@
 
                     <a data-toggle="modal" data-target="#modalRechazo" class="btn btn-danger btn-flat">Ver motivo de
                         rechazo</a>
-                @elseif($orderEstado==5 || $orderEstado==7 )
+                @elseif($orderEstado==5 || $orderEstado==6 )
 
                     <a data-toggle="modal" data-target="#modalOperaciones" class="btn btn-info btn-flat">Ver operaciones
                         de bolsa</a>
@@ -170,7 +170,7 @@
     @endif
 @stop
 
-@if($orden->idEstadoOrden == 5 || $orden->idEstadoOrden == 7)
+@if($orden->idEstadoOrden == 5 || $orden->idEstadoOrden == 6)
     <div id="modalOperaciones" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
