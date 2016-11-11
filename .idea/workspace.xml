@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Triggers Agregados a Mega Migracion">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.env" afterPath="$PROJECT_DIR$/.env" />
+    <list default="true" id="f31ed276-c93c-4cc9-af38-7c11e6d04d3c" name="Default" comment="Trigger Arreglado">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Http/Middleware/AutorizadorAgente.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_11_08_220745_TriggersValidaciones.php" afterPath="$PROJECT_DIR$/database/migrations/2016_11_08_220745_TriggersValidaciones.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Kernel.php" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
     </list>
     <ignored path="SERO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,11 +34,43 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="2016_11_08_220745_TriggersValidaciones.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="2016_11_08_220745_TriggersValidaciones.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/database/migrations/2016_11_08_220745_TriggersValidaciones.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3383">
+            <state relative-caret-position="802">
               <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="595">
+              <caret line="177" column="0" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AutorizadorAgente.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Middleware/AutorizadorAgente.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
+              <folding>
+                <element signature="e#39#74#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Kernel.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="663">
+              <caret line="60" column="26" selection-start-line="60" selection-start-column="9" selection-end-line="60" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -65,16 +98,6 @@
                 <marker date="1478415885280" expanded="true" signature="901:1005" ph="ALTER TABLE `operacion_bolsas`... " />
                 <marker date="1478415885280" expanded="true" signature="1008:1115" ph="ALTER TABLE `organizacion`... " />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BuscarClienteRequest.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Requests/BuscarClienteRequest.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -149,8 +172,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/Http/Controllers/BitacoraCasaCorredora.php" />
-        <option value="$PROJECT_DIR$/resources/views/CasaCorredora/Bitacora/MostrarBitacota.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/ClientesLayout.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/bolsavalores.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/OrdenesAutorizador/ReasignacionMostrarOrdenes.blade.php" />
@@ -176,7 +197,6 @@
         <option value="$PROJECT_DIR$/resources/views/emails/RechazoDeOrden.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesCasaCorredoraAutorizador.php" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/UsuarioAdministradorCasaCorredoraAuth.php" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/UsuarioCasaCorredora.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/UsuarioCasaCorredoraController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/OrdenesController.php" />
@@ -200,6 +220,9 @@
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/database/migrations/2016_11_08_220745_TriggersValidaciones.php" />
         <option value="$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/RegistrarCliente.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Middleware/AutorizadorAgente.php" />
+        <option value="$PROJECT_DIR$/app/Http/Kernel.php" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
       </list>
     </option>
   </component>
@@ -361,7 +384,7 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -375,11 +398,33 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="migrations" />
+              <option name="myItemId" value="Http" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bolsaDeValores" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bolsaDeValores" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Http" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Middleware" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -602,14 +647,8 @@
       <workItem from="1478664400091" duration="1615000" />
       <workItem from="1478818646818" duration="318000" />
       <workItem from="1478819012696" duration="2210000" />
-      <workItem from="1478831887543" duration="2239000" />
-    </task>
-    <task id="LOCAL-00031" summary="Bugs en el documento corregidos, restauracion de contraseña casa corredora realizado">
-      <created>1476576966190</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1476576966190</updated>
+      <workItem from="1478831887543" duration="2447000" />
+      <workItem from="1478834371201" duration="892000" />
     </task>
     <task id="LOCAL-00032" summary="jquery mask agreado">
       <created>1476577110555</created>
@@ -947,11 +986,18 @@
       <option name="project" value="LOCAL" />
       <updated>1478665971225</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <task id="LOCAL-00080" summary="Trigger Arreglado">
+      <created>1478834147474</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1478834147474</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="404802000" />
+    <option name="totallyTimeSpent" value="405902000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -967,7 +1013,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35355988" sideWeight="0.4890411" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3592233" sideWeight="0.4890411" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32871974" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.50865054" sideWeight="0.51941746" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21197411" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1049,7 +1095,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Correccion push Android" />
     <MESSAGE value="Arreglo en push y Procedimiento Almacenado de Ordenes" />
     <MESSAGE value="push y corrreccion de orden finalizada" />
     <MESSAGE value="Ordenes Historial" />
@@ -1074,7 +1119,8 @@
     <MESSAGE value="Validacion de Fuerza de Contraseña" />
     <MESSAGE value="Validaciones en Migraciones FALTAN AGREGAR TRIGGERS" />
     <MESSAGE value="Triggers Agregados a Mega Migracion" />
-    <option name="LAST_COMMIT_MESSAGE" value="Triggers Agregados a Mega Migracion" />
+    <MESSAGE value="Trigger Arreglado" />
+    <option name="LAST_COMMIT_MESSAGE" value="Trigger Arreglado" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1086,30 +1132,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_230808_create_tipo_ordens_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_230909_create_tipo_telefonos_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_231117_create_tipo_organizacions_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_17_231336_create_tipo_mensajes_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1393,7 +1415,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="6" selection-start-line="13" selection-start-column="7" selection-end-line="15" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1463,20 +1484,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="55" column="32" selection-start-line="55" selection-start-column="32" selection-end-line="55" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/RegistrarCliente.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="144" column="181" selection-start-line="144" selection-start-column="181" selection-end-line="144" selection-end-column="181" />
-          <folding>
-            <marker date="1478834125614" expanded="true" signature="7660:7852" ph="..." />
-            <marker date="1478834125614" expanded="true" signature="8008:8199" ph="..." />
-            <marker date="1478834125614" expanded="true" signature="9526:9733" ph="..." />
-            <marker date="1478834125614" expanded="true" signature="10092:10298" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1488,10 +1495,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/CasaCorredora/SolicitudesAfiliacion/RegistrarCliente.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3298">
+          <caret line="14" column="36" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
+          <folding>
+            <marker date="1478834408675" expanded="true" signature="7562:7754" ph="..." />
+            <marker date="1478834408675" expanded="true" signature="7910:8101" ph="..." />
+            <marker date="1478834408675" expanded="true" signature="9428:9635" ph="..." />
+            <marker date="1478834408675" expanded="true" signature="9994:10200" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2016_11_08_220745_TriggersValidaciones.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3383">
+        <state relative-caret-position="802">
           <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/AutorizadorAgente.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
+          <folding>
+            <element signature="e#39#74#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="60" column="26" selection-start-line="60" selection-start-column="9" selection-end-line="60" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="177" column="0" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
           <folding />
         </state>
       </provider>
