@@ -257,10 +257,11 @@ class OrdenesController extends Controller
 
     public function Operaciones($id)
     {
-        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->orWhere('idTipoEjecucion', '!=', '3')->get();
+        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->get();
 
 
         if ($ordenes->count() > 0) {
+
 
             if ($ordenes[0]->idTipoEjecucion == 2) {
 
@@ -270,14 +271,14 @@ class OrdenesController extends Controller
             return view('CasaCorredora.Ordenes.OperacionesDeVolsa', compact('ordenes'));
 
         } else {
-            flash('Error en consulta', 'danger');
+            flash('Orden finalizada', 'danger');
             return redirect('/Ordenes');
         }
     }
 
     public function OperacionesGuardar(Requests\RequestOperacionBolsa $request, $id)
     {
-        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->orWhere('idTipoEjecucion', '!=', '3')->where('idCorredor', '=', Auth::user()->id)->get();
+        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->where('idCorredor', '=', Auth::user()->id)->get();
         if ($ordenes->count() > 0) {
             if ($ordenes[0]->idTipoEjecucion != 2) {
                 $montoEjecutado = 0;
@@ -391,7 +392,7 @@ class OrdenesController extends Controller
             $view = \View::make('CasaCorredora.OrdenesAutorizador.OrdenesReportePDF', compact('ordenes'))->render();
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($view);
-            return $pdf->stream('DetalleOrden#' . $ordenes[0]->correlativo);
+            return $pdf->stream('ReporteOrdenes.pdf');
         } else {
             return redirect()->back()->withErrors('No se encontraron Ordenes para el reporte');
         }
@@ -401,7 +402,7 @@ class OrdenesController extends Controller
     public function ReporteFecha()
     {
         $estadosOrdenes = EstadoOrden::orderBy('id', 'ASC')->lists('estado', 'id');
-        $estadosOrdenes['7'] = 'Todas';
+        $estadosOrdenes['9'] = 'Todas';
         return view('CasaCorredora.Ordenes.ReporteDeOrdenes', compact('estadosOrdenes'));
     }
 
@@ -419,7 +420,7 @@ class OrdenesController extends Controller
 
 
                 if (Carbon::parse($request['fechaInicial'])->diffInDays(Carbon::parse($request['fechaFinal']), false) >= 0) {
-                    if ($estadoOrden == 7) {
+                    if ($estadoOrden == 9) {
                         $ordenes = Ordene::where('idOrganizacion', '=', Auth::user()->idOrganizacion)->whereBetween('created_at', [$fechaInicial . ' 00:00:00', $fechaFinal . ' 00:00:00'])->with(['MensajesN_Orden', 'Corredor_UsuarioN' => function ($query) {
                             $query->withTrashed();
                         }])->get();
@@ -440,7 +441,7 @@ class OrdenesController extends Controller
             $view = \View::make('CasaCorredora.OrdenesAutorizador.OrdenesReportePDF', compact('ordenes'))->render();
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($view);
-            return $pdf->stream('DetalleOrden#' . $ordenes[0]->correlativo);
+            return $pdf->stream('ReporteOrdenes.pdf');
         } else {
             return redirect()->back()->withInput()->withErrors('No se encontraron ordenes para el reporte');
         }
