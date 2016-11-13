@@ -257,10 +257,11 @@ class OrdenesController extends Controller
 
     public function Operaciones($id)
     {
-        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->orWhere('idTipoEjecucion', '!=', '3')->get();
+        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->get();
 
 
         if ($ordenes->count() > 0) {
+
 
             if ($ordenes[0]->idTipoEjecucion == 2) {
 
@@ -270,14 +271,14 @@ class OrdenesController extends Controller
             return view('CasaCorredora.Ordenes.OperacionesDeVolsa', compact('ordenes'));
 
         } else {
-            flash('Error en consulta', 'danger');
+            flash('Orden finalizada', 'danger');
             return redirect('/Ordenes');
         }
     }
 
     public function OperacionesGuardar(Requests\RequestOperacionBolsa $request, $id)
     {
-        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->orWhere('idTipoEjecucion', '!=', '3')->where('idCorredor', '=', Auth::user()->id)->get();
+        $ordenes = Ordene::ofid($id)->where('idOrganizacion', '=', Auth::user()->idOrganizacion)->where('idEstadoOrden', '=', '5')->where('idCorredor', '=', Auth::user()->id)->get();
         if ($ordenes->count() > 0) {
             if ($ordenes[0]->idTipoEjecucion != 2) {
                 $montoEjecutado = 0;
