@@ -58,5 +58,6 @@ class Kernel extends HttpKernel
         'jwt-auth' => \App\Http\Middleware\authJWT::class,
         'cliente' => \App\Http\Middleware\ClienteMiddleware::class,
         'bolsa' => \App\Http\Middleware\BolsaMiddleware::class,
+        'autorizadorAgente' => \App\Http\Middleware\AutorizadorAgente::class,
     ];
 }

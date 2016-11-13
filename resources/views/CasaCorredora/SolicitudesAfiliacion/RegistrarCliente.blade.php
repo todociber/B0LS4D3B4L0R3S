@@ -2,17 +2,18 @@
 @section('content')
 
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".js-example-basic-single").select2();
-            $(".js-example-basic-single2").select2();
-        });
-    </script>
+
+
 
     <script>
         var contador = 0;
         var clonar;
         $(function () {
+
+            $("#department").select2();
+            $("#municipio").select2();
+            $('#dui').mask('000000000');
+            $('#nit').mask('00000000000000');
             //$.fn.datepicker.defaults.language = 'es';
             $('#datepicker').datepicker({
                 pickTime: false,
@@ -23,6 +24,8 @@
                 minDate: '-100Y',
                 yearRange: '-100'
             });
+
+
             $('#department').prepend('<option val="" disabled selected>Seleccione un departamento</option>')
         });
         function charge() {
@@ -139,12 +142,12 @@
 
             <div class="form-group">
                 {{ Form::label('DUI') }}
-                {{ Form::text('dui',null,['class'=>'form-control','placeholder'=>'Ingresa número de DUI','required','id'=>'dui', 'pattern'=>'[0-9]{9}','maxlength'=>'9','title'=>'Numero de DUI sin guiones']) }}
+                {{ Form::text('dui',null,['class'=>'form-control','placeholder'=>'Ingresa número de DUI','required','id'=>'dui','maxlength'=>'9','title'=>'Numero de DUI sin guiones']) }}
             </div>
 
             <div class="form-group">
                 {{ Form::label('NIT') }}
-                {{ Form::text('nit',null,['class'=>'form-control','placeholder'=>'Ingresa número de NIT','required','id'=>'nit','pattern'=>'[0-9]{14}','maxlength'=>'14', 'title'=>'Numero de NIT sin guiones']) }}
+                {{ Form::text('nit',null,['class'=>'form-control','placeholder'=>'Ingresa número de NIT','required','id'=>'nit','maxlength'=>'14', 'title'=>'Numero de NIT sin guiones']) }}
             </div>
             <div class="form-group">
                 {{ Form::label('Email') }}

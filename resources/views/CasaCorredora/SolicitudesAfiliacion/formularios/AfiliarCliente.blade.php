@@ -5,6 +5,7 @@ $solicitud = null;
 if (Session::has('solicitudN')) {
 
     $solicitud = \Session::get('solicitudN');
+
 }
 
 

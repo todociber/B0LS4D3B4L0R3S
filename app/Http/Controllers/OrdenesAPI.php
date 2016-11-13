@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Models\Cedeval;
 use App\Models\Mensaje;
 use App\Models\Ordene;
@@ -352,12 +351,16 @@ class OrdenesAPI extends Controller
                     $i = 0;
                     $band = false;
                     foreach ($usuarios as $user) {
-                        if ($orden->Corredor_UsuarioN->email == $user->email) {
+                        if (isset($orden->Corredor_UsuarioN)) {
+                            if ($orden->Corredor_UsuarioN->email == $user->email) {
 
-                            $band = true;
+                                $band = true;
+                            }
                         }
                         $emails[$i] = $user->email;
                         $i++;
+
+
                     }
                     if (!$band) {
                         if (isset($orden->Corredor_UsuarioN)) {
@@ -464,70 +467,70 @@ class OrdenesAPI extends Controller
     public function ExecuteOrder(Request $request)
     {
 
-            $rules = [
-                "idCliente" => 'required|numeric',
-                "idOrden" => 'required|numeric',
-                "nombreCliente" => 'required',
-                "apellidoCliente" => 'required'
+        $rules = [
+            "idCliente" => 'required|numeric',
+            "idOrden" => 'required|numeric',
+            "nombreCliente" => 'required',
+            "apellidoCliente" => 'required'
 
-            ];
+        ];
 
-            $validator = \Validator::make($request->all(), $rules);
+        $validator = \Validator::make($request->all(), $rules);
 
-            if ($validator->fails()) {
-                return response()->json(['ErrorCode' => '5', 'msg' => $validator->errors()->all()]);
-            } else {
+        if ($validator->fails()) {
+            return response()->json(['ErrorCode' => '5', 'msg' => $validator->errors()->all()]);
+        } else {
 
-                $idCliente = $request['idCliente'];
+            $idCliente = $request['idCliente'];
 
-                $orden = Ordene::where("id", $request['idOrden'])
-                    ->where("idCliente", $idCliente)
-                    ->where("idEstadoOrden", "=", 2)
-                    ->first();
+            $orden = Ordene::where("id", $request['idOrden'])
+                ->where("idCliente", $idCliente)
+                ->where("idEstadoOrden", "=", 2)
+                ->first();
 
-                $orden->fill(
-                    [
-                        'idEstadoOrden' => 5,
+            $orden->fill(
+                [
+                    'idEstadoOrden' => 5,
 
-                    ]
-                );
-                $orden->save();
-                $idrol = 3;
-                $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
-                    $query->where('idRol', $idrol);
-                })->where("idOrganizacion", $orden->idOrganizacion)->get();
-                $emails = [];
-                $i = 0;
-                $band = false;
-                foreach ($usuarios as $user) {
-                    if (isset($orden->Corredor_UsuarioN)) {
-                        if ($orden->Corredor_UsuarioN->email == $user->email) {
+                ]
+            );
+            $orden->save();
+            $idrol = 3;
+            $usuarios = Usuario::whereHas('UsuarioRoles', function ($query) use ($idrol) {
+                $query->where('idRol', $idrol);
+            })->where("idOrganizacion", $orden->idOrganizacion)->get();
+            $emails = [];
+            $i = 0;
+            $band = false;
+            foreach ($usuarios as $user) {
+                if (isset($orden->Corredor_UsuarioN)) {
+                    if ($orden->Corredor_UsuarioN->email == $user->email) {
 
-                            $band = true;
-                        }
-                    } else {
                         $band = true;
-
                     }
-                    $emails[$i] = $user->email;
-                    $i++;
+                } else {
+                    $band = true;
+
                 }
-                if (!$band) {
-                    if (isset($orden->Corredor_UsuarioN)) {
-                        $i++;
-                        $emails[$i] = $orden->Corredor_UsuarioN->email;
-                    }
-                }
-
-
-                $data = [
-                    'titulo' => 'El cliente ' . $request['nombreCliente'] . ' ' . $request['apellidoCliente'] . ' ha ejecutado una orden de inversión, con el correlativo ' . $orden->correlativo,
-                ];
-                $action = new Action();
-                $action->sendEmail($data, $emails, 'Ejecución de orden', 'Ejecución de orden', 'emails.OrdenEmail');
-                return response()->json(['ErrorCode' => '0', 'msg' => 'Orden ejecutada con exito',]);
-
+                $emails[$i] = $user->email;
+                $i++;
             }
+            if (!$band) {
+                if (isset($orden->Corredor_UsuarioN)) {
+                    $i++;
+                    $emails[$i] = $orden->Corredor_UsuarioN->email;
+                }
+            }
+
+
+            $data = [
+                'titulo' => 'El cliente ' . $request['nombreCliente'] . ' ' . $request['apellidoCliente'] . ' ha ejecutado una orden de inversión, con el correlativo ' . $orden->correlativo,
+            ];
+            $action = new Action();
+            $action->sendEmail($data, $emails, 'Ejecución de orden', 'Ejecución de orden', 'emails.OrdenEmail');
+            return response()->json(['ErrorCode' => '0', 'msg' => 'Orden ejecutada con exito',]);
+
+        }
 
     }
 
@@ -636,7 +639,7 @@ class OrdenesAPI extends Controller
 
             $solicitudes = SolicitudRegistro::with("OrganizacionN", "EstadoSolicitudN")->where("idCliente", $idCliente)->whereIn('idEstadoSolicitud', [5, 4])->get();
             $counS = count($solicitudes);
-           
+
             if ($counS > 0) {
                 $solicitudesS = [];
 
